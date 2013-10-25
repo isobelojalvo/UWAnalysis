@@ -1,0 +1,26 @@
+rm -r /scratch/ojalvo/sandbox_6_28_DataPat
+mkdir /scratch/ojalvo/sandbox_6_28_DataPat
+cd /scratch/ojalvo/sandbox_6_28_DataPat
+
+find /scratch/$USER/DATA1-MuNuPAT/*/*.root |xargs hadd wMuNuData1.root
+find /scratch/$USER/DATA2-MuNuPAT/*/*.root |xargs hadd wMuNuData2.root
+find /scratch/$USER/DATA3-MuNuPAT/*/*.root |xargs hadd wMuNuData3.root
+find /scratch/$USER/DATA4-MuNuPAT/*/*.root |xargs hadd wMuNuData4.root
+find /scratch/$USER/DATA5-MuNuPAT/*/*.root |xargs hadd wMuNuData5.root
+
+hadd wMuNuData.root wMuNuData1.root wMuNuData2.root wMuNuData3.root wMuNuData4.root wMuNuData5.root
+#hadd wMuNuData.root wMuNuData1.root wMuNuData2.root wMuNuData3.root wMuNuData4.root wMuNuData5.root
+
+rm wMuNuData1.root wMuNuData2.root wMuNuData3.root wMuNuData4.root wMuNuData5.root
+
+
+ 
+
+
+
+
+
+
+
+
+

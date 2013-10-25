@@ -1,0 +1,72 @@
+{
+  gROOT->ProcessLine(".L UWAnalysis/ROOT/macros/plotScripts/templatePlots/makePlot.C");
+
+
+
+
+   makeLTauStack("muTauPlots/muPt","more/muTauPT1.root","muTau_X",1,"#mu p_{T}","GeV",false,"#tau_{#mu}#tau_{h}",false);
+   makeLTauStack("muTauPlots/muPtLOG","more/muTauPT1.root","muTau_X",1,"#mu p_{T}","GeV",false,"#tau_{#mu}#tau_{h}",true);
+
+   makeLTauStack("muTauPlots/tauPt","more/muTauPT2.root","muTau_X",1,"#tau p_{T}","GeV",false,"#tau_{#mu}#tau_{h}",false);
+   makeLTauStack("muTauPlots/tauPtLOG","more/muTauPT2.root","muTau_X",1,"#tau p_{T}","GeV",false,"#tau_{#mu}#tau_{h}",true);
+
+
+
+
+
+   makeLTauStack("muTauPlots/mass","more/muTau.root","muTau_X",1,"m_{vis}","GeV",false,"#tau_{#mu}#tau_{h}",false);
+   makeLTauStack("muTauPlots/massLOG","more/muTau.root","muTau_X",1,"m_{vis}","GeV",false,"#tau_{#mu}#tau_{h}",true);
+
+  makeLTauStack("muTauPlots/massNOB","more/muTau.root","muTau_NoB",2,"m_{vis}","GeV",false,"#tau_{#mu}#tau_{h}",false);
+  makeLTauStack("muTauPlots/massNOBLOG","more/muTau.root","muTau_NoB",2,"m_{vis}","GeV",false,"#tau_{#mu}#tau_{h}",true);
+
+  makeLTauStack("muTauPlots/massSM0","more/muTau.root","muTau_SM0",3,"m_{vis}","GeV",false,"#tau_{#mu}#tau_{h}",false);
+  makeLTauStack("muTauPlots/massSM0LOG","more/muTau.root","muTau_SM0",3,"m_{vis}","GeV",false,"#tau_{#mu}#tau_{h}",true);
+
+  makeLTauStack("muTauPlots/massB","more/muTau.root","muTau_B",1,"m_{vis}","GeV",false,"#tau_{#mu}#tau_{h}",false);
+  makeLTauStack("muTauPlots/massBLOG","more/muTau.root","muTau_B",1,"m_{vis}","GeV",false,"#tau_{#mu}#tau_{h}",true);
+
+  makeLTauStack("muTauPlots/massSM2","more/muTauH.root","muTau_SM2",3,"m_{vis}","GeV",false,"#tau_{#mu}#tau_{h}",false);
+  makeLTauStack("muTauPlots/massSM2LOG","more/muTauH.root","muTau_SM2",3,"m_{vis}","GeV",false,"#tau_{#mu}#tau_{h}",true);
+
+
+   makeLTauStack("eTauPlots/elePt","more/eleTauPT1.root","eleTau_X",1,"e p_{T}","GeV",false,"#tau_{e}#tau_{h}",false);
+   makeLTauStack("eTauPlots/elePtLOG","more/eleTauPT1.root","eleTau_X",1,"e p_{T}","GeV",false,"#tau_{e}#tau_{h}",true);
+
+   makeLTauStack("eTauPlots/tauPt","more/eleTauPT2.root","eleTau_X",1,"#tau p_{T}","GeV",false,"#tau_{e}#tau_{h}",false);
+   makeLTauStack("eTauPlots/tauPtLOG","more/eleTauPT2.root","eleTau_X",1,"#tau p_{T}","GeV",false,"#tau_{e}#tau_{h}",true);
+
+
+   makeLTauStack("eTauPlots/eleHPt","more/eleTauHEPt.root","eleTau_SM2",3,"e p_{T}","GeV",false,"#tau_{e}#tau_{h}",false);
+   makeLTauStack("eTauPlots/tauHPt","more/eleTauHTPt.root","eleTau_SM2",3,"#tau p_{T}","GeV",false,"#tau_{e}#tau_{h}",false);
+   makeLTauStack("eTauPlots/HMET","more/eleTauHMET.root","eleTau_SM2",3,"MET","GeV",false,"#tau_{e}#tau_{h}",false);
+
+   makeLTauStack("eTauPlots/SVFIT","more/eleTauSV.root","eleTau_SM2",3,"SVMass","GeV",false,"#tau_{e}#tau_{h}",false);
+
+   //   makeLTauStack("eTauPlots/elePtLOG","more/eleTauHEPT2.root","eleTau_X",1,"e p_{T}","GeV",false,"#tau_{e}#tau_{h}",true);
+
+   makeLTauStack("eTauPlots/tauPt","more/eleTauPT2.root","eleTau_X",1,"#tau p_{T}","GeV",false,"#tau_{e}#tau_{h}",false);
+   makeLTauStack("eTauPlots/tauPtLOG","more/eleTauPT2.root","eleTau_X",1,"#tau p_{T}","GeV",false,"#tau_{e}#tau_{h}",true);
+
+
+
+   // makeLTauStack("eTauPlots/Pz","more/eleTauPZ.root","eleTau_X",1,"P_{#zeta} - 1.5 P_{#zeta}^{vis}","GeV",true,"#tau_{e}#tau_{h}",false);
+
+   makeLTauStack("eTauPlots/mass","more/eleTau.root","eleTau_X",1,"m_{vis}","GeV",false,"#tau_{e}#tau_{h}",false);
+   makeLTauStack("eTauPlots/massLOG","more/eleTau.root","eleTau_X",1,"m_{vis}","GeV",false,"#tau_{e}#tau_{h}",true);
+
+
+ makeLTauStack("eTauPlots/massNOB","more/eleTau.root","eleTau_NoB",2,"m_{vis}","GeV",false,"#tau_{e}#tau_{h}",false);
+ makeLTauStack("eTauPlots/massNOBLOG","more/eleTau.root","eleTau_NoB",2,"m_{vis}","GeV",false,"#tau_{e}#tau_{h}",true);
+
+    makeLTauStack("eTauPlots/massSM0","more/eleTau.root","eleTau_SM0",3,"m_{vis}","GeV",false,"#tau_{e}#tau_{h}",false);
+    makeLTauStack("eTauPlots/massSM0LOG","more/eleTau.root","eleTau_SM0",3,"m_{vis}","GeV",false,"#tau_{e}#tau_{h}",true);
+   makeLTauStack("eTauPlots/massB","more/eleTau.root","eleTau_B",1,"m_{vis}","GeV",false,"#tau_{e}#tau_{h}",false);
+   makeLTauStack("eTauPlots/massBLOG","more/eleTau.root","eleTau_B",1,"m_{vis}","GeV",false,"#tau_{e}#tau_{h}",true);
+
+    makeLTauStack("eTauPlots/massSM2","more/eleTauH.root","eleTau_SM2",3,"m_{vis}","GeV",false,"#tau_{e}#tau_{h}",false);
+    makeLTauStack("eTauPlots/massSM2LLOG","more/eleTauH.root","eleTau_SM2",3,"m_{vis}","GeV",false,"#tau_{e}#tau_{h}",true);
+
+
+}
+

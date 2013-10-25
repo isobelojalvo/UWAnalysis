@@ -1,0 +1,29 @@
+#!/bin/sh
+
+
+SUFFIX='-M Asymptotic --rMax=30'
+PFIX='Asymptotic'
+if [ $2 = "sig" ]; then
+SUFFIX=' --signif --pvalue --bruteForce ' 
+PFIX='ProfileLikelihood'
+fi
+
+
+if [ $2 = "bayes" ]; then
+SUFFIX='--rMax=15 -H ProfileLikelihood -M MarkovChainMC' 
+PFIX='MarkovChainMC'
+fi
+
+
+if [ $2 = "sig2" ]; then
+SUFFIX=' --signif --pvalue --bruteForce --signalForSignificance=1 -t -1' 
+PFIX='ProfileLikelihood'
+fi
+
+
+for mass in 110 115 120 125  135 140 145 
+do
+combine datacards/$1_mH$mass.txt  -m $mass  $SUFFIX
+done
+find higgsCombineTest.$PFIX.mH* |xargs hadd $1-results.root
+

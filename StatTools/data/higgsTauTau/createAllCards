@@ -1,0 +1,16 @@
+#!/bin/sh
+echo MuTauSM
+#nohup bash createMuTauDataCardsSM &
+nohup bash createMuTauDataCardsSM_ICHEP.sh &
+nohup bash createMuTauDataCardsSMMVis.sh &
+#echo MuTauMSSM
+#nohup bash createMuTauDataCardsMSSM &
+
+
+echo ETauSM
+nohup bash createETauDataCardsSM &
+nohup bash createETauDataCardsSM_ICHEP.sh &
+nohup bash createETauDataCardsSMMVis.sh &
+echo ETauMSSM
+#nohup bash createETauDataCardsMSSM &
+

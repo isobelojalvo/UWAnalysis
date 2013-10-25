@@ -1,0 +1,9 @@
+#!/bin/sh
+voms-proxy-init --voms cms --valid 100:00
+
+farmoutAnalysisJobs  $1 --output-dir=. --input-dir=/store/user/tapas/VBF_HToTauTau_M-125_8TeV-powheg-pythia6  VBF125  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+
+farmoutAnalysisJobs  $1 --output-dir=. --input-dir=/store/user/tapas/VBF_HToTauTau_M-125_8TeV-powheg-pythia6  VBF125  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCHnorecoil.py
+
+#find /scratch/$USER/VBF125-SUB-MCHnorecoil/*/*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f VBFH125_noRecoil.root
+#find /scratch/$USER/VBF125-SUB-MCH/*/*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f VBFH125_Recoil.root

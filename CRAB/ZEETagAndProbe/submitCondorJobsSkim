@@ -1,0 +1,18 @@
+#!/bin/sh
+voms-proxy-init --voms cms --valid 100:00
+
+cat TP-MC.py >TPMC.py
+cat CONDOR.py >>TPMC.py
+
+#farmoutAnalysisJobs $1 --input-files-per-job=1 --output-dir=.  ZBB-TPSKIM $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/ZEETagAndProbe/TPMC.py 
+#farmoutAnalysisJobs $1 --input-files-per-job=1 --output-dir=.  W-TPSKIM $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/ZEETagAndProbe/TPMC.py 
+#farmoutAnalysisJobs $1 --input-files-per-job=1 --output-dir=.  TOP-TPSKIM $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/ZEETagAndProbe/TPMC.py 
+#farmoutAnalysisJobs $1 --input-files-per-job=1 --output-dir=.  WZ-TPSKIM $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/ZEETagAndProbe/TPMC.py 
+#farmoutAnalysisJobs $1 --input-files-per-job=1 --output-dir=.  WW-TPSKIM $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/ZEETagAndProbe/TPMC.py 
+#farmoutAnalysisJobs $1 --input-files-per-job=1 --output-dir=.  ZZ-TPSKIM $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/ZEETagAndProbe/TPMC.py 
+#farmoutAnalysisJobs $1 --input-files-per-job=1 --output-dir=.  ZMM-TPSKIM $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/ZEETagAndProbe/TPMC.py 
+#farmoutAnalysisJobs $1 --input-files-per-job=1 --output-dir=.  ZJETS-TPSKIM $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/ZEETagAndProbe/TPMC.py 
+#farmoutAnalysisJobs $1 --input-files-per-job=1 --output-dir=.  QCD-TPSKIM $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/ZEETagAndProbe/TPMC.py 
+farmoutAnalysisJobs $1 --input-files-per-job=1 --output-dir=.  QCDEM30_New-TPSKIM $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/ZEETagAndProbe/TPMC.py 
+##--output-dir=. -->looking in DCACHE!!!!!
+rm TPMC.py

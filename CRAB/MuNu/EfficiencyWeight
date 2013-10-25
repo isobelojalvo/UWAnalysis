@@ -1,0 +1,19 @@
+cd /scratch/ojalvo/sandbox_6_27_MC
+
+EventWeightsEff outputFile='DYall.root' brancheta='EffWEIGHTeta1' branchpt='EffWEIGHTpt1'
+EventWeightsEff outputFile='W.root' brancheta='EffWEIGHTeta1' branchpt='EffWEIGHTpt1'    
+EventWeightsEff outputFile='T.root' brancheta='EffWEIGHTeta1'  branchpt='EffWEIGHTpt1'       
+EventWeightsEff outputFile='Ts.root' brancheta='EffWEIGHTeta1'  branchpt='EffWEIGHTpt1'      
+EventWeightsEff outputFile='TOP.root' brancheta='EffWEIGHTeta1' branchpt='EffWEIGHTpt1'      
+EventWeightsEff outputFile='QCD.root' brancheta='EffWEIGHTeta1' branchpt='EffWEIGHTpt1'      
+EventWeightsEff outputFile='WW.root' brancheta='EffWEIGHTeta1' branchpt='EffWEIGHTpt1'       
+EventWeightsEff outputFile='WZ.root' brancheta='EffWEIGHTeta1' branchpt='EffWEIGHTpt1'       
+EventWeightsEff outputFile='ZZ.root' brancheta='EffWEIGHTeta1' branchpt='EffWEIGHTpt1'       
+EventWeightsEff outputFile='Tbar.root' brancheta='EffWEIGHTeta1' branchpt='EffWEIGHTpt1'       
+EventWeightsEff outputFile='TtWDR.root' brancheta='EffWEIGHTeta1' branchpt='EffWEIGHTpt1'       
+
+
+
+
+
+

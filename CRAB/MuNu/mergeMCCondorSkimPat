@@ -1,0 +1,100 @@
+rm -r /scratch/ojalvo/sandbox_6_28_MC
+mkdir /scratch/ojalvo/sandbox_6_28_MC
+cd /scratch/ojalvo/sandbox_6_28_MC
+
+
+#find /scratch/$USER/MuNuMC/WJets/*/*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_11*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W11.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_12*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W12.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_13*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W13.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_14*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W14.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_15*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W15.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_16*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W16.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_17*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W17.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_18*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W18.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_19*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W19.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_10*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W10.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_2*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W2.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_3*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W3.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_4*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W4.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_5*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W5.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_6*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W6.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_7*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W7.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_8*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W8.root
+find /scratch/$USER/W-MuNuPAT/*/MuNuPAT-output_9*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f W9.root
+hadd W.root W11.root W12.root W13.root W14.root W15.root W16.root W17.root W18.root W19.root W10.root W2.root W3.root W4.root W5.root W6.root W7.root W8.root W9.root
+rm W11.root W12.root W13.root W14.root W15.root W16.root W17.root W18.root W19.root W10.root W2.root W3.root W4.root W5.root W6.root W7.root W8.root W9.root
+
+find /scratch/$USER/T-MuNuPAT/*/*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f T.root
+#find /scratch/$USER/Tbar-MuNuPAT/*/*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f Tbar.root
+find /scratch/$USER/Ts-MuNuPAT/*/*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f Ts.root
+#find /scratch/$USER/Tbars-MuNuPAT/*/*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f Tbars.root
+#find /scratch/$USER/TtWDR-MuNuPAT/*/*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f TtWDR.root
+#find /scratch/$USER/TtWDS-MuNuPAT/*/*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f TtWDS.root
+#find /scratch/$USER/TTJets/*/*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f TOP.root
+find /scratch/$USER/TOP-MuNuPAT/*/*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f TOP.root
+find /scratch/$USER/WZ-MuNuPAT/*/*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f WZ.root
+find /scratch/$USER/WW-MuNuPAT/*/*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f WW.root
+#find /scratch/$USER/ZZ-MuNuPAT/*/*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f ZZ.root
+find /scratch/$USER/DYall-MuNuPAT/*/MuNuPAT-output_1*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f DYall1.root
+find /scratch/$USER/DYall-MuNuPAT/*/MuNuPAT-output_2*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f DYall2.root
+find /scratch/$USER/DYall-MuNuPAT/*/MuNuPAT-output_3*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f DYall3.root
+find /scratch/$USER/DYall-MuNuPAT/*/MuNuPAT-output_4*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f DYall4.root
+find /scratch/$USER/DYall-MuNuPAT/*/MuNuPAT-output_5*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f DYall5.root
+find /scratch/$USER/DYall-MuNuPAT/*/MuNuPAT-output_6*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f DYall6.root
+find /scratch/$USER/DYall-MuNuPAT/*/MuNuPAT-output_7*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f DYall7.root
+find /scratch/$USER/DYall-MuNuPAT/*/MuNuPAT-output_8*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f DYall8.root
+find /scratch/$USER/DYall-MuNuPAT/*/MuNuPAT-output_9*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f DYall9.root
+hadd DYall.root DYall1.root DYall2.root DYall3.root DYall4.root DYall5.root DYall6.root DYall7.root DYall8.root DYall9.root
+rm DYall1.root DYall2.root DYall3.root DYall4.root DYall5.root DYall6.root DYall7.root DYall8.root DYall9.root
+
+find /scratch/$USER/QCDMu-MuNuPAT/*/MuNuPAT-output_1*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f QCD1.root
+find /scratch/$USER/QCDMu-MuNuPAT/*/MuNuPAT-output_2*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f QCD2.root
+find /scratch/$USER/QCDMu-MuNuPAT/*/MuNuPAT-output_3*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f QCD3.root
+find /scratch/$USER/QCDMu-MuNuPAT/*/MuNuPAT-output_4*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f QCD4.root
+find /scratch/$USER/QCDMu-MuNuPAT/*/MuNuPAT-output_5*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f QCD5.root
+find /scratch/$USER/QCDMu-MuNuPAT/*/MuNuPAT-output_6*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f QCD6.root
+find /scratch/$USER/QCDMu-MuNuPAT/*/MuNuPAT-output_7*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f QCD7.root
+find /scratch/$USER/QCDMu-MuNuPAT/*/MuNuPAT-output_8*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f QCD8.root
+find /scratch/$USER/QCDMu-MuNuPAT/*/MuNuPAT-output_9*.root |xargs ls -l|awk '{if ($5 > 1000) print $9}'|xargs hadd -f QCD9.root
+hadd QCD.root QCD1.root QCD2.root QCD3.root QCD4.root QCD5.root QCD6.root QCD7.root QCD8.root QCD9.root
+rm QCD1.root QCD2.root QCD3.root QCD4.root QCD5.root QCD6.root QCD7.root QCD8.root QCD9.root
+
+#EventWeightsIterative outputFile='ZBB.root'        weight=67.3   type=1 histoName='summary/results' 	  
+#EventWeightsIterative outputFile='ZMM.root'        weight=1667   type=3 histoName='summary/results' 	  
+EventWeightsIterative outputFile='DYall.root'      weight=3048   type=2 histoName='summary/results' 	  
+EventWeightsIterative outputFile='W.root'          weight=31314   type=3 histoName='summary/results' 	  
+#EventWeightsIterative outputFile='TtWDS.root'      weight=10.6   type=3 histoName='summary/results' 	  
+#EventWeightsIterative outputFile='TtWDR.root'      weight=7.466   type=3 histoName='summary/results' 	  
+#EventWeightsIterative outputFile='Tbar.root'       weight=22.0   type=3 histoName='summary/results' 	  
+EventWeightsIterative outputFile='T.root'          weight=42.6   type=3 histoName='summary/results' 	  
+#EventWeightsIterative outputFile='Tbars.root'      weight=1.49   type=3 histoName='summary/results' 	  
+EventWeightsIterative outputFile='Ts.root'         weight=2.72   type=3 histoName='summary/results' 	  
+EventWeightsIterative outputFile='TOP.root'        weight=157.5    type=4 histoName='summary/results' 	  
+EventWeightsIterative outputFile='QCD.root'  	   weight=84679  type=8 histoName='summary/results' 	  
+EventWeightsIterative outputFile='WW.root'         weight=43    type=5 histoName='summary/results' 
+EventWeightsIterative outputFile='WZ.root'         weight=18.2   type=6 histoName='summary/results' 
+#EventWeightsIterative outputFile='ZZ.root'         weight=5.9   type=7  histoName='summary/results' 
+
+
+
+#hadd VV.root WW.root WZ.root 
+#rm WW.root WZ.root ZZ.root
+
+#hadd QCDEM.root QCDEM20.root QCDEM30.root  QCDEM80.root
+#rm QCDEM20.root QCDEM30.root  QCDEM80.root
+
+#hadd QCDBC.root QCDBC20.root QCDBC30.root  QCDBC80.root
+#rm QCDBC20.root QCDBC30.root  QCDBC80.root
+
+#hadd QCD.root QCDEM.root QCDBC.root
+#rm QCDEM.root QCDBC.root
+
+#hadd G.root  G30.root G50.root 
+#rm  G30.root G50.root
+
+
+
+
+
+

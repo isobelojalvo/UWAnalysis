@@ -1,0 +1,10 @@
+#!/bin/sh
+voms-proxy-init --voms cms --valid 100:00
+
+cat TPD.py >TPDATA.py
+cat CONDOR.py >>TPDATA.py
+
+farmoutAnalysisJobs --input-dir=root://cmsxrootd.hep.wisc.edu//store/user/bachtis/DoubleElectron/ --output-dir=. DoubleElectronTP $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/ZEETagAndProbe/TPDATA.py 
+
+
+rm TPDATA.py

@@ -1,0 +1,17 @@
+#!/bin/sh
+voms-proxy-init --voms cms --valid 100:00
+
+cat MNu-Pat.py  > MuNuPAT.py
+cat CONDOR_DATA.py >> MuNuPAT.py
+
+#farmoutAnalysisJobs --input-files-per-job=2 --skip-existing-output --output-dir=. --input-dbs-path=/WJetsToLNu_TuneZ2_7TeV-madgraph-tauola/cepeda-WplusJets_madgraph_2012-05-29-7TeV-PatTuple-67c1f94-98f6272e3f90a8dc5047059cf7088f10/USER --dbs-service-url=http://cmsdbsprod.cern.ch/cms_dbs_ph_analysis_01/servlet/DBSServlet W $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/MuNu/MuNuPAT.py
+
+farmoutAnalysisJobs --input-files-per-job=2 --skip-existing-output --output-dir=. --input-dbs-path=/SingleMu/cepeda-data_SingleMu_Run2011A_May10ReReco_v1_2012-05-29-7TeV-PatTuple-67c1f94-973b9115830997e23767170efbb5c224/USER --dbs-service-url=http://cmsdbsprod.cern.ch/cms_dbs_ph_analysis_01/servlet/DBSServlet DATA1 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/MuNu/MuNuPAT.py
+farmoutAnalysisJobs --input-files-per-job=2 --skip-existing-output --output-dir=. --input-dbs-path=/SingleMu/cepeda-data_SingleMu_Run2011A_05Aug2011_v1_2012-05-29-7TeV-PatTuple-67c1f94-973b9115830997e23767170efbb5c224/USER --dbs-service-url=http://cmsdbsprod.cern.ch/cms_dbs_ph_analysis_01/servlet/DBSServlet DATA2 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/MuNu/MuNuPAT.py
+farmoutAnalysisJobs --input-files-per-job=2 --skip-existing-output --output-dir=. --input-dbs-path=/SingleMu/cepeda-data_SingleMu_Run2011A_PromptReco_v4_2012-05-29-7TeV-PatTuple-67c1f94-fa6d9233416d07023dc202376bb19f23/USER --dbs-service-url=http://cmsdbsprod.cern.ch/cms_dbs_ph_analysis_01/servlet/DBSServlet DATA3 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/MuNu/MuNuPAT.py
+
+farmoutAnalysisJobs --input-files-per-job=2 --skip-existing-output --output-dir=. --input-dbs-path=/SingleMu/cepeda-data_SingleMu_Run2011A_PromptReco_v6_1409_2012-05-29-7TeV-PatTuple-67c1f94-fa6d9233416d07023dc202376bb19f23/USER --dbs-service-url=http://cmsdbsprod.cern.ch/cms_dbs_ph_analysis_01/servlet/DBSServlet DATA4 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/MuNu/MuNuPAT.py
+farmoutAnalysisJobs --input-files-per-job=2 --skip-existing-output --output-dir=. --input-dbs-path=/SingleMu/cepeda-data_SingleMu_Run2011B_PromptReco_v1_2012-05-29-7TeV-PatTuple-67c1f94-fa6d9233416d07023dc202376bb19f23/USER --dbs-service-url=http://cmsdbsprod.cern.ch/cms_dbs_ph_analysis_01/servlet/DBSServlet DATA5 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/MuNu/MuNuPAT.py
+
+
+rm MuNuPAT.py
