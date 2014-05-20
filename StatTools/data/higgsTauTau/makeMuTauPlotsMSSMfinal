@@ -20,7 +20,7 @@ luminosity=19790.
 #embWeight='__CORR__*EmbPtWeight*EmbSpinWeight*EmbZMMWeight*EmbRadWeight*EmbKinePtWeight*EmbKineEtaWeight*EmbKineMassWeight*HLT_Mu17_Mu8_fired'
 embWeight='__CORR__*EmbPtWeight*HLT_Mu17_Mu8_fired'
 
-direc='/scratch/swanson/LTau_817/'
+direc='/nfs_scratch/ojalvo/LTau_12_2/'
 qcdfactor=1.06
 writeDir='muTauPlots/MSSM/'
 tauID=1.0
