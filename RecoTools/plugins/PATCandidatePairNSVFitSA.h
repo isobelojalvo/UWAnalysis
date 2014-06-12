@@ -93,11 +93,12 @@ class PATCandidatePairNSVFitSA : public edm::EDProducer
 	    NSVfitStandaloneAlgorithm algo(measuredTauLeptons, theMETP4_.Vect(), covMatrix_, 0);
 	    algo.addLogM(false);
 	    //algo.integrateMarkovChain();
-	    algo.integrateVEGAS();
+	    //algo.integrateVEGAS();
+	    algo.integrate();
 	    double mass = algo.getMass();
-		//double massErr = algo.massUncert(); 
-		double pt = algo.pt(); 
-		//double ptErr = algo.ptUncert();
+	    //double massErr = algo.massUncert(); 
+	    double pt = 0;//algo.pt(); 
+	    //double ptErr = algo.ptUncert();
 			    
 	    compositePtrCandidate.setSVMass(mass);
 	    compositePtrCandidate.setSVPt(pt);
