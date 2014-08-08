@@ -22,7 +22,7 @@ ESTauProducer::~ESTauProducer()
 
 void 
 ESTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
-  std::cout<<"Here 1"<<std::endl;
+
   //std::cout << "<ESTauProducer::produce>:" << std::endl;
     //std::cout << "(label = " << moduleLabel_ << ")" << std::endl;
 
