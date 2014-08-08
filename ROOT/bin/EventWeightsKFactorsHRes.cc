@@ -25,9 +25,9 @@ int main (int argc, char* argv[])
    
 
 
-   TH1F *weight;
-   TH1F *weightUp;
-   TH1F *weightDown;
+   TH1F *weight= { NULL };
+   TH1F *weightUp= { NULL };
+   TH1F *weightDown= { NULL };
    TFile *fH;
    if(parser.integerValue("fehipro")==0) {
      fH = new TFile(("/afs/cern.ch/user/j/jueugste/public/html/kfactors/Kfactors_"+parser.stringValue("mass")+"_AllScales.root").c_str());
