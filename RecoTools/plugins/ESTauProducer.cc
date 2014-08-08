@@ -22,20 +22,28 @@ ESTauProducer::~ESTauProducer()
 
 void 
 ESTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
-    //std::cout << "<ESTauProducer::produce>:" << std::endl;
+  std::cout<<"Here 1"<<std::endl;
+  //std::cout << "<ESTauProducer::produce>:" << std::endl;
     //std::cout << "(label = " << moduleLabel_ << ")" << std::endl;
 
     using namespace edm;
     using namespace reco;
-    //using namespace std;
 
     std::auto_ptr<std::vector<pat::Tau> > out(new std::vector<pat::Tau> );
-    Handle<std::vector<pat::Tau> > srcH;
+    //edm::refhelper::FindUsingAdvance<std::vector<pat::Tau> > srcH;
+
+    //edm::Handle<edm::View<pat::Tau> > srcH;
+    //edm::Handle<edm::Ptr<edm::Ptr<reco::PFCandidate>>> srcH;
+
+    //edm::Handle<std::vector<pat::Tau> > srcH;
+    edm::Handle<pat::TauCollection > srcH;
+    //edm::Handle<edm::Ptr<reco::PFCandidateRef>>srcH;
+
     edm::Handle<reco::GenParticleCollection> genParticleCollection;
     // Handle<reco::GenParticleCollection> 
 
 
-   // std::cout<<"ESTauProducer"<<std::endl;
+   std::cout<<"1 ESTauProducer"<<std::endl;
 
     bool tauPresent = false;    
     bool genParticlesPresent = false;     
@@ -53,11 +61,14 @@ ESTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 	}
       }
     }
-    
+    std::cout<<"2 ESTauProducer"<<std::endl;
     if(iEvent.getByLabel(src_,srcH)) 
-      for(unsigned int i=0;i<srcH->size();++i) {
-	// std::cout<<"HERE3"<<std::endl;
-	pat::Tau object = srcH->at(i);
+      std::cout<<"3 ESTauProducer"<<std::endl;
+    unsigned int i = 0 ;
+    //while(srcH->isNonnull()){
+    for(unsigned int i=0;i<srcH->size();++i) {
+	 std::cout<<"HERE3"<<std::endl;
+	 pat::Tau object = srcH->at(i);
 	//std::std::cout << " original object(" << i << "): Pt = " << object.pt(); 
 	//	    << " eta = " << object.eta() << ", phi = " << object.phi() << std::endl;
 	
@@ -103,7 +114,8 @@ ESTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 	
 	
 	out->push_back(object);
-      }
+	i++;
+    }
     iEvent.put(out);
 }
 

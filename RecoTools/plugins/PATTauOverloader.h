@@ -104,8 +104,9 @@ class PATTauOverloader : public edm::EDProducer {
 	int tight = 0;
 	int veryTight = 0;
 	
-	int cat = tau.tauID("againstElectronMVA3category");
-	float raw = tau.tauID("againstElectronMVA3raw");
+	///FIXME CHECK NEW TAU ID!!!!!!!
+	int cat = 0;//tau.tauID("againstElectronMVA3category");//
+	float raw = 0;//tau.tauID("againstElectronMVA3raw");
 	
     
     if( cat>15 ){
@@ -154,7 +155,8 @@ class PATTauOverloader : public edm::EDProducer {
     	muTight = 0;
     }
     
-    tau.addUserInt("againstMuTightFixed",muTight);
+    //FIXMEE: IS THIS THE CORRECT MUON DISCRIMINATOR?!?!?!
+    tau.addUserInt("againstMuTightFixed",tau.tauID("againstMuonTightMVA"));
     
 	
 	//add track Momentum
@@ -236,7 +238,7 @@ class PATTauOverloader : public edm::EDProducer {
 	  refEta=tau.leadPFChargedHadrCand()->eta();
 	for(unsigned int Nc = 0 ;Nc < tau.signalPFGammaCands().size();++Nc)
 	  {
-	    PFCandidateRef cand = tau.signalPFGammaCands().at(Nc);
+	    edm::Ptr<reco::PFCandidate> cand = tau.signalPFGammaCands().at(Nc);
 	    if(fabs(refEta-cand->eta())<0.03)
 	      bremEnergy+=cand->energy();
 	    emEnergy+=cand->energy();

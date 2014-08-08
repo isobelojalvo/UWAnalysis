@@ -158,7 +158,7 @@ class PATJetBReco : public edm::EDProducer {
 
 
 	int finalpion;
-	int finalkaon;
+	int finalkaon = 0;
 	double massD0 = 0;
 	math::PtEtaPhiMLorentzVector D0;
 	if(jet.pt()>20&&chargedParticles.size()>1)

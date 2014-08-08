@@ -73,7 +73,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   TriggerPaths= triggerPaths
   process.analysisSequence = cms.Sequence()
 
-  mvaMet2MC(process)
+  mvaMet2MC(process) #FIXME!!!! Can't find isomuons
 
 
   #Apply Tau Energy Scale Changes
@@ -89,8 +89,8 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
   
   TriLeptons(process)
-  ReRunJetsMC(process)
-  #ReNameJetColl(process)
+  #ReRunJetsMC(process)
+  ReNameJetColl(process)
 
   jetOverloading(process,"NewSelectedPatJets")  
   PATJetMVAEmbedder(process,"patOverloadedJets")  
@@ -135,8 +135,8 @@ def defaultReconstructionMCNoES(process,triggerProcess = 'HLT',triggerPaths = ['
   tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
   
   TriLeptons(process)
-  ReRunJetsMC(process)
-  #ReNameJetColl(process)
+  #ReRunJetsMC(process)
+  ReNameJetColl(process)
 
   jetOverloading(process,"NewSelectedPatJets")  
   PATJetMVAEmbedder(process,"patOverloadedJets")  
@@ -309,7 +309,7 @@ def mvaMet2(process):
 
   #process.load('RecoMET.METProducers.mvaPFMET_cff_leptons')
   #process.load("JetMETCorrections.METPUSubtraction.mvaPFMET_leptons_PAT_cfi")
-  process.load("JetMETCorrections.METPUSubtraction.mvaPFMET_leptons_data_cff")
+  process.load("RecoMET.METPUSubtraction.mvaPFMET_leptons_data_cff")
 
   process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")
 
@@ -332,7 +332,7 @@ def mvaMet2MC(process):
 
   #process.load('RecoMET.METProducers.mvaPFMET_cff_leptons')
   #process.load("JetMETCorrections.METPUSubtraction.mvaPFMET_leptons_PAT_cfi")
-  process.load("JetMETCorrections.METPUSubtraction.mvaPFMET_leptons_cff")
+  process.load("RecoMET.METPUSubtraction.mvaPFMET_leptons_cff")
 
   process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")
 
@@ -346,9 +346,6 @@ def mvaMet2MC(process):
   )
   
   process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak5PFJets*process.calibratedAK5PFJetsForPFMEtMVA*process.pfMEtMVAsequence*process.patMVAMet)
-  #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMEtMVAsequence*process.patMVAMet)
-
-  #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMEtMVAsequence*process.patMVAMet)
 
 def ReNameJetColl(process):
 
@@ -369,6 +366,7 @@ def ReRunJetsMC(process):
   from RecoBTag.SecondaryVertex.secondaryVertex_cff import *
   from RecoBTau.JetTagComputer.combinedMVA_cff import *
   process.pileupJetIdProducer.applyJec = cms.bool(True)
+  process.pileupJetIdProducer.residualsTxt = cms.FileInPath('UWAnalysis/Configuration/data/dummy.txt') 
 
   process.load('RecoVertex/AdaptiveVertexFinder/inclusiveVertexing_cff')
   #process.load('RecoBTag/SecondaryVertex/bToCharmDecayVertexMerger_cfi')
@@ -461,6 +459,8 @@ def ReRunJets(process):
   from RecoBTau.JetTagComputer.combinedMVA_cff import *
 
   process.pileupJetIdProducer.applyJec = cms.bool(True)
+  process.pileupJetIdProducer.residualsTxt = cms.FileInPath('UWAnalysis/Configuration/data/dummy.txt') 
+
 
   # Define options for BTagging - these are release dependent.
   btag_options = {'doBTagging': True}
@@ -536,6 +536,7 @@ def ReRunJetsEMB(process):
   from RecoBTau.JetTagComputer.combinedMVA_cff import *
 
   process.pileupJetIdProducer.applyJec = cms.bool(True)
+  process.pileupJetIdProducer.residualsTxt = cms.FileInPath('UWAnalysis/Configuration/data/dummy.txt') 
 
   # Define options for BTagging - these are release dependent.
   btag_options = {'doBTagging': True}
@@ -838,12 +839,14 @@ def addEventSummary(process,onSkim = False,name = 'summary',path = 'eventSelecti
    setattr(process,name,summary)
    if onSkim:
         process.EDMtoMEConverter = cms.EDAnalyzer("EDMtoMEConverter",
-                                               Name = cms.untracked.string('EDMtoMEConverter'),
-                                               Verbosity = cms.untracked.int32(1), # 0 provides no output
-                                               # 1 provides basic output
-                                               Frequency = cms.untracked.int32(50),
-                                               convertOnEndLumi = cms.untracked.bool(True),
-                                               convertOnEndRun = cms.untracked.bool(True)
+                                                  Name = cms.untracked.string('EDMtoMEConverter'),
+                                                  Verbosity = cms.untracked.int32(1), # 0 provides no output
+                                                  # 1 provides basic output
+                                                  Frequency = cms.untracked.int32(50),
+                                                  convertOnEndLumi = cms.untracked.bool(True),
+                                                  convertOnEndRun = cms.untracked.bool(True),
+                                                  runInputTag = cms.InputTag('MEtoEDMConverter', 'MEtoEDMConverterRun'),
+                                                  lumiInputTag = cms.InputTag('MEtoEDMConverter', 'MEtoEDMConverterLumi')
                                                )
         eventSummaryPath=cms.EndPath(process.EDMtoMEConverter+getattr(process,name))
         setattr(process,name+"Path",eventSummaryPath)

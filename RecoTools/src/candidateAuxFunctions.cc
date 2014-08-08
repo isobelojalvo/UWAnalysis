@@ -345,7 +345,8 @@ const reco::Candidate* getDistPion(const pat::Tau& recTauJet)
     return 0;
   }
 
-  const reco::PFCandidateRefVector& recTauJetChargedConstituents = recTauJet.signalPFChargedHadrCands();
+  //const reco::PFCandidateRefVector& recTauJetChargedConstituents = recTauJet.signalPFChargedHadrCands();
+  const std::vector<edm::Ptr<reco::PFCandidate> >& recTauJetChargedConstituents = recTauJet.signalPFChargedHadrCands();
 
   if ( recTauJetChargedConstituents.size() == 1 ) {
 
@@ -354,7 +355,7 @@ const reco::Candidate* getDistPion(const pat::Tau& recTauJet)
     return recTauJet.leadPFChargedHadrCand().get();
   } else if ( recTauJetChargedConstituents.size() == 3 ) {
     double recTauJetCharge = recTauJet.charge();
-
+    /*
     for ( reco::PFCandidateRefVector::const_iterator recTauJetChargedConstituent = recTauJetChargedConstituents.begin();
          recTauJetChargedConstituent != recTauJetChargedConstituents.end(); ++recTauJetChargedConstituent ) {
 //--- tau- --> three-prong case (in particular a1- --> pi- pi+ pi-);
@@ -362,13 +363,13 @@ const reco::Candidate* getDistPion(const pat::Tau& recTauJet)
       if ( (*recTauJetChargedConstituent)->charge()*recTauJetCharge < 0 ) {
         return recTauJetChargedConstituent->get();
       }
-    }
+      }*/
   } else {
     //edm::LogWarning ("getDistPion")
     //  << " Unsupported rec. tau decay mode = " << recTauJet.decayMode() << " --> returning NULL pointer !!";
     return 0;
   }
-  
+    
   //edm::LogWarning ("getDistPion")
   //  << " Failed to identify 'distinguishable' rec. pion --> returning NULL pointer !!";
   return 0;

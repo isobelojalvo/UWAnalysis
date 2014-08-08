@@ -34,7 +34,7 @@ SmearedTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 
         if(smearConstituents_) {
 	  math::XYZTLorentzVector hadronLV;
-	  PFCandidateRefVector hadrons = object.signalPFChargedHadrCands();
+	  const std::vector<edm::Ptr<reco::PFCandidate> > hadrons = object.signalPFChargedHadrCands();
 
 	  if(hadrons.size()>0)
 	    for(unsigned int i=0;i<hadrons.size();++i)
@@ -42,7 +42,7 @@ SmearedTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 	  //apply hadron energy scale
 	  hadronLV=hadronEnergyScale_*hadronLV;
 	  math::XYZTLorentzVector gammaLV;
-	  PFCandidateRefVector gammas = object.signalPFGammaCands();
+	  const std::vector<edm::Ptr<reco::PFCandidate> > gammas = object.signalPFGammaCands();
 
 	  if(gammas.size()>0)
 	    for(unsigned int i=0;i<gammas.size();++i)
