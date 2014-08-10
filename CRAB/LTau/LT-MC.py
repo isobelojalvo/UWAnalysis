@@ -14,7 +14,8 @@ process.maxEvents = cms.untracked.PSet(
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        '/store/user/mcepeda/TTJets_SemiLeptMGDecays_8TeV-madgraph-tauola/Summer12_DR53X-PU_S10_START53_V7C-v1/AODSIM/Spring2014PATTuples/patTuple_cfg-8802C367-E89B-E211-8995-00304867FE1F.root'
+'file:/hdfs/store/user/ojalvo/GluGluToHTohhTo2Tau2B_mH-300_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2014-8/patTuple_cfg-94E292A1-89FA-E211-85D9-002481E94B4E.root'
+ #       '/store/user/mcepeda/TTJets_SemiLeptMGDecays_8TeV-madgraph-tauola/Summer12_DR53X-PU_S10_START53_V7C-v1/AODSIM/Spring2014PATTuples/patTuple_cfg-8802C367-E89B-E211-8995-00304867FE1F.root'
 #        '/store/user/mcepeda/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM/Spring2014PATTuples/patTuple_cfg-88EEC228-3BD4-E111-8CE0-003048D45FB6.root'
 #       'file:/hdfs/store/user/tapas/VBF_HToTauTau_M-125_8TeV-powheg-pythia6/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM/2013-02-25-8TeV-53X-PatTuple_Master/patTuple_cfg-FEAB3DA0-88ED-E111-B40F-AC162DACC3F0.root'
 
