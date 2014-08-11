@@ -68,5 +68,22 @@ cp -r /cms/ojalvo/HhhFSA4/CMSSW_5_3_14/src/RecoMET/METPUSubtraction RecoMET/.
 cp /cms/ojalvo/HhhFSA4//RecoMET/METPUSubtraction/python/mvaPFMET_leptons_cff.py $CMSSW_BASE/src/RecoMET/METPUSubtraction/python/
 cp /afs/cern.ch/user/p/pharris/public/MVAMetUpdate/*Sep*.root $CMSSW_BASE/src/RecoMET/METPUSubtraction/data/
 
+git branch 
+git checkout none
+git cms-merge-topic -u cms-tau-pog:CMSSW_5_3_X_boostedTaus_2013Dec17
+git cms-merge-topic -u cms-met:53X-MVaNoPuMET-20131217-01
+
+
+
+ git cms-merge-topic -u cms-met:53X-MVaNoPuMET-20131217-01
+ git fetch . +HEAD:merge-attempt
+ ls
+ git branch
+ git checkout -f cms-met/53X-MVaNoPuMET-20131217-01
+ diff DataFormats/PatCandidates/src/Tau.cc /cms/ojalvo/HhhFSA4/CMSSW_5_3_14/src/DataFormats/PatCandidates/src/Tau.cc 
+ fg
+ git cms-merge-topic -u vadler:53X-useNewTau
+ diff DataFormats/PatCandidates/src/Tau.cc /cms/ojalvo/HhhFSA4/CMSSW_5_3_14/src/DataFormats/PatCandidates/src/Tau.cc 
+ git cms-merge-topic -u cms-tau-pog:CMSSW_5_3_X_boostedTaus_2013Dec17
 
 scramv1 b -j 20
