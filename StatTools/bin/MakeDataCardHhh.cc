@@ -95,8 +95,9 @@ int main (int argc, char* argv[])
      
      BkgOutput output = creator.runOSLSMT(parser.stringValue("preselection"),"_inclusive",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"));
 
-     creator.makeHeavyHiggsShape(parser.stringValue("preselection"),"_inclusive");
+     //creator.makeHeavyHiggsShape(parser.stringValue("preselection"),"_inclusive");
 
+     /*
      if(bitmask[0]==1){	 
        creator.setBinning(parser.doubleVector("binningLowStat"));
        std::string MSSM1 = parser.stringValue("btagSelection"); 
@@ -129,10 +130,11 @@ int main (int argc, char* argv[])
 								 );
 
      }
-   
+     */ 
 
 
 
      creator.close();
 }
+
 
