@@ -1283,6 +1283,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                    method     = cms.string('phi()'),
                                    rank       = cms.untracked.double(1)
                                ),
+                              #Leading Pt Jet CSV Value
                               muTauFirstJetCSVbtag1 = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
                                   src        = cms.InputTag(src),
@@ -1290,6 +1291,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                   method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")'),
                                   rank       = cms.untracked.double(0)
                               ),
+                              #Second Pt Jet CSV Value
                                muTauSecondJetCSVbtag = cms.PSet(
                                    pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
                                    src        = cms.InputTag(src),
@@ -1297,6 +1299,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                    method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")'),
                                    rank       = cms.untracked.double(1)
                                ),
+                              #Leading CSV Jet PT
                                 muTauFirstJetPt1CSVSort = cms.PSet(
                                      pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
                                      src        = cms.InputTag(src),
@@ -1304,6 +1307,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                      method     = cms.string('pt()'),
                                      rank       = cms.untracked.double(0)
                                  ),
+                              #Second CSV Jet PT
                                   muTauSecondJetPtCSVSort = cms.PSet(
                                       pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
                                       src        = cms.InputTag(src),
@@ -1311,6 +1315,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                       method     = cms.string('pt()'),
                                       rank       = cms.untracked.double(1)
                                   ),
+                              #Leading CSV Jet Eta
                                   muTauFirstJetEtaCSVSort = cms.PSet(
                                       pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
                                       src        = cms.InputTag(src),
@@ -1318,6 +1323,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                       method     = cms.string('eta()'),
                                       rank       = cms.untracked.double(0)
                                   ),
+                              #Second CSV Jet Eta
                                   muTauSecondJetEtaCSVSort = cms.PSet(
                                       pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
                                       src        = cms.InputTag(src),
@@ -1353,6 +1359,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                       method     = cms.string('partonFlavour()'),
                                       rank       = cms.untracked.double(1)
                                  ),
+                              #Leading CSV Jet CSV Value
                                  muTauFirstJetCSVbtagCSVSort = cms.PSet(
                                      pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
                                      src        = cms.InputTag(src),
@@ -1360,6 +1367,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                      method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")'),
                                      rank       = cms.untracked.double(0)
                                  ),
+                              #Second CSV Jet CSV Value
                                  muTauSecondJetCSVbtagCSVSort = cms.PSet(
                                      pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
                                      src        = cms.InputTag(src),
