@@ -14,9 +14,7 @@ std::vector<float> mc;
 edm::Lumi3DReWeighting *LumiWeights;
 edm::LumiReWeighting *LumiWeightsOld;
 
-void readdir(TDirectory *dir,optutl::CommandLineParser parser,std::vector<float> ev,int doPU,bool doRho,TH1F* puWeight,TH1F* rhoWeight); 
-
-
+bool readdir(TDirectory *dir,optutl::CommandLineParser parser,std::vector<float> ev,int doPU,bool doRho,TH1F* puWeight,TH1F* rhoWeight); 
 
 int main (int argc, char* argv[]) 
 {
@@ -97,38 +95,28 @@ int main (int argc, char* argv[])
 
  
    TFile *w = new TFile("Z.root","UPDATE");
-
    TH1F* evC  = (TH1F*)w->Get(parser.stringValue("histoName").c_str());
    float evW = evC->GetBinContent(1);
-   
    w->Close();
    
    TFile *w1 = new TFile("Z1JETS.root","UPDATE");
-
    TH1F* evC1  = (TH1F*)w1->Get(parser.stringValue("histoName").c_str());
    float evW1 = evC1->GetBinContent(1);
-   
    w1->Close();   
 
    TFile *w2 = new TFile("Z2JETS.root","UPDATE");
-
    TH1F* evC2  = (TH1F*)w2->Get(parser.stringValue("histoName").c_str());
    float evW2 = evC2->GetBinContent(1);
-   
    w2->Close();
 
    TFile *w3 = new TFile("Z3JETS.root","UPDATE");
-
    TH1F* evC3  = (TH1F*)w3->Get(parser.stringValue("histoName").c_str());
    float evW3 = evC3->GetBinContent(1);
-   
    w3->Close();
 
    TFile *w4 = new TFile("Z4JETS.root","UPDATE");
-
    TH1F* evC4  = (TH1F*)w4->Get(parser.stringValue("histoName").c_str());
    float evW4 = evC4->GetBinContent(1);
-   
    w4->Close();
 
       
@@ -146,23 +134,28 @@ int main (int argc, char* argv[])
    ev.push_back(evW4/0.007810169);
    
    TFile *f0 = new TFile("Z.root","UPDATE");   
-   readdir(f0,parser,ev,doPU,doRho,puWeight,rhoWeight);
+   if(!readdir(f0,parser,ev,doPU,doRho,puWeight,rhoWeight))
+     std::cout<<"Error weighting Z.root!!"<<std::endl;
    f0->Close();
    
    TFile *f1 = new TFile("Z1JETS.root","UPDATE");   
-   readdir(f1,parser,ev,doPU,doRho,puWeight,rhoWeight);
+   if(!readdir(f1,parser,ev,doPU,doRho,puWeight,rhoWeight))
+     std::cout<<"Error weighting Z1JETS.root!!"<<std::endl;
    f1->Close();
    
    TFile *f2 = new TFile("Z2JETS.root","UPDATE");   
-   readdir(f2,parser,ev,doPU,doRho,puWeight,rhoWeight);
+   if(!readdir(f2,parser,ev,doPU,doRho,puWeight,rhoWeight))
+     std::cout<<"Error weighting Z2JETS.root!!"<<std::endl;
    f2->Close();
    
    TFile *f3 = new TFile("Z3JETS.root","UPDATE");   
-   readdir(f3,parser,ev,doPU,doRho,puWeight,rhoWeight);
+   if(!readdir(f3,parser,ev,doPU,doRho,puWeight,rhoWeight))
+     std::cout<<"Error weighting Z3JETS.root!!"<<std::endl;
    f3->Close();
    
    TFile *f4 = new TFile("Z4JETS.root","UPDATE");   
-   readdir(f4,parser,ev,doPU,doRho,puWeight,rhoWeight);
+   if(!readdir(f4,parser,ev,doPU,doRho,puWeight,rhoWeight))
+     std::cout<<"Error weighting Z4JETS.root!!"<<std::endl;
    f4->Close();
    
    if(fPU!=0 && fPU->IsOpen())
@@ -175,7 +168,7 @@ int main (int argc, char* argv[])
 } 
 
 
-void readdir(TDirectory *dir,optutl::CommandLineParser parser,std::vector<float> ev,int doPU,bool doRho,TH1F *puWeight,TH1F *rhoWeight) 
+bool readdir(TDirectory *dir,optutl::CommandLineParser parser,std::vector<float> ev,int doPU,bool doRho,TH1F *puWeight,TH1F *rhoWeight) 
 {
   TDirectory *dirsav = gDirectory;
   TIter next(dir->GetListOfKeys());
@@ -206,71 +199,73 @@ void readdir(TDirectory *dir,optutl::CommandLineParser parser,std::vector<float>
       t->SetBranchAddress("LHEProduct",&LHEProduct);
 
       if(doPU==1)
-		t->SetBranchAddress("vertices",&vertices);
+	t->SetBranchAddress("vertices",&vertices);
       else if(doPU==2) {
-		t->SetBranchAddress("puBXminus",&bxm);
-		t->SetBranchAddress("puBX0",&bx);
-		t->SetBranchAddress("puBXplus",&bxp);
+	t->SetBranchAddress("puBXminus",&bxm);
+	t->SetBranchAddress("puBX0",&bx);
+	t->SetBranchAddress("puBXplus",&bxp);
       }
       else if( doPU==3 ){
       	t->SetBranchAddress("puTruth",&bx);
       }
-
+      
       float rho=0.0;
       if(doRho)
-	  t->SetBranchAddress("Rho",&rho);
-
+	t->SetBranchAddress("Rho",&rho);
+      
       printf("Found tree -> weighting\n");
       for(Int_t i=0;i<t->GetEntries();++i){
-	  t->GetEntry(i);
-	  if(LHEProduct<5)
-	  	printf("LHE Product is less then 5, check what is happeing!");
-	  else if(LHEProduct==5)
-	  	weight = parser.doubleValue("weight")/(ev[0]);
-	  else if(LHEProduct==6)
-	  	weight = parser.doubleValue("weight")/(ev[0]+ev[1]);
-	  else if(LHEProduct==7)
-	  	weight = parser.doubleValue("weight")/(ev[0]+ev[2]);
-	  else if(LHEProduct==8)
-	  	weight = parser.doubleValue("weight")/(ev[0]+ev[3]);
-	  else
-	  	weight = parser.doubleValue("weight")/(ev[0]+ev[4]);
-	  	
-	  if(doPU==1) {
-	    int bin=puWeight->FindBin(vertices);
-	    if(bin>puWeight->GetNbinsX())
-	      {
-		printf("Overflow using max bin\n");
-		bin = puWeight->GetNbinsX();
-	      }
-	    weight*=puWeight->GetBinContent(bin);
-	    if(i==1)
-	      printf("PU WEIGHT = %f\n",puWeight->GetBinContent(puWeight->FindBin(vertices)));
-
-	  }
-	  else if(doPU==2) {
-	   	float w = LumiWeights->weight3D( bxm,bx,bxp);
+	t->GetEntry(i);
+	if(LHEProduct<5)
+	  printf("LHE Product is less then 5, check what is happeing!");
+	else if(LHEProduct==5)
+	  weight = parser.doubleValue("weight")/(ev[0]);
+	else if(LHEProduct==6)
+	  weight = parser.doubleValue("weight")/(ev[0]+ev[1]);
+	else if(LHEProduct==7)
+	  weight = parser.doubleValue("weight")/(ev[0]+ev[2]);
+	else if(LHEProduct==8)
+	  weight = parser.doubleValue("weight")/(ev[0]+ev[3]);
+	else
+	  weight = parser.doubleValue("weight")/(ev[0]+ev[4]);
+	
+	if(doPU==1) {
+	  int bin=puWeight->FindBin(vertices);
+	  if(bin>puWeight->GetNbinsX())
+	    {
+	      printf("Overflow using max bin\n");
+	      bin = puWeight->GetNbinsX();
+	    }
+	  weight*=puWeight->GetBinContent(bin);
+	  if(i==1)
+	    printf("PU WEIGHT = %f\n",puWeight->GetBinContent(puWeight->FindBin(vertices)));
+	  
+	}
+	else if(doPU==2) {
+	  float w = LumiWeights->weight3D( bxm,bx,bxp);
 	    if(i==1)
 	      printf("PU WEIGHT = %f\n",w);
 	    weight*=w;
-	  }
-	  else if(doPU==3) {
-	    weight*=LumiWeightsOld->weight(bx);
-	  }
-	  if(doRho) {
-	    weight*=rhoWeight->GetBinContent(rhoWeight->FindBin(rho));
-	    if(i==1)
-	      printf("RHO WEIGHT = %f\n",rhoWeight->GetBinContent(rhoWeight->FindBin(rho)));
-	  }
-
-	  newBranch->Fill();
-	  typeBranch->Fill();
 	}
+	else if(doPU==3) {
+	    weight*=LumiWeightsOld->weight(bx);
+	}
+	if(doRho) {
+	  weight*=rhoWeight->GetBinContent(rhoWeight->FindBin(rho));
+	  if(i==1)
+	    printf("RHO WEIGHT = %f\n",rhoWeight->GetBinContent(rhoWeight->FindBin(rho)));
+	}
+	
+	newBranch->Fill();
+	typeBranch->Fill();
+      }
       t->Write("",TObject::kOverwrite);
     }
-
-
-
+    
+    
+    
   }
+
+  return true;
 
 }

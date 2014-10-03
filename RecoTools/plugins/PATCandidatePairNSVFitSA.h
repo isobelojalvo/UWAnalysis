@@ -92,16 +92,21 @@ class PATCandidatePairNSVFitSA : public edm::EDProducer
 	    measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(NSVfitStandalone::kHadDecay, compositePtrCandidate.leg2()->p4()));
 	    NSVfitStandaloneAlgorithm algo(measuredTauLeptons, theMETP4_.Vect(), covMatrix_, 0);
 	    algo.addLogM(false);
-	    //algo.integrateMarkovChain();
+	    algo.integrateMarkovChain();
 	    //algo.integrateVEGAS();
-	    algo.integrate();
 	    double mass = algo.getMass();
-	    //double massErr = algo.massUncert(); 
-	    double pt = 0;//algo.pt(); 
-	    //double ptErr = algo.ptUncert();
+		//double massErr = algo.massUncert(); 
+	    double pt = algo.pt(); 
+	    double eta = algo.eta(); 
+	    double phi = algo.phi(); 
+	    //double energy = algo.E(); 
+		//double ptErr = algo.ptUncert();
 			    
 	    compositePtrCandidate.setSVMass(mass);
 	    compositePtrCandidate.setSVPt(pt);
+	    compositePtrCandidate.setSVEta(eta);
+	    compositePtrCandidate.setSVPhi(phi);
+	    //compositePtrCandidate.setSVEnergy(energy);
 	    out->push_back(compositePtrCandidate);
 
       }

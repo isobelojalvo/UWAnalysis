@@ -43,8 +43,8 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   
 
   TriLeptons(process)
-  ReNameJetColl(process)
-  #ReRunJets(process)
+  #ReNameJetColl(process)
+  ReRunJets(process)
   jetOverloading(process,"NewSelectedPatJets")
   PATJetMVAEmbedder(process,"patOverloadedJets")  
   #Default selections for systematics
@@ -181,8 +181,8 @@ def defaultReconstructionEMBMT(process,triggerProcess = 'HLT',triggerPaths = ['H
   tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
   
   TriLeptons(process)
-  #ReRunJets(process)
-  ReNameJetColl(process)
+  ReRunJetsEMB(process)
+  #ReNameJetColl(process)
   
   #kineWeightsEmbMT(process)
   jetOverloading(process,"NewSelectedPatJets")  
@@ -228,8 +228,8 @@ def defaultReconstructionEMBET(process,triggerProcess = 'HLT',triggerPaths = ['H
   tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
   
   TriLeptons(process)
-  #ReRunJets(process)
-  ReNameJetColl(process)
+  ReRunJetsEMB(process)
+  #ReNameJetColl(process)
   
   #kineWeightsEmbET(process)
   jetOverloading(process,"NewSelectedPatJets")  
@@ -307,8 +307,6 @@ def EScaledTaus(process,smearing):  #second arg is bool
 
 def mvaMet2(process):
 
-  #process.load('RecoMET.METProducers.mvaPFMET_cff_leptons')
-  #process.load("JetMETCorrections.METPUSubtraction.mvaPFMET_leptons_PAT_cfi")
   process.load("JetMETCorrections.METPUSubtraction.mvaPFMET_leptons_data_cff")
 
   process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")
@@ -324,14 +322,9 @@ def mvaMet2(process):
   )
   
   process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak5PFJets*process.calibratedAK5PFJetsForPFMEtMVA*process.pfMEtMVAsequence*process.patMVAMet)
-  #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMEtMVAsequence*process.patMVAMet)
-
-  #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMEtMVAsequence*process.patMVAMet)
 
 def mvaMet2MC(process):
 
-  #process.load('RecoMET.METProducers.mvaPFMET_cff_leptons')
-  #process.load("JetMETCorrections.METPUSubtraction.mvaPFMET_leptons_PAT_cfi")
   process.load("JetMETCorrections.METPUSubtraction.mvaPFMET_leptons_cff")
 
   process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")
@@ -346,9 +339,6 @@ def mvaMet2MC(process):
   )
   
   process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak5PFJets*process.calibratedAK5PFJetsForPFMEtMVA*process.pfMEtMVAsequence*process.patMVAMet)
-  #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMEtMVAsequence*process.patMVAMet)
-
-  #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMEtMVAsequence*process.patMVAMet)
 
 def ReNameJetColl(process):
 
@@ -462,6 +452,16 @@ def ReRunJets(process):
 
   process.pileupJetIdProducer.applyJec = cms.bool(True)
 
+  process.load('RecoVertex/AdaptiveVertexFinder/inclusiveVertexing_cff')
+  #process.load('RecoBTag/SecondaryVertex/bToCharmDecayVertexMerger_cfi')
+
+  process.simpleSecondaryVertex = cms.ESProducer("SimpleSecondaryVertexESProducer",
+                                                       use3d = cms.bool(True),
+                                                       unBoost = cms.bool(False),
+                                                       useSignificance = cms.bool(True),
+                                                       minTracks = cms.uint32(2)
+                                                   )
+
   # Define options for BTagging - these are release dependent.
   btag_options = {'doBTagging': True}
   btag_options['btagInfo'] = [
@@ -495,7 +495,10 @@ def ReRunJets(process):
   process.patJets.addAssociatedTracks = False
   process.patJets.embedGenPartonMatch = False
   process.patJets.tagInfoSources = cms.VInputTag(cms.InputTag("secondaryVertexTagInfos"))
-  process.patJets.discriminatorSources = cms.VInputTag(cms.InputTag("combinedSecondaryVertexMVABJetTags"), cms.InputTag("combinedSecondaryVertexBJetTags"), cms.InputTag("simpleSecondaryVertexHighPurBJetTags"), cms.InputTag("simpleSecondaryVertexHighEffBJetTags"))
+  process.patJets.discriminatorSources = cms.VInputTag(cms.InputTag("combinedSecondaryVertexMVABJetTags"),
+                                                       cms.InputTag("combinedSecondaryVertexBJetTags"),
+                                                       cms.InputTag("simpleSecondaryVertexHighPurBJetTags"),
+                                                       cms.InputTag("simpleSecondaryVertexHighEffBJetTags"))
   process.patJets.addBTagInfo = cms.bool(True)
   
   process.ak5JetTracksAssociatorAtVertex = cms.EDProducer("JetTracksAssociatorAtVertex",
@@ -686,7 +689,6 @@ def muonTriggerMatchPT(process,triggerProcess,HLT):
                                                 cms.InputTag('hltOverlapFilterIsoMu17LooseIsoPFTau20','',triggerProcess),
                                                 cms.InputTag('hltL3crIsoL1sMu14erORMu16erL1f0L2f14QL3f17QL3crIsoRhoFiltered0p15','',triggerProcess),
                                                 cms.InputTag('hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoFiltered10','',triggerProcess),
-
                                                 ### MC
                                                 cms.InputTag('hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f24QL3crIsoFiltered10','',triggerProcess),
                                                 ### Data

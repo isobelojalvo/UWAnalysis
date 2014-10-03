@@ -7,15 +7,15 @@ process.GlobalTag.globaltag = 'START53_V22::All'
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(500)
+    input = cms.untracked.int32(10000)
 )
+
+
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-'file:/hdfs/store/user/ojalvo/GluGluToHTohhTo2Tau2B_mH-300_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2013-10-11/patTuple_cfg-026F50EB-78FA-E211-85BD-0025904B1364.root'
-#    'file:/hdfs/store/user/ojalvo/GluGluToHTohhTo2Tau2B_mH-300_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2014-8/patTuple_cfg-94E292A1-89FA-E211-85D9-002481E94B4E.root'
-#'/store/user/ojalvo/GluGluToHTohhTo2Tau2B_mH-300_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2013-10-11/patTuple_cfg-8AE25744-45FA-E211-AF1E-0025907FD280.root',
- #   '/store/user/ojalvo/GluGluToHTohhTo2Tau2B_mH-300_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2013-10-11/patTuple_cfg-8E71F629-74FA-E211-9953-0025904E32F2.root'
+    '/store/user/ojalvo/GluGluToHTohhTo2Tau2B_mH-300_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2013-10-11/patTuple_cfg-8AE25744-45FA-E211-AF1E-0025907FD280.root',
+    '/store/user/ojalvo/GluGluToHTohhTo2Tau2B_mH-300_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2013-10-11/patTuple_cfg-8E71F629-74FA-E211-9953-0025904E32F2.root'
        #'file:/hdfs/store/user/tapas/VBF_HToTauTau_M-125_8TeV-powheg-pythia6/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM/2013-02-25-8TeV-53X-PatTuple_Master/patTuple_cfg-FEAB3DA0-88ED-E111-B40F-AC162DACC3F0.root'
        #'/store/user/swanson/W4JetsToLNu_TuneZ2Star_8TeV-madgraph/W4JetsToLNu_TuneZ2Star_8TeV-madgraph_WJets8TeV-9ec8fe3/740ed358d05978b21a4396481cacaca9/output_1001_3_BZc.root'
        #'/store/user/tapas/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM/2013-02-25-8TeV-53X-PatTuple_Master/patTuple_cfg-FEFF0D8E-91D2-E111-9BEA-001E673976ED.root'
@@ -91,12 +91,11 @@ createGeneratedParticles(process,
 )
 
 
-from UWAnalysis.Configuration.tools.ntupleToolsLTau import addMuTauEventTree
-#addMuTauEventTree(process,'muTauEventTreePre','diTaus','diMuonsSorted')
+from UWAnalysis.Configuration.tools.ntupleToolsLTauJets import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
 addMuTauEventTree(process,'muTauEventTreeFinal','diTausOS','diMuonsSorted')
 
-from UWAnalysis.Configuration.tools.ntupleToolsLTau import addEleTauEventTree
+from UWAnalysis.Configuration.tools.ntupleToolsLTauJets import addEleTauEventTree
 addEleTauEventTree(process,'eleTauEventTree')
 addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','osDiElectrons')
 

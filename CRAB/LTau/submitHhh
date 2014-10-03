@@ -1,0 +1,72 @@
+#!/bin/sh
+#voms-proxy-init --voms cms --valid 100:00
+
+#cat GenStudy.py > SUB-GEN.py
+#cat CONDORPT.py >> SUB-GEN.py
+
+#cat LTJets.py > SUB-Jets.py
+#cat CONDORPT.py >> SUB-Jets.py
+
+farmoutAnalysisJobs  $1   --vsize-limit=8000  --input-dir=/store/user/ojalvo/GluGluToHTohhTo2Tau2B_mH-260_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2013-10-11/  ggHhhttbb260 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py  
+farmoutAnalysisJobs  $1   --vsize-limit=8000  --input-dir=/store/user/ojalvo/GluGluToHTohhTo2Tau2B_mH-300_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2013-10-11/  ggHhhttbb300 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py  
+farmoutAnalysisJobs  $1   --vsize-limit=8000  --input-dir=/store/user/ojalvo/GluGluToHTohhTo2Tau2B_mH-350_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2013-10-11/  ggHhhttbb350 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py  
+
+farmoutAnalysisJobs  $1   --vsize-limit=8000  --input-dir=/store/user/tapas/GluGluToHToTauTau_M-125_8TeV-powheg-pythia6    SMGGH125  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py 
+farmoutAnalysisJobs  $1   --vsize-limit=8000  --input-dir=/store/user/tapas/VBF_HToTauTau_M-125_8TeV-powheg-pythia6        VBF125    $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000  --input-dir=/store/user/tapas/WH_ZH_TTH_HToTauTau_M-125_8TeV-pythia6-tauola  VH125     $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-1000_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA1000 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py 
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-100_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA100 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py  
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-110_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA110 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-120_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA120 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-130_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA130 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-140_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA140 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-160_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA160 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-180_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA180 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-200_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA200 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-250_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA250 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-300_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v2 bbA300 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-350_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA350 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-400_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA400 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-450_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA450 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-500_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA500 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-600_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA600 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-700_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA700 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-800_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA800 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-80_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1  bbA80  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-900_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1 bbA900 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs  $1   --vsize-limit=8000   --input-dir=/store/user/tapas/SUSYBBHToTauTau_M-90_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1  bbA90  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/ojalvo/GluGluToAToZhToLLBB_mA-250_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2014-9-25/ AZhllbb-250  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/ojalvo/GluGluToAToZhToLLBB_mA-260_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2014-9-25/ AZhllbb-260  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/ojalvo/GluGluToAToZhToLLBB_mA-270_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2014-9-25/ AZhllbb-270  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/ojalvo/GluGluToAToZhToLLBB_mA-280_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2014-9-25/ AZhllbb-280  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/ojalvo/GluGluToAToZhToLLBB_mA-290_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2014-9-25/ AZhllbb-290  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/ojalvo/GluGluToAToZhToLLBB_mA-300_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2014-9-25/ AZhllbb-300  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/ojalvo/GluGluToAToZhToLLBB_mA-310_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2014-9-25/ AZhllbb-310  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/ojalvo/GluGluToAToZhToLLBB_mA-320_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2014-9-25/ AZhllbb-320  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/ojalvo/GluGluToAToZhToLLBB_mA-330_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2014-9-25/ AZhllbb-330  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/ojalvo/GluGluToAToZhToLLBB_mA-340_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2014-9-25/ AZhllbb-340  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/ojalvo/GluGluToAToZhToLLBB_mA-350_mh-125_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/2014-9-25/ AZhllbb-350  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+
+
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/truggles/AToZhToLLTauTau_MA-250_Mh1-125_8TeV-madgraph5-pythia6/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/Aug25_PATs/ AZhlltt-250  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/truggles/AToZhToLLTauTau_MA-260_Mh1-125_8TeV-madgraph5-pythia6/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/Aug25_PATs/ AZhlltt-260  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/truggles/AToZhToLLTauTau_MA-270_Mh1-125_8TeV-madgraph5-pythia6/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/Aug25_PATs/ AZhlltt-270  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/truggles/AToZhToLLTauTau_MA-280_Mh1-125_8TeV-madgraph5-pythia6/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/Aug25_PATs/ AZhlltt-280  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/truggles/AToZhToLLTauTau_MA-290_Mh1-125_8TeV-madgraph5-pythia6/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/Aug25_PATs/ AZhlltt-290  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/truggles/AToZhToLLTauTau_MA-300_Mh1-125_8TeV-madgraph5-pythia6/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/Aug25_PATs/ AZhlltt-300  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/truggles/AToZhToLLTauTau_MA-310_Mh1-125_8TeV-madgraph5-pythia6/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/Aug25_PATs/ AZhlltt-310  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/truggles/AToZhToLLTauTau_MA-320_Mh1-125_8TeV-madgraph5-pythia6/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/Aug25_PATs/ AZhlltt-320  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/truggles/AToZhToLLTauTau_MA-330_Mh1-125_8TeV-madgraph5-pythia6/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/Aug25_PATs/ AZhlltt-330  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/truggles/AToZhToLLTauTau_MA-340_Mh1-125_8TeV-madgraph5-pythia6/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/Aug25_PATs/ AZhlltt-340  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=/store/user/truggles/AToZhToLLTauTau_MA-350_Mh1-125_8TeV-madgraph5-pythia6/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM/Aug25_PATs/ AZhlltt-350  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+
+
+
+#rm SUB-Jets.py
+#rm SUB-GEN.py
+
+#farmoutAnalysisJobs  $1   --vsize-limit=8000  --input-dir=/store/user/ojalvo/GluGluToHTohhTo2Tau2B_mH-260_mh-125_8TeV-pythia6-tauola/  ggHhh260 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-Jets.py  
+#farmoutAnalysisJobs  $1   --vsize-limit=8000  --input-dir=/store/user/ojalvo/GluGluToHTohhTo2Tau2B_mH-300_mh-125_8TeV-pythia6-tauola/  ggHhh300 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-Jets.py  
+#farmoutAnalysisJobs  $1   --vsize-limit=8000  --input-dir=/store/user/ojalvo/GluGluToHTohhTo2Tau2B_mH-350_mh-125_8TeV-pythia6-tauola/  ggHhh350 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-Jets.py  

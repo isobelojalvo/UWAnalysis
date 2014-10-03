@@ -32,7 +32,6 @@ int main (int argc, char* argv[])
    
    TH1F *rhoWeight=0;
    bool doRho=false;
-   TFile *fRho = new TFile("../rhoInfo.root");
    TFile *fPU2 = new TFile("../puInfo3D.root");
    //read PU info
    TH1F *puWeight=0;
@@ -51,39 +50,61 @@ int main (int argc, char* argv[])
      LumiWeightsOld = new edm::LumiReWeighting("../PileUp/MC_Summer12_PU_S10-600bins.root ","../PileUp/Data_Pileup_2012_ReRecoPixel-600bins.root","pileup","pileup");
    }
    
- 
+   float evW;       float evW1;       float evW2;       float evW3;    float evW4;       
    TFile *w = new TFile("W.root","UPDATE");
-
    TH1F* evC  = (TH1F*)w->Get(parser.stringValue("histoName").c_str());
-   float evW = evC->GetBinContent(1);
-   
+   TKey *key = (TKey*)w->FindKey("MT");
+   //w->GetListOfKeys()->Print();
+   if (key ==0){
+     std::cout<<"Attention: Error with file W.root" <<std::endl;
+     w->Close(); exit(0); 
+   }
+   else{evW = evC->GetBinContent(1);}
    w->Close();
-   
-   TFile *w1 = new TFile("W1JETS.root","UPDATE");
 
+   TFile *w1 = new TFile("W1JETS.root","UPDATE");
    TH1F* evC1  = (TH1F*)w1->Get(parser.stringValue("histoName").c_str());
-   float evW1 = evC1->GetBinContent(1);
-   
+   key = w1->FindKey("MT");
+   if (key ==0){
+     std::cout<<"Attention: Error with file W1Jets.root" <<std::endl;
+     w1->Close(); exit(0); 
+   }
+   else{evW1 = evC1->GetBinContent(1);}
    w1->Close();   
 
    TFile *w2 = new TFile("W2JETS.root","UPDATE");
-
    TH1F* evC2  = (TH1F*)w2->Get(parser.stringValue("histoName").c_str());
-   float evW2 = evC2->GetBinContent(1);
-   
+   key = w2->FindKey("MT");
+   if (key ==0){
+     std::cout<<"Attention: Error with file W2Jets.root" <<std::endl;
+     w2->Close(); exit(0); 
+   }
+   else{evW2 = evC2->GetBinContent(1);}
+
    w2->Close();
 
    TFile *w3 = new TFile("W3JETS.root","UPDATE");
 
    TH1F* evC3  = (TH1F*)w3->Get(parser.stringValue("histoName").c_str());
-   float evW3 = evC3->GetBinContent(1);
-   
-   w3->Close();
+   key = w3->FindKey("MT");
+   if (key ==0){
+     std::cout<<"Attention: Error with file W3Jets.root"<<std::endl;
+     w3->Close(); exit(0); 
+   }
+   else{evW3 = evC3->GetBinContent(1);  w3->Close();}   
+
 
    TFile *w4 = new TFile("W4JETS.root","UPDATE");
 
    TH1F* evC4  = (TH1F*)w4->Get(parser.stringValue("histoName").c_str());
-   float evW4 = evC4->GetBinContent(1);
+   key = w4->FindKey("MT");
+
+   if (key ==0){
+     std::cout<<"Attention: Error with file W4Jets.root " <<std::endl;
+     w4->Close(); exit(0); 
+   }
+   else{evW4 = evC4->GetBinContent(1);  w4->Close();}   
+
    
    w4->Close();
 

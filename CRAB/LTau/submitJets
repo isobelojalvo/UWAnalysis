@@ -1,0 +1,13 @@
+#!/bin/sh
+voms-proxy-init --voms cms --valid 100:00
+
+cat GenStudy.py > SUB-GEN.py
+cat CONDORPT.py >> SUB-GEN.py
+
+#farmoutAnalysisJobs  $1   --vsize-limit=8000  --input-dir=/store/user/tapas/CMSFastSimPatTuple/H-hh-ttbb-MA300-TB5-PU025   HhhttbbMA300  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py  
+#farmoutAnalysisJobs  $1   --vsize-limit=8000  --input-dir=/store/user/tapas/GluGluToHToTauTau_M-125_8TeV-powheg-pythia6  SMGGH125  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-GEN.py 
+#farmoutAnalysisJobs  $1   --vsize-limit=8000  --input-dir=/store/user/tapas/GluGluToHToTauTau_M-125_8TeV-powheg-pythia6  SMGGH125  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py
+#farmoutAnalysisJobs  $1   --vsize-limit=8000  --input-dir=/store/user/tapas/CMSFastSimPatTuple/MSSM_Htohh_mH300_tanB5_Filt_2TauPT10   HhhttbbMA300  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py  
+#farmoutAnalysisJobs  $1   --vsize-limit=8000  --input-dir=/store/user/tapas/CMSFastSimPatTuple/SM-H-tt-PU025/ SMH125FastSIM  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-MCH.py  
+farmoutAnalysisJobs  $1   --vsize-limit=8000  --input-dir=/store/user/tapas/2012-08-03-7TeV-PatTuple/WH_WToLNu_HToBB_M-125 WH_LNu_BB_125 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/LTau/SUB-GEN.py  
+rm SUB-GEN.py

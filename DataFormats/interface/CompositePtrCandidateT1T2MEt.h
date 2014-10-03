@@ -103,6 +103,9 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   bool collinearApproxIsValid() const { return collinearApproxIsValid_; }
   double svMass() const { return svMass_; }
   double svPt()   const { return svPt_; }
+  double svEta()   const { return svEta_; }
+  double svPhi()   const { return svPhi_; }
+  double svEnergy()   const { return svEnergy_; }
   double fullPt()  const { return fullPt_; }
   double fullEta()  const { return fullEta_; }
   double fullPhi()  const { return fullPhi_; }
@@ -110,6 +113,7 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
 
   double mJJCSVSort() const { return mJJCSVSort_; }
   double mJJReg() const { return mJJReg_; }
+  double mJJGen() const { return mJJGen_; }
   double mJJHMassSort() const { return mJJHMassSort_; }
 
 
@@ -219,6 +223,11 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   float phiJJ() const {return phiJJ_;}
   float energyJJ() const {return EJJ_;}
 
+  float ptJJReg() const {return JJReg_.pt();}
+  float etaJJReg() const {return JJReg_.eta();}
+  float phiJJReg() const {return JJReg_.phi();}
+  float energyJJReg() const {return JJReg_.E();}
+
   //VBF Variables
   float vbfMass() const {return vbfMass_;}
   float vbfDEta() const {return vbfDEta_;}
@@ -237,15 +246,14 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   int   vbfNJetsGap30() const {return vbfNJetsGap30_;}
 
   reco::Candidate::PolarLorentzVector SVFourVector() const {
-    reco::Candidate::PolarLorentzVector SVFourVec(svMass(),fullEta(),fullPhi(),fullEnergy());
+    reco::Candidate::PolarLorentzVector SVFourVec(svPt(),svEta(),svPhi(),svMass());
     return SVFourVec; }
   ///csv sorting and 125gev selection
   float hhMass() const { 
     return (SVFourVector()+JJ_).M();
   }; 
-  float hhMassReg() const { 
-    return (SVFourVector()+JJReg_).M();
-  }; 
+  float hhMassReg() const { return (SVFourVector()+JJReg_).M();}; 
+
   float hhPt() const { return (SVFourVector()+JJ_).pt();}; 
   float hhEta() const { return (SVFourVector()+JJ_).eta();}; 
   float hhPhi() const { return (SVFourVector()+JJ_).phi();}; 
@@ -292,6 +300,9 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
 
   void setSVMass(double svMass) { svMass_ = svMass; }
   void setSVPt(double svPt) { svPt_ = svPt; }
+  void setSVEta(double svEta) { svEta_ = svEta; }
+  void setSVPhi(double svPhi) { svPhi_ = svPhi; }
+  void setSVEnergy(double svEnergy) { svEnergy_ = svEnergy; }
 
   void setJJReg(math::PtEtaPhiELorentzVector JJReg){
     JJReg_=JJReg;
@@ -319,6 +330,7 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
  private:
   void setmJJCSVSort(double mJJCSVSort) { mJJCSVSort_ = mJJCSVSort; }
   void setmJJReg(double mJJReg) { mJJReg_ = mJJReg; }
+  void setmJJGen(double mJJGen) { mJJGen_ = mJJGen; }
   void setmJJHMassSort(double mJJHMassSort) { mJJHMassSort_ = mJJHMassSort; }
   void setFullPt(double fullPt) { fullPt_ = fullPt; }
   void setFullEta(double fullEta) { fullEta_ = fullEta; }
@@ -573,9 +585,13 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   std::vector<NSVfitResonanceHypothesisSummary> nSVfitSolutions_;
   double svMass_;
   double svPt_;
+  double svEta_;
+  double svPhi_;
+  double svEnergy_;
 
   double mJJCSVSort_;
   double mJJReg_;
+  double mJJGen_;
   double mJJHMassSort_;
   double fullPt_;
   double fullEta_;

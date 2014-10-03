@@ -13,8 +13,8 @@ defaultReconstruction(process,'HLT',
 						"HLT_Ele20_CaloIdVT_CaloIsoRhoT_TrkIdT_TrkIsoT_LooseIsoPFTau20",
 						"HLT_Ele22_eta2p1_WP90Rho_LooseIsoPFTau20",
 						"HLT_IsoMu18_eta2p1_LooseIsoPFTau20",
-						"HLT_IsoMu17_eta2p1_LooseIsoPFTau20",
-						"HLT_IsoMu15_eta2p1_L1ETM20"
+						"HLT_IsoMu17_eta2p1_LooseIsoPFTau20"
+#						"HLT_IsoMu15_eta2p1_L1ETM20"
                       ])
 
                       

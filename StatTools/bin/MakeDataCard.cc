@@ -5,8 +5,6 @@
 
 int main (int argc, char* argv[]) 
 {
-
-
    optutl::CommandLineParser parser ("Background subtrcation ");
 
    //Input Files-------------------
@@ -29,7 +27,9 @@ int main (int argc, char* argv[])
    parser.addOption("bSelection",optutl::CommandLineParser::kString,"Btagging Requirement for MSSM ","(nJetsBTag3Pt20>0&&nJetsPt30<2)");
    parser.addOption("antibSelection",optutl::CommandLineParser::kString,"Anti Btagging requirement for MSSM","(nJetsBTag3Pt20==0&&nJetsPt30<2)");
    parser.addOption("btagSelection",optutl::CommandLineParser::kString,"btagSelection","btag>0");
+   parser.addOption("btagSelection2",optutl::CommandLineParser::kString,"btagSelection2","btag>0");
    parser.addOption("bTagSF",optutl::CommandLineParser::kString,"bTagSF","1");
+   parser.addOption("bTagSF2",optutl::CommandLineParser::kString,"bTagSF2","1");
    parser.addOption("vbfSelection0",optutl::CommandLineParser::kString,"SM Category 0 ","");
    parser.addOption("vbfSelection1",optutl::CommandLineParser::kString,"SM category 1","");
    parser.addOption("vbfSelection2",optutl::CommandLineParser::kString,"SM Category 2","");
@@ -136,9 +136,25 @@ int main (int argc, char* argv[])
 								 //parser.stringValue("embWeight")
 								 );
 
-       //creator.makeSMLTauDataCardNoVBF(outputSM0L,"_0jet_low",parser.stringValue("energy"));
+	creator.setBinning(parser.doubleVector("binningLowStat"));
+       std::string MSSM2 = parser.stringValue("btagSelection2"); 
+       std::string bTagSF2 = parser.stringValue("bTagSF2");
 
-       //creator.makeHiggsShapesMSSM(parser.stringValue("preselection")+"&&"+MSSM1,"_MSSM1"); //mssmSelection1
+       creator.makeHeavyHiggsShape(parser.stringValue("preselection")+"&&"+MSSM2,"_2btag");
+       
+       BkgOutput outputMSSM2 = creator.runFullExtrapolationBTag(parser.stringValue("preselection"),MSSM2,"_2btag",output,
+								 parser.doubleValue("bFactorZ"),
+								 parser.doubleValue("bFactorZErr"),
+								 parser.doubleValue("bFactorW"),
+								 parser.doubleValue("bFactorWErr"),
+								 parser.doubleValue("topSF"),
+								 parser.doubleValue("bIDErr"),
+								 parser.stringValue("zEmbeddedSample"),
+								 bTagSF2
+								 //parser.stringValue("embWeight")
+								 );
+
+
        
      }
    
@@ -298,15 +314,10 @@ int main (int argc, char* argv[])
 					
 	}
 
-
-
-     
-
      if(bitmask.size()<4||bitmask[3]==1) {
        creator.setBinning(parser.doubleVector("binningHighStat"));
        printf("Z -> tau tau cross section-------------------------------------\n");
        BkgOutput outputZTT = creator.runOSLSMT(parser.stringValue("preselection"),"_ZTT",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"));
-       creator.makeZTTLTauDataCard(output,"_ZTT");
      }
 
 

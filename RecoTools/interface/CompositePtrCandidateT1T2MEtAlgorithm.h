@@ -66,7 +66,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     recoMode_ = cfg.getParameter<std::string>("recoMode");
     verbosity_ = cfg.getUntrackedParameter<int>("verbosity", 0);
   }
-  ~CompositePtrCandidateT1T2MEtAlgorithm() {}
+ ~CompositePtrCandidateT1T2MEtAlgorithm() {}
 
 
   void setMETCalibrator(METCalibrator * calibrator) {calibrator_ = calibrator;}
@@ -278,8 +278,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     compositePtrCandidate.setRecoil(recoil_);
     compositePtrCandidate.setRecoilDPhi(fabs(normalizedPhi(compositePtrCandidate.p4Vis().phi() - recoil_.phi())));
  
-    //std::cout<<"Gets Here1"<<std::endl;    
-
     bool top = false;
     if(genParticles!=0&& genParticles->size()>0)
       for(reco::GenParticleCollection::const_iterator i = genParticles->begin(); i!=genParticles->end(); ++i) 
@@ -292,30 +290,39 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     std::pair<float,float> HMassJets= ReturnSortByHMass(cleanedJets20);
 
     if(cleanedJetsCSVsorted.size()>1){
+
       compositePtrCandidate.setmJJCSVSort((cleanedJetsCSVsorted.at(0)->p4()+cleanedJetsCSVsorted.at(1)->p4()).M());
+
       math::PtEtaPhiELorentzVector jet1(cleanedJetsCSVsorted.at(0)->pt()*cleanedJetsCSVsorted.at(0)->userFloat("mvaSF"),
-			cleanedJetsCSVsorted.at(0)->eta(),
-			cleanedJetsCSVsorted.at(0)->phi(),
-			cleanedJetsCSVsorted.at(0)->energy()*cleanedJetsCSVsorted.at(0)->userFloat("mvaSF"));
+					cleanedJetsCSVsorted.at(0)->eta(),
+					cleanedJetsCSVsorted.at(0)->phi(),
+					cleanedJetsCSVsorted.at(0)->energy()*cleanedJetsCSVsorted.at(0)->userFloat("mvaSF"));
 
       math::PtEtaPhiELorentzVector jet2(cleanedJetsCSVsorted.at(1)->pt()*cleanedJetsCSVsorted.at(1)->userFloat("mvaSF"),
-			cleanedJetsCSVsorted.at(1)->eta(),
-			cleanedJetsCSVsorted.at(1)->phi(),
-			cleanedJetsCSVsorted.at(1)->energy()*cleanedJetsCSVsorted.at(1)->userFloat("mvaSF"));
+					cleanedJetsCSVsorted.at(1)->eta(),
+					cleanedJetsCSVsorted.at(1)->phi(),
+					cleanedJetsCSVsorted.at(1)->energy()*cleanedJetsCSVsorted.at(1)->userFloat("mvaSF"));
 
+      math::PtEtaPhiELorentzVector jetGenA(cleanedJetsCSVsorted.at(0)->userFloat("genJetPt"),
+					   cleanedJetsCSVsorted.at(0)->userFloat("genJetEta"),
+					   cleanedJetsCSVsorted.at(0)->userFloat("genJetPhi"),
+					   cleanedJetsCSVsorted.at(0)->userFloat("genJetE"));
+
+      math::PtEtaPhiELorentzVector jetGenB(cleanedJetsCSVsorted.at(1)->userFloat("genJetPt"),
+					   cleanedJetsCSVsorted.at(1)->userFloat("genJetEta"),
+					   cleanedJetsCSVsorted.at(1)->userFloat("genJetPhi"),
+					   cleanedJetsCSVsorted.at(1)->userFloat("genJetE"));
+
+      //std::cout<<"GenJet Mass "<< (jetGenA+jetGenB).M()<< " E adjust Mass: " <<(jet1+jet2).M()<< " No E Adjust: " <<(jetA+jetB).M()<<std::endl;
+
+      compositePtrCandidate.setmJJGen((jetGenA+jetGenB).M());
       compositePtrCandidate.setmJJReg((jet1+jet2).M());
       compositePtrCandidate.setJJReg((jet1+jet2));
       
     }
 
     if(cleanedJetsCSVsorted.size()>1)
-      compositePtrCandidate.setJJVariables(
-					   (cleanedJetsCSVsorted.at(0)->p4()+cleanedJetsCSVsorted.at(1)->p4())
-					 //(cleanedJets.at(0)+cleanedJets.at(1)).pt(),
-					 //(cleanedJets.at(0)+cleanedJets.at(1)).eta(),
-					 //(cleanedJets.at(0)+cleanedJets.at(1)).phi(),
-					 //(cleanedJets.at(0)+cleanedJets.at(1)).E(),
-					 );
+      compositePtrCandidate.setJJVariables((cleanedJetsCSVsorted.at(0)->p4()+cleanedJetsCSVsorted.at(1)->p4()));
 
     if(cleanedJetsCSVsorted.size()>1)
       compositePtrCandidate.setCSVSortedJets(cleanedJetsCSVsorted);
@@ -564,8 +571,10 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     JetPtrVector sorted;
     sorted.reserve(vec.size());
     
-    for(unsigned int i=0;i<indices.size();++i)
+    for(unsigned int i=0;i<indices.size();++i){
       sorted.push_back(vec.at(indices.at(i)));
+      //std::cout<<"Jet "<<indices.at(i)<<" "<<vec.at(indices.at(i))->bDiscriminator("combinedSecondaryVertexBJetTags")<<std::endl;
+    }
 
     vec = sorted;
   }

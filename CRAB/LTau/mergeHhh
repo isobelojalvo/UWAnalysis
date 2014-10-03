@@ -1,0 +1,30 @@
+#!/bin/sh
+###the Hhh values are for tanbeta == 2 currently
+
+mkdir /nfs_scratch/ojalvo/LTau_Sep15
+cd /nfs_scratch/ojalvo/LTau_Sep15
+
+merge=1;
+weight=1;
+
+if [ $merge -eq 1 ]
+    then
+    /cms/sw/farmout/mergeFiles ggHhh260.root /hdfs/store/user/$USER/ggHhhttbb260-SUB-MCH 
+    /cms/sw/farmout/mergeFiles ggHhh300.root /hdfs/store/user/$USER/ggHhhttbb300-SUB-MCH 
+    /cms/sw/farmout/mergeFiles ggHhh350.root /hdfs/store/user/$USER/ggHhhttbb350-SUB-MCH 
+fi
+
+if [ $weight -eq 1 ]
+    then
+    EventWeightsForEfficiencyFast $1 outputFile='ggHhh260.root'
+    EventWeightsForEfficiencyFast $1 outputFile='ggHhh300.root'
+    EventWeightsForEfficiencyFast $1 outputFile='ggHhh350.root'
+    EventWeightsIterative outputFile='ggHhh260.root'      doOneD=1   weight=0.4214    type=6 histoName='MT/results'
+    EventWeightsIterative outputFile='ggHhh300.root'      doOneD=1   weight=0.1632    type=6 histoName='MT/results'
+    EventWeightsIterative outputFile='ggHhh350.root'      doOneD=1   weight=0.089    type=6 histoName='MT/results'
+fi
+
+#mergeFiles --copy-timeout=90 SMH125.root /hdfs/store/user/$USER/SMGGH125-SUB-MCH
+#mergeFiles --copy-timeout=90 HhhttbbMA300.root /hdfs/store/user/$USER/HhhttbbMA300-SUB-MCH
+#mergeFiles --copy-timeout=90 SMH125FastSIM.root /hdfs/store/user/$USER/SMH125FastSIM-SUB-MCH
+#mergeFiles --copy-timeout=90 WH_LNu_BB_125.root /hdfs/store/user/$USER/WH_LNu_BB_125-SUB-MCH

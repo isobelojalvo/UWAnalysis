@@ -54,7 +54,7 @@ double efficiency(double m, double m0, double sigma, double alpha, double n, dou
  }
 
 
-void readdir(TDirectory *dir,optutl::CommandLineParser parser,char TreeToUse[]); 
+bool readdir(TDirectory *dir,optutl::CommandLineParser parser,char TreeToUse[]); 
 
 
 float weightEMu(float pt1,float pt2) {
@@ -364,13 +364,14 @@ int main (int argc, char* argv[])
    char TreeToUse[80]="first" ;
    
    TFile *f = new TFile(parser.stringValue("outputFile").c_str(),"UPDATE");
-   readdir(f,parser,TreeToUse);
+   if(!readdir(f,parser,TreeToUse))
+     std::cout<<"Error weighting!!"<<std::endl;
    f->Close();
 
 } 
 
 
-void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]) 
+bool readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]) 
 {
   TDirectory *dirsav = gDirectory;
   TIter next(dir->GetListOfKeys());
@@ -428,4 +429,5 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 	strcpy(TreeToUse,stringA) ;
     }
   }
+  return true;
 }

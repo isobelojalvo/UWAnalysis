@@ -54,7 +54,7 @@ double efficiency(double m, double m0, double sigma, double alpha, double n, dou
  }
 
 
-void readdir(TDirectory *dir,optutl::CommandLineParser parser,char TreeToUse[]); 
+bool readdir(TDirectory *dir,optutl::CommandLineParser parser,char TreeToUse[]); 
 
 
 float weightEMu(float pt1,float pt2) {
@@ -365,22 +365,30 @@ int main (int argc, char* argv[])
    char TreeToUse[80]="first" ;
    
    TFile *f = new TFile(parser.stringValue("outputFile").c_str(),"UPDATE");
-   readdir(f,parser,TreeToUse);
+   if(readdir(f,parser,TreeToUse))
+     std::cout<<"Finished weighting, closing file!"<<std::endl;
+   else
+     std::cout<<"Error weighting, closed file!"<<std::endl;
    f->Close();
 
 } 
 
 
-void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]) 
+bool readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]) 
 {
   TDirectory *dirsav = gDirectory;
   TIter next(dir->GetListOfKeys());
   TKey *key;
   char stringA[80]="first";
+  char keyName[80]="no";
   
   while ((key = (TKey*)next())) {
+    sprintf(keyName,"%s",key->GetName());
+    std::cout<<"key Name "<<keyName<<std::endl;
+    if(strncmp(keyName,"MT",2)==0)
+      break;
   
-	printf("Found key=%s \n",key->GetName());
+    //printf("Found key=%s \n",key->GetName());
 	if(!strcmp(stringA,TreeToUse)) sprintf(TreeToUse,"%s",key->GetName());
 	printf("Strings %s %s \n",TreeToUse,stringA);
 	TObject *obj = key->ReadObj();
@@ -429,4 +437,7 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 	strcpy(TreeToUse,stringA) ;
     }
   }
+
+  return true;
+
 }

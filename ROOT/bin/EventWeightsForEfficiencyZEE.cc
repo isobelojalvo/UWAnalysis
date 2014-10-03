@@ -15,7 +15,7 @@
 
 
 
-void readdir(TDirectory *dir,optutl::CommandLineParser parser,char TreeToUse[]); 
+bool readdir(TDirectory *dir,optutl::CommandLineParser parser,char TreeToUse[]); 
 
 float ZEEFakeRate(float decayMode, float eta2, int genTaus, float genPt2){
 
@@ -50,13 +50,17 @@ int main (int argc, char* argv[])
    char TreeToUse[80]="first" ;
    
    TFile *f = new TFile(parser.stringValue("outputFile").c_str(),"UPDATE");
-   readdir(f,parser,TreeToUse);
+   if(!readdir(f,parser,TreeToUse))
+     std::cout<<"Failed Weighting, closing file! "<<std::endl;
+   else
+     std::cout<<"Success Weighting, closing file! "<<std::endl;
+
    f->Close();
 
 } 
 
 
-void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]) 
+bool readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]) 
 {
   TDirectory *dirsav = gDirectory;
   TIter next(dir->GetListOfKeys());
@@ -110,4 +114,5 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 	strcpy(TreeToUse,stringA) ;
     }
   }
+  return true;
 }

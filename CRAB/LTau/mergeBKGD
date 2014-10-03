@@ -1,61 +1,78 @@
 #!/bin/sh
-
-cd /scratch/ojalvo/LTau_113
+mkdir /nfs_scratch/ojalvo/LTau_Aug15
+cd /nfs_scratch/ojalvo/LTau_Aug15
 W=1;Z=1;TOP=1;VV=1;
 
-nohup mergeFiles --merge-only  --copy-timeout=90 ZJETS.root /hdfs/store/user/$USER/DYJets-SUB-MC &
-nohup mergeFiles --merge-only  --copy-timeout=90 W_1.root /hdfs/store/user/$USER/WJets_v1-SUB-MC &
-nohup mergeFiles --merge-only  --copy-timeout=90 W_2.root /hdfs/store/user/$USER/WJets_v2-SUB-MC &
-nohup mergeFiles --merge-only   --copy-timeout=90 W1JETS.root /hdfs/store/user/$USER/W1Jets-SUB-MC &
-nohup mergeFiles --merge-only   --copy-timeout=90 W2JETS.root /hdfs/store/user/$USER/W2Jets-SUB-MC &
-nohup mergeFiles --merge-only   --copy-timeout=90 W3JETS.root /hdfs/store/user/$USER/W3Jets-SUB-MC &
-nohup mergeFiles --merge-only   --copy-timeout=90 W4JETS.root /hdfs/store/user/$USER/W4Jets-SUB-MC &
-nohup mergeFiles --merge-only  --copy-timeout=90 TOP.root /hdfs/store/user/$USER/TTBar-SUB-MC &
-mergeFiles --merge-only  --copy-timeout=90 WZ-3L.root /hdfs/store/user/$USER/WZ3L-SUB-MC
-nohup mergeFiles --merge-only  --copy-timeout=90 WW-2L.root /hdfs/store/user/$USER/WW2L-SUB-MC &
-nohup mergeFiles  --copy-timeout=90 ZZ-4L.root /hdfs/store/user/$USER/ZZ4L-SUB-MC &
-nohup mergeFiles   --copy-timeout=90 WZ-LLQQ.root /hdfs/store/user/$USER/WZ2L2Q-SUB-MC &
-nohup mergeFiles --merge-only  --copy-timeout=90 ZZ-LLQQ.root /hdfs/store/user/$USER/ZZ2L2Q-SUB-MC &
-#mergeFiles   --copy-timeout=90 ZZ-LLVV.root /hdfs/store/user/$USER/ZZ2L2V-SUB-MC
-mergeFiles --merge-only   --copy-timeout=90 tW.root /hdfs/store/user/$USER/t_tW-SUB-MC
-mergeFiles --merge-only   --copy-timeout=90 tBarW.root /hdfs/store/user/$USER/tBar_tW-SUB-MC
-nohup mergeFiles --merge-only   --copy-timeout=90 TT_LL.root /hdfs/store/user/$USER/TTBar_LL-SUB-MC &
-nohup mergeFiles --merge-only   --copy-timeout=90 TT_HH.root /hdfs/store/user/$USER/TTBar_HH-SUB-MC &
-nohup mergeFiles --merge-only   --copy-timeout=90 TT_HL.root /hdfs/store/user/$USER/TTBar_HL-SUB-MC &
 
-mkdir /scratch/ojalvo/unweighted
-cp /scratch/ojalvo/LTau_113/* /scratch/ojalvo/unweighted/.
+nohup /cms/sw/farmout/mergeFiles    W_1.root /hdfs/store/user/$USER/WJets_v1-SUB-MCW &
+nohup /cms/sw/farmout/mergeFiles    W_2.root /hdfs/store/user/$USER/WJets_v2-SUB-MCW &
+nohup /cms/sw/farmout/mergeFiles  Z1JETS.root /hdfs/store/user/$USER/Z1Jets-SUB-MCZ &
+nohup /cms/sw/farmout/mergeFiles  Z2JETS.root /hdfs/store/user/$USER/Z2Jets-SUB-MCZ &
+nohup /cms/sw/farmout/mergeFiles  Z3JETS.root /hdfs/store/user/$USER/Z3Jets-SUB-MCZ &
+nohup /cms/sw/farmout/mergeFiles  Z4JETS.root /hdfs/store/user/$USER/Z4Jets-SUB-MCZ &
+nohup /cms/sw/farmout/mergeFiles    W1JETS_1.root /hdfs/store/user/$USER/W1Jets_1-SUB-MCW &
+nohup /cms/sw/farmout/mergeFiles    W2JETS_1.root /hdfs/store/user/$USER/W2Jets_1-SUB-MCW &
+nohup /cms/sw/farmout/mergeFiles    W3JETS_1.root /hdfs/store/user/$USER/W3Jets_1-SUB-MCW &
+nohup /cms/sw/farmout/mergeFiles    W4JETS.root /hdfs/store/user/$USER/W4Jets-SUB-MCW &
+nohup /cms/sw/farmout/mergeFiles    W1JETS_2.root /hdfs/store/user/$USER/W1Jets_2-SUB-MCW &
+nohup /cms/sw/farmout/mergeFiles    W2JETS_2.root /hdfs/store/user/$USER/W2Jets_2-SUB-MCW &
+nohup /cms/sw/farmout/mergeFiles    W3JETS_2.root /hdfs/store/user/$USER/W3Jets_2-SUB-MCW &
+nohup /cms/sw/farmout/mergeFiles    TOP.root /hdfs/store/user/$USER/TTBar-SUB-MC 
+nohup /cms/sw/farmout/mergeFiles    WZ-3L.root /hdfs/store/user/$USER/WZ3L-SUB-MC
+nohup /cms/sw/farmout/mergeFiles    WW-2L.root /hdfs/store/user/$USER/WW2L-SUB-MC 
+nohup /cms/sw/farmout/mergeFiles   ZZ-4L.root /hdfs/store/user/$USER/ZZ4L-SUB-MC 
+nohup /cms/sw/farmout/mergeFiles    WZ-LLQQ.root /hdfs/store/user/$USER/WZ2L2Q-SUB-MC 
+nohup /cms/sw/farmout/mergeFiles    ZZ-LLQQ.root /hdfs/store/user/$USER/ZZ2L2Q-SUB-MC 
+#/cms/sw/farmout/mergeFiles    ZZ-LLVV.root /hdfs/store/user/$USER/ZZ2L2V-SUB-MC
+nohup /cms/sw/farmout/mergeFiles     tW.root /hdfs/store/user/$USER/t_tW-SUB-MC 
+nohup /cms/sw/farmout/mergeFiles     tBarW.root /hdfs/store/user/$USER/tBar_tW-SUB-MC 
+nohup /cms/sw/farmout/mergeFiles    ZJETSNS.root /hdfs/store/user/$USER/DYJets-SUB-MCZ 
+nohup /cms/sw/farmout/mergeFiles   TOPNS.root /hdfs/store/user/$USER/TTBar-SUB-MC 
+nohup /cms/sw/farmout/mergeFiles   TT_LL.root /hdfs/store/user/$USER/TTBar_LL-SUB-MC 
+nohup /cms/sw/farmout/mergeFiles   TT_HL.root /hdfs/store/user/$USER/TTBar_HL-SUB-MC 
+nohup /cms/sw/farmout/mergeFiles   TT_HH.root /hdfs/store/user/$USER/TTBar_HH-SUB-MC 
+
+
+mkdir /nfs_scratch/ojalvo/unweighted
+cp /nfs_scratch/ojalvo/LTau_Aug15/* /nfs_scratch/ojalvo/unweighted/.
+
+EventWeightsIterative outputFile='ZJETSNS.root'   doOneD=1   weight=3504   type=3 histoName='MT/results'
+EventWeightsIterative outputFile='TOPNS.root'      doOneD=1   weight=225.2    type=6 histoName='MT/results'
 
 if [ -e W_1.root ] && [ -e W_2.root ] && [ $W -eq 1 ]
     then
     hadd W.root W_1.root W_2.root
+    hadd  W1JETS.root W1JETS_1.root W1JETS_2.root
+    hadd  W2JETS.root W2JETS_1.root W2JETS_2.root
+    hadd  W3JETS.root W3JETS_1.root W3JETS_2.root
 else
-    echo " Error in WJETS merging " > logMerge
+    echo " Error in WJETS merging " 
 fi
 
-if [ -e ZJETS.root ] && [ $Z -eq 1 ]
+if [ $Z -eq 1 ]
     then
-    EventWeightsIterative outputFile='ZJETS.root'   doOneD=1   weight=3504   type=3 histoName='MT/results'
+    EventWeightsIterativeZJets   doOneD=1   weight=3504   type=3 histoName='MT/results'
+    #EventWeightsIterative outputFile='ZJETS.root'   doOneD=1   weight=3504   type=3 histoName='MT/results'
+    hadd  ZJETS.root Z.root Z1JETS.root Z2JETS.root Z3JETS.root Z4JETS.root
     EventWeightsForEfficiencyFast $1 outputFile='ZJETS.root' 
     EventWeightsForEfficiencyZEE $1 outputFile='ZJETS.root' 
 else
     echo " Error in ZJETS merging " >> logMerge
-
 fi
 
 if [ -e W.root ] && [ -e W1JETS.root ] && [ -e W2JETS.root  ] && [ -e W3JETS.root  ] && [ -e W4JETS.root  ] && [ $W -eq 1 ]
     then
     EventWeightsIterativeWJets       doOneD=1   weight=36257   type=4 histoName='MT/results'
-
     hadd WJETS.root W.root W1JETS.root W2JETS.root W3JETS.root W4JETS.root
     EventWeightsForEfficiencyFastWJets $1 outputFile='WJETS.root'
 else
     echo " Error in W merging " >> logMerge
 fi
 
-if [ -e TOP.root ] && [ -e TT_LL.root ] && [ -e TT_HH.root ] && [ -e TT_HL.root ] && [ $TOP -eq 1 ]
+#if [ -e TOP.root ] && [ -e TT_LL.root ] && [ -e TT_HH.root ] && [ -e TT_HL.root ] && [ $TOP -eq 1 ]
+if [ -e TT_LL.root ] && [ -e TT_HH.root ] && [ -e TT_HL.root ] && [ $TOP -eq 1 ]
     then
-    EventWeightsIterative outputFile='TOP.root'      doOneD=1   weight=225.2    type=6 histoName='MT/results'
+    #EventWeightsIterative outputFile='TOP.root'      doOneD=1   weight=225.2    type=6 histoName='MT/results'
     EventWeightsIterative outputFile='TT_LL.root'      doOneD=1   weight=26.2    type=6 histoName='MT/results'
     EventWeightsIterative outputFile='TT_HH.root'      doOneD=1   weight=114    type=6 histoName='MT/results'
     EventWeightsIterative outputFile='TT_HL.root'      doOneD=1   weight=109.3    type=6 histoName='MT/results'

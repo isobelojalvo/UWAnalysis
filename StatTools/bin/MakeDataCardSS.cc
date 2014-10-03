@@ -1,5 +1,5 @@
 
-#include "UWAnalysis/StatTools/interface/DataCardCreatorHhh.h"
+#include "UWAnalysis/StatTools/interface/DataCardCreatorSS.h"
 #include "PhysicsTools/FWLite/interface/CommandLineParser.h" 
 
 
@@ -28,9 +28,7 @@ int main (int argc, char* argv[])
    parser.addOption("bSelection",optutl::CommandLineParser::kString,"Btagging Requirement for MSSM ","(nJetsBTag3Pt20>0&&nJetsPt30<2)");
    parser.addOption("antibSelection",optutl::CommandLineParser::kString,"Anti Btagging requirement for MSSM","(nJetsBTag3Pt20==0&&nJetsPt30<2)");
    parser.addOption("btagSelection",optutl::CommandLineParser::kString,"btagSelection","btag>0");
-   parser.addOption("btagSelection2",optutl::CommandLineParser::kString,"btagSelection","btag>0");
    parser.addOption("bTagSF",optutl::CommandLineParser::kString,"bTagSF","1");
-   parser.addOption("bTagSF2",optutl::CommandLineParser::kString,"bTagSF","1");
    parser.addOption("btagRelaxedSelection",optutl::CommandLineParser::kString,"bTag Relaxed Selection","");
    parser.addOption("trigSelection",optutl::CommandLineParser::kString,"Trigger Selection","lTrigger>0&&tauTrigger>0");
    parser.addOption("blinding",optutl::CommandLineParser::kString,"Blinding","(svMass>0)");
@@ -86,7 +84,7 @@ int main (int argc, char* argv[])
 
    parser.parseArguments (argc, argv);
    std::vector<int> bitmask = parser.integerVector("bitMask");
-   DataCardCreatorHhh creator(parser);
+   DataCardCreatorSS creator(parser);
 
    printf("Binning HighSTat has %d entries ,LowStat has %d entries\n",(int)parser.doubleVector("binningHighStat").size(),(int)parser.doubleVector("binningLowStat").size());
 
@@ -98,36 +96,29 @@ int main (int argc, char* argv[])
      
      BkgOutput output = creator.runOSLSMT(parser.stringValue("preselection"),"_inclusive",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"));
 
-     creator.makeHeavyHiggsShape(parser.stringValue("preselection"),parser.stringValue("preselection"),"_inclusive");
+     creator.makeHeavyHiggsShape(parser.stringValue("preselection"),"_inclusive");
 
-     
+     /*
      if(bitmask[0]==1){	 
        creator.setBinning(parser.doubleVector("binningLowStat"));
        std::string MSSM1 = parser.stringValue("btagSelection"); 
        std::string bTagSF1 = parser.stringValue("bTagSF");
-       //std::string MSSM2 = parser.stringValue("btagSelection"); 
-       //std::string bTagSF2 = parser.stringValue("bTagSF");
+       std::string MSSM2 = parser.stringValue("btagSelection"); 
+       std::string bTagSF2 = parser.stringValue("bTagSF");
        
-       creator.makeHeavyHiggsShape(parser.stringValue("preselection"),MSSM1,"_1btag");
-       std::cout<<std::endl;
-       std::cout<<"========Running 1 btag selection========"<<std::endl;
-       BkgOutput outputMSSM1btag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection"),parser.stringValue("preselection"),MSSM1,"_1btag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
-							     1,//parser.doubleValue("zExtrap"),
-							     1,//parser.doubleValue("zExtrapErr"),
-							     bTagSF1
-							     );
-       std::string MSSM2 = parser.stringValue("btagSelection2"); 
-       std::string bTagSF2 = parser.stringValue("bTagSF2");							     
+       creator.makeHeavyHiggsShape(parser.stringValue("preselection")+"&&"+MSSM1,"_1btag");
+       
+       BkgOutput outputMSSM1btag = creator.runFullExtrapolationBTag(parser.stringValue("preselection"),MSSM1,"_1btag",output,
+								 parser.doubleValue("bFactorZ"),
+								 parser.doubleValue("bFactorZErr"),
+								 parser.doubleValue("bFactorW"),
+								 parser.doubleValue("bFactorWErr"),
+								 parser.doubleValue("topSF"),
+								 parser.doubleValue("bIDErr"),
+								 parser.stringValue("zEmbeddedSample"),
+								 bTagSF1
+								 );
 
-       creator.makeHeavyHiggsShape(parser.stringValue("preselection"),MSSM2,"_2btag");
-       std::cout<<std::endl;
-       std::cout<<"========Running 2 btag selection========"<<std::endl;
-       BkgOutput outputMSSM2btag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection"),parser.stringValue("preselection"),MSSM2,"_2btag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
-							     1,//parser.doubleValue("zExtrap"),
-							     1,//parser.doubleValue("zExtrapErr"),
-							     bTagSF2
-							     );
-       /*
        BkgOutput outputMSSM2btag = creator.runFullExtrapolationBTag(parser.stringValue("preselection"),MSSM2,"_2btag",output,
 								 parser.doubleValue("bFactorZ"),
 								 parser.doubleValue("bFactorZErr"),
@@ -138,9 +129,9 @@ int main (int argc, char* argv[])
 								 parser.stringValue("zEmbeddedSample"),
 								 bTagSF2
 								 );
-       */
+
      }
-      
+     */ 
 
 
 
