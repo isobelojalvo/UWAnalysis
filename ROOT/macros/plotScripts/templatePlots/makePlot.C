@@ -422,7 +422,7 @@
    }
    else if(s==4) {
      TH1F * MSSM = (TH1F*)(f->Get(dir+"/ggHTohhTo2Tau2B300"));
-     MSSM->Scale(1);
+     MSSM->Scale(10);
      MSSM->SetLineStyle(11);
 
      signal=MSSM;
