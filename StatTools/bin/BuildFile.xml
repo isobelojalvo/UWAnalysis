@@ -20,6 +20,8 @@
 <bin   name="MakeDataCard" file="MakeDataCard.cc">
 </bin>
 
+<bin   name="MakeDataCardHhh" file="MakeDataCardHhh.cc">
+</bin>
 
 <bin   name="MakeNormalization" file="MakeNormalization.cc">
 </bin>
