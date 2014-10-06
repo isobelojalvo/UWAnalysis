@@ -199,9 +199,9 @@ class DataCardCreatorHhh {
     if(muID_!=0&&eleID_==0) {legCorr*=muID_*tauID_;}
     if(muID_==0&&eleID_!=0) {legCorr*=eleID_*tauID_;}
 
-    tmp= createHistogramAndShiftsFinal(dir_+"ggHhh260.root","Hhh260",("("+preselection+"&&"+categoryselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*"+weight_),luminosity_*legCorr,prefix);
-    tmp= createHistogramAndShiftsFinal(dir_+"ggHhh300.root","Hhh300",("("+preselection+"&&"+categoryselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*"+weight_),luminosity_*legCorr,prefix);
-    tmp= createHistogramAndShiftsFinal(dir_+"ggHhh350.root","Hhh350",("("+preselection+"&&"+categoryselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*"+weight_),luminosity_*legCorr,prefix);
+    tmp= createHistogramAndShiftsFinal(dir_+"ggHhh260.root","ggHTohhTo2Tau2B260",("("+preselection+"&&"+categoryselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*"+weight_),luminosity_*legCorr,prefix);
+    tmp= createHistogramAndShiftsFinal(dir_+"ggHhh300.root","ggHTohhTo2Tau2B300",("("+preselection+"&&"+categoryselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*"+weight_),luminosity_*legCorr,prefix);
+    tmp= createHistogramAndShiftsFinal(dir_+"ggHhh350.root","ggHTohhTo2Tau2B350",("("+preselection+"&&"+categoryselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*"+weight_),luminosity_*legCorr,prefix);
 
   }
 
