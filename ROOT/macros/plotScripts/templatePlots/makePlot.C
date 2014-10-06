@@ -421,7 +421,7 @@
      applySignalStyle(signal);
    }
    else if(s==4) {
-     TH1F * MSSM = (TH1F*)(f->Get(dir+"/Hhh300"));
+     TH1F * MSSM = (TH1F*)(f->Get(dir+"/ggHTohhTo2Tau2B300"));
      MSSM->Scale(1);
      MSSM->SetLineStyle(11);
 
