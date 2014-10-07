@@ -627,7 +627,7 @@
 
   latex.SetTextFont(42);
 	if(year == "2012")
-  		latex.DrawLatex(0.20,0.94,"CMS Preliminary 2012, 19.3 fb^{-1}, #sqrt{s} = 8 TeV      "+channel);
+  		latex.DrawLatex(0.20,0.94,"CMS Preliminary 2012, 19.7 fb^{-1}, #sqrt{s} = 8 TeV      "+channel);
   	else
   		latex.DrawLatex(0.20,0.94,"CMS Preliminary 2011, 4.9 fb^{-1}, #sqrt{s} = 7 TeV      "+channel);
 
@@ -961,7 +961,7 @@ makeLTauStackPF(TString name,TString file,TString dir,int s,TString labelX,TStri
   latex.SetTextFont(42);
 
 	if(year == "2012")
-  		latex.DrawLatex(0.20,0.94,"CMS Preliminary 2012, 19.3 fb^{-1}, #sqrt{s} = 8 TeV      "+channel);
+  		latex.DrawLatex(0.20,0.94,"CMS Preliminary 2012, 19.7 fb^{-1}, #sqrt{s} = 8 TeV      "+channel);
   	else
   		latex.DrawLatex(0.20,0.94,"CMS Preliminary 2011, 4.9 fb^{-1}, #sqrt{s} = 7 TeV      "+channel);
 
