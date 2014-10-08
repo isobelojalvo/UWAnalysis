@@ -70,11 +70,11 @@ class PATJetMVAEmbedder : public edm::EDProducer {
 		//addfile
 		//XML or ROOT
 
-		//    edm::FileInPath file1("UWAnalysis/Configuration/data/factoryJetRegNewGenJetsAll_BDT_LT100.weights.xml");
-		//    inputFileType_ = kXML;
+		edm::FileInPath file1("UWAnalysis/Configuration/data/factoryJetRegNewGenJetsAll_BDT.weights.xml");
+		inputFileType_ = kXML;
 
-		edm::FileInPath file1("UWAnalysis/Configuration/data/gbrBjetEnReg_allJetPt.root");
-		inputFileType_ = kROOT;
+		//edm::FileInPath file1("UWAnalysis/Configuration/data/gbrBjetEnReg_allJetPt.root");
+		//inputFileType_ = kROOT;
 
 
 		if (inputFileType_ == kXML) {
@@ -87,9 +87,9 @@ class PATJetMVAEmbedder : public edm::EDProducer {
 			reader->AddVariable("jetNhf", &jetNhf );
 			reader->AddVariable("jetElf", &jetElf );
 			reader->AddVariable("jetMuf", &jetMuf );
-			reader->AddVariable("jetVtxPt", &jetVtxPt );
-			reader->AddVariable("jetVtx3dL", &jetVtx3dL );
-			reader->AddVariable("jetVtx3deL", &jetVtx3deL );
+//			reader->AddVariable("jetVtxPt", &jetVtxPt );
+//			reader->AddVariable("jetVtx3dL", &jetVtx3dL );
+//			reader->AddVariable("jetVtx3deL", &jetVtx3deL );
 			reader->AddSpectator( "jetPt",  &jetPt);
 			reader->AddSpectator( "jetGenPt",  &jetGenPt );
 			reader->AddSpectator( "jetEta",  &jetEta);
@@ -127,9 +127,9 @@ class PATJetMVAEmbedder : public edm::EDProducer {
 					jetMuf    =0;
 					jetNhf    =0;
 					jetPhf    =0;
-					jetVtxPt  =0;
-					jetVtx3dL =0;
-					jetVtx3deL=0;
+//					jetVtxPt  =0;
+//					jetVtx3dL =0;
+//					jetVtx3deL=0;
 
 					if(jet.pt()>20){
 						if(jet.bDiscriminator("combinedSecondaryVertexBJetTags")>0)
@@ -149,13 +149,13 @@ class PATJetMVAEmbedder : public edm::EDProducer {
 							jetNhf    =jet.neutralHadronEnergyFraction();
 						if(jet.photonEnergyFraction()>0)
 							jetPhf    =jet.photonEnergyFraction();
-						if(jet.userFloat("VtxPt")>0)
+/*						if(jet.userFloat("VtxPt")>0)
 							jetVtxPt  =jet.userFloat("VtxPt");
 						if(jet.userFloat("Vtx3dL")>0)
 							jetVtx3dL =jet.userFloat("Vtx3dL");
 						if(jet.userFloat("Vtx3deL")>0)
 							jetVtx3deL=jet.userFloat("Vtx3deL");
-
+*/
 						//printf("SVMassb %f TCHPbtag %f nTracksSSV %f threedcharm %f SVNV %f\n",SVMassb,TCHPbtag,nTracksSSV,threedcharm,SVNV);
 						//if(SVMassb>0&&TCHPbtag>0&&nTracksSSV>0&&threedcharm>0&&SVNV>0)
 
@@ -173,9 +173,9 @@ class PATJetMVAEmbedder : public edm::EDProducer {
 							mvaInput_[kJetNhf]     = jetNhf;
 							mvaInput_[kJetElf]     = jetElf;
 							mvaInput_[kJetMuf]     = jetMuf;
-							mvaInput_[kJetVtxPt]   = jetVtxPt;
-							mvaInput_[kJetVtx3dL]  = jetVtx3dL;
-							mvaInput_[kJetVtx3deL] = jetVtx3deL;
+//							mvaInput_[kJetVtxPt]   = jetVtxPt;
+//							mvaInput_[kJetVtx3dL]  = jetVtx3dL;
+//							mvaInput_[kJetVtx3deL] = jetVtx3deL;
 							mvaInput_[kJetGenPt]   = 0.; //really? 
 
 							if(inputFileType_ == kXML){mvaFi = reader->EvaluateMVA("BDT",0);}
