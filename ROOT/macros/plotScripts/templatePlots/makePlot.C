@@ -457,7 +457,7 @@
 	   else if(s==3)
 		 l->AddEntry(signal,"SM H(125) #rightarrow #tau #tau","F");
 	   if(s==4){
-	     l->AddEntry(signal,"#splitline{10X H#rightarrow hh#rightarrow #tau#tau bb}{ (m_{H}=300 GeV,tan#beta=5)}","F");
+	     l->AddEntry(signal,"#splitline{10X H#rightarrow hh#rightarrow #tau#tau bb}{ (m_{H}=300 GeV,tan#beta=2)}","F");
 	     l->SetTextSize(0.025);
 	   }
    }
