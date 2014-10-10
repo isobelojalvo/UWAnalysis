@@ -488,8 +488,7 @@ class DataCardCreatorHhh {
 
     //TODO: make the pdg selection cleaner Check if we are using pdg selection for fullExtrapolation
 
-    //std::pair<float,float> zttYield    = createHistogramAndShiftsFinal(zttFile_,"ZTTTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+ZTT_genTauSel_
-    std::pair<float,float> zttYield    = createHistogramAndShiftsFinal(zttFile_,"ZTTTMP",("("+preSelection+"&&"+trigSelection_+"&&"+charge_+"&&"+ZTT_genTauSel_
+    std::pair<float,float> zttYield    = createHistogramAndShiftsFinal(zttFile_,"ZTTTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+ZTT_genTauSel_
 											  +")"+"*"+weight_),luminosity_*zttScale_*leg1Corr*tauID_,prefix);
     std::pair<float,float> ztt_ll      = createHistogramAndShiftsFinal(zttFile_,"ZTT_LL",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&"+ZTTLL_genTauReject_+")"+"*"+weight_),luminosity_*zttScale_*leg1Corr*tauID_,prefix);
     
@@ -498,8 +497,7 @@ class DataCardCreatorHhh {
     }
     else{
       //create correction factor for MT and Pzeta cuts
-      //std::pair<float,float> dataWCut_Before  = createHistogramAndShifts(zShape,"ZTTWCut",("("+preSelection+"&&"+osSignalSelection_+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),1.0,prefix);
-      std::pair<float,float> dataWCut_Before  = createHistogramAndShifts(zShape,"ZTTWCut",("("+preSelection+"&&"+charge_+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),1.0,prefix);
+      std::pair<float,float> dataWCut_Before  = createHistogramAndShifts(zShape,"ZTTWCut",("("+preSelection+"&&"+osSignalSelection_+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),1.0,prefix);
       std::pair<float,float> zttShape       = createHistogramAndShifts(zShape,"ZTT",("("+preSelection+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),1.0,prefix);
 
       //std::pair<float,float> mcWCut_Before    = createHistogramAndShiftsFinal(zttFile_,"ZTTWCutMC",("("+preSelection+"&&"+categorySelection+"&&"+trigSelection_+"&&genTaus>0&&genVisPt2>18&&(!((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8))))*"+weight_),luminosity_*zttScale_*leg1Corr*tauID_,prefix);
