@@ -227,16 +227,3 @@ class PATJetMVAEmbedder : public edm::EDProducer {
 
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
