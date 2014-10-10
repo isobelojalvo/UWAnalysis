@@ -735,7 +735,6 @@ class DataCardCreatorHhh {
 
     //First get data in Sideband
     std::pair<float,float> dataYSdb     = createHistogramAndShiftsFinal(dataFile_,"data_obs_sdb","("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+osWSelection_+")",scaleUp_,prefix);
-//std::cout<<preSelection<<"&&"<<trigSelection_<<"&&"<<categorySelection<<"&&"<<osWSelection_<<")"<<std::endl;
     std::pair<float,float> dataYieldSdb = convertToPoisson(dataYSdb);
 
     //then get ttbar in sideband
