@@ -488,7 +488,8 @@ class DataCardCreatorHhh {
 
     //TODO: make the pdg selection cleaner Check if we are using pdg selection for fullExtrapolation
 
-    std::pair<float,float> zttYield    = createHistogramAndShiftsFinal(zttFile_,"ZTTTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+ZTT_genTauSel_
+    //std::pair<float,float> zttYield    = createHistogramAndShiftsFinal(zttFile_,"ZTTTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+ZTT_genTauSel_
+    std::pair<float,float> zttYield    = createHistogramAndShiftsFinal(zttFile_,"ZTTTMP",("("+preSelection+"&&"+trigSelection_+"&&"+charge_+"&&"+ZTT_genTauSel_
 											  +")"+"*"+weight_),luminosity_*zttScale_*leg1Corr*tauID_,prefix);
     std::pair<float,float> ztt_ll      = createHistogramAndShiftsFinal(zttFile_,"ZTT_LL",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&"+ZTTLL_genTauReject_+")"+"*"+weight_),luminosity_*zttScale_*leg1Corr*tauID_,prefix);
     
@@ -497,7 +498,8 @@ class DataCardCreatorHhh {
     }
     else{
       //create correction factor for MT and Pzeta cuts
-      std::pair<float,float> dataWCut_Before  = createHistogramAndShifts(zShape,"ZTTWCut",("("+preSelection+"&&"+osSignalSelection_+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),1.0,prefix);
+      //std::pair<float,float> dataWCut_Before  = createHistogramAndShifts(zShape,"ZTTWCut",("("+preSelection+"&&"+osSignalSelection_+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),1.0,prefix);
+      std::pair<float,float> dataWCut_Before  = createHistogramAndShifts(zShape,"ZTTWCut",("("+preSelection+"&&"+charge_+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),1.0,prefix);
       std::pair<float,float> zttShape       = createHistogramAndShifts(zShape,"ZTT",("("+preSelection+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),1.0,prefix);
 
       //std::pair<float,float> mcWCut_Before    = createHistogramAndShiftsFinal(zttFile_,"ZTTWCutMC",("("+preSelection+"&&"+categorySelection+"&&"+trigSelection_+"&&genTaus>0&&genVisPt2>18&&(!((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8))))*"+weight_),luminosity_*zttScale_*leg1Corr*tauID_,prefix);
@@ -735,6 +737,7 @@ class DataCardCreatorHhh {
 
     //First get data in Sideband
     std::pair<float,float> dataYSdb     = createHistogramAndShiftsFinal(dataFile_,"data_obs_sdb","("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+osWSelection_+")",scaleUp_,prefix);
+//std::cout<<preSelection<<"&&"<<trigSelection_<<"&&"<<categorySelection<<"&&"<<osWSelection_<<")"<<std::endl;
     std::pair<float,float> dataYieldSdb = convertToPoisson(dataYSdb);
 
     //then get ttbar in sideband
@@ -1145,7 +1148,7 @@ std::pair<float,float> makeHistogram(TTree* tree,std::string folder,std::string 
 
 	std::pair<float,float> high;
 	std::pair<float,float> low;
-	
+std::cout<<preselection<<" "<<wSelection_<<std::endl;	
 	high = makeHistogram(t,channel_+postfix,"W_High",("("+preselection+"&&"+wSelection_+")*"+weight_+"*"+Wweight).c_str());
 	low = makeHistogram(t,channel_+postfix,"W_Low",("("+preselection+"&&"+signalSelection_+")*"+weight_+"*"+Wweight).c_str());
 
@@ -1154,6 +1157,10 @@ std::pair<float,float> makeHistogram(TTree* tree,std::string folder,std::string 
     float factorerrSyst = factor*wFactorErr_;
     float factorErr = sqrt(factorerrStat*factorerrStat+factorerrSyst*factorerrSyst);
 
+   if(high.first==0.){ 
+	factor=0.;
+	factorErr=0.;
+     }
     return std::make_pair(factor,factorErr);   
 
   }
@@ -1172,7 +1179,10 @@ std::pair<float,float> makeHistogram(TTree* tree,std::string folder,std::string 
     float factorerrStat = sqrt(low.second*low.second + high.second*high.second);
     float factorerrSyst = factor*wFactorErr_;
     float factorErr = sqrt(factorerrStat*factorerrStat+factorerrSyst*factorerrSyst);
-
+    if(high.first==0.){
+        factor=0.;
+        factorErr=0.;
+     }
     return std::make_pair(factor,factorErr);   
 
   }
@@ -1191,7 +1201,10 @@ std::pair<float,float> makeHistogram(TTree* tree,std::string folder,std::string 
     float factorerrStat = sqrt(low.second*low.second + high.second*high.second);
     float factorerrSyst = factor*wFactorErr_;
     float factorErr = sqrt(factorerrStat*factorerrStat+factorerrSyst*factorerrSyst);
-
+   if(high.first==0.){
+        factor=0.;
+        factorErr=0.;
+     }
     return std::make_pair(factor,factorErr);   
 
   }
