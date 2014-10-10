@@ -421,8 +421,8 @@
      applySignalStyle(signal);
    }
    else if(s==4) {
-     TH1F * MSSM = (TH1F*)(f->Get(dir+"/Hhh300"));
-     MSSM->Scale(1);
+     TH1F * MSSM = (TH1F*)(f->Get(dir+"/ggHTohhTo2Tau2B300"));
+     MSSM->Scale(10);
      MSSM->SetLineStyle(11);
 
      signal=MSSM;
@@ -457,7 +457,7 @@
 	   else if(s==3)
 		 l->AddEntry(signal,"SM H(125) #rightarrow #tau #tau","F");
 	   if(s==4){
-	     l->AddEntry(signal,"#splitline{10X H#rightarrow hh#rightarrow #tau#tau bb}{ (m_{H}=300 GeV,tan#beta=5)}","F");
+	     l->AddEntry(signal,"#splitline{10X H#rightarrow hh#rightarrow #tau#tau bb}{ (m_{H}=300 GeV,tan#beta=2)}","F");
 	     l->SetTextSize(0.025);
 	   }
    }
@@ -627,7 +627,7 @@
 
   latex.SetTextFont(42);
 	if(year == "2012")
-  		latex.DrawLatex(0.20,0.94,"CMS Preliminary 2012, 19.3 fb^{-1}, #sqrt{s} = 8 TeV      "+channel);
+  		latex.DrawLatex(0.20,0.94,"CMS Preliminary 2012, 19.7 fb^{-1}, #sqrt{s} = 8 TeV      "+channel);
   	else
   		latex.DrawLatex(0.20,0.94,"CMS Preliminary 2011, 4.9 fb^{-1}, #sqrt{s} = 7 TeV      "+channel);
 
@@ -961,7 +961,7 @@ makeLTauStackPF(TString name,TString file,TString dir,int s,TString labelX,TStri
   latex.SetTextFont(42);
 
 	if(year == "2012")
-  		latex.DrawLatex(0.20,0.94,"CMS Preliminary 2012, 19.3 fb^{-1}, #sqrt{s} = 8 TeV      "+channel);
+  		latex.DrawLatex(0.20,0.94,"CMS Preliminary 2012, 19.7 fb^{-1}, #sqrt{s} = 8 TeV      "+channel);
   	else
   		latex.DrawLatex(0.20,0.94,"CMS Preliminary 2011, 4.9 fb^{-1}, #sqrt{s} = 7 TeV      "+channel);
 

@@ -199,9 +199,9 @@ class DataCardCreatorHhh {
     if(muID_!=0&&eleID_==0) {legCorr*=muID_*tauID_;}
     if(muID_==0&&eleID_!=0) {legCorr*=eleID_*tauID_;}
 
-    tmp= createHistogramAndShiftsFinal(dir_+"ggHhh260.root","Hhh260",("("+preselection+"&&"+categoryselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*"+weight_),luminosity_*legCorr,prefix);
-    tmp= createHistogramAndShiftsFinal(dir_+"ggHhh300.root","Hhh300",("("+preselection+"&&"+categoryselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*"+weight_),luminosity_*legCorr,prefix);
-    tmp= createHistogramAndShiftsFinal(dir_+"ggHhh350.root","Hhh350",("("+preselection+"&&"+categoryselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*"+weight_),luminosity_*legCorr,prefix);
+    tmp= createHistogramAndShiftsFinal(dir_+"ggHhh260.root","ggHTohhTo2Tau2B260",("("+preselection+"&&"+categoryselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*"+weight_),luminosity_*legCorr,prefix);
+    tmp= createHistogramAndShiftsFinal(dir_+"ggHhh300.root","ggHTohhTo2Tau2B300",("("+preselection+"&&"+categoryselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*"+weight_),luminosity_*legCorr,prefix);
+    tmp= createHistogramAndShiftsFinal(dir_+"ggHhh350.root","ggHTohhTo2Tau2B350",("("+preselection+"&&"+categoryselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*"+weight_),luminosity_*legCorr,prefix);
 
   }
 
@@ -1145,7 +1145,6 @@ std::pair<float,float> makeHistogram(TTree* tree,std::string folder,std::string 
 
 	std::pair<float,float> high;
 	std::pair<float,float> low;
-	
 	high = makeHistogram(t,channel_+postfix,"W_High",("("+preselection+"&&"+wSelection_+")*"+weight_+"*"+Wweight).c_str());
 	low = makeHistogram(t,channel_+postfix,"W_Low",("("+preselection+"&&"+signalSelection_+")*"+weight_+"*"+Wweight).c_str());
 
@@ -1154,6 +1153,10 @@ std::pair<float,float> makeHistogram(TTree* tree,std::string folder,std::string 
     float factorerrSyst = factor*wFactorErr_;
     float factorErr = sqrt(factorerrStat*factorerrStat+factorerrSyst*factorerrSyst);
 
+   if(high.first==0.){ 
+	factor=0.;
+	factorErr=0.;
+     }
     return std::make_pair(factor,factorErr);   
 
   }
@@ -1172,7 +1175,10 @@ std::pair<float,float> makeHistogram(TTree* tree,std::string folder,std::string 
     float factorerrStat = sqrt(low.second*low.second + high.second*high.second);
     float factorerrSyst = factor*wFactorErr_;
     float factorErr = sqrt(factorerrStat*factorerrStat+factorerrSyst*factorerrSyst);
-
+    if(high.first==0.){
+        factor=0.;
+        factorErr=0.;
+     }
     return std::make_pair(factor,factorErr);   
 
   }
@@ -1191,7 +1197,10 @@ std::pair<float,float> makeHistogram(TTree* tree,std::string folder,std::string 
     float factorerrStat = sqrt(low.second*low.second + high.second*high.second);
     float factorerrSyst = factor*wFactorErr_;
     float factorErr = sqrt(factorerrStat*factorerrStat+factorerrSyst*factorerrSyst);
-
+   if(high.first==0.){
+        factor=0.;
+        factorErr=0.;
+     }
     return std::make_pair(factor,factorErr);   
 
   }
