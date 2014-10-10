@@ -1146,7 +1146,6 @@ std::pair<float,float> makeHistogram(TTree* tree,std::string folder,std::string 
 
 	std::pair<float,float> high;
 	std::pair<float,float> low;
-std::cout<<preselection<<" "<<wSelection_<<std::endl;	
 	high = makeHistogram(t,channel_+postfix,"W_High",("("+preselection+"&&"+wSelection_+")*"+weight_+"*"+Wweight).c_str());
 	low = makeHistogram(t,channel_+postfix,"W_Low",("("+preselection+"&&"+signalSelection_+")*"+weight_+"*"+Wweight).c_str());
 
