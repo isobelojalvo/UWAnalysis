@@ -600,7 +600,7 @@ class DataCardCreatorHhh {
     output.dTOP = topInflYield.second;
 
     //Subtract the ztt ttbar overlap of 1.5% from the ttbar yield
-    output.TOP = output.TOP-(output.ZTT*0.015);    
+  //  output.TOP = output.TOP-(output.ZTT*0.015);    
     renormalizeHistogram(channel_+prefix,"TT",output.TOP);
 
     printf("TTbar events in signal region = %f + %f \n",topInflYield.first,topInflYield.second);
