@@ -31,7 +31,9 @@ int main (int argc, char* argv[])
    parser.addOption("btagSelection2",optutl::CommandLineParser::kString,"btagSelection","btag>0");
    parser.addOption("bTagSF",optutl::CommandLineParser::kString,"bTagSF","1");
    parser.addOption("bTagSF2",optutl::CommandLineParser::kString,"bTagSF","1");
+//breaks without this currently
    parser.addOption("btagRelaxedSelection",optutl::CommandLineParser::kString,"bTag Relaxed Selection","");
+   parser.addOption("btagRelaxedSelection2",optutl::CommandLineParser::kString,"2 bTag Relaxed Selection","");
    parser.addOption("trigSelection",optutl::CommandLineParser::kString,"Trigger Selection","lTrigger>0&&tauTrigger>0");
    parser.addOption("blinding",optutl::CommandLineParser::kString,"Blinding","(svMass>0)");
    parser.addOption("charge",optutl::CommandLineParser::kString,"charge","charge==0");
@@ -113,7 +115,7 @@ int main (int argc, char* argv[])
 
      
      if(bitmask[0]==1){	 
-       creator.setBinning(parser.doubleVector("binningLowStat"));
+       creator.setBinning(parser.doubleVector("binningHighStat"));
        std::string MSSM1 = parser.stringValue("btagSelection"); 
        std::string bTagSF1 = parser.stringValue("bTagSF");
        //std::string MSSM2 = parser.stringValue("btagSelection"); 
@@ -154,8 +156,8 @@ int main (int argc, char* argv[])
  	//run limit categories
 	if(bitmask[1]==1){
 
-		creator.setBinning(parser.doubleVector("binningLowStat"));
 
+		creator.setBinning(parser.doubleVector("binningLowStat"));
 
 		std::cout<<"========Running 1 jet 0 tag selection========"<<std::endl;
 		std::string MSSM1 = parser.stringValue("1jet0tag"); 
@@ -176,18 +178,19 @@ int main (int argc, char* argv[])
 		std::string bTagSF2 = parser.stringValue("bTagSF");							     
 
 		creator.makeHeavyHiggsShape(parser.stringValue("preselection"),MSSM2,"_1jet1tag");
-		BkgOutput outputMSSM1jet1tag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection2"),parser.stringValue("preselection"),MSSM2,"_1jet1tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
+		BkgOutput outputMSSM1jet1tag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection"),parser.stringValue("preselection"),MSSM2,"_1jet1tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
 				1,//parser.doubleValue("zExtrap"),
 				1,//parser.doubleValue("zExtrapErr"),
 				bTagSF2
 				);
 
+		creator.setBinning(parser.doubleVector("binningHighStat"));
 		std::cout<<"========Running 2 jet 0 tag selection========"<<std::endl;
 		std::string MSSM3 = parser.stringValue("2jet0tag"); 
 		std::string bTagSF3 = parser.stringValue("bTagSF");					 
 
 		creator.makeHeavyHiggsShape(parser.stringValue("preselection"),MSSM3,"_2jet0tag");
-		BkgOutput outputMSSM2jet0tag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection"),parser.stringValue("preselection"),MSSM3,"_2jet0tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
+		BkgOutput outputMSSM2jet0tag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection2"),parser.stringValue("preselection"),MSSM3,"_2jet0tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
 				1,//parser.doubleValue("zExtrap"),
 				1,//parser.doubleValue("zExtrapErr"),
 				bTagSF3
@@ -199,28 +202,63 @@ int main (int argc, char* argv[])
 		std::string bTagSF4 = parser.stringValue("bTagSF");							     
 
 		creator.makeHeavyHiggsShape(parser.stringValue("preselection"),MSSM4,"_2jet1tag");
-		BkgOutput outputMSSM2jet1tag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection"),parser.stringValue("preselection"),MSSM4,"_2jet1tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
+		BkgOutput outputMSSM2jet1tag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection2"),parser.stringValue("preselection"),MSSM4,"_2jet1tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
 				1,//parser.doubleValue("zExtrap"),     	
 				1,//parser.doubleValue("zExtrapErr"),
 				bTagSF4
 				);
 
+		creator.setBinning(parser.doubleVector("binningLowStat"));
 		std::cout<<"========Running 2 jet 2 tag selection========"<<std::endl;
 		std::string MSSM5 = parser.stringValue("2jet2tag"); 
 		std::string bTagSF5 = parser.stringValue("bTagSF2");							     
 
 		creator.makeHeavyHiggsShape(parser.stringValue("preselection"),MSSM5,"_2jet2tag");
-		BkgOutput outputMSSM2jet2tag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection"),parser.stringValue("preselection"),MSSM5,"_2jet2tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
+		BkgOutput outputMSSM2jet2tag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection2"),parser.stringValue("preselection"),MSSM5,"_2jet2tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
 				1,//parser.doubleValue("zExtrap"),
 				1,//parser.doubleValue("zExtrapErr"),
 				bTagSF5
 				);
-
-
-
-
-
 	}//end if 
+	if(bitmask[1]==2){
+
+		creator.setBinning(parser.doubleVector("binningHighStat"));
+		std::cout<<"========Running 2 jet 0 tag selection========"<<std::endl;
+		std::string MSSM3 = parser.stringValue("2jet0tag"); 
+		std::string bTagSF3 = parser.stringValue("bTagSF");					 
+
+		creator.makeHeavyHiggsShape(parser.stringValue("preselection"),MSSM3,"_2jet0tag");
+		BkgOutput outputMSSM2jet0tag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection2"),parser.stringValue("preselection"),MSSM3,"_2jet0tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
+				1,//parser.doubleValue("zExtrap"),
+				1,//parser.doubleValue("zExtrapErr"),
+				bTagSF3
+				);
+
+
+		std::cout<<"========Running 2 jet 1 tag selection========"<<std::endl;
+		std::string MSSM4 = parser.stringValue("2jet1tag"); 
+		std::string bTagSF4 = parser.stringValue("bTagSF");							     
+
+		creator.makeHeavyHiggsShape(parser.stringValue("preselection"),MSSM4,"_2jet1tag");
+		BkgOutput outputMSSM2jet1tag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection2"),parser.stringValue("preselection"),MSSM4,"_2jet1tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
+				1,//parser.doubleValue("zExtrap"),     	
+				1,//parser.doubleValue("zExtrapErr"),
+				bTagSF4
+				);
+
+		creator.setBinning(parser.doubleVector("binningLowStat"));
+		std::cout<<"========Running 2 jet 2 tag selection========"<<std::endl;
+		std::string MSSM5 = parser.stringValue("2jet2tag"); 
+		std::string bTagSF5 = parser.stringValue("bTagSF2");							     
+
+		creator.makeHeavyHiggsShape(parser.stringValue("preselection"),MSSM5,"_2jet2tag");
+		BkgOutput outputMSSM2jet2tag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection2"),parser.stringValue("preselection"),MSSM5,"_2jet2tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
+				1,//parser.doubleValue("zExtrap"),
+				1,//parser.doubleValue("zExtrapErr"),
+				bTagSF5
+				);
+	}//end if 
+
 
 
 
