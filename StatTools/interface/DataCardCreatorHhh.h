@@ -535,7 +535,7 @@ class DataCardCreatorHhh {
 
     //TODO: make the pdg selection cleaner Check if we are using pdg selection for fullExtrapolation
 
-    std::pair<float,float> zttYield    = createHistogramAndShiftsFinal(zttFile_,"ZTTTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+ZTT_genTauSel_
+    std::pair<float,float> zttYield    = createHistogramAndShiftsFinal(zttFile_,"ZTTTMP",("("+preSelection+"&&"+trigSelection_+"&&"+charge_+"&&"+ZTT_genTauSel_
 											  +")"+"*"+weight_),luminosity_*zttScale_*leg1Corr*tauID_,prefix);
     std::pair<float,float> ztt_ll      = createHistogramAndShiftsFinal(zttFile_,"ZTT_LL",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&"+ZTTLL_genTauReject_+")"+"*"+weight_),luminosity_*zttScale_*leg1Corr*tauID_,prefix);
     
@@ -544,12 +544,10 @@ class DataCardCreatorHhh {
     }
     else{
       //create correction factor for MT and Pzeta cuts
-      std::pair<float,float> dataWCut_Before  = createHistogramAndShifts(zShape,"ZTTWCut",("("+preSelection+"&&"+osSignalSelection_+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),1.0,prefix);
+      std::pair<float,float> dataWCut_Before  = createHistogramAndShifts(zShape,"ZTTWCut",("("+preSelection+"&&"+charge_+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),1.0,prefix);
       std::pair<float,float> zttShape       = createHistogramAndShifts(zShape,"ZTT",("("+preSelection+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),1.0,prefix);
 
-      //std::pair<float,float> mcWCut_Before    = createHistogramAndShiftsFinal(zttFile_,"ZTTWCutMC",("("+preSelection+"&&"+categorySelection+"&&"+trigSelection_+"&&genTaus>0&&genVisPt2>18&&(!((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8))))*"+weight_),luminosity_*zttScale_*leg1Corr*tauID_,prefix);
 
-      //float corrector = (zttShape.first/dataWCut_Before.first) / (zttYield.first/mcWCut_Before.first);
 
       //Efficiency to go from the inclusive selection to the category selection
       float corrector = zttShape.first/dataWCut_Before.first;
@@ -557,7 +555,6 @@ class DataCardCreatorHhh {
       printf("W Cut Correction = %f \n",corrector); 
       printf("emb before events = %f \n", dataWCut_Before.first);
       printf("emb inclusive events = %f \n", zttShape.first);
-      //printf("mc before events = %f \n", mcWCut_Before.first);
       printf("mc inclusive events = %f \n", zttYield.first);
       zttYield = std::make_pair(zttYield.first*corrector,zttYield.second*corrector);
       renormalizeHistogram(channel_+prefix,"ZTT",zttYield.first);
@@ -777,8 +774,8 @@ class DataCardCreatorHhh {
     //TODO: Check need wextrap factor???? 
     std::pair<float,float> wShape         = createHistogramAndShiftsFinal(wFile_,"W",("("+preSelection+"&&"+osSignalSelection_+"&&"+categorySelection+")*"+weight_),luminosity_*leg1Corr,prefix,false);
     if(shifts_.size()>0){
-      std::pair<float,float> wShapeUp = createHistogramAndShiftsFinal(wFile_,"WShapeUp",("("+preSelection+"&&"+osSignalSelection_+"&&"+btagRelaxedSelection_+")*__WEIGHT__*__CORR__*WWeightUp"),luminosity_*leg1Corr,prefix,false,false);
-      std::pair<float,float> wShapeDown = createHistogramAndShiftsFinal(wFile_,"WShapeDown",("("+preSelection+"&&"+osSignalSelection_+"&&"+btagRelaxedSelection_+")*__WEIGHT__*__CORR__*WWeightDown"),luminosity_*leg1Corr,prefix,false,false);
+      std::pair<float,float> wShapeUp = createHistogramAndShiftsFinal(wFile_,"WShapeUp",("("+preSelection+"&&"+osSignalSelection_+"&&"+categorySelection_+")*__WEIGHT__*__CORR__*WWeightUp"),luminosity_*leg1Corr,prefix,false,false);
+      std::pair<float,float> wShapeDown = createHistogramAndShiftsFinal(wFile_,"WShapeDown",("("+preSelection+"&&"+osSignalSelection_+"&&"+categorySelection_+")*__WEIGHT__*__CORR__*WWeightDown"),luminosity_*leg1Corr,prefix,false,false);
     }
 
     //First get data in Sideband
