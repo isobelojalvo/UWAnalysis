@@ -371,9 +371,14 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
   TIter next(dir->GetListOfKeys());
   TKey *key;
   char stringA[80]="first";
+  char keyName[80]="no";
   
   while ((key = (TKey*)next())) {
-  
+    sprintf(keyName,"%s",key->GetName());
+    std::cout<<"key Name "<<keyName<<std::endl;
+    if(strncmp(keyName,"MT",2)==0)
+      break;
+
 	printf("Found key=%s \n",key->GetName());
 	if(!strcmp(stringA,TreeToUse)) sprintf(TreeToUse,"%s",key->GetName());
 	printf("Strings %s %s \n",TreeToUse,stringA);

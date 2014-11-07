@@ -321,6 +321,8 @@ class CompositePtrCandidateT1T2MEtAlgorithm
       
     }
 
+    compositePtrCandidate.setCSVSize(cleanedJetsCSVsorted.size());
+
     if(cleanedJetsCSVsorted.size()>1)
       compositePtrCandidate.setJJVariables((cleanedJetsCSVsorted.at(0)->p4()+cleanedJetsCSVsorted.at(1)->p4()));
 

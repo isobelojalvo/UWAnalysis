@@ -1,5 +1,7 @@
 #include "UWAnalysis/RecoTools/plugins/PATCandidatePairNSVFitSA.h"
 
+#include "UWAnalysis/HHKinFit/interface/HHKinFitMaster.h"
+
 #include "FWCore/Framework/interface/MakerMacros.h"
 
 #include "DataFormats/Candidate/interface/Candidate.h"
