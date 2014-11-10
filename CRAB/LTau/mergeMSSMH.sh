@@ -1,54 +1,53 @@
 #!/bin/sh
+cd /nfs_scratch/laura/LTau_Oct27/
+/cms/sw/farmout/mergeFiles --reuse-cache-files bbA80.root /hdfs/store/user/laura/bbA80-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files bbA90.root /hdfs/store/user/laura/bbA90-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files bbA100.root /hdfs/store/user/laura/bbA100-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files bbA110.root /hdfs/store/user/laura/bbA110-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files bbA120.root /hdfs/store/user/laura/bbA120-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files bbA130.root /hdfs/store/user/laura/bbA130-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files bbA140.root /hdfs/store/user/laura/bbA140-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files bbA160.root /hdfs/store/user/laura/bbA160-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files bbA180.root /hdfs/store/user/laura/bbA180-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files bbA200.root /hdfs/store/user/laura/bbA200-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files bbA250.root /hdfs/store/user/laura/bbA250-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files bbA300.root /hdfs/store/user/laura/bbA300-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files bbA350.root /hdfs/store/user/laura/bbA350-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files bbA400.root /hdfs/store/user/laura/bbA400-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files bbA450.root /hdfs/store/user/laura/bbA450-SUB-MCH
 
-mkdir sandbox
-cd sandbox
+/cms/sw/farmout/mergeFiles --reuse-cache-files sm125.root /hdfs/store/user/ojalvo/SMGGH125-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files vbf125.root /hdfs/store/user/ojalvo/VBF125-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files vh125.root /hdfs/store/user/ojalvo/VH125-SUB-MCH
 
-mergeFiles --copy-timeout=90 bbA80.root /hdfs/store/user/swanson/bbA80-SUB-MCH
-mergeFiles --copy-timeout=90 bbA90.root /hdfs/store/user/swanson/bbA90-SUB-MCH
-mergeFiles --copy-timeout=90 bbA100.root /hdfs/store/user/swanson/bbA100-SUB-MCH
-mergeFiles --copy-timeout=90 bbA120.root /hdfs/store/user/swanson/bbA120-SUB-MCH
-mergeFiles --copy-timeout=90 bbA130.root /hdfs/store/user/swanson/bbA130-SUB-MCH
-mergeFiles --copy-timeout=90 bbA140.root /hdfs/store/user/swanson/bbA140-SUB-MCH
-mergeFiles --copy-timeout=90 bbA160.root /hdfs/store/user/swanson/bbA160-SUB-MCH
-mergeFiles --copy-timeout=90 bbA180.root /hdfs/store/user/swanson/bbA180-SUB-MCH
-mergeFiles --copy-timeout=90 bbA200.root /hdfs/store/user/swanson/bbA200-SUB-MCH
-mergeFiles --copy-timeout=90 bbA250.root /hdfs/store/user/swanson/bbA250-SUB-MCH
-mergeFiles --copy-timeout=90 bbA300.root /hdfs/store/user/swanson/bbA300-SUB-MCH
-mergeFiles --copy-timeout=90 bbA350.root /hdfs/store/user/swanson/bbA350-SUB-MCH
-mergeFiles --copy-timeout=90 bbA400.root /hdfs/store/user/swanson/bbA400-SUB-MCH
-mergeFiles --copy-timeout=90 bbA450.root /hdfs/store/user/swanson/bbA450-SUB-MCH
-mergeFiles --copy-timeout=90 bbA500.root /hdfs/store/user/swanson/bbA500-SUB-MCH
-mergeFiles --copy-timeout=90 bbA600.root /hdfs/store/user/swanson/bbA600-SUB-MCH
-mergeFiles --copy-timeout=90 bbA700.root /hdfs/store/user/swanson/bbA700-SUB-MCH
-mergeFiles --copy-timeout=90 bbA800.root /hdfs/store/user/swanson/bbA800-SUB-MCH
-mergeFiles --copy-timeout=90 bbA900.root /hdfs/store/user/swanson/bbA900-SUB-MCH
-mergeFiles --copy-timeout=90 bbA1000.root /hdfs/store/user/swanson/bbA1000-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhllbb250.root /hdfs/store/user/laura/AZhllbb-250-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhllbb260.root /hdfs/store/user/laura/AZhllbb-260-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhllbb270.root /hdfs/store/user/laura/AZhllbb-270-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhllbb280.root /hdfs/store/user/laura/AZhllbb-280-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhllbb290.root /hdfs/store/user/laura/AZhllbb-290-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhllbb300.root /hdfs/store/user/laura/AZhllbb-300-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhllbb310.root /hdfs/store/user/laura/AZhllbb-310-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhllbb320.root /hdfs/store/user/laura/AZhllbb-320-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhllbb330.root /hdfs/store/user/laura/AZhllbb-330-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhllbb340.root /hdfs/store/user/laura/AZhllbb-340-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhllbb350.root /hdfs/store/user/laura/AZhllbb-350-SUB-MCH
 
-#mergeFiles --copy-timeout=90 ggH80.root /hdfs/store/user/swanson/ggH80-SUB-MCH
-mergeFiles --copy-timeout=90 ggH90.root /hdfs/store/user/swanson/ggH90-SUB-MCH
-mergeFiles --copy-timeout=90 ggH100.root /hdfs/store/user/swanson/ggH100-SUB-MCH
-mergeFiles --copy-timeout=90 ggH120.root /hdfs/store/user/swanson/ggH120-SUB-MCH
-mergeFiles --copy-timeout=90 ggH130.root /hdfs/store/user/swanson/ggH130-SUB-MCH
-mergeFiles --copy-timeout=90 ggH140.root /hdfs/store/user/swanson/ggH140-SUB-MCH
-mergeFiles --copy-timeout=90 ggH160.root /hdfs/store/user/swanson/ggH160-SUB-MCH
-mergeFiles --copy-timeout=90 ggH180.root /hdfs/store/user/swanson/ggH180-SUB-MCH
-mergeFiles --copy-timeout=90 ggH200.root /hdfs/store/user/swanson/ggH200-SUB-MCH
-mergeFiles --copy-timeout=90 ggH250.root /hdfs/store/user/swanson/ggH250-SUB-MCH
-mergeFiles --copy-timeout=90 ggH300.root /hdfs/store/user/swanson/ggH300-SUB-MCH
-mergeFiles --copy-timeout=90 ggH350.root /hdfs/store/user/swanson/ggH350-SUB-MCH
-mergeFiles --copy-timeout=90 ggH400.root /hdfs/store/user/swanson/ggH400-SUB-MCH
-mergeFiles --copy-timeout=90 ggH450.root /hdfs/store/user/swanson/ggH450-SUB-MCH
-mergeFiles --copy-timeout=90 ggH500.root /hdfs/store/user/swanson/ggH500-SUB-MCH
-mergeFiles --copy-timeout=90 ggH600.root /hdfs/store/user/swanson/ggH600-SUB-MCH
-mergeFiles --copy-timeout=90 ggH700.root /hdfs/store/user/swanson/ggH700-SUB-MCH
-mergeFiles --copy-timeout=90 ggH800.root /hdfs/store/user/swanson/ggH800-SUB-MCH
-mergeFiles --copy-timeout=90 ggH900.root /hdfs/store/user/swanson/ggH900-SUB-MCH
-mergeFiles --copy-timeout=90 ggH1000.root /hdfs/store/user/swanson/ggH1000-SUB-MCH
-
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhlltt250.root /hdfs/store/user/laura/AZhlltt-250-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhlltt260.root /hdfs/store/user/laura/AZhlltt-260-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhlltt270.root /hdfs/store/user/laura/AZhlltt-270-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhlltt280.root /hdfs/store/user/laura/AZhlltt-280-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhlltt290.root /hdfs/store/user/laura/AZhlltt-290-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhlltt300.root /hdfs/store/user/laura/AZhlltt-300-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhlltt310.root /hdfs/store/user/laura/AZhlltt-310-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhlltt320.root /hdfs/store/user/laura/AZhlltt-320-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhlltt330.root /hdfs/store/user/laura/AZhlltt-330-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhlltt340.root /hdfs/store/user/laura/AZhlltt-340-SUB-MCH
+/cms/sw/farmout/mergeFiles --reuse-cache-files AZhlltt350.root /hdfs/store/user/laura/AZhlltt-350-SUB-MCH
 
 EventWeightsIterative outputFile='bbA80.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
 EventWeightsIterative outputFile='bbA90.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
 EventWeightsIterative outputFile='bbA100.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='bbA110.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
 EventWeightsIterative outputFile='bbA120.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
 EventWeightsIterative outputFile='bbA130.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
 EventWeightsIterative outputFile='bbA140.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
@@ -60,49 +59,75 @@ EventWeightsIterative outputFile='bbA300.root'    doOneD=1     weight=1    type=
 EventWeightsIterative outputFile='bbA350.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
 EventWeightsIterative outputFile='bbA400.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
 EventWeightsIterative outputFile='bbA450.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='bbA500.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='bbA600.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='bbA700.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='bbA800.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='bbA900.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='bbA1000.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
 
-#EventWeightsIterative outputFile='ggH80.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH90.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH100.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH120.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH130.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH140.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH160.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH180.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH200.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH250.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH300.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH350.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH400.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH450.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH500.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH600.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH700.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH800.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH900.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
-EventWeightsIterative outputFile='ggH1000.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='sm125.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='vh125.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='vbf125.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
 
+EventWeightsIterative outputFile='AZhllbb250.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhllbb260.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhllbb270.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhllbb280.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhllbb290.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhllbb300.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhllbb310.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhllbb320.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhllbb330.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhllbb340.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhllbb350.root'    doOneD=1     weight=1    type=7 histoName='MT/results'
 
-
-
+ 
+EventWeightsIterative outputFile='AZhlltt250.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhlltt260.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhlltt270.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhlltt280.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhlltt290.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhlltt300.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhlltt310.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhlltt320.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhlltt330.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhlltt340.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
+EventWeightsIterative outputFile='AZhlltt350.root'    doOneD=1     weight=1    type=7 histoName='MT/results' 
 
 
+EventWeightsForEfficiencyFastHZ $1 outputFile='bbA80.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='bbA90.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='bbA100.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='bbA110.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='bbA120.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='bbA130.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='bbA140.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='bbA160.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='bbA180.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='bbA200.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='bbA250.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='bbA300.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='bbA350.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='bbA400.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='bbA450.root'
 
+EventWeightsForEfficiencyFastHZ $1 outputFile='sm125.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='vh125.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='vbf125.root'
 
-
-
-
-
-
-
-
-
-
-
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhlltt260.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhlltt270.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhlltt280.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhlltt290.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhlltt300.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhlltt310.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhlltt320.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhlltt330.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhlltt340.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhlltt350.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhllbb260.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhllbb270.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhllbb280.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhllbb290.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhllbb300.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhllbb310.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhllbb320.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhllbb330.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhllbb340.root'
+EventWeightsForEfficiencyFastHZ $1 outputFile='AZhllbb350.root'
 

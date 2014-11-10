@@ -1,0 +1,118 @@
+#!/bin/sh
+mkdir /nfs_scratch/$USER/WJETS
+cd /nfs_scratch/$USER/WJETS
+W=1;Z=0;TOP=0;VV=0;
+
+
+/cms/sw/farmout/mergeFiles --reuse-cache-files    W_1.root /hdfs/store/user/ojalvo/WJets_v1-SUB-MCW &
+/cms/sw/farmout/mergeFiles --reuse-cache-files    W_2.root /hdfs/store/user/ojalvo/WJets_v2-SUB-MCW &
+#/cms/sw/farmout/mergeFiles --reuse-cache-files  Z1JETS.root /hdfs/store/user/ojalvo/Z1Jets-SUB-MCZ 
+#/cms/sw/farmout/mergeFiles --reuse-cache-files  Z2JETS.root /hdfs/store/user/ojalvo/Z2Jets-SUB-MCZ 
+#/cms/sw/farmout/mergeFiles --reuse-cache-files  Z3JETS.root /hdfs/store/user/ojalvo/Z3Jets-SUB-MCZ 
+#/cms/sw/farmout/mergeFiles --reuse-cache-files  Z4JETS.root /hdfs/store/user/ojalvo/Z4Jets-SUB-MCZ 
+/cms/sw/farmout/mergeFiles --reuse-cache-files    W1JETS_1.root /hdfs/store/user/ojalvo/W1Jets_1-SUB-MCW &
+/cms/sw/farmout/mergeFiles --reuse-cache-files    W2JETS_1.root /hdfs/store/user/ojalvo/W2Jets_1-SUB-MCW &
+/cms/sw/farmout/mergeFiles --reuse-cache-files    W3JETS_1.root /hdfs/store/user/ojalvo/W3Jets_1-SUB-MCW &
+/cms/sw/farmout/mergeFiles --reuse-cache-files    W4JETS.root /hdfs/store/user/laura/W4Jets-SUB-MCW 
+/cms/sw/farmout/mergeFiles --reuse-cache-files    W1JETS_2.root /hdfs/store/user/ojalvo/W1Jets_2-SUB-MCW 
+/cms/sw/farmout/mergeFiles --reuse-cache-files    W2JETS_2.root /hdfs/store/user/ojalvo/W2Jets_2-SUB-MCW 
+/cms/sw/farmout/mergeFiles --reuse-cache-files    W3JETS_2.root /hdfs/store/user/laura/W3Jets_2-SUB-MCW 
+#/cms/sw/farmout/mergeFiles --reuse-cache-files    WZ-3L.root /hdfs/store/user/ojalvo/WZ3L-SUB-MC 
+#/cms/sw/farmout/mergeFiles --reuse-cache-files    WW-2L.root /hdfs/store/user/ojalvo/WW2L-SUB-MC 
+#/cms/sw/farmout/mergeFiles --reuse-cache-files   ZZ-4L.root /hdfs/store/user/ojalvo/ZZ4L-SUB-MC 
+#/cms/sw/farmout/mergeFiles --reuse-cache-files    WZ-LLQQ.root /hdfs/store/user/ojalvo/WZ2L2Q-SUB-MC 
+#/cms/sw/farmout/mergeFiles --reuse-cache-files    ZZ-LLQQ.root /hdfs/store/user/ojalvo/ZZ2L2Q-SUB-MC 
+#/cms/sw/farmout/mergeFiles --reuse-cache-files    ZZ-LLVV.root /hdfs/store/user/ojalvo/ZZ2L2V-SUB-MC
+#/cms/sw/farmout/mergeFiles --reuse-cache-files     tW.root /hdfs/store/user/ojalvo/t_tW-SUB-MC 
+#/cms/sw/farmout/mergeFiles --reuse-cache-files     tBarW.root /hdfs/store/user/ojalvo/tBar_tW-SUB-MC 
+#/cms/sw/farmout/mergeFiles --reuse-cache-files    ZJETSNS.root /hdfs/store/user/ojalvo/DYJets-SUB-MCZ  
+#/cms/sw/farmout/mergeFiles --reuse-cache-files    Z.root /hdfs/store/user/ojalvo/DYJets-SUB-MCZ  
+#/cms/sw/farmout/mergeFiles --reuse-cache-files   TOPNS.root /hdfs/store/user/ojalvo/TTBar-SUB-MC 
+#/cms/sw/farmout/mergeFiles --reuse-cache-files   TT_LL.root /hdfs/store/user/ojalvo/TTBar_LL-SUB-MC 
+#/cms/sw/farmout/mergeFiles --reuse-cache-files   TT_HL.root /hdfs/store/user/ojalvo/TTBar_HL-SUB-MC 
+#/cms/sw/farmout/mergeFiles --reuse-cache-files   TT_HH.root /hdfs/store/user/ojalvo/TTBar_HH-SUB-MC 
+#exit;
+
+#mkdir /nfs_scratch/$USER/unweighted
+#cp /nfs_scratch/$USER/LTau_Oct27/* /nfs_scratch/$USER/unweighted/.
+
+#EventWeightsIterative outputFile='ZJETSNS.root'   doOneD=1   weight=3504   type=3 histoName='MT/results'
+#EventWeightsIterative outputFile='TOPNS.root'      doOneD=1   weight=225.2    type=6 histoName='MT/results'
+
+if [ -e W_1.root ] && [ -e W_2.root ] && [ $W -eq 1 ]
+    then
+    hadd W.root W_1.root W_2.root
+    hadd  W1JETS.root W1JETS_1.root W1JETS_2.root
+    hadd  W2JETS.root W2JETS_1.root W2JETS_2.root
+    hadd  W3JETS.root W3JETS_1.root W3JETS_2.root
+else
+    echo " Error in WJETS merging " 
+fi
+
+if [ $Z -eq 1 ]
+    then
+#    EventWeightsIterativeZJets   doOneD=1   weight=3504   type=3 histoName='MT/results'
+#    hadd  ZJETS.root Z.root Z1JETS.root Z2JETS.root Z3JETS.root Z4JETS.root
+     EventWeightsForEfficiencyFast $1 outputFile='ZJETS.root' 
+     EventWeightsForEfficiencyZEE $1 outputFile='ZJETS.root' 
+else
+    echo " Error in ZJETS merging " >> logMerge
+fi
+
+exit;
+
+if [ -e W.root ] && [ -e W1JETS.root ] && [ -e W2JETS.root  ] && [ -e W3JETS.root  ] && [ -e W4JETS.root  ] && [ $W -eq 1 ]
+    then
+    EventWeightsIterativeWJets       doOneD=1   weight=36257   type=4 histoName='MT/results'
+    hadd WJETS.root W.root W1JETS.root W2JETS.root W3JETS.root W4JETS.root
+    EventWeightsForEfficiencyFastWJets $1 outputFile='WJETS.root'
+else
+    echo " Error in W merging " >> logMerge
+fi
+
+#if [ -e TOP.root ] && [ -e TT_LL.root ] && [ -e TT_HH.root ] && [ -e TT_HL.root ] && [ $TOP -eq 1 ]
+if [ -e TT_LL.root ] && [ -e TT_HH.root ] && [ -e TT_HL.root ] && [ $TOP -eq 1 ]
+    then
+    #EventWeightsIterative outputFile='TOP.root'      doOneD=1   weight=225.2    type=6 histoName='MT/results'
+    EventWeightsIterative outputFile='TT_LL.root'      doOneD=1   weight=26.2    type=6 histoName='MT/results'
+    EventWeightsIterative outputFile='TT_HH.root'      doOneD=1   weight=114    type=6 histoName='MT/results'
+    EventWeightsIterative outputFile='TT_HL.root'      doOneD=1   weight=109.3    type=6 histoName='MT/results'
+    EventWeightsForEfficiencyFast $1 outputFile='TT_LL.root'
+    EventWeightsForEfficiencyFast $1 outputFile='TT_HH.root'
+    EventWeightsForEfficiencyFast $1 outputFile='Tt_HL.root'
+    hadd  TOP.root TT_LL.root TT_HH.root TT_HL.root 
+else
+    echo " Error in TOP merging " >> logMerge
+fi
+
+if [ -e WW-2L.root ] && [ -e WZ-3L.root ] && [ -e ZZ-4L.root ] && [ -e WZ-LLQQ.root ] && [ -e ZZ-LLQQ.root ] && [ -e tW.root ] && [ -e tBarW.root ] && [ $VV -eq 1 ]
+    then
+    EventWeightsIterative outputFile='WW-2L.root'   doOneD=1   weight=5.824    type=7 histoName='MT/results'
+    EventWeightsIterative outputFile='WZ-3L.root'   doOneD=1   weight=1.058   type=7 histoName='MT/results'
+    EventWeightsIterative outputFile='ZZ-4L.root'   doOneD=1   weight=0.181    type=7  histoName='MT/results'
+#EventWeightsIterative outputFile='ZZ-LLVV.root' doOneD=1   weight=0.716    type=7  histoName='MT/results'
+    EventWeightsIterative outputFile='WZ-LLQQ.root' doOneD=1   weight=2.207    type=7 histoName='MT/results' 
+    EventWeightsIterative outputFile='ZZ-LLQQ.root' doOneD=1   weight=2.502    type=7 histoName='MT/results'
+    EventWeightsIterative outputFile='tW.root'  	doOneD=1   weight=11.1    type=6 histoName='MT/results' 
+    EventWeightsIterative outputFile='tBarW.root'  	doOneD=1   weight=11.1    type=6 histoName='MT/results' 
+    hadd VV.root WW-2L.root WZ-3L.root  ZZ-LLQQ.root WZ-LLQQ.root tW.root tBarW.root ZZ-4L.root ZZ-LLQQ.root
+    EventWeightsForEfficiencyFast $1 outputFile='VV.root'
+else
+    echo " Error in VV region " >> logMerge
+fi
+
+#rm W.root W1JETS.root W2JETS.root W3JETS.root W4JETS.root 
+#rm WW-2L.root WZ-3L.root ZZ-4L.root ZZ-LLQQ.root WZ-LLQQ.root tW.root tBarW.root
+
+
+
+
+
+
+
+
+
+
+
+
+
