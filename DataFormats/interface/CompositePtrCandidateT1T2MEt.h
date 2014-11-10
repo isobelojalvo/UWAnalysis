@@ -101,10 +101,20 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   double x1CollinearApprox() const { return x1CollinearApprox_; }
   double x2CollinearApprox() const { return x2CollinearApprox_; }
   bool collinearApproxIsValid() const { return collinearApproxIsValid_; }
+
+  double kinHchi2()const { return  kinHchi2_; }
+  double kinHMass()const { return  kinHMass_; }
+  double kinHypo1()const { return  kinHypo1_; }
+  double kinHypo2()const { return  kinHypo2_; }
+  double kinProb()const { return  kinProb_; }
+  double kinB1()const { return  kinB1_; }
+  double kinB2()const { return  kinB2_; }
+  double kinBalance()const { return  kinBalance_; }
+
   double svMass() const { return svMass_; }
   double svPt()   const { return svPt_; }
-  double svEta()   const { return svEta_; }
-  double svPhi()   const { return svPhi_; }
+  double svEta()  const { return svEta_; }
+  double svPhi()  const { return svPhi_; }
   double svEnergy()   const { return svEnergy_; }
   double fullPt()  const { return fullPt_; }
   double fullEta()  const { return fullEta_; }
@@ -227,6 +237,9 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   float etaJJReg() const {return JJReg_.eta();}
   float phiJJReg() const {return JJReg_.phi();}
   float energyJJReg() const {return JJReg_.E();}
+  reco::Candidate::LorentzVector J1CSVSortP4()const {return J1CSVSort_->p4();}
+  reco::Candidate::LorentzVector J2CSVSortP4()const {return J2CSVSort_->p4();}
+  int CSVSize()const{return CSVSize_;}
 
   //VBF Variables
   float vbfMass() const {return vbfMass_;}
@@ -298,6 +311,15 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
     return retVal;
   }
 
+  void setKinHchi2(  double kinHchi2  ){ kinHchi2_   =   kinHchi2; }
+  void setKinHMass(  double kinHMass  ){ kinHMass_   =   kinHMass; }
+  void setKinHypo1(  double kinHypo1  ){ kinHypo1_   =   kinHypo1; }
+  void setKinHypo2(  double kinHypo2  ){ kinHypo2_   =   kinHypo2; }
+  void setKinProb(   double kinProb   ){ kinProb_    =   kinProb;  }
+  void setKinB1(     double kinB1     ){ kinB1_      =   kinB1;    }
+  void setKinB2(     double kinB2     ){ kinB2_      =   kinB2;    }
+  void setKinBalance(double kinBalance){ kinBalance_ = kinBalance; }
+
   void setSVMass(double svMass) { svMass_ = svMass; }
   void setSVPt(double svPt) { svPt_ = svPt; }
   void setSVEta(double svEta) { svEta_ = svEta; }
@@ -318,16 +340,24 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   };
 
   void setMatchedBJets(pat::Jet& J1MatchedB, 
-		       pat::Jet& J2MatchedB) { J1MatchedB_ = J1MatchedB; J2MatchedB_ = J2MatchedB; }
+		       pat::Jet& J2MatchedB) { J1MatchedB_ = J1MatchedB; J2MatchedB_ = J2MatchedB; 
+  };
+
+  void setCSVSize(int CSVSize){
+    CSVSize_ = CSVSize;
+    //std::cout<<"CSVSize_ in composite"<<CSVSize_<<std::endl;
+  };
 
   void setCSVSortedJets(JetPtrVector cleanedJetsCSVSort) { 
-    CSVSize = cleanedJetsCSVSort.size();
-    if(CSVSize>0)
-    J1CSVSort_ = cleanedJetsCSVSort.at(0); 
-    if(CSVSize>1)
-      J2CSVSort_ = cleanedJetsCSVSort.at(1); }
 
+    if(CSVSize_>0)
+      J1CSVSort_ = cleanedJetsCSVSort.at(0); 
+    if(CSVSize_>1)
+      J2CSVSort_ = cleanedJetsCSVSort.at(1); 
+  };
+  
  private:
+  //void setCSVSize(double CSVSize){ CSVSize_ = CSVSize;}
   void setmJJCSVSort(double mJJCSVSort) { mJJCSVSort_ = mJJCSVSort; }
   void setmJJReg(double mJJReg) { mJJReg_ = mJJReg; }
   void setmJJGen(double mJJGen) { mJJGen_ = mJJGen; }
@@ -465,7 +495,7 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
 
   pat::Jet J1MatchedB_;
   pat::Jet J2MatchedB_;
-  float CSVSize;
+  int CSVSize_;
   JetPtr J1CSVSort_; JetPtr J2CSVSort_;
 
   reco::Candidate::LorentzVector metOld_;
@@ -482,7 +512,6 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   int pdg1_;
   int pdg2_;
   float genBosonMass_;
-
 
   //CSV SF variables
   double SFCSVL1_;
@@ -588,6 +617,16 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   double svEta_;
   double svPhi_;
   double svEnergy_;
+
+  // Kinematic Fit Results
+  double kinHchi2_  ; 
+  double kinHMass_  ;
+  double kinHypo1_  ;
+  double kinHypo2_  ;
+  double kinProb_   ;
+  double kinB1_     ;
+  double kinB2_     ;
+  double kinBalance_;
 
   double mJJCSVSort_;
   double mJJReg_;

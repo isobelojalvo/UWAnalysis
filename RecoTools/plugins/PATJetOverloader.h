@@ -77,6 +77,7 @@ class PATJetOverloader : public edm::EDProducer {
 	  sumPt2+=pt*pt;
 	}
 
+	float genJetE =-10;
 	float genJetPt =-10;
 	float genJetEta =-10;
 	float genJetPhi =-10;
@@ -91,6 +92,7 @@ class PATJetOverloader : public edm::EDProducer {
 	  for(unsigned int k=0;k!=genJets->size();k++){
 	    if(ROOT::Math::VectorUtil::DeltaR(genJets->at(k).p4(),jet.p4())<DRMin){
 	      DRMin = ROOT::Math::VectorUtil::DeltaR(genJets->at(k).p4(),jet.p4());
+	      genJetE=genJets->at(k).energy();
 	      genJetPt=genJets->at(k).pt();
 	      genJetEta=genJets->at(k).eta();
 	      genJetPhi=genJets->at(k).phi();
@@ -130,6 +132,7 @@ class PATJetOverloader : public edm::EDProducer {
 	jet.addUserFloat("genJetEta",genJetEta);
 	jet.addUserFloat("genJetPhi",genJetPhi);
 	jet.addUserFloat("genJetPt",genJetPt);
+	jet.addUserFloat("genJetE",genJetE);
 	jet.addUserFloat("ptRMS",sqrt(sumPt2/(sumPt*sumPt)));
 	jets->push_back(jet);
 
