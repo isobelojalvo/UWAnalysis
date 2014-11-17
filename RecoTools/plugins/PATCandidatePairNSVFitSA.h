@@ -164,32 +164,27 @@ class PATCandidatePairNSVFitSA : public edm::EDProducer
 							);
 
 					//std::cout<<"TLorentz vector tau1vis Pt: "<<tau1vis.Pt()<<std::endl;
-
-
 					//std::cout<<"Set TLorentz vector tau2vis"<<std::endl;
+
 					tau2vis.SetPxPyPzE(compositePtrCandidate.leg2()->px(),
 							compositePtrCandidate.leg2()->py(),
 							compositePtrCandidate.leg2()->pz(),
 							compositePtrCandidate.leg2()->energy()
 							);
 					//std::cout<<"TLorentz vector tau2vis Pt: "<<tau2vis.Pt()<<std::endl;
-					//std::cout<<"Set TLorentz vector tau2vis"<<std::endl;
 
-					//std::cout<<"Set TLorentz vector ptMiss"<<std::endl;
 					TLorentzVector ptmiss;
 					ptmiss.SetPxPyPzE(compositePtrCandidate.met()->px(),
-							compositePtrCandidate.met()->py(),
-							compositePtrCandidate.met()->pz(),
-							compositePtrCandidate.met()->energy()
-							);
+							  compositePtrCandidate.met()->py(),
+							  compositePtrCandidate.met()->pz(),
+							  compositePtrCandidate.met()->energy()
+							  );
 
 					//std::cout<<"TLorentz vector ptMiss: "<<ptmiss.Pt() <<std::endl;
-					//std::cout<<"Set TMatrix met cov"<<std::endl;
-					TMatrixD metcov= compositePtrCandidate.covMatrix();
-					//LD
 
+					TMatrixD metcov= compositePtrCandidate.covMatrix();
 					HHKinFitMaster kinFits = HHKinFitMaster(&b1,&b2,&tau1vis,&tau2vis);
-					//kinFits = HHKinFitMaster::HHKinFitMaster(&b1,&b2,&tau1vis,&tau2vis);
+
 					kinFits.setAdvancedBalance(&ptmiss,metcov);
 					//kinFits.setSimpleBalance(ptmiss.Pt(),10); //alternative which uses only the absolute value of ptmiss in the fit
 					kinFits.addMh1Hypothesis(hypo_mh1);
@@ -200,6 +195,7 @@ class PATCandidatePairNSVFitSA : public edm::EDProducer
 					//obtain results from different hypotheses
 					Double_t chi2_best = kinFits.getBestChi2FullFit();
 					Double_t mh_best   = kinFits.getBestMHFullFit();
+
 					std::pair<Int_t, Int_t> bestHypo = kinFits.getBestHypoFullFit();
 					std::map< std::pair<Int_t, Int_t>, Double_t> fit_results_chi2 = kinFits.getChi2FullFit();
 					std::map< std::pair<Int_t, Int_t>, Double_t> fit_results_fitprob = kinFits.getFitProbFullFit();
@@ -208,6 +204,7 @@ class PATCandidatePairNSVFitSA : public edm::EDProducer
 					std::map< std::pair<Int_t, Int_t>, Double_t> fit_results_pull_b2 = kinFits.getPullB2FullFit();
 					std::map< std::pair<Int_t, Int_t>, Double_t> fit_results_pull_balance = kinFits.getPullBalanceFullFit();
 					std::map< std::pair<Int_t, Int_t>, Int_t> fit_convergence = kinFits.getConvergenceFullFit();
+
 					/*
 					std::cout << "#############################" << std::endl;
 					std::cout << "EVENT" << i << std::endl;
@@ -219,11 +216,17 @@ class PATCandidatePairNSVFitSA : public edm::EDProducer
 					std::cout << "best hypothesis: " << bestHypo.first << " " << bestHypo.second << std::endl;
 					std::cout << "best mH=         " << mh_best << std::endl;
 					std::cout << "*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" << std::endl;
-
-					std::cout<<"Make Pair"<<std::endl;
 					*/
 					std::pair< Int_t, Int_t >hypo = std::make_pair(*hypo_mh1.begin(),*hypo_mh2.begin());
-					//std::cout<<"SetKin<variable> "<<std::endl;
+
+					//check if fit failed, if so, then change mh_best and set chi2 best to -1
+					if(fit_convergence.at(hypo) < 0){
+
+					  mh_best = (ptmiss+b1+b2+tau1vis+tau2vis).M();
+
+					  std::cout<< "Convergence failed. mh_best: " << mh_best<<std::endl;
+					  chi2_best = -12;
+					}
 					//chi2
 					compositePtrCandidate.setKinHchi2(chi2_best);
 					//best mH
@@ -239,12 +242,9 @@ class PATCandidatePairNSVFitSA : public edm::EDProducer
 					compositePtrCandidate.setKinB2(fit_results_pull_b2.at(hypo));
 					//pull balance
 					compositePtrCandidate.setKinBalance(fit_results_pull_balance.at(hypo));
-					std::cout<<"End if (two bjets)"<<std::endl;
 				}//end if
 
-				std::cout<<"push_back compositePtrCandidate"<<std::endl;
 				out->push_back(compositePtrCandidate);
-				std::cout<<"Successfully push_back compositePtrCandidate"<<std::endl;
 
 			}
 		}
