@@ -71,6 +71,9 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   double x1gen() const { return ( p4Leg1gen_.energy() > 0. ) ? p4VisLeg1gen_.energy()/p4Leg1gen_.energy() : -1.; }
   double x2gen() const { return ( p4Leg2gen_.energy() > 0. ) ? p4VisLeg2gen_.energy()/p4Leg2gen_.energy() : -1.; }
 
+  //Top Pt
+  float topGenPt() const {return topGenPt_;};
+ 
   /// return the number of source particle-like Candidates
   /// (the candidates used to construct this Candidate)
   /// MET does not count.
@@ -202,7 +205,6 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   double EventBTag() const {return EventBTag_;}
   double NBTags() const {return NBTags_;}
   TMatrixD covMatrix() const {return covMatrix_;}
-
 
   //Jet variables
   int nJets() const {return jets_.size();}
@@ -389,6 +391,9 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   void setSFCSVT1err(double SFCSVT1err) { SFCSVT1err_ = SFCSVT1err; }
   void setSFCSVT2err(double SFCSVT2err) { SFCSVT2err_ = SFCSVT2err; }
 
+  /// set top pt
+  void setTopGenPt(float topGenPt){topGenPt_ = topGenPt;};
+
   /// set gen. four-momenta
   void setP4Leg1gen(const reco::Candidate::LorentzVector& p4) { p4Leg1gen_ = p4; }
   void setP4Leg2gen(const reco::Candidate::LorentzVector& p4) { p4Leg2gen_ = p4; }
@@ -500,6 +505,8 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
 
   reco::Candidate::LorentzVector metOld_;
   reco::Candidate::LorentzVector calibratedMET_;
+
+  float topGenPt_;
 
   /// gen. four-momenta
   reco::Candidate::LorentzVector p4Leg1gen_;
