@@ -49,6 +49,7 @@ int main (int argc, char* argv[])
    parser.addOption("max",optutl::CommandLineParser::kDouble,"Maximum Value ",500.);
    parser.addOption("bins",optutl::CommandLineParser::kInteger,"Number of Bins",50);
    parser.addOption("verbose",optutl::CommandLineParser::kInteger,"verbose",0);
+   parser.addOption("binningKinFit",optutl::CommandLineParser::kDoubleVector,"Define Custom Variable Binning");
    parser.addOption("binningHighStat",optutl::CommandLineParser::kDoubleVector,"Define Custom Variable Binning");
    parser.addOption("binningLowStat",optutl::CommandLineParser::kDoubleVector,"Define Custom Variable Binning");
 
@@ -88,11 +89,11 @@ int main (int argc, char* argv[])
 
         //category options
 
-   parser.addOption("1jet0tag",optutl::CommandLineParser::kString,"Requirement for MSSM Categories 1","J1PtCSVSort>20&&J1EtaCSVSort<2.4&&J1EtaCSVSort>-2.4&&nJetsBTagCSVTPt20==0&&(!(J2PtCSVSort>20&&J2EtaCSVSort<2.4&&J2EtaCSVSort>-2.4))");
-   parser.addOption("1jet1tag",optutl::CommandLineParser::kString,"Requirement for MSSM Categories 2","J1PtCSVSort>20&&J1EtaCSVSort<2.4&&J1EtaCSVSort>-2.4&&nJetsBTagCSVTPt20==1&&(!(J2PtCSVSort>20&&J2EtaCSVSort<2.4&&J2EtaCSVSort>-2.4))");
-   parser.addOption("2jet0tag",optutl::CommandLineParser::kString,"Requirement for MSSM Categories 3","J1PtCSVSort>20&&J1EtaCSVSort<2.4&&J1EtaCSVSort>-2.4&&J2PtCSVSort>20&&J2EtaCSVSort<2.4&&J2EtaCSVSort>-2.4&&nJetsBTagCSVMPt20==0");
-   parser.addOption("2jet1tag",optutl::CommandLineParser::kString,"Requirement for MSSM Categories 4","J1PtCSVSort>20&&J1EtaCSVSort<2.4&&J1EtaCSVSort>-2.4&&J2PtCSVSort>20&&J2EtaCSVSort<2.4&&J2EtaCSVSort>-2.4&&nJetsBTagCSVMPt20==1");
-   parser.addOption("2jet2tag",optutl::CommandLineParser::kString,"Requirement for MSSM Categories 5","J1PtCSVSort>20&&J1EtaCSVSort<2.4&&J1EtaCSVSort>-2.4&&J2PtCSVSort>20&&J2EtaCSVSort<2.4&&J2EtaCSVSort>-2.4&&nJetsBTagCSVMPt20>1");
+   parser.addOption("1jet0tag",optutl::CommandLineParser::kString,"Requirement for MSSM Categories 1","J1PtCSVSort>20&&J1EtaCSVSort<2.4&&J1EtaCSVSort>-2.4&&nJetsBTagCSVTPt20==0&&(!(J2PtCSVSort>20&&J2EtaCSVSort<2.4&&J2EtaCSVSort>-2.4))&&mJJ>70&&mJJ<150&&svMass>90&&svMass<150");
+   parser.addOption("1jet1tag",optutl::CommandLineParser::kString,"Requirement for MSSM Categories 2","J1PtCSVSort>20&&J1EtaCSVSort<2.4&&J1EtaCSVSort>-2.4&&nJetsBTagCSVTPt20==1&&(!(J2PtCSVSort>20&&J2EtaCSVSort<2.4&&J2EtaCSVSort>-2.4))&&mJJ>70&&mJJ<150&&svMass>90&&svMass<150");
+   parser.addOption("2jet0tag",optutl::CommandLineParser::kString,"Requirement for MSSM Categories 3","J1PtCSVSort>20&&J1EtaCSVSort<2.4&&J1EtaCSVSort>-2.4&&J2PtCSVSort>20&&J2EtaCSVSort<2.4&&J2EtaCSVSort>-2.4&&nJetsBTagCSVMPt20==0&&mJJ>70&&mJJ<150&&svMass>90&&svMass<150");
+   parser.addOption("2jet1tag",optutl::CommandLineParser::kString,"Requirement for MSSM Categories 4","J1PtCSVSort>20&&J1EtaCSVSort<2.4&&J1EtaCSVSort>-2.4&&J2PtCSVSort>20&&J2EtaCSVSort<2.4&&J2EtaCSVSort>-2.4&&nJetsBTagCSVMPt20==1&&mJJ>70&&mJJ<150&&svMass>90&&svMass<150");
+   parser.addOption("2jet2tag",optutl::CommandLineParser::kString,"Requirement for MSSM Categories 5","J1PtCSVSort>20&&J1EtaCSVSort<2.4&&J1EtaCSVSort>-2.4&&J2PtCSVSort>20&&J2EtaCSVSort<2.4&&J2EtaCSVSort>-2.4&&nJetsBTagCSVMPt20>1&&mJJ>70&&mJJ<150&&svMass>90&&svMass<150");
 
 
 
@@ -101,11 +102,11 @@ int main (int argc, char* argv[])
    std::vector<int> bitmask = parser.integerVector("bitMask");
    DataCardCreatorHhh creator(parser);
 
-   printf("Binning HighSTat has %d entries ,LowStat has %d entries\n",(int)parser.doubleVector("binningHighStat").size(),(int)parser.doubleVector("binningLowStat").size());
+   printf("Binning KinFit has %d entries, HighStat has %d entries ,LowStat has %d entries\n",(int)parser.doubleVector("binningKinFit").size(),(int)parser.doubleVector("binningHighStat").size(),(int)parser.doubleVector("binningLowStat").size());
 
      //Inclusive
      //setHighStat Binning
-     creator.setBinning(parser.doubleVector("binningHighStat"));
+     creator.setBinning(parser.doubleVector("binningKinFit"));
      
      printf("INCLUSIVE-------------------------------------\n");
      
@@ -115,7 +116,7 @@ int main (int argc, char* argv[])
 
      
      if(bitmask[0]==1){	 
-       creator.setBinning(parser.doubleVector("binningHighStat"));
+       creator.setBinning(parser.doubleVector("binningKinFit"));
        std::string MSSM1 = parser.stringValue("btagSelection"); 
        std::string bTagSF1 = parser.stringValue("bTagSF");
        //std::string MSSM2 = parser.stringValue("btagSelection"); 
@@ -157,7 +158,7 @@ int main (int argc, char* argv[])
 	if(bitmask[1]==1){
 
 
-		creator.setBinning(parser.doubleVector("binningLowStat"));
+		creator.setBinning(parser.doubleVector("binningKinFit"));
 
 		std::cout<<"========Running 1 jet 0 tag selection========"<<std::endl;
 		std::string MSSM1 = parser.stringValue("1jet0tag"); 
@@ -184,13 +185,13 @@ int main (int argc, char* argv[])
 				bTagSF2
 				);
 
-		creator.setBinning(parser.doubleVector("binningHighStat"));
+		creator.setBinning(parser.doubleVector("binningKinFit"));
 		std::cout<<"========Running 2 jet 0 tag selection========"<<std::endl;
 		std::string MSSM3 = parser.stringValue("2jet0tag"); 
 		std::string bTagSF3 = parser.stringValue("bTagSF");					 
 
 		creator.makeHeavyHiggsShape(parser.stringValue("preselection"),MSSM3,"_2jet0tag");
-		BkgOutput outputMSSM2jet0tag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection2"),parser.stringValue("preselection"),MSSM3,"_2jet0tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
+		BkgOutput outputMSSM2jet0tag = creator.runFullExtrapBtag(parser.stringValue("relaxedSelection"),parser.stringValue("preselection"),MSSM3,"_2jet0tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
 				1,//parser.doubleValue("zExtrap"),
 				1,//parser.doubleValue("zExtrapErr"),
 				bTagSF3
@@ -202,13 +203,13 @@ int main (int argc, char* argv[])
 		std::string bTagSF4 = parser.stringValue("bTagSF");							     
 
 		creator.makeHeavyHiggsShape(parser.stringValue("preselection"),MSSM4,"_2jet1tag");
-		BkgOutput outputMSSM2jet1tag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection2"),parser.stringValue("preselection"),MSSM4,"_2jet1tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
+		BkgOutput outputMSSM2jet1tag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection"),parser.stringValue("preselection"),MSSM4,"_2jet1tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
 				1,//parser.doubleValue("zExtrap"),     	
 				1,//parser.doubleValue("zExtrapErr"),
 				bTagSF4
 				);
 
-		creator.setBinning(parser.doubleVector("binningLowStat"));
+		creator.setBinning(parser.doubleVector("binningKinFit"));
 		std::cout<<"========Running 2 jet 2 tag selection========"<<std::endl;
 		std::string MSSM5 = parser.stringValue("2jet2tag"); 
 		std::string bTagSF5 = parser.stringValue("bTagSF2");							     
@@ -222,13 +223,13 @@ int main (int argc, char* argv[])
 	}//end if 
 	if(bitmask[1]==2){
 
-		creator.setBinning(parser.doubleVector("binningHighStat"));
+		creator.setBinning(parser.doubleVector("binningKinFit"));
 		std::cout<<"========Running 2 jet 0 tag selection========"<<std::endl;
 		std::string MSSM3 = parser.stringValue("2jet0tag"); 
 		std::string bTagSF3 = parser.stringValue("bTagSF");					 
 
 		creator.makeHeavyHiggsShape(parser.stringValue("preselection"),MSSM3,"_2jet0tag");
-		BkgOutput outputMSSM2jet0tag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection2"),parser.stringValue("preselection"),MSSM3,"_2jet0tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
+		BkgOutput outputMSSM2jet0tag = creator.runFullExtrapBtag(parser.stringValue("relaxedSelection"),parser.stringValue("preselection"),MSSM3,"_2jet0tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
 				1,//parser.doubleValue("zExtrap"),
 				1,//parser.doubleValue("zExtrapErr"),
 				bTagSF3
@@ -240,13 +241,13 @@ int main (int argc, char* argv[])
 		std::string bTagSF4 = parser.stringValue("bTagSF");							     
 
 		creator.makeHeavyHiggsShape(parser.stringValue("preselection"),MSSM4,"_2jet1tag");
-		BkgOutput outputMSSM2jet1tag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection2"),parser.stringValue("preselection"),MSSM4,"_2jet1tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
+		BkgOutput outputMSSM2jet1tag = creator.runFullExtrapBtag(parser.stringValue("btagRelaxedSelection"),parser.stringValue("preselection"),MSSM4,"_2jet1tag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
 				1,//parser.doubleValue("zExtrap"),     	
 				1,//parser.doubleValue("zExtrapErr"),
 				bTagSF4
 				);
 
-		creator.setBinning(parser.doubleVector("binningLowStat"));
+		creator.setBinning(parser.doubleVector("binningKinFit"));
 		std::cout<<"========Running 2 jet 2 tag selection========"<<std::endl;
 		std::string MSSM5 = parser.stringValue("2jet2tag"); 
 		std::string bTagSF5 = parser.stringValue("bTagSF2");							     
