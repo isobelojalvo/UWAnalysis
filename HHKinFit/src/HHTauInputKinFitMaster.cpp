@@ -1,10 +1,10 @@
-#include "../interface/HHTauInputKinFitMaster.h"
+#include "../include/HHTauInputKinFitMaster.h"
 
-#include "../interface/HHEventRecord.h"
-#include "../interface/HHTauInputKinFit.h"
-#include "../interface/HHParticleList.h"
-#include "../interface/HHPID.h"
-#include "../interface/HHV4Vector.h"
+#include "../include/HHEventRecord.h"
+#include "../include/HHTauInputKinFit.h"
+#include "../include/HHParticleList.h"
+#include "../include/HHPID.h"
+#include "../include/HHV4Vector.h"
 #include "TMatrixD.h"
 
 #include "TRandom3.h"

@@ -29,7 +29,7 @@
 
 //Adding in Kin Fitter Kludge
 
-#include "UWAnalysis/HHKinFit/interface/HHKinFitMaster.h"
+#include "UWAnalysis/HHKinFit/include/HHKinFitMaster.h"
 //#include "UWAnalysis/HHKinFit/src/HHKinFitMaster.cpp"
 //#include "UWAnalysis/HHKinFit/interface/HHEventRecord.h"
 //#include "UWAnalysis/HHKinFit/interface/HHKinFit.h"
@@ -183,7 +183,7 @@ class PATCandidatePairNSVFitSA : public edm::EDProducer
 					//std::cout<<"TLorentz vector ptMiss: "<<ptmiss.Pt() <<std::endl;
 
 					TMatrixD metcov= compositePtrCandidate.covMatrix();
-					HHKinFitMaster kinFits = HHKinFitMaster(&b1,&b2,&tau1vis,&tau2vis);
+					HHKinFitMaster kinFits = HHKinFitMaster(&b1,&b2,&tau1vis,&tau2vis,false,NULL);
 
 					kinFits.setAdvancedBalance(&ptmiss,metcov);
 					//kinFits.setSimpleBalance(ptmiss.Pt(),10); //alternative which uses only the absolute value of ptmiss in the fit
@@ -220,7 +220,7 @@ class PATCandidatePairNSVFitSA : public edm::EDProducer
 					std::pair< Int_t, Int_t >hypo = std::make_pair(*hypo_mh1.begin(),*hypo_mh2.begin());
 
 					//check if fit failed, if so, then change mh_best and set chi2 best to -1
-					if(fit_convergence.at(hypo) < 0){
+					if(mh_best < 20){
 
 					  mh_best = (ptmiss+b1+b2+tau1vis+tau2vis).M();
 

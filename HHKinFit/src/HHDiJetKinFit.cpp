@@ -5,9 +5,9 @@
  *      Author: vormwald
  */
 
-#include "../interface/HHDiJetKinFit.h"
-#include "../interface/PSMath.h"
-#include "../interface/PSTools.h"
+#include "../include/HHDiJetKinFit.h"
+#include "../include/PSMath.h"
+#include "../include/PSTools.h"
 
 #include "TString.h"
 #include "TPad.h"
@@ -39,108 +39,9 @@ HHDiJetKinFit::~HHDiJetKinFit(){
 }
 
 void
-HHDiJetKinFit::FitNew()
-{
-
-  //  ----------  for PSfit -----
-  const Int_t np = 1;
-  //Double_t a[np];
-  Double_t astart[np];
-  Double_t alimit[np][2];
-
-  // calculate htau from tauvis; recombine leaves measured entries in event record untouched
-  m_recrecord->Recombine();
-
-  m_fitrecord->UpdateMothers(HHEventRecord::b1);
-  
-  // fill initial fit parameters
-  astart[0] = m_fitrecord->GetEntry(HHEventRecord::b1)->E();         // energy of first b-jet
-
-  // fit range
-  alimit[0][0] = astart[0] - m_fitrecord->GetEntry(HHEventRecord::b1)->dE() * 5.; // b-jets: 5 sigma
-  if (alimit[0][0]<0) alimit[0][0]=0;
-  alimit[0][1] = astart[0] + m_fitrecord->GetEntry(HHEventRecord::b1)->dE() * 5.;
-  
-  //first grid scan
-  Int_t steps1 = 10;
-  Double_t stepsize1=(alimit[0][1]-alimit[0][0])/(steps1*1.0);
-  Double_t minE1=0;
-  Double_t chi2_min=999999;
-  
-  for (Int_t i=0; i<steps1; i++) { // FIT loop
-    Double_t Eb1test=alimit[0][0]+i*stepsize1;
-    
-    m_fitrecord->UpdateEntry(HHEventRecord::b1)->SetEkeepM(Eb1test); // update 4-vectors with fit parameters
-    ConstrainE2(HHEventRecord::hb, HHEventRecord::b1, HHEventRecord::b2);
-
-    m_chi2_b1 = Chi2V4(HHEventRecord::b1);
-    m_chi2_b2 = Chi2V4(HHEventRecord::b2);
-    m_chi2 = m_chi2_b1 + m_chi2_b2; // chi2 calculation
-
-    if (m_chi2 < chi2_min){
-      chi2_min=m_chi2;
-      minE1=Eb1test;
-    }
-    
-    if (m_logLevel>1){
-      std::cout << "chi2 b1: " << m_chi2_b1 << std::endl;
-      std::cout << "chi2 b2: " << m_chi2_b2 << std::endl;
-      std::cout << "------------------" << std::endl;
-      std::cout << "chi2 : " << m_chi2 << std::endl;
-      std::cout << "------------------" << std::endl;
-    }
-  }
-    
-  //second grid scan
-  steps1 = 20;
-  Double_t limit1_up   = ((minE1+2*stepsize1)>alimit[0][1])?alimit[0][1]:(minE1+1*stepsize1);
-  Double_t limit1_down = ((minE1-2*stepsize1)<alimit[0][0])?alimit[0][0]:(minE1-1*stepsize1);
-  stepsize1=(limit1_up-limit1_down)/(steps1*1.0);
-  
-  for (Int_t i=0; i<steps1; i++) { // FIT loop
-    Double_t Eb1test=limit1_down+i*stepsize1;
-    
-    m_fitrecord->UpdateEntry(HHEventRecord::b1)->SetEkeepM(Eb1test); // update 4-vectors with fit parameters
-    ConstrainE2(HHEventRecord::hb, HHEventRecord::b1, HHEventRecord::b2);
-
-    m_chi2_b1 = Chi2V4(HHEventRecord::b1);
-    m_chi2_b2 = Chi2V4(HHEventRecord::b2);
-    m_chi2 = m_chi2_b1 + m_chi2_b2; // chi2 calculation
-
-    if (m_chi2 < chi2_min){
-      chi2_min=m_chi2;
-      minE1=Eb1test;
-    }
-    
-    if (m_logLevel>1){
-      std::cout << "chi2 b1: " << m_chi2_b1 << std::endl;
-      std::cout << "chi2 b2: " << m_chi2_b2 << std::endl;
-      std::cout << "------------------" << std::endl;
-      std::cout << "chi2 : " << m_chi2 << std::endl;
-      std::cout << "------------------" << std::endl;
-    }
-  }
-  
-  //calculate final best SetNextPoint
-  m_fitrecord->UpdateEntry(HHEventRecord::b1)->SetEkeepM(minE1); // update 4-vectors with fit parameters
-  ConstrainE2(HHEventRecord::hb, HHEventRecord::b1, HHEventRecord::b2);
-  m_chi2_b1 = Chi2V4(HHEventRecord::b1);
-  m_chi2_b2 = Chi2V4(HHEventRecord::b2);
-  m_chi2 = m_chi2_b1 + m_chi2_b2; // chi2 calculation
-   
-  if (m_logLevel>0){
-    std::cout << "chi2 b1: " << m_chi2_b1 << std::endl;
-    std::cout << "chi2 b2: " << m_chi2_b2 << std::endl;
-    std::cout << "------------------" << std::endl;
-    std::cout << "chi2 : " << m_chi2 << std::endl;
-    std::cout << "------------------" << std::endl;
-  }
-}
-
-void
 HHDiJetKinFit::Fit()
 {
-std::cout << "<HHDiJetKinFit::Fit>:" << std::endl;
+// std::cout << "<HHDiJetKinFit::Fit>:" << std::endl;
   //  ----------  for PSfit -----
   const Int_t np = 1;
   Double_t a[np];
@@ -149,7 +50,8 @@ std::cout << "<HHDiJetKinFit::Fit>:" << std::endl;
   Double_t aprec[np];
   Double_t daN[np];
   Double_t h[np];
-  Double_t chi2iter[1], aMemory[np], g[np], H[np * np], Hinv[np * np];
+  Double_t chi2iter[1], aMemory[np][5], g[np], H[np * np], Hinv[np * np];
+  Bool_t noNewtonShifts = false;
 
   Int_t iter = 0;             //  number of iterations
   Int_t method = 1;           //  initial fit method, see PSfit()
@@ -169,11 +71,12 @@ std::cout << "<HHDiJetKinFit::Fit>:" << std::endl;
   m_fitrecord->UpdateMothers(HHEventRecord::b1);
 
   // fill initial fit parameters
+  ConstrainE2(HHEventRecord::hb, HHEventRecord::b1, HHEventRecord::b2);
   astart[0] = m_fitrecord->GetEntry(HHEventRecord::b1)->E();         // energy of first b-jet
-  aprec[0] = 0.01;   //0.1                 // precision for fit
+  aprec[0] = 0.01;   //0.1                                           // precision for fit
 
   // fill initial step width
-  h[0] = 0.5*m_fitrecord->GetEntry(HHEventRecord::b1)->dE();        // step width = bjet uncertainty
+  h[0] = 0.5*m_fitrecord->GetEntry(HHEventRecord::b1)->dE();
 
   daN[0] = 1.0;   //0.0                 // initial search direction in Eb-Etau diagonal
 
@@ -199,6 +102,8 @@ std::cout << "<HHDiJetKinFit::Fit>:" << std::endl;
 //    fitrecord->Print("before",0);
 //    std::cout << "new values:" << "(" << alimit[0][0] << ") " << a[1] << std::endl;
     m_fitrecord->UpdateEntry(HHEventRecord::b1)->SetEkeepM(a[0]); // update 4-vectors with fit parameters
+    //HHV4Vector* entry = m_fitrecord->GetEntry(HHEventRecord::b1);
+    //m_fitrecord->UpdateEntry(HHEventRecord::b1)->SetEEtaPhiM(a[0], entry->Eta(), entry->Phi(), entry->M()*a[0]/entry->E());
     ConstrainE2(HHEventRecord::hb, HHEventRecord::b1, HHEventRecord::b2);
 
     m_chi2_b1 = Chi2V4(HHEventRecord::b1);
@@ -236,14 +141,14 @@ std::cout << "<HHDiJetKinFit::Fit>:" << std::endl;
     //    if (iter>=0) { nIterations = Iterations->SetNextPoint( V4fit[V4EventRecord::b1].E(), V4fit[V4EventRecord::tau1].E() ) ;   }
     //    if (iter>=0) { nIterations = Iterations->SetNextPoint( a[0], a[1] ) ;   }
 
-    //    PSMath::PSfitShow(iloop, m_convergence, iter, method, mode, m_printlevel,
-    //                m_graphicslevel, np, a, astart, alimit, aprec, daN, h,
-    //                m_chi2, g, H);
+    PSMath::PSfitShow(iloop, m_convergence, iter, method, mode, m_printlevel,
+                      m_graphicslevel, np, a, astart, alimit, aprec, daN, h,
+                      m_chi2, g, H);
 
     if (m_convergence != 0) {
       break;
     }
-    m_convergence = PSMath::PSfit(iloop, iter, method, mode, m_printlevel,
+    m_convergence = PSMath::PSfit(iloop, iter, method, mode, noNewtonShifts, m_printlevel,
                                   np, a, astart, alimit, aprec,
                                   daN, h, aMemory, m_chi2, chi2iter, g, H,
                                   Hinv);
@@ -283,6 +188,8 @@ HHDiJetKinFit::ConstrainE2(Int_t iv4, Int_t iv41, Int_t iv42)
   if (ID2 == HHPID::q || ID2 == HHPID::c
       || ID2 == HHPID::b || ID2 == HHPID::gluon)
     ID2jet = 1;
+
+  ID2jet = -1;
 
   beta2 = sqrt(E2 * E2 - M2 * M2) / E2;
   if (ID2jet < 0) { // is not a jet

@@ -1,10 +1,9 @@
-#include "../interface/HHV4Vector.h"
+#include "../include/HHV4Vector.h"
 
-#include "TROOT.h"
-#include "TArrow.h"
+#include <TArrow.h>
 #include <iostream>
 
-#include "../interface/PSTools.h"
+#include "../include/PSTools.h"
 
 HHV4Vector::HHV4Vector(Double_t e, Double_t eta, Double_t phi, Double_t m)
     : m_e(e), m_eta(eta), m_phi(phi), m_m(m), m_dE(0), m_dEta(0), m_dPhi(0),
@@ -283,7 +282,6 @@ HHV4Vector::Rotate(const HHV4Vector & q)
 //  //  cout << "E,Px,Py,Pztemp = " <<E3temp<< sp <<Px3temp<< sp <<Py3temp<< sp <<Pz3temp<< endl;
 //}
 
-/*
 void
 HHV4Vector::Draw(Int_t color, Int_t style) const
 {  // draw particle for event display in x-y view
@@ -293,7 +291,7 @@ HHV4Vector::Draw(Int_t color, Int_t style) const
   Ar->SetLineWidth(3);
   Ar->SetLineStyle(style);
   Ar->Draw();
-  }*/
+}
 
 void
 HHV4Vector::CalcCov()

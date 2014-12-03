@@ -4,8 +4,8 @@
  *  Created on: 17.06.2014
  */
 
-#include "../interface/HHEventRecord.h"
-#include "../interface/PSTools.h"
+#include "../include/HHEventRecord.h"
+#include "../include/PSTools.h"
 #include <iostream>
 
 HHEventRecord::HHEventRecord(HHParticleList* particlelist)
@@ -153,7 +153,7 @@ HHEventRecord::EventDisplayXY(Int_t style)
   for (Int_t index = GetNEntries() - 1; index >= 0; index--) {
     HHPID::pid pid = GetEntry(index)->ID();
     Int_t color = m_particlelist->GetParticleInfo(pid)->Color();
-    //m_eventrecord->at(index)->Draw(color, style);
+    m_eventrecord->at(index)->Draw(color, style);
   }
 }
 

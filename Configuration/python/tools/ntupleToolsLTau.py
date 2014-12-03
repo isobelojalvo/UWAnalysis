@@ -144,6 +144,13 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                     method     = cms.string("topGenPt"),
                                     leadingOnly=cms.untracked.bool(True)
                               ),
+                              antiTopGenPt = cms.PSet(
+                                    pluginType = cms.string("PATMuTauPairFiller"),
+                                    src        = cms.InputTag(src),
+                                    tag        = cms.string("antiTopGenPt"),
+                                    method     = cms.string("antiTopGenPt"),
+                                    leadingOnly=cms.untracked.bool(True)
+                              ),
                               muTauEta = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
@@ -1526,6 +1533,13 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("topGenPt"),
                                     method     = cms.string("topGenPt"),
+                                    leadingOnly=cms.untracked.bool(True)
+                              ),
+                              antiTopGenPt = cms.PSet(
+                                    pluginType = cms.string("PATEleTauPairFiller"),
+                                    src        = cms.InputTag(src),
+                                    tag        = cms.string("antiTopGenPt"),
+                                    method     = cms.string("antiTopGenPt"),
                                     leadingOnly=cms.untracked.bool(True)
                               ),
                               eleTauPt = cms.PSet(
