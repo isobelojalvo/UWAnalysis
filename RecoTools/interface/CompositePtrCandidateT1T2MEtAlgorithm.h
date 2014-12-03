@@ -279,15 +279,23 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     compositePtrCandidate.setRecoilDPhi(fabs(normalizedPhi(compositePtrCandidate.p4Vis().phi() - recoil_.phi())));
  
     bool top = false;
+    bool antiTop = false;
     float topGenPt = -1;
+    float antiTopGenPt = -1;
+
     if(genParticles!=0&& genParticles->size()>0)
       for(reco::GenParticleCollection::const_iterator i = genParticles->begin(); i!=genParticles->end(); ++i){
-	if(abs(i->pdgId())==6){
+	if(i->pdgId()==6){
 	  top = true; 
 	  topGenPt = i->pt();
 	}
+	if(i->pdgId()==-6){
+	  antiTop = true; 
+	  antiTopGenPt = i->pt();
+	}
       }
     compositePtrCandidate.setTopGenPt(topGenPt);
+    compositePtrCandidate.setAntiTopGenPt(antiTopGenPt);
 
     //sort them by bdisc
     cleanedJetsCSVsorted = cleanedJets20;

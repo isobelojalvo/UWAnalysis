@@ -73,6 +73,7 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
 
   //Top Pt
   float topGenPt() const {return topGenPt_;};
+  float antiTopGenPt() const {return antiTopGenPt_;};
  
   /// return the number of source particle-like Candidates
   /// (the candidates used to construct this Candidate)
@@ -393,6 +394,7 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
 
   /// set top pt
   void setTopGenPt(float topGenPt){topGenPt_ = topGenPt;};
+  void setAntiTopGenPt(float antiTopGenPt){antiTopGenPt_ = antiTopGenPt;};
 
   /// set gen. four-momenta
   void setP4Leg1gen(const reco::Candidate::LorentzVector& p4) { p4Leg1gen_ = p4; }
@@ -507,6 +509,7 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   reco::Candidate::LorentzVector calibratedMET_;
 
   float topGenPt_;
+  float antiTopGenPt_;
 
   /// gen. four-momenta
   reco::Candidate::LorentzVector p4Leg1gen_;

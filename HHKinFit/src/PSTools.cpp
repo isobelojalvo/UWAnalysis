@@ -1,4 +1,4 @@
-#include "../interface/PSTools.h"
+#include "../include/PSTools.h"
 
 // #include <RooEllipse.h>
 #include <Rtypes.h>
@@ -16,9 +16,9 @@
 
 PSTools::PSTools(int size)
 {
-  //gROOT->Reset();
-  //Pcanvas(size);
-  //Pstyle();
+  gROOT->Reset();
+  Pcanvas(size);
+  Pstyle();
   //  Platex (0.3, 0.7, 0.05); 
 }
 
@@ -78,7 +78,6 @@ PSTools::next(TPad* c1)
   return;
 }
 
-/*
 TCanvas*
 PSTools::Pcanvas(int flag)
 {
@@ -158,7 +157,7 @@ PSTools::Pcolor(int icol)
   //SetStatColor
   //SetStatTextColor
 }
-*/
+
 void
 PSTools::coutf(int w, TString s)
 {    //  tools for formated std::cout

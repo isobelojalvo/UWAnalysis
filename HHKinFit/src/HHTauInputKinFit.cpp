@@ -4,9 +4,9 @@
  *  Created on: Jun 17, 2014
  */
 
-#include "../interface/HHTauInputKinFit.h"
-#include "../interface/PSMath.h"
-#include "../interface/PSTools.h"
+#include "../include/HHTauInputKinFit.h"
+#include "../include/PSMath.h"
+#include "../include/PSTools.h"
 
 #include "TString.h"
 #include "TPad.h"
@@ -48,8 +48,8 @@ HHTauInputKinFit::Fit()
   Double_t aprec[np];
   Double_t daN[np];
   Double_t h[np];
-  Double_t chi2iter[1], aMemory[np], g[np], H[np * np], Hinv[np * np];
-
+  Double_t chi2iter[1], aMemory[np][5], g[np], H[np * np], Hinv[np * np];
+  Bool_t noNewtonShifts = false;
   Int_t iter = 0;             //  number of iterations
   Int_t method = 1;           //  initial fit method, see PSfit()
   Int_t mode = 1;             //  mode =1 for start of a new fit by PSfit()
@@ -141,14 +141,14 @@ HHTauInputKinFit::Fit()
       HPy[iter] = m_fitrecord->GetEntry(HHEventRecord::H)->Py();
     }
 
-    //PSMath::PSfitShow(iloop, m_convergence, iter, method, mode, m_printlevel,
-    //                m_graphicslevel, np, a, astart, alimit, aprec, daN, h,
-    //                m_chi2, g, H);
+    PSMath::PSfitShow(iloop, m_convergence, iter, method, mode, m_printlevel,
+                      m_graphicslevel, np, a, astart, alimit, aprec, daN, h,
+                      m_chi2, g, H);
 
     if (m_convergence != 0) {
       break;
     }
-    m_convergence = PSMath::PSfit(iloop, iter, method, mode, m_printlevel,
+    m_convergence = PSMath::PSfit(iloop, iter, method, mode, noNewtonShifts, m_printlevel,
                                   np, a, astart, alimit, aprec,
                                   daN, h, aMemory, m_chi2, chi2iter, g, H,
                                   Hinv);
