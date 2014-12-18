@@ -59,6 +59,7 @@ class DataCardCreatorHhh {
 				std::string shiftL = shifts_.at(i);
 				shiftL.resize(1);
 				boost::to_lower(shiftL);
+				std::cout<<"shiftL: "<<shiftL<<std::endl;
 				std::string chan = "mutau";
 				//Change Me
 				if(channel_=="eleTau") chan = "etau";
@@ -87,11 +88,16 @@ class DataCardCreatorHhh {
 			trigSelection_        = parser.stringValue("trigSelection");
 			blinding_             = parser.stringValue("blinding");
 			charge_               = parser.stringValue("charge");
-
+/*
 			ZTT_genTauSel_        = "(genVisPt1>18&&genTaus>1&&genVisPt2>18&&!((abs(pdg2)==13||abs(pdg2)==11)&&genPt2>8))"; //Zttyield
 			ZTTLL_genTauReject_   = "(genVisPt1>18&&genTaus>1&&((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))"; /// zTT_LL
 			ZJFT_genLReject_      = "(!((genTaus==0&&abs(pdg2)==13&&genPt2>8)||(genTaus==0&&abs(pdg2)==11&&genPt2>8)||(genTaus>0&&genVisPt2>18)))"; //ZJ
 			ZLFT_genLSel_         = "(genTaus==0&&((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))";///zl
+*/
+   			 ZTT_genTauSel_        = "(genVisPt1>18&&genTaus>1&&genVisPt2>18&&!((abs(pdg2)==13||abs(pdg2)==11)&&genPt2>8))"; //Zttyield
+    			 ZTTLL_genTauReject_   = "(genVisPt1>18&&genTaus>1&&((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))"; /// zTT_LL
+    			ZJFT_genLReject_      = "(!((genTaus==0&&abs(pdg2)==13&&genPt2>8)||(genTaus==0&&abs(pdg2)==11&&genPt2>8)||(genTaus>0&&genVisPt2>18)))"; //ZJ
+    			ZLFT_genLSel_         = "(genTaus==0&&((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))";///zl
 
 			dataSelection_        = "EVENT>0";
 
@@ -415,7 +421,7 @@ class DataCardCreatorHhh {
 
 			//Create Diboson
 			//stopped here!
-			std::cout<<"VV CategorySelection_: "<<categorySelection_<<std::endl;
+//			std::cout<<"VV CategorySelection_: "<<categorySelection_<<std::endl;
 			std::pair<float,float> vvYield      = createHistogramAndShiftsFinal(vvFile_,"VV",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+")*"+weight_),luminosity_*leg1Corr*tauID_,prefix);
 			std::cout<<"VV before error inflation: "<<vvYield.first<<std::endl;
 			std::pair<float,float> vvInflYield  = inflateError(vvYield,vvErr_);
@@ -548,8 +554,7 @@ class DataCardCreatorHhh {
 			//TODO: make the pdg selection cleaner Check if we are using pdg selection for fullExtrapolation
 
 			std::pair<float,float> zttYield    = createHistogramAndShiftsFinal(zttFile_,"ZTTTMP",("("+preSelection+"&&"+trigSelection_+"&&"+charge_+"&&"+ZTT_genTauSel_+")"+"*"+weight_),luminosity_*zttScale_*leg1Corr*tauID_,prefix);
-std::cout<<"MC Yield: ("<<preSelection<<"&&"<<trigSelection_<<"&&"<<charge_<<"&&"<<ZTT_genTauSel_<<")*"<<weight_<<std::endl;
-std::cout<<"MC SF: ("<<luminosity_*zttScale_*leg1Corr*tauID_<<")"<<std::endl;
+
 			std::pair<float,float> ztt_ll      = createHistogramAndShiftsFinal(zttFile_,"ZTT_LL",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&"+ZTTLL_genTauReject_+")"+"*"+weight_),luminosity_*zttScale_*leg1Corr*tauID_,prefix);
 
 			if(zShape.size()==0) {
@@ -558,11 +563,9 @@ std::cout<<"MC SF: ("<<luminosity_*zttScale_*leg1Corr*tauID_<<")"<<std::endl;
 			else{
 				//create correction factor for MT and Pzeta cuts
 				std::pair<float,float> dataWCut_Before  = createHistogramAndShifts(zShape,"ZTTWCut",("("+preSelection+"&&"+charge_+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),1.0,prefix);
-std::cout<<"Emb Inc(denom): "<<preSelection<<"&&"<<charge_<<"&&"<<"genFullMass>50&&genVisPt2>18"<<std::endl;
 				std::pair<float,float> zttShape       = createHistogramAndShifts(zShape,"ZTT",("("+preSelection+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),1.0,prefix);
-std::cout<<"Emb Shape(num): "<< preSelection<<"&&"<<osSignalSelection_<<"&&"<<categorySelection<<"&&genFullMass>50&&genVisPt2>18"<<std::endl;
 
-
+      
 				//Efficiency to go from the inclusive selection to the category selection
 				float corrector = zttShape.first/dataWCut_Before.first;
 
@@ -650,13 +653,20 @@ std::cout<<"Emb Shape(num): "<< preSelection<<"&&"<<osSignalSelection_<<"&&"<<ca
 			float leg1Corr=1.0;
 			if(muID_!=0) leg1Corr*=muID_;
 			if(eleID_!=0) leg1Corr*=eleID_;
+//New QCD Shape method
 
+			std::pair<float,float> dataQCDShape = createHistogramAndShifts(dataFile_,"QCD","("+qcdSelection_+"&&"+trigSelection_+"&&"+ssSignalSelection_+"&&"+relaxedSelection+")",scaleUp_,prefix);
+
+
+//Old QCD method
+/*
 			//create QCD shape from data and subtract off major contributors
-			std::pair<float,float> dataQCDControl = createHistogramAndShifts(dataFile_,"QCD","("+preSelection+"&&"+trigSelection_+"&&"+ssSignalSelection_+"&&"+categorySelection+")",scaleUp_,prefix);
-			std::pair<float,float> zllQCDControl  = createHistogramAndShifts(zllFile_,"ZLLQCD","("+preSelection+"&&"+trigSelection_+"&&"+ssSignalSelection_+"&&"+categorySelection+")*ZeFakeTau*"+weight_,luminosity_*leg1Corr*zttScale_,prefix);
-			std::pair<float,float> ttQCDControl   = createHistogramAndShifts(topFile_,"TOPQCD","("+preSelection+"&&"+trigSelection_+"&&"+ssSignalSelection_+"&&"+categorySelection+")*"+weight_,luminosity_*leg1Corr*tauID_*topExtrap,prefix);
+			std::pair<float,float> dataQCDControl = createHistogramAndShifts(dataFile_,"QCD","("+preSelection+"&&"+trigSelection_+"&&"+ssSignalSelection_+"&&"+relaxedSelection+")",scaleUp_,prefix);
+			std::pair<float,float> zllQCDControl  = createHistogramAndShifts(zllFile_,"ZLLQCD","("+preSelection+"&&"+trigSelection_+"&&"+ssSignalSelection_+"&&"+relaxedSelection+")*ZeFakeTau*"+weight_,luminosity_*leg1Corr*zttScale_,prefix);
+			std::pair<float,float> ttQCDControl   = createHistogramAndShifts(topFile_,"TOPQCD","("+preSelection+"&&"+trigSelection_+"&&"+ssSignalSelection_+"&&"+relaxedSelection+")*"+weight_,luminosity_*leg1Corr*tauID_*topExtrap,prefix);
+*/
 //WWeight
-			std::pair<float,float> wShapeSS       = createHistogramAndShifts(wFile_,"WQCD",("("+preSelection+"&&"+trigSelection_+"&&"+ssSignalSelection_+"&&"+categorySelection+")*"+weight_+"*WWeight"),luminosity_*leg1Corr,prefix,false);
+			std::pair<float,float> wShapeSS       = createHistogramAndShifts(wFile_,"WQCD",("("+preSelection+"&&"+trigSelection_+"&&"+ssSignalSelection_+"&&"+relaxedSelection+")*"+weight_+"*WWeight"),luminosity_*leg1Corr,prefix,false);
 
 			//create same sign W side band yields
 			std::pair<float,float> dataSSYSdb = createHistogramAndShifts(dataFile_,"data_obs_ss_sdb","("+preSelection+"&&"+trigSelection_+"&&"+ssWSelection_+"&&"+categorySelection+")",scaleUp_,prefix);
@@ -694,9 +704,9 @@ std::cout<<"Emb Shape(num): "<< preSelection<<"&&"<<osSignalSelection_<<"&&"<<ca
 			renormalizeHistogram(channel_+prefix,"WQCD",ssWLow.first);
 
 			//Now subtracting off bkgd shapes from data ss shape
-			subtractHistogram(channel_+prefix,"QCD","ZLLQCD");
-			subtractHistogram(channel_+prefix,"QCD","TOPQCD");
-			subtractHistogram(channel_+prefix,"QCD","WQCD");
+//			subtractHistogram(channel_+prefix,"QCD","ZLLQCD");
+//			subtractHistogram(channel_+prefix,"QCD","TOPQCD");
+//			subtractHistogram(channel_+prefix,"QCD","WQCD");
 
 			//SS Yield Estimate
 			std::pair<float,float> dataSSY         = createHistogramAndShifts(dataFile_,"data_obs_ss","("+preSelection+"&&"+trigSelection_+"&&"+ssSignalSelection_+"&&"+categorySelection+")",scaleUp_,prefix);
@@ -877,12 +887,31 @@ catWSelection=relaxedSelection;
 
 		void addHistogramZTT(std::string folder, std::string histo1, std::string histo2)
 		{
+			std::cout<<"In AddHistogramZTT"<<std::endl;
 			addHistogram(folder,histo1,histo2);
 			for(unsigned int i=0;i<shifts_.size();++i) {
-				addHistogram(folder,(histo1+"_"+shiftsPostFix_[i]+"Up").c_str(),histo2);
+				TH1F * h1 =(TH1F*) fout_->Get((folder+"/"+histo1+"_"+shiftsPostFix_[i]+"Up").c_str());
+				if(h1!=0) 
+				{
+					addHistogram(folder,(histo1+"_"+shiftsPostFix_[i]+"Up").c_str(),histo2);
+				}
+				else
+				{
+					printf("Shift not found = %s\n",(folder+"/"+histo1+"_"+shiftsPostFix_[i]+"Up").c_str());
+				}
+				TH1F * h2 =(TH1F*) fout_->Get((folder+"/"+histo1+"_"+shiftsPostFix_[i]+"Down").c_str());
+				if(h2!=0)
+				{
 				addHistogram(folder,(histo1+"_"+shiftsPostFix_[i]+"Down").c_str(),histo2);
-			}		
-		}
+				}		
+				else
+				{
+					printf("Shift not found = %s\n",(folder+"/"+histo1+"_"+shiftsPostFix_[i]+"Down").c_str());
+				}
+				}//end for
+
+
+		}//end addHistogram ZTT
 
 		std::pair<float,float> createHistogramAndShifts(std::string file,std::string name, std::string cut,float scaleFactor = 1, std::string postfix = "",bool normUC  = true, bool keys=false,bool ShapeUncertainty=true) {
 			TFile *f  = new TFile(file.c_str());
