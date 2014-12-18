@@ -1,0 +1,108 @@
+#!/bin/sh
+cd /nfs_scratch/$USER/WJETS/
+W_merge=0;W=1;Z=0;TOP=0;VV=0;NS=0;
+
+if [ $NS -eq 1 ]
+   then
+    EventWeightsIterative outputFile='ZJETSNS.root'   doOneD=1   weight=3504   type=3 histoName='MT/results'
+    #EventWeightsIterative outputFile='TOPNS.root'      doOneD=1   weight=225.2    type=6 histoName='MT/results'
+    EventWeightsForEfficiencyZEE $1 outputFile='ZJETSNS.root' 
+    EventWeightsForEfficiencyFastHZ $1 outputFile='ZJETS.root' 
+else
+    echo " Error in NS merging "
+fi
+
+if [ -e W_1.root ] && [ -e W_2.root ] && [ $W_merge -eq 1 ] 
+    then
+    hadd W.root W_1.root W_2.root
+    hadd W1JETS.root W1JETS_1.root W1JETS_2.root
+    hadd W2JETS.root W2JETS_1.root W2JETS_2.root
+    hadd W3JETS.root W3JETS_1.root W3JETS_2.root
+else
+    echo " Error in WJETS merging " 
+fi
+
+if [ $Z -eq 1 ]
+    then
+    EventWeightsIterativeZJets   doOneD=1   weight=3504   type=3 histoName='MT/results'
+    EventWeightsForEfficiencyZEE $1 outputFile='Z.root' 
+    EventWeightsForEfficiencyZEE $1 outputFile='Z1JETS.root' 
+    EventWeightsForEfficiencyZEE $1 outputFile='Z2JETS.root' 
+    EventWeightsForEfficiencyZEE $1 outputFile='Z3JETS.root' 
+    EventWeightsForEfficiencyZEE $1 outputFile='Z4JETS.root' 
+    EventWeightsForEfficiencyFastHZ $1 outputFile='Z.root' 
+    EventWeightsForEfficiencyFastHZ $1 outputFile='Z1JETS.root' 
+    EventWeightsForEfficiencyFastHZ $1 outputFile='Z2JETS.root' 
+    EventWeightsForEfficiencyFastHZ $1 outputFile='Z3JETS.root' 
+    EventWeightsForEfficiencyFastHZ $1 outputFile='Z4JETS.root' 
+    hadd  ZJETS.root Z.root Z1JETS.root Z2JETS.root Z3JETS.root Z4JETS.root
+else
+    echo " Error in ZJETS merging " >> logMerge
+fi
+
+
+if [ -e W.root ] && [ -e W1JETS.root ] && [ -e W2JETS.root  ] && [ -e W3JETS.root  ] && [ -e W4JETS.root  ] && [ $W -eq 1 ]
+    then
+    #EventWeightsIterativeWJets       doOneD=1   weight=36257   type=4 histoName='MT/results'
+    EventWeightsForEfficiencyFastWJets $1 outputFile='W.root'
+    EventWeightsForEfficiencyFastWJets $1 outputFile='W1JETS.root'
+    EventWeightsForEfficiencyFastWJets $1 outputFile='W2JETS.root'
+    EventWeightsForEfficiencyFastWJets $1 outputFile='W3JETS.root'
+    EventWeightsForEfficiencyFastWJets $1 outputFile='W4JETS.root'
+    hadd WJETS.root W.root W1JETS.root W2JETS.root W3JETS.root W4JETS.root
+    #EventWeightsForEfficiencyFastWJets $1 outputFile='WJETS.root'
+else
+    echo " Error in W merging " >> logMerge
+fi
+
+if [ -e TT_LL.root ] && [ -e TT_HH.root ] && [ -e TT_HL.root ] && [ $TOP -eq 1 ]
+    then
+    #EventWeightsIterative outputFile='TT_LL.root'      doOneD=1   weight=26.1973    type=6 histoName='MT/results'
+    #EventWeightsIterative outputFile='TT_HH.root'      doOneD=1   weight=114.022    type=6 histoName='MT/results'
+   #EventWeightsIterative outputFile='TT_HL.root'      doOneD=1   weight=109.281    type=6 histoName='MT/results'
+   #EventWeightsForEfficiencyFast $1 outputFile='TT_HL.root'
+   #EventWeightsForEfficiencyFast $1 outputFile='TT_LL.root'
+   #EventWeightsForEfficiencyFast $1 outputFile='TT_HH.root'
+    hadd  TOP.root TT_LL.root TT_HH.root TT_HL.root 
+    EventWeightsForEfficiencyFast $1 outputFile='TOP.root'
+else
+    echo " Error in TOP merging " >> logMerge
+fi
+
+if [ -e WW-2L.root ] && [ -e WZ-3L.root ] && [ -e ZZ-4L.root ] && [ -e WZ-LLQQ.root ] && [ -e ZZ-LLQQ.root ] && [ -e tW.root ] && [ -e tBarW.root ] && [ $VV -eq 1 ]
+    then
+    EventWeightsIterative outputFile='WW-2L.root'   doOneD=1   weight=5.824    type=7 histoName='MT/results'
+    EventWeightsIterative outputFile='WZ-3L.root'   doOneD=1   weight=1.058   type=7 histoName='MT/results'
+    EventWeightsIterative outputFile='ZZ-4L.root'   doOneD=1   weight=0.181    type=7  histoName='MT/results'
+    EventWeightsIterative outputFile='WZ-LLQQ.root' doOneD=1   weight=2.207    type=7 histoName='MT/results' 
+    EventWeightsIterative outputFile='ZZ-LLQQ.root' doOneD=1   weight=2.502    type=7 histoName='MT/results'
+    EventWeightsIterative outputFile='tW.root'  	doOneD=1   weight=11.1    type=6 histoName='MT/results' 
+    EventWeightsIterative outputFile='tBarW.root'  	doOneD=1   weight=11.1    type=6 histoName='MT/results' 
+    EventWeightsForEfficiencyFastHZ $1 outputFile='WW-2L.root'
+    EventWeightsForEfficiencyFastHZ $1 outputFile='WZ-3L.root'
+    EventWeightsForEfficiencyFastHZ $1 outputFile='WZ-LLQQ.root'
+    EventWeightsForEfficiencyFastHZ $1 outputFile='ZZ-LLQQ.root'
+    EventWeightsForEfficiencyFastHZ $1 outputFile='ZZ-4L.root'
+    EventWeightsForEfficiencyFastHZ $1 outputFile='tBarW.root'
+    EventWeightsForEfficiencyFastHZ $1 outputFile='tW.root'
+    hadd VV.root WW-2L.root WZ-3L.root  ZZ-LLQQ.root WZ-LLQQ.root tW.root tBarW.root ZZ-4L.root ZZ-LLQQ.root
+    #EventWeightsForEfficiencyFast $1 outputFile='VV.root'
+else
+    echo " Error in VV region " >> logMerge
+fi
+
+#rm W.root W1JETS.root W2JETS.root W3JETS.root W4JETS.root 
+#rm WW-2L.root WZ-3L.root ZZ-4L.root ZZ-LLQQ.root WZ-LLQQ.root tW.root tBarW.root
+
+
+
+
+
+
+
+
+
+
+
+
+

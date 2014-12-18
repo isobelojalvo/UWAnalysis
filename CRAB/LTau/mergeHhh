@@ -1,30 +1,48 @@
 #!/bin/sh
 ###the Hhh values are for tanbeta == 2 currently
 
-mkdir /nfs_scratch/ojalvo/LTau_Sep15
-cd /nfs_scratch/ojalvo/LTau_Sep15
+#mkdir /nfs_scratch/laura/LTau_Oct16
+cd /nfs_scratch/laura/LTau_Nov5/
 
 merge=1;
 weight=1;
 
 if [ $merge -eq 1 ]
     then
-    /cms/sw/farmout/mergeFiles ggHhh260.root /hdfs/store/user/$USER/ggHhhttbb260-SUB-MCH 
-    /cms/sw/farmout/mergeFiles ggHhh300.root /hdfs/store/user/$USER/ggHhhttbb300-SUB-MCH 
-    /cms/sw/farmout/mergeFiles ggHhh350.root /hdfs/store/user/$USER/ggHhhttbb350-SUB-MCH 
+    /cms/sw/farmout/mergeFiles --reuse-cache-files ggHhh260.root /hdfs/store/user/ojalvo/ggHhhttbb260-SUB-MCH 
+    /cms/sw/farmout/mergeFiles --reuse-cache-files ggHhh270.root /hdfs/store/user/laura/ggHhhttbb270-SUB-MCH 
+    /cms/sw/farmout/mergeFiles --reuse-cache-files ggHhh280.root /hdfs/store/user/laura/ggHhhttbb280-SUB-MCH 
+    /cms/sw/farmout/mergeFiles --reuse-cache-files ggHhh290.root /hdfs/store/user/laura/ggHhhttbb290-SUB-MCH 
+    /cms/sw/farmout/mergeFiles --reuse-cache-files ggHhh300.root /hdfs/store/user/ojalvo/ggHhhttbb300-SUB-MCH 
+    /cms/sw/farmout/mergeFiles --reuse-cache-files ggHhh310.root /hdfs/store/user/laura/ggHhhttbb310-SUB-MCH 
+    /cms/sw/farmout/mergeFiles --reuse-cache-files ggHhh320.root /hdfs/store/user/laura/ggHhhttbb320-SUB-MCH 
+    /cms/sw/farmout/mergeFiles --reuse-cache-files ggHhh330.root /hdfs/store/user/laura/ggHhhttbb330-SUB-MCH 
+    /cms/sw/farmout/mergeFiles --reuse-cache-files ggHhh340.root /hdfs/store/user/laura/ggHhhttbb340-SUB-MCH 
+    /cms/sw/farmout/mergeFiles --reuse-cache-files ggHhh350.root /hdfs/store/user/ojalvo/ggHhhttbb350-SUB-MCH 
 fi
 
 if [ $weight -eq 1 ]
     then
-    EventWeightsForEfficiencyFast $1 outputFile='ggHhh260.root'
-    EventWeightsForEfficiencyFast $1 outputFile='ggHhh300.root'
-    EventWeightsForEfficiencyFast $1 outputFile='ggHhh350.root'
-    EventWeightsIterative outputFile='ggHhh260.root'      doOneD=1   weight=0.4214    type=6 histoName='MT/results'
-    EventWeightsIterative outputFile='ggHhh300.root'      doOneD=1   weight=0.1632    type=6 histoName='MT/results'
-    EventWeightsIterative outputFile='ggHhh350.root'      doOneD=1   weight=0.089    type=6 histoName='MT/results'
+    EventWeightsIterative outputFile='ggHhh260.root'      doOneD=1   weight=1    type=6 histoName='MT/results'
+    EventWeightsIterative outputFile='ggHhh270.root'      doOneD=1   weight=1    type=6 histoName='MT/results'
+    EventWeightsIterative outputFile='ggHhh280.root'      doOneD=1   weight=1    type=6 histoName='MT/results'
+    EventWeightsIterative outputFile='ggHhh290.root'      doOneD=1   weight=1    type=6 histoName='MT/results'
+    EventWeightsIterative outputFile='ggHhh300.root'      doOneD=1   weight=1    type=6 histoName='MT/results'
+    EventWeightsIterative outputFile='ggHhh310.root'      doOneD=1   weight=1    type=6 histoName='MT/results'
+    EventWeightsIterative outputFile='ggHhh320.root'      doOneD=1   weight=1    type=6 histoName='MT/results'
+    EventWeightsIterative outputFile='ggHhh330.root'      doOneD=1   weight=1    type=6 histoName='MT/results'
+    EventWeightsIterative outputFile='ggHhh340.root'      doOneD=1   weight=1    type=6 histoName='MT/results'
+    EventWeightsIterative outputFile='ggHhh350.root'      doOneD=1   weight=1    type=6 histoName='MT/results'
+    EventWeightsForEfficiencyFastHZ $1 outputFile='ggHhh260.root'
+    EventWeightsForEfficiencyFastHZ $1 outputFile='ggHhh270.root'
+    EventWeightsForEfficiencyFastHZ $1 outputFile='ggHhh280.root'
+    EventWeightsForEfficiencyFastHZ $1 outputFile='ggHhh290.root'
+    EventWeightsForEfficiencyFastHZ $1 outputFile='ggHhh300.root'
+    EventWeightsForEfficiencyFastHZ $1 outputFile='ggHhh310.root'
+    EventWeightsForEfficiencyFastHZ $1 outputFile='ggHhh320.root'
+    EventWeightsForEfficiencyFastHZ $1 outputFile='ggHhh330.root'
+    EventWeightsForEfficiencyFastHZ $1 outputFile='ggHhh340.root'
+    EventWeightsForEfficiencyFastHZ $1 outputFile='ggHhh350.root'
+
 fi
 
-#mergeFiles --copy-timeout=90 SMH125.root /hdfs/store/user/$USER/SMGGH125-SUB-MCH
-#mergeFiles --copy-timeout=90 HhhttbbMA300.root /hdfs/store/user/$USER/HhhttbbMA300-SUB-MCH
-#mergeFiles --copy-timeout=90 SMH125FastSIM.root /hdfs/store/user/$USER/SMH125FastSIM-SUB-MCH
-#mergeFiles --copy-timeout=90 WH_LNu_BB_125.root /hdfs/store/user/$USER/WH_LNu_BB_125-SUB-MCH
