@@ -2,11 +2,22 @@
 
 # This a very very unfortunate recipe. :(
 
+#source environment.sh
+
 cd ../
 git clone https://github.com/cms-analysis/TauAnalysis-CandidateTools.git TauAnalysis/CandidateTools
 pushd $CMSSW_BASE/src/TauAnalysis/CandidateTools
 git checkout TauAnalysis-CandidateTools-V00-01-04s
 pushd $CMSSW_BASE/src
+
+git clone git@github.com:veelken/SVFit_standalone.git TauAnalysis/SVfitStandalone
+cd TauAnalysis/SVfitStandalone
+git checkout tags/2015Feb10
+pushd $CMSSW_BASE/src
+
+cp -r /cms/laura/UWAnalysis13/CMSSW_7_3_3/src/AnalysisDataFormats/ .
+
+
 
 
 ###################old recipe ##################333
