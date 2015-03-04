@@ -23,7 +23,7 @@ cp -r /cms/laura/UWAnalysis13/CMSSW_7_3_3/src/AnalysisDataFormats/ .
 set +o errexit
 echo "Applying pat trigger matching speedup"
 git cms-addpkg DataFormats/PatCandidates
-git apply FinalStateAnalysis/recipe/patches/DataFormats_PatCandidates_TriggerEvent.cc.patch
+git apply UWAnalysis/recipeFSA/patches/DataFormats_PatCandidates_TriggerEvent.cc.patch
 set -o errexit
 
 
