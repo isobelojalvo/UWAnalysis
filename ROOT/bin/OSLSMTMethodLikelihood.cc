@@ -280,7 +280,7 @@ void fitDataSet(RooDataSet& data,RooWorkspace* w,bool verbose)
 
   const RooArgSet* datavals = data.get(); 
 
-  cout << "observed Z enriched evs"<<datavals->getRealValue("obs_zmft")<<std::endl;
+  std::cout << "observed Z enriched evs"<<datavals->getRealValue("obs_zmft")<<std::endl;
 
   w->var("os_high")->setVal(datavals->getRealValue("obs_os_high"));
   w->var("ss_high")->setVal(datavals->getRealValue("obs_ss_high"));
