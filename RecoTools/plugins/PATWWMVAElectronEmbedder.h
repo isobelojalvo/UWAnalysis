@@ -58,8 +58,8 @@ class PATWWMVAElectronEmbedder : public edm::EDProducer {
   explicit PATWWMVAElectronEmbedder(const edm::ParameterSet& iConfig):
     src_(iConfig.getParameter<edm::InputTag>("src")),
     srcVertices_(iConfig.getParameter<edm::InputTag>("srcVertices")),
-    ebHits_(iConfig.getParameter<edm::InputTag>("ebHits")),
-    eeHits_(iConfig.getParameter<edm::InputTag>("eeHits")),
+    ebHits_(iConfig.getParameter< edm::EDGetTokenT<EcalRecHitCollection>>("ebHits")),
+    eeHits_(iConfig.getParameter< edm::EDGetTokenT<EcalRecHitCollection>>("eeHits")),
     id_(iConfig.getParameter<std::string>("id")),
     DB_(iConfig.getParameter<double>("d0")),
     DZ_(iConfig.getParameter<double>("dz"))
@@ -136,6 +136,7 @@ class PATWWMVAElectronEmbedder : public edm::EDProducer {
 
 
 	  EcalClusterLazyTools  lazyTools(iEvent,iSetup,ebHits_,eeHits_);
+	  //EcalClusterLazyTools  lazyTools(iEvent,iSetup,ebRecHitsToken_,eeRecHitsToken_);
 
 
 	  //get the MVA 
@@ -178,8 +179,10 @@ class PATWWMVAElectronEmbedder : public edm::EDProducer {
       // ----------member data ---------------------------
   edm::InputTag src_;
   edm::InputTag srcVertices_;
-  edm::InputTag ebHits_;
-  edm::InputTag eeHits_;
+  //edm::InputTag ebHits_;
+  edm::EDGetTokenT<EcalRecHitCollection> ebHits_;
+  //edm::InputTag eeHits_;
+  edm::EDGetTokenT<EcalRecHitCollection> eeHits_;
   ElectronIDMVA *mva;
   std::string id_;
   double DB_;
