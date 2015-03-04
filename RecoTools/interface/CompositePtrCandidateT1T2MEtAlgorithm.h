@@ -73,6 +73,11 @@ class CompositePtrCandidateT1T2MEtAlgorithm
   void setBTagScaleFactor(BTagScaleFactors * bFactors) {bFactors_ = bFactors;}
   void setBTSF(BtagSFV * btsf) {btsf_=  btsf;}
 
+  TMatrixD convert_matrix(const ROOT::Math::SMatrix<double,2>& mat) const {
+     TMatrixD output = TMatrixD(mat.kRows,mat.kCols, mat.Array());
+     return output;
+  }
+
   //BtagSF* btsf = new BtagSF(12345);
   CompositePtrCandidateT1T2MEt<T1,T2> buildCompositePtrCandidate(const T1Ptr leg1, 
 								 const T2Ptr leg2,
@@ -226,14 +231,19 @@ class CompositePtrCandidateT1T2MEtAlgorithm
       compositePtrCandidate.setMt2MET(compMt(leg2->p4(), correctedMET.px(), correctedMET.py()));
       compositePtrCandidate.setDPhi1MET(TMath::Abs(normalizedPhi(leg1->phi() - correctedMET.phi())));
       compositePtrCandidate.setDPhi2MET(TMath::Abs(normalizedPhi(leg2->phi() - correctedMET.phi())));
-      compositePtrCandidate.setCovMatrix( metPtr->getSignificanceMatrix() );
+      //compositePtrCandidate.setCovMatrix( metPtr->getSignificanceMatrix() );
+      compositePtrCandidate.setCovMatrix( convert_matrix(metPtr->getSignificanceMatrix()) );
       compZeta(compositePtrCandidate, leg1->p4(), leg2->p4(), correctedMET.px(), correctedMET.py()); 
       compProjMET(compositePtrCandidate, leg1->p4(), leg2->p4(), correctedMET);
       compositePtrCandidate.setMetPhi( correctedMET.phi() );
-      compositePtrCandidate.setCovMat00( metPtr->getSignificanceMatrix() );
-      compositePtrCandidate.setCovMat01( metPtr->getSignificanceMatrix() );
-      compositePtrCandidate.setCovMat10( metPtr->getSignificanceMatrix() );
-      compositePtrCandidate.setCovMat11( metPtr->getSignificanceMatrix() );
+      compositePtrCandidate.setCovMat00( convert_matrix(metPtr->getSignificanceMatrix()) );
+      compositePtrCandidate.setCovMat01( convert_matrix(metPtr->getSignificanceMatrix()) );
+      compositePtrCandidate.setCovMat10( convert_matrix(metPtr->getSignificanceMatrix()) );
+      compositePtrCandidate.setCovMat11( convert_matrix(metPtr->getSignificanceMatrix()) );
+      //compositePtrCandidate.setCovMat00( metPtr->getSignificanceMatrix() );
+      //compositePtrCandidate.setCovMat01( metPtr->getSignificanceMatrix() );
+      //compositePtrCandidate.setCovMat10( metPtr->getSignificanceMatrix() );
+      //compositePtrCandidate.setCovMat11( metPtr->getSignificanceMatrix() );
       compositePtrCandidate.setFullPt( (correctedMET + leg1->p4() + leg2->p4()).pt() );
       compositePtrCandidate.setFullEta( (correctedMET + leg1->p4() + leg2->p4()).eta() );
       compositePtrCandidate.setFullPhi( (correctedMET + leg1->p4() + leg2->p4()).phi() );

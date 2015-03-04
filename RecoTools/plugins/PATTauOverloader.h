@@ -214,7 +214,7 @@ class PATTauOverloader : public edm::EDProducer {
 	    tau.addUserFloat("leadingMVA",tau.leadPFCand()->mva_e_pi());
 
 	    if(tau.leadPFCand()->gsfTrackRef().isNonnull())
-	      tau.addUserFloat("pixelHits",tau.leadPFCand()->gsfTrackRef()->trackerExpectedHitsInner().numberOfHits());
+	      tau.addUserFloat("pixelHits",tau.leadPFCand()->gsfTrackRef()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS));
 	    else
 	      tau.addUserFloat("pixelHits",-1.);
 
@@ -223,7 +223,7 @@ class PATTauOverloader : public edm::EDProducer {
 	    tau.addUserFloat("leadingMVA",tau.leadPFChargedHadrCand()->mva_e_pi());
 
 	    if(tau.leadPFChargedHadrCand()->gsfTrackRef().isNonnull())
-	      tau.addUserFloat("pixelHits",tau.leadPFChargedHadrCand()->gsfTrackRef()->trackerExpectedHitsInner().numberOfHits());
+	      tau.addUserFloat("pixelHits",tau.leadPFChargedHadrCand()->gsfTrackRef()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS));
 	    else
 	      tau.addUserFloat("pixelHits",-1.);
 	  }

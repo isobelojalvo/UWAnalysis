@@ -115,8 +115,8 @@ class PATWWMVAElectronEmbedder : public edm::EDProducer {
 
 	  
 	  if(electron.gsfTrack().isNonnull()) {
-	    const reco::HitPattern& p_inner = electron.gsfTrack()->trackerExpectedHitsInner();
-	    if(p_inner.numberOfHits()>0)
+	    const reco::HitPattern& p_inner = electron.gsfTrack()->hitPattern();
+	    if(p_inner.numberOfHits(reco::HitPattern::MISSING_INNER_HITS)>0)
 	      passID=false;
 
 	    if(vtxHandle->size()>0) {

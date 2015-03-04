@@ -103,8 +103,12 @@ class PATWWElectronEmbedder : public edm::EDProducer {
 	    !ConversionTools::hasMatchedConversion(electron,hConversions,thebs.position());
 
 	  if(electron.gsfTrack().isNonnull()) {
-	    const reco::HitPattern& p_inner = electron.gsfTrack()->trackerExpectedHitsInner();
-	    if(p_inner.numberOfHits()>0)
+	    // int p_inner = electron.gsfTrack()->hitPattern().numberOfHits(reco::HitPatttern::MISSING_INNER_HITS);
+	    const reco::HitPattern& p_inner = electron.gsfTrack()->hitPattern();
+	    //const reco::HitPattern& p_inner = electron.gsfTrack()->trackerExpectedHitsInner();
+	    //if(p_inner.numberOfHits()>0)
+	    if(p_inner.numberOfHits(reco::HitPattern::MISSING_INNER_HITS)>0)
+
 	      passconversionveto=false;
 	  }
 	  else

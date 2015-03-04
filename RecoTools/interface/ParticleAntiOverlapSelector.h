@@ -1,6 +1,6 @@
 #ifndef TauAnalysis_CandidateTools_ParticleAntiOverlapSelector_h
 #define TauAnalysis_CandidateTools_ParticleAntiOverlapSelector_h
-
+//^change this
 /** \class ParticleAntiOverlapSelector
  *
  * Remove particles overlapping with other particles,
@@ -18,9 +18,11 @@
 
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/Event.h"
+#include "FWCore/Framework/interface/EventSetup.h"
+//#include "FWCore/Framework/interface/ED.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "DataFormats/Common/interface/Handle.h"
-
+#include "CommonTools/UtilAlgos/interface/ObjectSelector.h"
 #include "DataFormats/Candidate/interface/CandidateFwd.h" 
 #include "DataFormats/Candidate/interface/Candidate.h" 
 
@@ -34,7 +36,7 @@ class ParticleAntiOverlapSelector
  public:
   typedef std::vector<T> collection;
 
-  explicit ParticleAntiOverlapSelector(const edm::ParameterSet& cfg)
+  explicit ParticleAntiOverlapSelector(const edm::ParameterSet& cfg, edm::ConsumesCollector && cc)
   {
     srcNotToBeFiltered_ = cfg.getParameter<vInputTag>("srcNotToBeFiltered");
     dRmin_ = cfg.getParameter<double>("dRmin");
