@@ -3,6 +3,9 @@
 # This a very very unfortunate recipe. :(
 
 #source environment.sh
+set -o errexit
+set -o nounset
+
 
 cd ../
 git clone https://github.com/cms-analysis/TauAnalysis-CandidateTools.git TauAnalysis/CandidateTools
@@ -16,6 +19,12 @@ git checkout tags/2015Feb10
 pushd $CMSSW_BASE/src
 
 cp -r /cms/laura/UWAnalysis13/CMSSW_7_3_3/src/AnalysisDataFormats/ .
+
+set +o errexit
+echo "Applying pat trigger matching speedup"
+git cms-addpkg DataFormats/PatCandidates
+git apply FinalStateAnalysis/recipe/patches/DataFormats_PatCandidates_TriggerEvent.cc.patch
+set -o errexit
 
 
 
