@@ -40,10 +40,10 @@ int main (int argc, char* argv[])
 
    parser.parseArguments (argc, argv);
 
-   string inputFile = parser.stringValue("dataFile");
-   string tree    = parser.stringValue("tree");
-   string weight  = parser.stringValue("weight");
-   string cut     = parser.stringValue("cut");
+   std::string inputFile = parser.stringValue("dataFile");
+   std::string tree    = parser.stringValue("tree");
+   std::string weight  = parser.stringValue("weight");
+   std::string cut     = parser.stringValue("cut");
    int bins       = parser.integerValue("bins");
    double min     = parser.doubleValue("min");
    double max     = parser.doubleValue("max");
