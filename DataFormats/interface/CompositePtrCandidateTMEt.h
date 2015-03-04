@@ -60,7 +60,7 @@ class CompositePtrCandidateTMEt : public reco::LeafCandidate
   const METPtr met() const { return met_; }
 
   /// get transverse mass of visible decay products + missing transverse momentum
-  double mt() const { return mt_; }
+  double Mt() const { return mt_; }
   double mJJ() const {return mjj_;}
   double ptJJ() const {return ptjj_;}
   void setJJVariables(double mjj,double ptjj) {
@@ -72,9 +72,9 @@ class CompositePtrCandidateTMEt : public reco::LeafCandidate
   double corMt() const { return corMt_; }
 
   /// build transverse momentum 
-  double pt() const { return pt_; }
-  double px() const { return px_; }
-  double py() const { return py_; }
+  double Pt() const { return pt_; }
+  double Px() const { return px_; }
+  double Py() const { return py_; }
 
   double corPt() const { return corPt_; }
   double corPx() const { return corPx_; }
