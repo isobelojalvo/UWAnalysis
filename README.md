@@ -6,7 +6,7 @@ H->tautau (+ many other) Final States! : )
 
 #Set Up instructions:
 
-cmsrel CMSSW_7_2_3_patch1
+```cmsrel CMSSW_7_2_3_patch1
 cd CMSSW_7_2_3_patch1/src/
 cmsenv
 git cms-init 
@@ -16,6 +16,8 @@ source recipeSL6.sh
 
 cd UWAnalysis
 rm -rf StatTools
+```
+
 
 #Building comments
 stattools is left behind in 715X because HiggsCombine is stuck there
