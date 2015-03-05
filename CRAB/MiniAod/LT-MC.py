@@ -23,7 +23,8 @@ process.source = cms.Source("PoolSource",
 )
 
 
-from UWAnalysis.Configuration.tools.analysisToolsPT import *
+#added in etau and mutau triggers
+from UWAnalysis.Configuration.tools.analysisToolsMiniAod import *
 defaultReconstructionMC(process,'HLT',
                       [
 						'HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1',
@@ -33,8 +34,7 @@ defaultReconstructionMC(process,'HLT',
                       
 
 #EventSelection
-#process.load("UWAnalysis.Configuration.MiniAodAnalysis_cff")
-process.load("UWAnalysis.Configuration.LepTauAnalysis_cff")
+process.load("UWAnalysis.Configuration.MiniAodAnalysis_cff")
 
 process.metCalibration.applyCalibration = cms.bool(False)
 
@@ -67,11 +67,11 @@ createGeneratedParticles(process,
 )
 
 
-from UWAnalysis.Configuration.tools.ntupleToolsLTau import addMuTauEventTree
+from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
 addMuTauEventTree(process,'muTauEventTreeFinal','diTausOS','diMuonsSorted')
 
-from UWAnalysis.Configuration.tools.ntupleToolsLTau import addEleTauEventTree
+from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addEleTauEventTree
 addEleTauEventTree(process,'eleTauEventTree')
 addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','osDiElectrons')
 
