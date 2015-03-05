@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# This a very very unfortunate recipe. :(
 
 #source environment.sh
 set -o errexit
