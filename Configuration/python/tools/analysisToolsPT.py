@@ -44,7 +44,6 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
 
   TriLeptons(process)
   ReNameJetColl(process)
-  #ReRunJets(process)
   jetOverloading(process,"NewSelectedPatJets")
   PATJetMVAEmbedder(process,"patOverloadedJets")  
   #Default selections for systematics
@@ -89,7 +88,6 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
   
   TriLeptons(process)
-  #ReRunJetsMC(process)
   ReNameJetColl(process)
 
   jetOverloading(process,"NewSelectedPatJets")  
@@ -135,7 +133,6 @@ def defaultReconstructionMCNoES(process,triggerProcess = 'HLT',triggerPaths = ['
   tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
   
   TriLeptons(process)
-  #ReRunJetsMC(process)
   ReNameJetColl(process)
 
   jetOverloading(process,"NewSelectedPatJets")  
@@ -181,7 +178,6 @@ def defaultReconstructionEMBMT(process,triggerProcess = 'HLT',triggerPaths = ['H
   tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
   
   TriLeptons(process)
-  #ReRunJets(process)
   ReNameJetColl(process)
   
   #kineWeightsEmbMT(process)
@@ -228,7 +224,6 @@ def defaultReconstructionEMBET(process,triggerProcess = 'HLT',triggerPaths = ['H
   tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
   
   TriLeptons(process)
-  #ReRunJets(process)
   ReNameJetColl(process)
   
   #kineWeightsEmbET(process)
@@ -355,244 +350,6 @@ def ReNameJetColl(process):
   
   process.analysisSequence*= process.NewSelectedPatJets
   
-
-def ReRunJetsMC(process):
-  process.load("RecoJets.Configuration.RecoPFJets_cff") 
-  import PhysicsTools.PatAlgos.tools.jetTools as jettools
-  process.load("PhysicsTools.PatAlgos.patSequences_cff")
-  process.load("UWAnalysis.Configuration.tools.patJetPUId_cfi")
-  from RecoBTag.SoftLepton.softLepton_cff import *
-  from RecoBTag.ImpactParameter.impactParameter_cff import *
-  from RecoBTag.SecondaryVertex.secondaryVertex_cff import *
-  from RecoBTau.JetTagComputer.combinedMVA_cff import *
-  process.pileupJetIdProducer.applyJec = cms.bool(True)
-  process.pileupJetIdProducer.residualsTxt = cms.FileInPath('UWAnalysis/Configuration/data/dummy.txt') 
-
-  process.load('RecoVertex/AdaptiveVertexFinder/inclusiveVertexing_cff')
-  #process.load('RecoBTag/SecondaryVertex/bToCharmDecayVertexMerger_cfi')
-
-  process.simpleSecondaryVertex = cms.ESProducer("SimpleSecondaryVertexESProducer",
-                                                       use3d = cms.bool(True),
-                                                       unBoost = cms.bool(False),
-                                                       useSignificance = cms.bool(True),
-                                                       minTracks = cms.uint32(2)
-                                                   )
-
-  # Define options for BTagging - these are release dependent.
-  btag_options = {'doBTagging': True}
-  btag_options['btagInfo'] = [
-    'impactParameterTagInfos',
-    'secondaryVertexTagInfos',
-    'softMuonTagInfos'
-  ]
-  btag_options['btagdiscriminators'] = [
-    'simpleSecondaryVertexHighEffBJetTags',
-    'simpleSecondaryVertexHighPurBJetTags',
-    'combinedSecondaryVertexMVABJetTags',
-    'combinedSecondaryVertexBJetTags',
-    ]
-    
-  jec = ['L1FastJet', 'L2Relative', 'L3Absolute']
-  # For Data jec.extend(['L2L3Residual'])
-  
-  jettools.switchJetCollection(
-        process,
-        cms.InputTag('ak5PFJets'),
-        doJTA=False,
-        jetCorrLabel=('AK5PF', jec),
-        #jetCorrLabel = None,
-        doType1MET=False,
-        doJetID=True,
-        genJetCollection=cms.InputTag("ak5GenJets"),
-        outputModules=[],
-        **btag_options       
-  )
-  process.patJets.embedPFCandidates = False
-  process.patJets.embedCaloTowers = False
-  process.patJets.embedGenJetMatch = False
-  process.patJets.addAssociatedTracks = False
-  process.patJets.embedGenPartonMatch = False
-  process.patJets.tagInfoSources = cms.VInputTag(
-    cms.InputTag("impactParameterTagInfos"),
-    #cms.InputTag("secondaryVertexNegativeTagInfos"),
-    cms.InputTag("secondaryVertexTagInfos"))
-  process.patJets.discriminatorSources = cms.VInputTag(
-    cms.InputTag("combinedSecondaryVertexMVABJetTags"),
-    cms.InputTag("combinedSecondaryVertexBJetTags"),
-    cms.InputTag("simpleSecondaryVertexHighPurBJetTags"),
-    cms.InputTag("simpleSecondaryVertexHighEffBJetTags"))
-  process.patJets.trackAssociationSource = cms.InputTag("ak5JetTracksAssociatorAtVertex")
-  process.patJets.addBTagInfo = cms.bool(True)
-  process.patJets.addDiscriminators = cms.bool(True)
-  process.patJets.addTagInfos = cms.bool(True)
-
-  process.ak5JetTracksAssociatorAtVertex = cms.EDProducer("JetTracksAssociatorAtVertex",
-                                                          tracks       = cms.InputTag("generalTracks"),
-                                                          jets         = cms.InputTag("ak5PFJets"),
-                                                          coneSize     = cms.double(0.5)
-                                                          )
-  
-  process.load('UWAnalysis.Configuration.tools.RecoBTag_cff')  
-  process.patJetCharge.src = cms.InputTag("ak5JetTracksAssociatorAtVertex")
-  process.NewSelectedPatJets = process.selectedPatJets.clone(src = cms.InputTag("patJetId"))
-  process.analysisSequence = cms.Sequence(
-  					process.analysisSequence*
-  					process.ak5PFJets*
-  					process.ak5JetTracksAssociatorAtVertex*
-  					process.btagging*
-  					process.pileupJetIdProducer*
-  					process.makePatJets*
-  					process.patJetsPUID*
-  					process.patJetId*
-  					process.NewSelectedPatJets  					
-  					)
-
-def ReRunJets(process):
-
-  process.load("RecoJets.Configuration.RecoPFJets_cff") 
-  import PhysicsTools.PatAlgos.tools.jetTools as jettools
-  process.load("PhysicsTools.PatAlgos.patSequences_cff")
-  process.load("UWAnalysis.Configuration.tools.patJetPUId_cfi")
-  from RecoBTag.SoftLepton.softLepton_cff import *
-  from RecoBTag.ImpactParameter.impactParameter_cff import *
-  from RecoBTag.SecondaryVertex.secondaryVertex_cff import *
-  from RecoBTau.JetTagComputer.combinedMVA_cff import *
-
-  process.pileupJetIdProducer.applyJec = cms.bool(True)
-  process.pileupJetIdProducer.residualsTxt = cms.FileInPath('UWAnalysis/Configuration/data/dummy.txt') 
-
-
-  # Define options for BTagging - these are release dependent.
-  btag_options = {'doBTagging': True}
-  btag_options['btagInfo'] = [
-            'secondaryVertexTagInfos',
-  ]
-  btag_options['btagdiscriminators'] = [
-    'simpleSecondaryVertexHighEffBJetTags',
-    'simpleSecondaryVertexHighPurBJetTags',
-    'combinedSecondaryVertexMVABJetTags',
-    'combinedSecondaryVertexBJetTags',
-  ]
-
-  jec = ['L1FastJet', 'L2Relative', 'L3Absolute', 'L2L3Residual']
-
-  
-  jettools.switchJetCollection(
-        process,
-        cms.InputTag('ak5PFJets'),
-        doJTA=False,
-        jetCorrLabel=('AK5PF', jec),
-        #jetCorrLabel = None,
-        doType1MET=False,
-        doJetID=True,
-        genJetCollection=cms.InputTag("ak5GenJets"),
-        outputModules=[],
-        **btag_options       
-  )
-  process.patJets.embedPFCandidates = False
-  process.patJets.embedCaloTowers = False
-  process.patJets.embedGenJetMatch = False
-  process.patJets.addAssociatedTracks = False
-  process.patJets.embedGenPartonMatch = False
-  process.patJets.tagInfoSources = cms.VInputTag(cms.InputTag("secondaryVertexTagInfos"))
-  process.patJets.discriminatorSources = cms.VInputTag(cms.InputTag("combinedSecondaryVertexMVABJetTags"), cms.InputTag("combinedSecondaryVertexBJetTags"), cms.InputTag("simpleSecondaryVertexHighPurBJetTags"), cms.InputTag("simpleSecondaryVertexHighEffBJetTags"))
-  process.patJets.addBTagInfo = cms.bool(True)
-  
-  process.ak5JetTracksAssociatorAtVertex = cms.EDProducer("JetTracksAssociatorAtVertex",
-   	  tracks       = cms.InputTag("generalTracks"),
-      jets         = cms.InputTag("ak5PFJets"),
-      coneSize     = cms.double(0.5)
-  )
-  
-  process.load('UWAnalysis.Configuration.tools.RecoBTag_cff')  
-  process.patJetCharge.src = cms.InputTag("ak5JetTracksAssociatorAtVertex")
-  process.NewSelectedPatJets = process.selectedPatJets.clone(src = cms.InputTag("patJetId"))
-  process.makePatJetsData = cms.Sequence(process.patJetCorrFactors+
-  										process.patJetCharge+
-  										process.patJets)
-  
-  process.analysisSequence = cms.Sequence(
-  					process.analysisSequence*
-  					process.ak5PFJets*
-  					process.ak5JetTracksAssociatorAtVertex*
-  					process.btagging*
-  					process.pileupJetIdProducer*
-  					process.makePatJetsData*
-  					process.patJetsPUID*
-  					process.patJetId*
-  					process.NewSelectedPatJets  					
-  					)
-
-
-def ReRunJetsEMB(process):
-
-  process.load("RecoJets.Configuration.RecoPFJets_cff") 
-  import PhysicsTools.PatAlgos.tools.jetTools as jettools
-  process.load("PhysicsTools.PatAlgos.patSequences_cff")
-  process.load("UWAnalysis.Configuration.tools.patJetPUId_cfi")
-  from RecoBTag.SoftLepton.softLepton_cff import *
-  from RecoBTag.ImpactParameter.impactParameter_cff import *
-  from RecoBTag.SecondaryVertex.secondaryVertex_cff import *
-  from RecoBTau.JetTagComputer.combinedMVA_cff import *
-
-  process.pileupJetIdProducer.applyJec = cms.bool(True)
-  process.pileupJetIdProducer.residualsTxt = cms.FileInPath('UWAnalysis/Configuration/data/dummy.txt') 
-
-  # Define options for BTagging - these are release dependent.
-  btag_options = {'doBTagging': True}
-  btag_options['btagInfo'] = [
-            'secondaryVertexTagInfos',
-  ]
-  btag_options['btagdiscriminators'] = [
-            'combinedSecondaryVertexMVABJetTags',
-            'combinedSecondaryVertexBJetTags',
-  ]
-
-  jec = ['L1FastJet', 'L2Relative', 'L3Absolute', 'L2L3Residual']
-
-  
-  jettools.switchJetCollection(
-        process,
-        cms.InputTag('ak5PFJets'),
-        doJTA=False,
-        jetCorrLabel=('AK5PF', jec),
-        #jetCorrLabel = None,
-        doType1MET=False,
-        doJetID=True,
-        genJetCollection=cms.InputTag("ak5GenJets"),
-        outputModules=[],
-        **btag_options       
-  )
-  process.patJets.embedPFCandidates = False
-  process.patJets.embedCaloTowers = False
-  process.patJets.embedGenJetMatch = False
-  process.patJets.addAssociatedTracks = False
-  process.patJets.embedGenPartonMatch = False
-  process.patJets.tagInfoSources = cms.VInputTag(cms.InputTag("secondaryVertexTagInfos"))
-  process.patJets.discriminatorSources = cms.VInputTag(cms.InputTag("combinedSecondaryVertexMVABJetTags"), cms.InputTag("combinedSecondaryVertexBJetTags"))
-  process.patJets.addBTagInfo = cms.bool(True)
-  
-  process.ak5JetTracksAssociatorAtVertex = cms.EDProducer("JetTracksAssociatorAtVertex",
-   	  tracks       = cms.InputTag("tmfTracks"),
-      jets         = cms.InputTag("ak5PFJets"),
-      coneSize     = cms.double(0.5)
-  )
-  
-  process.load('UWAnalysis.Configuration.tools.RecoBTag_cff')  
-  process.patJetCharge.src = cms.InputTag("ak5JetTracksAssociatorAtVertex")
-  process.NewSelectedPatJets = process.selectedPatJets.clone(src = cms.InputTag("patJetId"))
-  process.analysisSequence = cms.Sequence(
-  					process.analysisSequence*
-  					process.ak5PFJets*
-  					process.ak5JetTracksAssociatorAtVertex*
-  					process.btagging*
-  					process.pileupJetIdProducer*
-  					process.makePatJets*
-  					process.patJetsPUID*
-  					process.patJetId*
-  					process.NewSelectedPatJets  					
-  					)
-
 def kineWeightsEmbET(process):
 
   process.load('TauAnalysis/MCEmbeddingTools/embeddingKineReweight_cff')
