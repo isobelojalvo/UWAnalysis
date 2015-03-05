@@ -1,5 +1,6 @@
 <library   name="UWAnalysisRecoTools_plugins" file="*.cc">
   <flags   EDM_PLUGIN="1"/>
+  <use   name="UWAnalysis/RecoTools"/>
   <use   name="FWCore/Framework"/>
   <use   name="FWCore/MessageLogger"/>
   <use   name="FWCore/PluginManager"/>
@@ -11,6 +12,7 @@
   <use   name="DataFormats/PatCandidates"/>
   <use   name="DataFormats/EgammaCandidates"/>
   <use   name="DataFormats/EcalRecHit"/>
+  <use   name="DQMServices/Core"/>
   <use   name="RecoEgamma/EgammaTools"/>
   <use   name="PhysicsTools/IsolationAlgos"/>
   <use   name="PhysicsTools/PatUtils"/>

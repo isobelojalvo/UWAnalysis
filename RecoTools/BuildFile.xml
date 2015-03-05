@@ -51,7 +51,6 @@
 <use   name="rootminuit"/>
 <use   name="rootminuit2"/>
 <use   name="roottmva"/>
-
 <export>
 <lib   name="1"/>
 </export>
