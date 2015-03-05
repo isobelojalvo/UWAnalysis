@@ -11,49 +11,6 @@ from PhysicsTools.PatAlgos.tools.pfTools import *
 from PhysicsTools.PatAlgos.tools.trigTools import *
 import sys
 
-def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu9','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v2','HLT_Mu15_v1','HLT_Mu15_v2'],HLT = 'hltTriggerSummaryAOD'):
-  process.load("UWAnalysis.Configuration.startUpSequence_cff")
-  process.load("Configuration.Geometry.GeometryIdeal_cff")
-  process.load("Configuration.StandardSequences.MagneticField_cff")
-  process.load("Configuration.StandardSequences.Services_cff")
-  process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
-  process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
-  process.load("DQMServices.Core.DQM_cfg")
-  process.load("DQMServices.Components.DQMEnvironment_cfi")
-
-  
-  #Make the TriggerPaths Global variable to be accesed by the ntuples
-  global TriggerPaths
-  TriggerPaths= triggerPaths
-  process.analysisSequence = cms.Sequence()
-
-  mvaMet2(process)
-
-  #Don't apply energy scaling but run through sequence anyways
-  EScaledTaus(process,False)
-
-  #Add trigger Matching
-  muonTriggerMatchPT(process,triggerProcess,HLT)
-  electronTriggerMatchPT(process,triggerProcess,HLT)
-  tauTriggerMatchPT(process,triggerProcess,HLT)
-
-  #Build good vertex collection
-  goodVertexFilter(process)  
-  tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
-  
-
-  TriLeptons(process)
-  ReNameJetColl(process)
-  jetOverloading(process,"NewSelectedPatJets")
-  PATJetMVAEmbedder(process,"patOverloadedJets")  
-  #Default selections for systematics
-  applyDefaultSelectionsPT(process)
-  
-
-  
-  process.runAnalysisSequence = cms.Path(process.analysisSequence)
-
-
 def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu9','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v2','HLT_Mu15_v1','HLT_Mu15_v2'],HLT = 'hltTriggerSummaryAOD'):
   process.load("UWAnalysis.Configuration.startUpSequence_cff")
   process.load("Configuration.Geometry.GeometryIdeal_cff")
@@ -64,16 +21,12 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   process.load("DQMServices.Core.DQM_cfg")
   process.load("DQMServices.Components.DQMEnvironment_cfi")
 
-
-
-
   #Make the TriggerPaths Global variable to be accesed by the ntuples
   global TriggerPaths
   TriggerPaths= triggerPaths
   process.analysisSequence = cms.Sequence()
 
   mvaMet2MC(process) #FIXME!!!! Can't find isomuons
-
 
   #Apply Tau Energy Scale Changes
   EScaledTaus(process,True)
@@ -91,7 +44,8 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   ReNameJetColl(process)
 
   jetOverloading(process,"NewSelectedPatJets")  
-  PATJetMVAEmbedder(process,"patOverloadedJets")  
+  #turned off BDT
+  #PATJetMVAEmbedder(process,"patOverloadedJets")  
   #Default selections for systematics
   applyDefaultSelectionsPT(process)
   
@@ -136,7 +90,7 @@ def defaultReconstructionMCNoES(process,triggerProcess = 'HLT',triggerPaths = ['
   ReNameJetColl(process)
 
   jetOverloading(process,"NewSelectedPatJets")  
-  PATJetMVAEmbedder(process,"patOverloadedJets")  
+  #PATJetMVAEmbedder(process,"patOverloadedJets")  
   #Default selections for systematics
   applyDefaultSelectionsPT(process)
   
@@ -182,7 +136,7 @@ def defaultReconstructionEMBMT(process,triggerProcess = 'HLT',triggerPaths = ['H
   
   #kineWeightsEmbMT(process)
   jetOverloading(process,"NewSelectedPatJets")  
-  PATJetMVAEmbedder(process,"patOverloadedJets")  
+  #PATJetMVAEmbedder(process,"patOverloadedJets")  
   #Default selections for systematics
   applyDefaultSelectionsPT(process)
   
@@ -228,7 +182,7 @@ def defaultReconstructionEMBET(process,triggerProcess = 'HLT',triggerPaths = ['H
   
   #kineWeightsEmbET(process)
   jetOverloading(process,"NewSelectedPatJets")  
-  PATJetMVAEmbedder(process,"patOverloadedJets")  
+  #PATJetMVAEmbedder(process,"patOverloadedJets")  
   #Default selections for systematics
   applyDefaultSelectionsPT(process)
   
@@ -236,6 +190,51 @@ def defaultReconstructionEMBET(process,triggerProcess = 'HLT',triggerPaths = ['H
   #Build good vertex collection
 
   process.runAnalysisSequence = cms.Path(process.analysisSequence)
+
+
+#def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu9','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v2','HLT_Mu15_v1','HLT_Mu15_v2'],HLT = 'hltTriggerSummaryAOD'):
+#  process.load("UWAnalysis.Configuration.startUpSequence_cff")
+#  process.load("Configuration.Geometry.GeometryIdeal_cff")
+#  process.load("Configuration.StandardSequences.MagneticField_cff")
+#  process.load("Configuration.StandardSequences.Services_cff")
+#  process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
+#  process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
+#  process.load("DQMServices.Core.DQM_cfg")
+#  process.load("DQMServices.Components.DQMEnvironment_cfi")
+#
+#  
+#  #Make the TriggerPaths Global variable to be accesed by the ntuples
+#  global TriggerPaths
+#  TriggerPaths= triggerPaths
+#  process.analysisSequence = cms.Sequence()
+#
+#  mvaMet2(process)
+#
+#  #Don't apply energy scaling but run through sequence anyways
+#  EScaledTaus(process,False)
+#
+#  #Add trigger Matching
+#  muonTriggerMatchPT(process,triggerProcess,HLT)
+#  electronTriggerMatchPT(process,triggerProcess,HLT)
+#  tauTriggerMatchPT(process,triggerProcess,HLT)
+#
+#  #Build good vertex collection
+#  goodVertexFilter(process)  
+#  tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
+#  
+#
+#  TriLeptons(process)
+#  ReNameJetColl(process)
+#  jetOverloading(process,"NewSelectedPatJets")
+#  #PATJetMVAEmbedder(process,"patOverloadedJets")  
+#  #Default selections for systematics
+#  applyDefaultSelectionsPT(process)
+#  
+#
+#  
+#  process.runAnalysisSequence = cms.Path(process.analysisSequence)
+#
+
 
 def jetOverloading(process,jets):
 
