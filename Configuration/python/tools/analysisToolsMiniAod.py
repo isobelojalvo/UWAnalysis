@@ -277,29 +277,7 @@ def EScaledTaus(process,smearing):  #second arg is bool
   process.analysisSequence*=process.EScaledTaus
 
   #process.createESTausID=cms.Path(process.analysisSequence*process.EScaledTaus)
-  
-#def EScaledMet(process,smearing):  #second arg is bool
-
-#  process.ESMet = cms.EDProducer("ESMetProducer",
-#                                    src = cms.InputTag("patMVAMet"),
-#                                    Taus = cms.InputTag("cleanPatTaus"),
-#                                    module_label = cms.string("FROGS"),
-#                                    smearConstituents = cms.bool(True),
-#                                    smearMCParticle = cms.bool(False),
-#                                    energyScale  = cms.double(1.0),
-#                                    energyScaleDB= cms.int32(0),
-#                                    deltaEta     = cms.double(0.0),
-#                                    deltaPhi     = cms.double(0.0),
-#                                    deltaPtB     = cms.double(0.0),
-#                                    deltaPtE     = cms.double(0.0)
-#                                    )
-#  
-#  process.EScaledMet = cms.Sequence(process.ESMet)
-#  process.analysisSequence*=process.EScaledMet
-  #process.createESTausID=cms.Path(process.analysisSequence*process.EScaledTaus)
-  
-
-
+ 
 def mvaMet2(process):
 
   #process.load('RecoMET.METProducers.mvaPFMET_cff_leptons')
@@ -318,7 +296,7 @@ def mvaMet2(process):
   	addGenMET = cms.bool(False)
   )
   
-  process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak5PFJets*process.calibratedAK5PFJetsForPFMEtMVA*process.pfMEtMVAsequence*process.patMVAMet)
+  process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.calibratedAK4PFJetsForPFMVAMEt*process.pfMVAMEtSequence*process.patMVAMet)
   #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMEtMVAsequence*process.patMVAMet)
 
   #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMEtMVAsequence*process.patMVAMet)
@@ -327,7 +305,7 @@ def mvaMet2MC(process):
 
   #process.load('RecoMET.METProducers.mvaPFMET_cff_leptons')
   #process.load("JetMETCorrections.METPUSubtraction.mvaPFMET_leptons_PAT_cfi")
-  process.load("RecoMET.METPUSubtraction.mvaPFMET_leptons_cff")
+  process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
 
   process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")
 
@@ -340,7 +318,7 @@ def mvaMet2MC(process):
   	addGenMET = cms.bool(False)
   )
   
-  process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak5PFJets*process.calibratedAK5PFJetsForPFMEtMVA*process.pfMEtMVAsequence*process.patMVAMet)
+  process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.calibratedAK4PFJetsForPFMVAMEt*process.pfMVAMEtSequence*process.patMVAMet)
 
 def ReNameJetColl(process):
 
@@ -739,7 +717,7 @@ def createRecoilSystematics(process,sequence,postfix,metScale,metResolution):
 
 def pfMetWithSignficance(process):
 
-    # Get PFMET w/ singificance
+    # Get PFMET w/ significance
     process.load("TauAnalysis.CandidateTools.PFMETSignCovMatrixEmbedder_cfi")
 
     process.metWithSig = process.patMETSignEmbedder.clone(
@@ -752,7 +730,27 @@ def pfMetWithSignficance(process):
         process.analysisSequence *
         process.metWithSig
     )
-    
+ 
+#def pfMetWithSignficance(process):
+
+    # Get PFMET w/ significance
+    # 
+#    process.load("UWAnalysis.Configuration.tools.pfMetCovariance_cfi")
+#    process.load("TauAnalysis.CandidateTools.PFMETSignCovMatrixEmbedder_cfi")
+#
+#
+#    process.metWithSig = process.patMETSignEmbedder.clone(
+#        src = cms.InputTag("systematicsMET"),
+#        srcCov = cms.InputTag("pfMEtSignCovMatrix")
+#    )
+
+
+#    process.analysisSequence = cms.Sequence(
+#        process.analysisSequence *
+#        process.metSignficanceSequence *
+#        process.metWithSig
+#    )
+   
 
 # stephane's addition
 def addTagAndProbePlotter(process,type,name,src,ref,selections,methods,triggers,triggersProbe):
@@ -773,23 +771,4 @@ def addTagAndProbePlotter(process,type,name,src,ref,selections,methods,triggers,
   p = cms.EndPath(getattr(process,'tagAndProbe'+name))
   setattr(process,'tagAndProbePath'+name,p)   
 
-
-def pfMetWithSignficance(process):
-
-    # Get PFMET w/ singificance
-    process.load("UWAnalysis.Configuration.tools.pfMetCovariance_cfi")
-    process.load("TauAnalysis.CandidateTools.PFMETSignCovMatrixEmbedder_cfi")
-
-
-    process.metWithSig = process.patMETSignEmbedder.clone(
-        src = cms.InputTag("systematicsMET"),
-        srcCov = cms.InputTag("pfMEtSignCovMatrix")
-    )
-
-
-    process.analysisSequence = cms.Sequence(
-        process.analysisSequence *
-        process.metSignficanceSequence *
-        process.metWithSig
-    )
 
