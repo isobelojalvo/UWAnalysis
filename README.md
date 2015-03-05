@@ -13,10 +13,10 @@ cmsenv
 git cms-init 
 git clone --recursive -b sl6_dev https://github.com/lmdodd/UWAnalysis.git   
 cd UWAnalysis
-source recipeSL6.sh
-
-cd UWAnalysis
 rm -rf StatTools
+source recipeSL6.sh
+export USER_CXXFLAGS="-Wno-delete-non-virtual-dtor -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=reorder"
+scram b -j 8
 ```
 
 
