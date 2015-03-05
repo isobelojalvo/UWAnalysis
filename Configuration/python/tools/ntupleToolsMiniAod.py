@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-from UWAnalysis.Configuration.tools.analysisToolsPT import TriggerPaths
+from UWAnalysis.Configuration.tools.analysisToolsMiniAod import TriggerPaths
 
 
 def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted', srcU='TightMuons', srcE='TightElectrons'):
@@ -1136,9 +1136,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               trigger = cms.PSet(
                                   pluginType = cms.string("TriggerFiller"),
                                   src        = cms.InputTag("patTrigger"),
-                                  paths      = cms.vstring(
-                                      TriggerPaths
-                                  )
+                                  paths      = cms.vstring(TriggerPaths)
                               ),
                               eleTauSize = cms.PSet(
                                     pluginType = cms.string("CollectionSizeFiller"),
