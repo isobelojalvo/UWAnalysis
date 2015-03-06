@@ -17,7 +17,12 @@ source recipeSL6.sh
 export USER_CXXFLAGS="-Wno-delete-non-virtual-dtor -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=reorder"
 scram b -j 8
 ```
+to run
 
+```
+cd CRAB/MiniAod
+cmsRun LT-MC.py
+```
 
 #Building comments
 stattools is left behind in 715X because HiggsCombine is stuck there. Will have to add back in StatTools as a later date.
