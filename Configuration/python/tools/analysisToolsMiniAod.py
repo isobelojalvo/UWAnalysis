@@ -278,7 +278,7 @@ def EScaledTaus(process,smearing):  #second arg is bool
   #process.createESTausID=cms.Path(process.analysisSequence*process.EScaledTaus)
  
 def mvaMet2(process):
-
+  #fordata
   #process.load('RecoMET.METProducers.mvaPFMET_cff_leptons')
   #process.load("JetMETCorrections.METPUSubtraction.mvaPFMET_leptons_PAT_cfi")
   process.load("RecoMET.METPUSubtraction.mvaPFMET_leptons_data_cff")
@@ -301,24 +301,52 @@ def mvaMet2(process):
   #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMEtMVAsequence*process.patMVAMet)
 
 def mvaMet2MC(process):
-
-  #process.load('RecoMET.METProducers.mvaPFMET_cff_leptons')
-  #process.load("JetMETCorrections.METPUSubtraction.mvaPFMET_leptons_PAT_cfi")
+  process.load("RecoJets.JetProducers.ak4PFJets_cfi")
+  process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
+  process.ak4PFJets.doAreaFastjet = True
+  #from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFJetsL1FastL2L3
+  process.load('JetMETCorrections.Configuration.JetCorrectionProducers_cff')
   process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
+  #process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
+  process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
+  process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
+  process.pfMVAMEt.srcCorrJets = cms.InputTag('calibratedAK4PFJetsForPFMVAMEt')
+  process.pfMVAMEt.srcUncorrJets = cms.InputTag('ak4PFJets')
+  process.puJetIdForPFMVAMEt.jec =  cms.string('AK4PF')
+  #process.puJetIdForPFMVAMEt.jets = cms.InputTag("ak4PFJets")
+  process.puJetIdForPFMVAMEt.vertexes = cms.InputTag("offlineSlimmedPrimaryVertices")
+  process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
 
   process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")
 
-  process.load("RecoJets.Configuration.RecoPFJets_cff")
-  process.ak5PFJets.doAreaFastjet = True
   
   process.patMVAMet = process.patMETs.clone(
-  	metSource = cms.InputTag('pfMEtMVA'),
+  	metSource = cms.InputTag('pfMVAMEt'),
   	addMuonCorrections = cms.bool(False),
   	addGenMET = cms.bool(False)
   )
   
-  process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.calibratedAK4PFJetsForPFMVAMEt*process.pfMVAMEtSequence*process.patMVAMet)
+  process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.pfMVAMEtSequence*process.patMVAMet)
+  #process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.calibratedAK4PFJetsForPFMVAMEt*process.pfMVAMEtSequence*process.patMVAMet)
 
+
+#def mvaMet2MC(process):
+#
+#  process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
+#
+#  process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")
+#
+#  process.load("RecoJets.Configuration.RecoPFJets_cff")
+#  process.ak5PFJets.doAreaFastjet = True
+#  
+#  process.patMVAMet = process.patMETs.clone(
+#  	metSource = cms.InputTag('pfMEtMVA'),
+#  	addMuonCorrections = cms.bool(False),
+#  	addGenMET = cms.bool(False)
+#  )
+#  
+#  process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.calibratedAK4PFJetsForPFMVAMEt*process.pfMVAMEtSequence*process.patMVAMet)
+#
 def ReNameJetColl(process):
 
   process.load("PhysicsTools.PatAlgos.patSequences_cff")
