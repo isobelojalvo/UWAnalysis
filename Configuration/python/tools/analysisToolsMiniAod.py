@@ -11,7 +11,7 @@ from PhysicsTools.PatAlgos.tools.pfTools import *
 from PhysicsTools.PatAlgos.tools.trigTools import *
 import sys
 
-def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu9','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v2','HLT_Mu15_v1','HLT_Mu15_v2'],HLT = 'hltTriggerSummaryAOD'):
+def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu9','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v2','HLT_Mu15_v1','HLT_Mu15_v2'],HLT = 'TriggerResults'):
   process.load("UWAnalysis.Configuration.startUpSequence_cff")
   process.load("Configuration.Geometry.GeometryIdeal_cff")
   process.load("Configuration.StandardSequences.MagneticField_cff")
@@ -26,221 +26,68 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   TriggerPaths= triggerPaths
   process.analysisSequence = cms.Sequence()
 
-  mvaMet2MC(process) #FIXME!!!! Can't find isomuons
+  mvaMetMC(process)
 
   #Apply Tau Energy Scale Changes
   EScaledTaus(process,True)
 
   #Add trigger Matching
-  muonTriggerMatchPT(process,triggerProcess,HLT)
-  electronTriggerMatchPT(process,triggerProcess,HLT)
-  tauTriggerMatchPT(process,triggerProcess,HLT)
+  tauTriggerMatch(process)
+  #muonTriggerMatchPT(process,triggerProcess,HLT)#broken
+  #electronTriggerMatchPT(process,triggerProcess,HLT)#broken
+  #tauTriggerMatchPT(process,triggerProcess,HLT)#broken
   
   #Build good vertex collection
   goodVertexFilter(process)  
   tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
   
-  TriLeptons(process)
-  ReNameJetColl(process)
-
+  triLeptons(process)
+  renameJetColl(process)
   jetOverloading(process,"NewSelectedPatJets")  
   #turned off BDT
   #PATJetMVAEmbedder(process,"patOverloadedJets")  
   #Default selections for systematics
   applyDefaultSelectionsPT(process)
-  
-
-  #Build good vertex collection
-
-  process.runAnalysisSequence = cms.Path(process.analysisSequence)
-  
-  
-def defaultReconstructionMCNoES(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu9','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v2','HLT_Mu15_v1','HLT_Mu15_v2'],HLT = 'hltTriggerSummaryAOD'):
-  process.load("UWAnalysis.Configuration.startUpSequence_cff")
-  process.load("Configuration.Geometry.GeometryIdeal_cff")
-  process.load("Configuration.StandardSequences.MagneticField_cff")
-  process.load("Configuration.StandardSequences.Services_cff")
-  process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
-  process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
-  process.load("DQMServices.Core.DQM_cfg")
-  process.load("DQMServices.Components.DQMEnvironment_cfi")
-
-
-  #Make the TriggerPaths Global variable to be accesed by the ntuples
-  global TriggerPaths
-  TriggerPaths= triggerPaths
-  process.analysisSequence = cms.Sequence()
-
-  mvaMet2MC(process)
-
-
-  #Apply Tau Energy Scale Changes
-  EScaledTaus(process,False)
-
-  #Add trigger Matching
-  muonTriggerMatchPT(process,triggerProcess,HLT)
-  electronTriggerMatchPT(process,triggerProcess,HLT)
-  tauTriggerMatchPT(process,triggerProcess,HLT)
-  
-  #Build good vertex collection
-  goodVertexFilter(process)  
-  tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
-  
-  TriLeptons(process)
-  ReNameJetColl(process)
-
-  jetOverloading(process,"NewSelectedPatJets")  
-  #PATJetMVAEmbedder(process,"patOverloadedJets")  
-  #Default selections for systematics
-  applyDefaultSelectionsPT(process)
-  
 
   #Build good vertex collection
 
   process.runAnalysisSequence = cms.Path(process.analysisSequence)
 
 
-def defaultReconstructionEMBMT(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu9','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v2','HLT_Mu15_v1','HLT_Mu15_v2'],HLT = 'hltTriggerSummaryAOD'):
-  process.load("UWAnalysis.Configuration.startUpSequence_cff")
-  process.load("Configuration.Geometry.GeometryIdeal_cff")
-  process.load("Configuration.StandardSequences.MagneticField_cff")
-  process.load("Configuration.StandardSequences.Services_cff")
-  process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
-  process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
-  process.load("DQMServices.Core.DQM_cfg")
-  process.load("DQMServices.Components.DQMEnvironment_cfi")
 
+def renameJetColl(process):
+  process.load("RecoJets.JetProducers.ak4PFJets_cfi")
+  process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
+  #process.load("PhysicsTools.PatAlgos.patSequences_cff")
+  #process.NewSelectedPatJets = process.selectedPatJets.clone(
+  #   src = cms.InputTag("ak4PFJets")
+  #)
+  process.NewSelectedPatJets=cms.Sequence(process.ak4PFJets)
+  process.analysisSequence*=process.NewSelectedPatJets
 
-  #Make the TriggerPaths Global variable to be accesed by the ntuples
-  global TriggerPaths
-  TriggerPaths= triggerPaths
-  process.analysisSequence = cms.Sequence()
+def tauTriggerMatch(process):
 
-  mvaMet2(process)
+  process.patMatchTriggerMuon = cms.EDProducer(
+      'PATTriggerMatcherDRDPtLessByR' # match by DeltaR and DeltaPt, best match by DeltaR
+      , src = cms.InputTag( 'slimmedMuons' )
+      , matched = cms.InputTag( 'selectedPatTrigger' ) # default producer label as defined in PhysicsTools/PatAlgos/python/triggerLayer1/triggerProducer_cfi.py
+      , matchedCuts = cms.string( 'type( "TriggerL1Mu" ) || type( "TriggerMuon" )' )
+      , maxDPtRel = cms.double( 0.5 )
+      , maxDeltaR = cms.double( 0.5 )
+      , resolveAmbiguities = cms.bool( True ) # only one match per trigger object
+      , resolveByMatchQuality = cms.bool( False ) # take first match found per reco object
+  )
 
-
-  #Apply Tau Energy Scale Changes
-  EScaledTaus(process,True)
-
-  #Add trigger Matching
-  muonTriggerMatchPT(process,triggerProcess,HLT)
-  electronTriggerMatchPT(process,triggerProcess,HLT)
-  tauTriggerMatchPT(process,triggerProcess,HLT)
-
-  #Build good vertex collection
-  goodVertexFilter(process)  
-  tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
-  
-  TriLeptons(process)
-  ReNameJetColl(process)
-  
-  #kineWeightsEmbMT(process)
-  jetOverloading(process,"NewSelectedPatJets")  
-  #PATJetMVAEmbedder(process,"patOverloadedJets")  
-  #Default selections for systematics
-  applyDefaultSelectionsPT(process)
-  
-
-  #Build good vertex collection
-
-  process.runAnalysisSequence = cms.Path(process.analysisSequence)
-  
-
-def defaultReconstructionEMBET(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu9','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v2','HLT_Mu15_v1','HLT_Mu15_v2'],HLT = 'hltTriggerSummaryAOD'):
-  process.load("UWAnalysis.Configuration.startUpSequence_cff")
-  process.load("Configuration.Geometry.GeometryIdeal_cff")
-  process.load("Configuration.StandardSequences.MagneticField_cff")
-  process.load("Configuration.StandardSequences.Services_cff")
-  process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
-  process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
-  process.load("DQMServices.Core.DQM_cfg")
-  process.load("DQMServices.Components.DQMEnvironment_cfi")
-
-
-  #Make the TriggerPaths Global variable to be accesed by the ntuples
-  global TriggerPaths
-  TriggerPaths= triggerPaths
-  process.analysisSequence = cms.Sequence()
-
-  mvaMet2(process)
-
-
-  #Apply Tau Energy Scale Changes
-  EScaledTaus(process,True)
-
-  #Add trigger Matching
-  muonTriggerMatchPT(process,triggerProcess,HLT)
-  electronTriggerMatchPT(process,triggerProcess,HLT)
-  tauTriggerMatchPT(process,triggerProcess,HLT)
-
-  #Build good vertex collection
-  goodVertexFilter(process)  
-  tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
-  
-  TriLeptons(process)
-  ReNameJetColl(process)
-  
-  #kineWeightsEmbET(process)
-  jetOverloading(process,"NewSelectedPatJets")  
-  #PATJetMVAEmbedder(process,"patOverloadedJets")  
-  #Default selections for systematics
-  applyDefaultSelectionsPT(process)
-  
-
-  #Build good vertex collection
-
-  process.runAnalysisSequence = cms.Path(process.analysisSequence)
-
-
-#def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu9','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v2','HLT_Mu15_v1','HLT_Mu15_v2'],HLT = 'hltTriggerSummaryAOD'):
-#  process.load("UWAnalysis.Configuration.startUpSequence_cff")
-#  process.load("Configuration.Geometry.GeometryIdeal_cff")
-#  process.load("Configuration.StandardSequences.MagneticField_cff")
-#  process.load("Configuration.StandardSequences.Services_cff")
-#  process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
-#  process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
-#  process.load("DQMServices.Core.DQM_cfg")
-#  process.load("DQMServices.Components.DQMEnvironment_cfi")
-#
-#  
-#  #Make the TriggerPaths Global variable to be accesed by the ntuples
-#  global TriggerPaths
-#  TriggerPaths= triggerPaths
-#  process.analysisSequence = cms.Sequence()
-#
-#  mvaMet2(process)
-#
-#  #Don't apply energy scaling but run through sequence anyways
-#  EScaledTaus(process,False)
-#
-#  #Add trigger Matching
-#  muonTriggerMatchPT(process,triggerProcess,HLT)
-#  electronTriggerMatchPT(process,triggerProcess,HLT)
-#  tauTriggerMatchPT(process,triggerProcess,HLT)
-#
-#  #Build good vertex collection
-#  goodVertexFilter(process)  
-#  tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
-#  
-#
-#  TriLeptons(process)
-#  ReNameJetColl(process)
-#  jetOverloading(process,"NewSelectedPatJets")
-#  #PATJetMVAEmbedder(process,"patOverloadedJets")  
-#  #Default selections for systematics
-#  applyDefaultSelectionsPT(process)
-#  
-#
-#  
-#  process.runAnalysisSequence = cms.Path(process.analysisSequence)
-#
+  process.tauTriggerMatch = cms.Sequence(process.patMatchTriggerMuon)
+  process.analysisSequence*=process.tauTriggerMatch
 
 
 def jetOverloading(process,jets):
 
   process.patOverloadedJets = cms.EDProducer('PATJetOverloader',
                                         src = cms.InputTag(jets),
-                                        genJets = cms.InputTag("ak5GenJets")
+                                        genJets = cms.InputTag("ak4GenJets")
+                                        #genJets = cms.InputTag("ak5GenJets")
   )                                        
 
   process.jetOverloading = cms.Sequence(process.patOverloadedJets)
@@ -259,7 +106,7 @@ def PATJetMVAEmbedder(process,jets):
 def EScaledTaus(process,smearing):  #second arg is bool
 
   process.ESTausID = cms.EDProducer("ESTauProducer",
-                                    src = cms.InputTag("cleanPatTaus"),
+                                    src = cms.InputTag("slimmedTaus"),
                                     module_label = cms.string("FROGS"),
                                     genParticles = cms.InputTag("genParticles"),
                                     smearConstituents = cms.bool(smearing),
@@ -275,49 +122,35 @@ def EScaledTaus(process,smearing):  #second arg is bool
   process.EScaledTaus = cms.Sequence(process.ESTausID)
   process.analysisSequence*=process.EScaledTaus
 
-  #process.createESTausID=cms.Path(process.analysisSequence*process.EScaledTaus)
- 
-def mvaMet2(process):
-  #fordata
-  #process.load('RecoMET.METProducers.mvaPFMET_cff_leptons')
-  #process.load("JetMETCorrections.METPUSubtraction.mvaPFMET_leptons_PAT_cfi")
-  process.load("RecoMET.METPUSubtraction.mvaPFMET_leptons_data_cff")
+
+def mvaMetMC(process):
 
   process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")
-
-  process.load("RecoJets.Configuration.RecoPFJets_cff")
-  process.ak5PFJets.doAreaFastjet = True
-
-  
-  process.patMVAMet = process.patMETs.clone(
-  	metSource = cms.InputTag('pfMEtMVA'),
-  	addMuonCorrections = cms.bool(False),
-  	addGenMET = cms.bool(False)
-  )
-  
-  process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.calibratedAK4PFJetsForPFMVAMEt*process.pfMVAMEtSequence*process.patMVAMet)
-  #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMEtMVAsequence*process.patMVAMet)
-
-  #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMEtMVAsequence*process.patMVAMet)
-
-def mvaMet2MC(process):
   process.load("RecoJets.JetProducers.ak4PFJets_cfi")
   process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
+  process.load("RecoJets.Configuration.RecoPFJets_cff")
   process.ak4PFJets.doAreaFastjet = True
-  #from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFJetsL1FastL2L3
-  process.load('JetMETCorrections.Configuration.JetCorrectionProducers_cff')
+
+  from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFJetsL1FastL2L3
+ 
+  process.load("JetMETCorrections.Configuration.JetCorrectionServicesAllAlgos_cff")
+  process.prefer("ak4PFL1FastL2L3") 
+
   process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
   #process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
   process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
   process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
-  process.pfMVAMEt.srcCorrJets = cms.InputTag('calibratedAK4PFJetsForPFMVAMEt')
-  process.pfMVAMEt.srcUncorrJets = cms.InputTag('ak4PFJets')
+
   process.puJetIdForPFMVAMEt.jec =  cms.string('AK4PF')
   #process.puJetIdForPFMVAMEt.jets = cms.InputTag("ak4PFJets")
   process.puJetIdForPFMVAMEt.vertexes = cms.InputTag("offlineSlimmedPrimaryVertices")
   process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
 
-  process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")
+
+  #process.calibratedAK4PFJetsForPFMVAMEt = cms.EDProducer('PFJetCorrectionProducer',
+  #  src = cms.InputTag('ak4PFJets'),
+  #  correctors = cms.vstring("ak4PFL1FastL2L3") # NOTE: use "ak5PFL1FastL2L3" for MC / "ak5PFL1FastL2L3Residual" for Data
+  #)
 
   
   process.patMVAMet = process.patMETs.clone(
@@ -326,35 +159,34 @@ def mvaMet2MC(process):
   	addGenMET = cms.bool(False)
   )
   
+  #calibrated ak4jets should be in pfMVAMetSequence
   process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.pfMVAMEtSequence*process.patMVAMet)
-  #process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.calibratedAK4PFJetsForPFMVAMEt*process.pfMVAMEtSequence*process.patMVAMet)
 
+def LHEFilter(process):
 
-#def mvaMet2MC(process):
-#
-#  process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
-#
-#  process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")
-#
-#  process.load("RecoJets.Configuration.RecoPFJets_cff")
-#  process.ak5PFJets.doAreaFastjet = True
-#  
-#  process.patMVAMet = process.patMETs.clone(
-#  	metSource = cms.InputTag('pfMEtMVA'),
-#  	addMuonCorrections = cms.bool(False),
-#  	addGenMET = cms.bool(False)
-#  )
-#  
-#  process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.calibratedAK4PFJetsForPFMVAMEt*process.pfMVAMEtSequence*process.patMVAMet)
-#
-def ReNameJetColl(process):
+  process.LHEFilter = cms.EDFilter("GenFilterLHE",
+       PartonMultiplicity=cms.untracked.int32(5),
+  )
+  
+  process.analysisSequence*= process.LHEFilter
 
-  process.load("PhysicsTools.PatAlgos.patSequences_cff")
-  
-  process.NewSelectedPatJets = process.selectedPatJets.clone(src = cms.InputTag("selectedPatJets"))
-  
-  process.analysisSequence*= process.NewSelectedPatJets
-  
+def triLeptons(process):
+
+  process.TightElectrons = cms.EDFilter("PATElectronSelector",
+  							src = cms.InputTag("slimmedElectrons"),
+  							cut = cms.string('pt>10&&abs(eta)<2.5&&userInt("mvaidwp")>0&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045&&(!(userInt("HasMatchedConversion")>0))&&userInt("missingHits")==0&&(userIso(0)+max(userIso(1)+neutralHadronIso()-0.5*userIso(2),0.0))/pt()<0.3'),
+  							filter = cms.bool(False)
+  						)
+  						
+  process.TightMuons = cms.EDFilter("PATMuonSelector",
+  							src = cms.InputTag("slimmedMuons"),
+  							cut = cms.string('pt>10&&abs(eta)<2.4&&userInt("tightID")>0&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045&&isGlobalMuon&&(userIso(0)+max(photonIso+neutralHadronIso()-0.5*puChargedHadronIso,0.0))/pt()<0.3'),
+  							filter = cms.bool(False)
+  						)
+
+  process.analysisSequence = cms.Sequence(process.analysisSequence*process.TightMuons*process.TightElectrons)
+  						
+   
 def kineWeightsEmbET(process):
 
   process.load('TauAnalysis/MCEmbeddingTools/embeddingKineReweight_cff')
@@ -371,32 +203,6 @@ def kineWeightsEmbMT(process):
   process.embeddingKineReweightRECembedding.inputFileName = cms.FileInPath('TauAnalysis/MCEmbeddingTools/data/embeddingKineReweight_muPtGt16tauPtGt18_recEmbedded.root')
   
   process.analysisSequence = cms.Sequence(process.analysisSequence*process.embeddingKineReweightSequenceRECembedding)
-  
-
-def LHEFilter(process):
-
-  process.LHEFilter = cms.EDFilter("GenFilterLHE",
-       PartonMultiplicity=cms.untracked.int32(5),
-  )
-  
-  process.analysisSequence*= process.LHEFilter
-
-def TriLeptons(process):
-
-  process.TightElectrons = cms.EDFilter("PATElectronSelector",
-  							src = cms.InputTag("cleanPatElectrons"),
-  							cut = cms.string('pt>10&&abs(eta)<2.5&&userInt("mvaidwp")>0&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045&&(!(userInt("HasMatchedConversion")>0))&&userInt("missingHits")==0&&(userIso(0)+max(userIso(1)+neutralHadronIso()-0.5*userIso(2),0.0))/pt()<0.3'),
-  							filter = cms.bool(False)
-  						)
-  						
-  process.TightMuons = cms.EDFilter("PATMuonSelector",
-  							src = cms.InputTag("cleanPatMuons"),
-  							cut = cms.string('pt>10&&abs(eta)<2.4&&userInt("tightID")>0&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045&&isGlobalMuon&&(userIso(0)+max(photonIso+neutralHadronIso()-0.5*puChargedHadronIso,0.0))/pt()<0.3'),
-  							filter = cms.bool(False)
-  						)
-
-  process.analysisSequence = cms.Sequence(process.analysisSequence*process.TightMuons*process.TightElectrons)
-  						
   						
 
   						
@@ -409,17 +215,18 @@ def applyDefaultSelectionsPT(process):
                                            filter = cms.bool(False)
   										)  
   process.selectedPatElectrons = cms.EDFilter("PATElectronSelector",
-                                           src = cms.InputTag("cleanPatElectrons"),
+                                           src = cms.InputTag("slimmedElectrons"),
                                            cut = cms.string('pt>10&&userFloat("wp95")>0&&(userIso(0)+max(photonIso+neutralHadronIso()-0.5*userIso(2),0.0))/pt()<0.3'),
                                            filter = cms.bool(False)
   										)
   process.selectedPatMuons = cms.EDFilter("PATMuonSelector",
-                                           src = cms.InputTag("cleanPatMuons"),
+                                           src = cms.InputTag("slimmedMuons"),
                                            cut = cms.string('pt>10&&userInt("tightID")&&(userIso(0)+max(photonIso+neutralHadronIso()-0.5*puChargedHadronIso,0.0))/pt()<0.3'),
                                            filter = cms.bool(False)
   										) 
   process.cleanPatJets = cms.EDProducer("PATJetCleaner",
-                                           src = cms.InputTag("patMVAEmbeddedJets"),#patOverloadedJets
+                                           #src = cms.InputTag("patMVAEmbeddedJets"),#patOverloadedJets
+                                           src = cms.InputTag("patOverloadedJets"),
                                            preselection = cms.string('abs(eta)<4.7&&userFloat("idLoose")>0&&pt>10&&userInt("fullIdLoose")>0'),
                                            checkOverlaps = cms.PSet(),
                                            finalCut = cms.string('')
@@ -431,7 +238,7 @@ def applyDefaultSelectionsPT(process):
 def muonTriggerMatchPT(process,triggerProcess,HLT):
 
    process.triggeredPatMuons = cms.EDProducer("MuonTriggerMatcher",
-                                            src = cms.InputTag("cleanPatMuons"),
+                                            src = cms.InputTag("slimmedMuons"),
                                             trigEvent = cms.InputTag(HLT),
                                             filters = cms.VInputTag(
                                                 cms.InputTag('hltSingleMuIsoL3IsoFiltered12','',triggerProcess),
@@ -471,7 +278,7 @@ def muonTriggerMatchPT(process,triggerProcess,HLT):
 def electronTriggerMatchPT(process,triggerProcess,HLT):
 
    process.triggeredPatElectronsL = cms.EDProducer("ElectronTriggerMatcher",
-                                            src = cms.InputTag("cleanPatElectrons"),
+                                            src = cms.InputTag("slimmedElectrons"),
                                             trigEvent = cms.InputTag(HLT),
                                             filters = cms.VInputTag(
                                                 cms.InputTag('hltEle17CaloIdLCaloIsoVLPixelMatchFilterDoubleEG125','',triggerProcess),
@@ -479,7 +286,7 @@ def electronTriggerMatchPT(process,triggerProcess,HLT):
                                             pdgId = cms.int32(0)
    )
    process.triggeredPatElectrons = cms.EDProducer("ElectronTriggerMatcher",
-                                            src = cms.InputTag("cleanPatElectrons"),
+                                            src = cms.InputTag("slimmedElectrons"),
                                             trigEvent = cms.InputTag(HLT),
                                             filters = cms.VInputTag(
                                                 cms.InputTag('hltOverlapFilterIsoEle15IsoPFTau20','',triggerProcess),
@@ -555,24 +362,12 @@ def tauOverloading(process,src,vtxSrc):
 
   process.patOverloadedTaus = cms.EDProducer('PATTauOverloader',
                                         src = cms.InputTag(src),
-                                        muons = cms.InputTag('cleanPatMuons'),
+                                        muons = cms.InputTag('slimmedMuons'),
                                         vtxSrc = cms.InputTag(vtxSrc)
   )                                        
 
   process.analysisSequence=cms.Sequence(process.analysisSequence*process.patOverloadedTaus)
 
-## def muonOverloading(process,muons,taus):
-
-
-##   process.patOverloadedMuons = cms.EDProducer('PATMuonOverloader',
-##                                         taus = cms.InputTag(taus),
-##                                         muons = cms.InputTag(muons),
-##                                         vtxSrc = cms.InputTag('primaryVertexFilter')
-##   )                                        
-
-##   process.analysisSequence=cms.Sequence(process.analysisSequence*process.patOverloadedMuons)
-
-  
 
 def getAllEventCounters(process,path,onSkim = False):
         stringList = []
@@ -622,7 +417,7 @@ def createGeneratedParticles(process,name,commands):
 
 
   refObjects = cms.EDProducer("GenParticlePruner",
-    src = cms.InputTag("genParticles"),
+    src = cms.InputTag("prunedGenParticles"),
     select = cms.vstring(
     "drop  *  " 
     )
@@ -635,7 +430,7 @@ def createGeneratedParticles2(process,name,commands):
 
 
   refObjects = cms.EDProducer("GenParticlePruner",
-    src = cms.InputTag("genParticles"),
+    src = cms.InputTag("prunedGenParticles"),
     select = cms.vstring(
     "drop  *  " 
     )
@@ -665,7 +460,7 @@ def createGeneratedTaus(process,decayMode,fiducialCuts):
 def goodVertexFilter(process):
 
   process.primaryVertexFilter = cms.EDFilter("VertexSelector",
-                                        src = cms.InputTag('offlinePrimaryVertices'),
+                                        src = cms.InputTag('offlineSlimmedPrimaryVertices'),
                                         cut = cms.string('ndof()>4&&position().rho()<2&&abs(z())<24'),
                                         filter = cms.bool(False)
   )   

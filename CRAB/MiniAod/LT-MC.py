@@ -3,7 +3,7 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("ANALYSIS")
 
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
-process.GlobalTag.globaltag = 'PLS170_V7AN1::All'
+process.GlobalTag.globaltag = 'PHYS14_25_V1'
 
 
 process.maxEvents = cms.untracked.PSet(
@@ -14,7 +14,7 @@ process.maxEvents = cms.untracked.PSet(
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-'file:/hdfs/store/mc/Phys14DR/TTJets_MSDecaysCKM_central_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU4bx50_PHYS14_25_V1-v1/10000/FE06FEE7-E97B-E411-9AE2-0025905A608A.root'
+'file:/hdfs/store/mc/Phys14DR/TT_Tune4C_13TeV-pythia8-tauola/MINIAODSIM/PU20bx25_tsg_PHYS14_25_V1-v1/10000/F842EB7D-B470-E411-B141-0025905A60CE.root'
 		),
 		inputCommands=cms.untracked.vstring(
 						'keep *',
@@ -69,12 +69,8 @@ createGeneratedParticles(process,
 
 from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
-addMuTauEventTree(process,'muTauEventTreeFinal','diTausOS','diMuonsSorted')
 
 from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addEleTauEventTree
 addEleTauEventTree(process,'eleTauEventTree')
-addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','osDiElectrons')
 
-addEventSummary(process,True,'MT','eventSelectionMT')
-addEventSummary(process,True,'ET','eventSelectionET')
 

@@ -39,7 +39,7 @@ svFitLikelihoodMuTauMEt = cms.PSet(
         perpSigma = cms.string("6.85*(1 - 0.00547*x)"),
         perpBias = cms.string("0."),
     ),
-    srcPFCandidates = cms.InputTag('particleFlow')
+    srcPFCandidates = cms.InputTag('packedPFCandidate')
 )
 
 svFitLikelihoodMuTauPtBalance = cms.PSet(
@@ -75,7 +75,7 @@ svFitLikelihoodEleTauMEt = cms.PSet(
         perpSigma = cms.string("6.85*(1 - 0.00547*x)"),
         perpBias = cms.string("0."),
     ),
-    srcPFCandidates = cms.InputTag('particleFlow')
+    srcPFCandidates = cms.InputTag('packedPFCandidates')#'particleFlow')
 )
 
 svFitLikelihoodEleTauPtBalance = cms.PSet(
@@ -111,7 +111,7 @@ svFitLikelihoodEleMuMEt = cms.PSet(
         perpSigma = cms.string("6.85*(1 - 0.00547*x)"),
         perpBias = cms.string("0."),
     ),
-    srcPFCandidates = cms.InputTag('particleFlow')
+    srcPFCandidates = cms.InputTag('packedPFCandidates')#'particleFlow')
 )
 
 svFitLikelihoodEleMuPtBalance = cms.PSet(
@@ -148,7 +148,7 @@ svFitLikelihoodMuMuMEt = cms.PSet(
         perpSigma = cms.string("6.85*(1 - 0.00547*x)"),
         perpBias = cms.string("0."),
     ),
-    srcPFCandidates = cms.InputTag('particleFlow')
+    srcPFCandidates = cms.InputTag('packedPFCandidates')#'particleFlow')
 )
 
 svFitLikelihoodMuMuPtBalance = cms.PSet(
@@ -206,7 +206,7 @@ class CutSequenceProducer(cms._ParameterTypeBase):
                dicand.dRmin12 = cms.double(dR)
                dicand.srcMET = cms.InputTag(met)
                dicand.srcTaus = cms.InputTag(taus)
-               dicand.srcPrimaryVertex = cms.InputTag("offlinePrimaryVertices")
+               dicand.srcPrimaryVertex = cms.InputTag("offlineSlimmedPrimaryVertices")
                dicand.srcBeamSpot = cms.InputTag("offlineBeamSpot")
                dicand.srcGenParticles = cms.InputTag(genParticles)
                dicand.recoMode = cms.string("")
@@ -407,184 +407,6 @@ class CutSequenceProducer(cms._ParameterTypeBase):
     def addMuMuNSVFit(self,moduleName, algo="fit"):
                self.addDiCandNSVFit(moduleName,("Mu","Mu"), algo)
 
-################################################################################
-#####     Legacy SVfit configuration                                       #####
-################################################################################
-
-    def addMuTauSVFit(self,moduleName):
-               dicand  = cms.EDProducer('PATMuTauSVFitter')
-               dicand.src = cms.InputTag(self.input)
-               dicand.srcPrimaryVertex = cms.InputTag("offlinePrimaryVerticesWithBS")
-               dicand.srcBeamSpot = cms.InputTag("offlineBeamSpot")
-               dicand.svFit = cms.PSet(
-                               psKine = cms.PSet(
-                                   likelihoodFunctions = cms.VPSet(
-                                       svFitLikelihoodMuTauKinematicsPhaseSpace
-                                   ),
-                                   estUncertainties = cms.PSet(
-                                   numSamplings = cms.int32(-1)
-                                   )
-                                ),
-                                psKine_MEt = cms.PSet(
-                                   likelihoodFunctions = cms.VPSet(
-                                       svFitLikelihoodMuTauKinematicsPhaseSpace,
-                                       svFitLikelihoodMuTauMEt
-                                    ),
-                                    estUncertainties = cms.PSet(
-                                    numSamplings = cms.int32(-1)
-                                    )
-                                ),
-                                psKine_MEt_ptBalance = cms.PSet(
-                                likelihoodFunctions = cms.VPSet(
-                                           svFitLikelihoodMuTauKinematicsPhaseSpace,
-                                           svFitLikelihoodMuTauMEt,
-                                           svFitLikelihoodMuTauPtBalance
-                                ),
-                                estUncertainties = cms.PSet(
-                                      numSamplings = cms.int32(-1)
-                                 )
-                                )
-               )
-
-               pyModule = sys.modules[self.pyModuleName[0]]
-               if pyModule is None:
-                 raise ValueError("'pyModuleName' Parameter invalid")
-               setattr(pyModule,moduleName,dicand)
-               self.sequence*=dicand
-               self.input=moduleName
-
-
-    def addEleTauSVFit(self,moduleName):
-               dicand  = cms.EDProducer('PATEleTauSVFitter')
-               dicand.src = cms.InputTag(self.input)
-               dicand.srcPrimaryVertex = cms.InputTag("offlinePrimaryVerticesWithBS")
-               dicand.srcBeamSpot = cms.InputTag("offlineBeamSpot")
-               dicand.svFit = cms.PSet(
-                               psKine = cms.PSet(
-                                   likelihoodFunctions = cms.VPSet(
-                                       svFitLikelihoodEleTauKinematicsPhaseSpace
-                                   ),
-                                   estUncertainties = cms.PSet(
-                                   numSamplings = cms.int32(-1)
-                                   )
-                                ),
-                                psKine_MEt = cms.PSet(
-                                   likelihoodFunctions = cms.VPSet(
-                                       svFitLikelihoodEleTauKinematicsPhaseSpace,
-                                       svFitLikelihoodEleTauMEt
-                                    ),
-                                    estUncertainties = cms.PSet(
-                                    numSamplings = cms.int32(-1)
-                                    )
-                                ),
-                                psKine_MEt_ptBalance = cms.PSet(
-                                likelihoodFunctions = cms.VPSet(
-                                           svFitLikelihoodEleTauKinematicsPhaseSpace,
-                                           svFitLikelihoodEleTauMEt,
-                                           svFitLikelihoodEleTauPtBalance
-                                ),
-                                estUncertainties = cms.PSet(
-                                      numSamplings = cms.int32(-1)
-                                 )
-                                )
-               )
-
-               pyModule = sys.modules[self.pyModuleName[0]]
-               if pyModule is None:
-                 raise ValueError("'pyModuleName' Parameter invalid")
-               setattr(pyModule,moduleName,dicand)
-               self.sequence*=dicand
-               self.input=moduleName
-
-
-
-    def addEleMuSVFit(self,moduleName):
-               dicand  = cms.EDProducer('PATEleMuSVFitter')
-               dicand.src = cms.InputTag(self.input)
-               dicand.srcPrimaryVertex = cms.InputTag("offlinePrimaryVerticesWithBS")
-               dicand.srcBeamSpot = cms.InputTag("offlineBeamSpot")
-               dicand.svFit = cms.PSet(
-                               psKine = cms.PSet(
-                                   likelihoodFunctions = cms.VPSet(
-                                       svFitLikelihoodEleMuKinematicsPhaseSpace
-                                   ),
-                                   estUncertainties = cms.PSet(
-                                   numSamplings = cms.int32(-1)
-                                   )
-                                ),
-                                psKine_MEt = cms.PSet(
-                                   likelihoodFunctions = cms.VPSet(
-                                       svFitLikelihoodEleMuKinematicsPhaseSpace,
-                                       svFitLikelihoodEleMuMEt
-                                    ),
-                                    estUncertainties = cms.PSet(
-                                    numSamplings = cms.int32(-1)
-                                    )
-                                ),
-                                psKine_MEt_ptBalance = cms.PSet(
-                                likelihoodFunctions = cms.VPSet(
-                                           svFitLikelihoodEleMuKinematicsPhaseSpace,
-                                           svFitLikelihoodEleMuMEt,
-                                           svFitLikelihoodEleMuPtBalance
-                                ),
-                                estUncertainties = cms.PSet(
-                                      numSamplings = cms.int32(-1)
-                                 )
-                                )
-               )
-
-               pyModule = sys.modules[self.pyModuleName[0]]
-               if pyModule is None:
-                 raise ValueError("'pyModuleName' Parameter invalid")
-               setattr(pyModule,moduleName,dicand)
-               self.sequence*=dicand
-               self.input=moduleName
-
-
-
-    def addMuMuSVFit(self,moduleName):
-               dicand  = cms.EDProducer('PATMuMuSVFitter')
-               dicand.src = cms.InputTag(self.input)
-               dicand.srcPrimaryVertex = cms.InputTag("offlinePrimaryVerticesWithBS")
-               dicand.srcBeamSpot = cms.InputTag("offlineBeamSpot")
-               dicand.svFit = cms.PSet(
-                               psKine = cms.PSet(
-                                   likelihoodFunctions = cms.VPSet(
-                                       svFitLikelihoodMuMuKinematicsPhaseSpace
-                                   ),
-                                   estUncertainties = cms.PSet(
-                                   numSamplings = cms.int32(-1)
-                                   )
-                                ),
-                                psKine_MEt = cms.PSet(
-                                   likelihoodFunctions = cms.VPSet(
-                                       svFitLikelihoodMuMuKinematicsPhaseSpace,
-                                       svFitLikelihoodMuMuMEt
-                                    ),
-                                    estUncertainties = cms.PSet(
-                                    numSamplings = cms.int32(-1)
-                                    )
-                                ),
-                                psKine_MEt_ptBalance = cms.PSet(
-                                likelihoodFunctions = cms.VPSet(
-                                           svFitLikelihoodMuMuKinematicsPhaseSpace,
-                                           svFitLikelihoodMuMuMEt,
-                                           svFitLikelihoodMuMuPtBalance
-                                ),
-                                estUncertainties = cms.PSet(
-                                      numSamplings = cms.int32(-1)
-                                 )
-                                )
-               )
-
-               pyModule = sys.modules[self.pyModuleName[0]]
-               if pyModule is None:
-                 raise ValueError("'pyModuleName' Parameter invalid")
-               setattr(pyModule,moduleName,dicand)
-               self.sequence*=dicand
-               self.input=moduleName
-
-
 
     def setSRC(self,src):
                self.input=src
@@ -719,7 +541,7 @@ class CutSequenceProducer(cms._ParameterTypeBase):
 
           #add a post MET tau
           smearedTausID = cms.EDProducer("SmearedTauProducer",
-                                       src = cms.InputTag('selectedPatTaus'),
+                                       src = cms.InputTag('slimmedTaus'),
                                        smearMCParticle = cms.bool(False),
                                        module_label = cms.string("CRAP"),
                                        energyScale  = cms.double(1.0),
@@ -759,7 +581,7 @@ class CutSequenceProducer(cms._ParameterTypeBase):
           self.sequence*=smearedMuons
 
           smearedMuonsID = cms.EDProducer("SmearedMuonProducer",
-                                        src = cms.InputTag('selectedPatMuons'),
+                                        src = cms.InputTag('slimmedMuons'),
                                         smearMCParticle = cms.bool(False),
                                         module_label = cms.string("CRAP"),
                                         energyScale  = cms.double(1.0),
@@ -794,7 +616,7 @@ class CutSequenceProducer(cms._ParameterTypeBase):
           self.sequence*=smearedElectrons
 
           smearedElectronsID = cms.EDProducer("SmearedElectronProducer",
-                                            src = cms.InputTag('selectedPatElectrons'),
+                                            src = cms.InputTag('slimmedElectrons'),
                                             smearMCParticle = cms.bool(False),
                                             module_label = cms.string("CRAP"),
                                             energyScale  = cms.double(1.0),
@@ -811,7 +633,7 @@ class CutSequenceProducer(cms._ParameterTypeBase):
           self.sequence*=smearedElectronsID
 
           smearedJets = cms.EDProducer("SmearedJetProducer",
-                                       src = cms.InputTag(jets),
+                                       src = cms.InputTag(jets),#slimmedJets
                                        smearMCParticle = cms.bool(False),
                                        module_label = cms.string("CRAP"),
                                        energyScale  = cms.double(1.0),
@@ -831,9 +653,9 @@ class CutSequenceProducer(cms._ParameterTypeBase):
 
           smearedMET = cms.EDProducer('METRecalculator',
                                       met = cms.InputTag(mets),
-                                      originalObjects = cms.VInputTag(cms.InputTag('selectedPatMuons'),
-                                                                      cms.InputTag('selectedPatElectrons'),
-                                                                      cms.InputTag('selectedPatTaus'),
+                                      originalObjects = cms.VInputTag(cms.InputTag('slimmedMuons'),
+                                                                      cms.InputTag('slimmedElectrons'),
+                                                                      cms.InputTag('slimmedTaus'),
                                                                       cms.InputTag('cleanPatJets')
                                                                       ),
                                       smearedObjects = cms.VInputTag(cms.InputTag("smearedMuonsID"+mpost),
