@@ -1,13 +1,14 @@
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process("ANALYSIS")
+process.load('Configuration.StandardSequences.Services_cff')
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
 process.GlobalTag.globaltag = 'PHYS14_25_V1'
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(500)
+    input = cms.untracked.int32(2000)
 )
 
 
@@ -39,7 +40,7 @@ process.load("UWAnalysis.Configuration.MiniAodAnalysis_cff")
 process.metCalibration.applyCalibration = cms.bool(False)
 
 process.eventSelectionMT = cms.Path(process.selectionSequenceMT)
-process.eventSelectionET = cms.Path(process.selectionSequenceET)
+#process.eventSelectionET = cms.Path(process.selectionSequenceET)
 
 createGeneratedParticles(process,
                          'genDaughters',
@@ -70,7 +71,9 @@ createGeneratedParticles(process,
 from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
 
-from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addEleTauEventTree
-addEleTauEventTree(process,'eleTauEventTree')
+#from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addEleTauEventTree
+#addEleTauEventTree(process,'eleTauEventTree')
+
+addEventSummary(process,True,'MT','eventSelectionMT')
 
 

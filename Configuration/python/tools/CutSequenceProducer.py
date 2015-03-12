@@ -368,7 +368,8 @@ class CutSequenceProducer(cms._ParameterTypeBase):
                leg1, leg2 = finalState
                dicand  = cms.EDProducer("PAT"+leg1+leg2+"NSVFitter")
                dicand.src = cms.InputTag(self.input)
-               dicand.srcPrimaryVertex = cms.InputTag("offlinePrimaryVerticesWithBS")
+               #dicand.srcPrimaryVertex = cms.InputTag("offlinePrimaryVerticesWithBS")
+               dicand.srcPrimaryVertex = cms.InputTag("offlineSlimmedPrimaryVertices")
                dicand.config = nsv.nSVfitConfig_template.clone()
                # Setup final state specific plugins
                dicand.config.event.resonances.A.daughters.leg1.likelihoodFunctions = \
