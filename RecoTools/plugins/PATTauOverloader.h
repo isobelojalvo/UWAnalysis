@@ -111,9 +111,7 @@ class PATTauOverloader : public edm::EDProducer {
     float leadPFTrackPt = -1;
     float leadPFTrackPtErr = -1;
     float nIsoTracks=-1;
-    //std::cout<<"Get's Here 1"<<std::endl;
     nIsoTracks = tau.isolationChargedHadrCands().size();
-    std::cout<<"Get's Here 2 nIsoTracks"<<nIsoTracks <<std::endl;
 
     if(tau.leadTrack().isNonnull()){
 	    leadPFTrackPtErr = tau.leadTrack()->ptError();
@@ -131,7 +129,6 @@ class PATTauOverloader : public edm::EDProducer {
 
 	    }
     }
-    //std::cout<<"Get's Here 3 leadPFTrackPT "<< leadPFTrackPt<<std::endl;
 
     tau.addUserFloat("nIsoTracks",nIsoTracks);
     tau.addUserFloat("leadPFTrackPt",leadPFTrackPt);

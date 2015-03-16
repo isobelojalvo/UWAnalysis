@@ -85,22 +85,7 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 			edm::Handle<TriggerEvent> trigEv;
 			iEvent.getByLabel(triggerEvent_,trigEv);
 
-			/*  	  for(unsigned int i=0;i<trigEv->sizeFilters();++i)  */
-			/*  	    printf("%s\n",trigEv->filterTag(i).label().c_str());   */
 			const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);
-
-		//	std::cout << "\n === TRIGGER OBJECTS === " << std::endl;
-		//	for (pat::TriggerObjectStandAlone obj : *triggerObjects) { // note: not "const &" since we want to call unpackPathNames
-	//			obj.unpackPathNames(names);
-//				for (unsigned h = 0; h < obj.filterLabels().size(); ++h) {
-//					std::cout<<"FilterLabel: "<<obj.filterLabels()<<std::endl;
-//					std::string FilterLabel = obj.filterLabels();
-//					for(unsigned int i=0;i<filters_.size();++i) {
-//						if (filters_[i]==FiltersLabel){
-//						}
-//					}//end input filters_
-//				}//end filterlabels
-//			}//end for
 
 			if(iEvent.getByLabel(src_,src))
 				for(unsigned int k=0;k<src->size();++k) {
@@ -108,25 +93,23 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 
 					//loop the filters
 					for(unsigned int i=0;i<filters_.size();++i) {
-						//size_t INDEX =trigEv->filterIndex(filters_[i]);
-						//std::vector<LV> trigObjects = getFilterCollection(INDEX,pdgId_,*trigEv);
 						std::vector<LV> trigObjects = getFilterCollectionMiniAOD(pdgId_,filters_[i],*triggerObjects);
 						bool match = false;
 
 						for(unsigned int j=0;j<trigObjects.size();++j) 
 							if(deltaR(trigObjects.at(j),pat)<0.5) {
-							        std::cout << "\n === TRIGGER OBJECT DeltaR Calculation === " << std::endl;
+							        //std::cout << "\n === TRIGGER OBJECT DeltaR Calculation === " << std::endl;
 								match=true;
 								break;
 							}
 
 						if(match){
 							pat.addUserFloat(filters_[i],1.0);
-							std::cout << "\n === TRIGGER OBJECT MATCHED === " << std::endl;
+							//std::cout << "\n === TRIGGER OBJECT MATCHED === " << std::endl;
 						}
 						else{
 							pat.addUserFloat(filters_[i],0.0);
-							std::cout << "\n === TRIGGER OBJECT UNMATCHED === " << std::endl;
+							//std::cout << "\n === TRIGGER OBJECT UNMATCHED === " << std::endl;
 						}
 					}
 
@@ -159,9 +142,9 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 						//if (obj.filterIds()[h]==id && obj.filter(filter)){
 						if (obj.filter(filter)){
 							out.push_back(a);
-							std::cout<<"=====After Filter====="<<std::endl;
-							std::cout<<"Filter Label :"<<obj.filterLabels()[h]<<std::endl;
-							std::cout<<"Given Filter :"<<filter<<std::endl;
+							//std::cout<<"=====After Filter====="<<std::endl;
+							//std::cout<<"Filter Label :"<<obj.filterLabels()[h]<<std::endl;
+							//std::cout<<"Given Filter :"<<filter<<std::endl;
 
 						}//end filterlabels
 					}//end id
