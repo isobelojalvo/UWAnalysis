@@ -32,16 +32,14 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   EScaledTaus(process,True)
 
   #Add trigger Matching
-  tauTriggerMatch(process)
-  eleTriggerMatch(process)
-  muTriggerMatch(process)
-  #muonTriggerMatchPT(process,triggerProcess,HLT)#broken
-  #electronTriggerMatchPT(process,triggerProcess,HLT)#broken
-  #tauTriggerMatchPT(process,triggerProcess,HLT)#broken
+  muonTriggerMatchMiniAOD(process,triggerProcess,HLT)#broken
+  electronTriggerMatchMiniAOD(process,triggerProcess,HLT)#broken
+  tauTriggerMatchMiniAOD(process,triggerProcess,HLT)#broken
   
   #Build good vertex collection
   goodVertexFilter(process)  
   tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
+  #tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
   
   triLeptons(process)
   renameJetColl(process)
@@ -275,82 +273,7 @@ def applyDefaultSelectionsPT(process):
   process.selectedObjectsForSyst = cms.Sequence(process.selectedPatTaus+process.selectedPatElectrons+process.selectedPatMuons+process.cleanPatJets)
   process.analysisSequence = cms.Sequence(process.analysisSequence*process.selectedObjectsForSyst)
 
-
-def muonTriggerMatchPT(process,triggerProcess,HLT):
-
-   process.triggeredPatMuons = cms.EDProducer("MuonTriggerMatcher",
-                                            src = cms.InputTag("slimmedMuons"),
-                                            trigEvent = cms.InputTag(HLT),
-                                            filters = cms.VInputTag(
-                                                cms.InputTag('hltSingleMuIsoL3IsoFiltered12','',triggerProcess),
-                                                cms.InputTag('hltSingleMuIsoL3IsoFiltered15','',triggerProcess),
-                                                cms.InputTag('hltSingleMuIsoL3IsoFiltered24','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoMu15IsoPFTau15','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoMu12IsoPFTau10','',triggerProcess),
-                                                cms.InputTag('hltSingleMuIsoL3IsoFiltered17','',triggerProcess),                                               
-                                                cms.InputTag('hltSingleMuIsoL1s14L3IsoFiltered15eta2p1',"",triggerProcess),
-                                                cms.InputTag('hltL3IsoL1sMu14Eta2p1L1f0L2f14QL2IsoL3f24L3IsoFiltered','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoMu15IsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoFiltered10','',triggerProcess),
-                                                cms.InputTag('hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f24QL3crIsoFiltered10','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoMu18LooseIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoMu17LooseIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltL3crIsoL1sMu14erORMu16erL1f0L2f14QL3f17QL3crIsoRhoFiltered0p15','',triggerProcess),
-                                                cms.InputTag('hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f18QL3crIsoFiltered10','',triggerProcess),
-
-                                                ### MC
-                                                cms.InputTag('hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f24QL3crIsoFiltered10','',triggerProcess),
-                                                ### Data
-                                                cms.InputTag('hltL3crIsoL1sMu16Eta2p1L1f0L2f16QL3f24QL3crIsoRhoFiltered0p15','',triggerProcess),
-                                                cms.InputTag('hltL2fL1sMu16Eta2p1L1f0L2Filtered16Q','',triggerProcess),
-                                                cms.InputTag('hltL3fL1sMu16Eta2p1L1f0L2f16QL3Filtered24Q','',triggerProcess),
-                                                #####
-                                                cms.InputTag('hltDiMuonMu17Mu8DzFiltered0p2','',triggerProcess),
-                                                cms.InputTag('hltL3fL1DoubleMu10MuOpenL1f0L2f10L3Filtered17','',triggerProcess),
-                                                cms.InputTag('hltL3pfL1DoubleMu10MuOpenL1f0L2pf0L3PreFiltered8','',triggerProcess),
-                                                cms.InputTag('hltL3fL1DoubleMu10MuOpenOR3p5L1f0L2f10L3Filtered17','',triggerProcess),
-                                                cms.InputTag('hltL3pfL1DoubleMu10MuOpenOR3p5L1f0L2pf0L3PreFiltered8','',triggerProcess)
-                                            ),
-                                            pdgId = cms.int32(13)
-   )
-  
-   process.analysisSequence*= process.triggeredPatMuons
-
-def electronTriggerMatchPT(process,triggerProcess,HLT):
-
-   process.triggeredPatElectronsL = cms.EDProducer("ElectronTriggerMatcher",
-                                            src = cms.InputTag("slimmedElectrons"),
-                                            trigEvent = cms.InputTag(HLT),
-                                            filters = cms.VInputTag(
-                                                cms.InputTag('hltEle17CaloIdLCaloIsoVLPixelMatchFilterDoubleEG125','',triggerProcess),
-                                            ),
-                                            pdgId = cms.int32(0)
-   )
-   process.triggeredPatElectrons = cms.EDProducer("ElectronTriggerMatcher",
-                                            src = cms.InputTag("slimmedElectrons"),
-                                            trigEvent = cms.InputTag(HLT),
-                                            filters = cms.VInputTag(
-                                                cms.InputTag('hltOverlapFilterIsoEle15IsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoEle15TightIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoEle18MediumIsoPFTau20','',triggerProcess),                                                
-                                                cms.InputTag('hltOverlapFilterIsoEle18TightIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoEle18IsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoEle20MediumIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoEle20LooseIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoEle20WP90LooseIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltEle20CaloIdVTCaloIsoTTrkIdTTrkIsoTTrackIsoFilterL1IsoEG18OrEG20','',triggerProcess),
-                                                cms.InputTag('hltEle22WP90RhoTrackIsoFilter','',triggerProcess),
-                                                cms.InputTag('hltEle27WP80TrackIsoFilter','',triggerProcess),
-                                                cms.InputTag('hltEle27WP80TrackIsoFilter','',triggerProcess),
-                                                cms.InputTag('hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoDoubleFilter','',triggerProcess),
-                                                cms.InputTag('hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoFilter','',triggerProcess)
-                                            ),
-                                            pdgId = cms.int32(11)
-   )
-   
-   process.analysisSequence=cms.Sequence(process.analysisSequence*process.triggeredPatElectronsL*process.triggeredPatElectrons)
-
-def tauTriggerMatchPT(process,triggerProcess,HLT):
+def tauTriggerMatchMiniAOD(process,triggerProcess,HLT):
    strTrig=''
    for i in TriggerPaths:
     if i==TriggerPaths[0]:
@@ -360,43 +283,76 @@ def tauTriggerMatchPT(process,triggerProcess,HLT):
 
 
    #Match With The triggers
-   process.preTriggeredPatTaus = cms.EDProducer("TauTriggerMatcher",
+   process.preTriggeredPatTaus = cms.EDProducer("TauTriggerMatcherMiniAOD",
                                             src = cms.InputTag("ESTausID"),#cleanPatTaus
                                             trigEvent = cms.InputTag(HLT),
-                                            filters = cms.VInputTag(
-                                                cms.InputTag('hltFilterDoubleIsoPFTau20Trk5LeadTrack5IsolationL1HLTMatched','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoEle20LooseIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoMu18LooseIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoEle20WP90LooseIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoMu17LooseIsoPFTau20','',triggerProcess)
+                                            filters = cms.vstring(
+                                                'hltL1sMu16erTauJet20er',
+                                                'hltOverlapFilterIsoMu17LooseIsoPFTau20',
+                                                'hltL1sL1IsoEG20erTauJet20er',
+                                                'hltOverlapFilterIsoEle22WP85GsfLooseIsoPFTau20'
                                             ),
+                                            bits = cms.InputTag("TriggerResults","","HLT"),
+                                            prescales = cms.InputTag("patTrigger"),
+                                            objects = cms.InputTag("selectedPatTrigger"),
                                             pdgId = cms.int32(0)
    )
 
-   process.triggeredPatTaus = cms.EDProducer("TauTriggerMatcher",
+   process.triggeredPatTaus = cms.EDProducer("TauTriggerMatcherMiniAOD",
                                             src = cms.InputTag("preTriggeredPatTaus"),
                                             trigEvent = cms.InputTag(HLT),
-                                            filters = cms.VInputTag(
-                                                cms.InputTag('hltOverlapFilterIsoMu15IsoPFTau15','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoMu15IsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoMu15MediumIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoMu15TightIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterMu15IsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoMu12IsoPFTau10','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoMu15IsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoEle15IsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoEle15TightIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoEle18MediumIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoEle20MediumIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoEle20LooseIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoMu18LooseIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoEle20WP90LooseIsoPFTau20','',triggerProcess),
-                                                cms.InputTag('hltOverlapFilterIsoMu17LooseIsoPFTau20','',triggerProcess)                                              
+                                            filters = cms.vstring(
+                                                'hltL1sMu16erTauJet20er',
+                                                'hltOverlapFilterIsoMu17LooseIsoPFTau20',
+                                                'hltL1sL1IsoEG20erTauJet20er',
+                                                'hltOverlapFilterIsoEle22WP85GsfLooseIsoPFTau20'
                                             ),
+                                            bits = cms.InputTag("TriggerResults","","HLT"),
+                                            prescales = cms.InputTag("patTrigger"),
+                                            objects = cms.InputTag("selectedPatTrigger"),
                                             pdgId = cms.int32(15)
    )
                                             
    process.analysisSequence=cms.Sequence(process.analysisSequence*process.preTriggeredPatTaus*process.triggeredPatTaus)
+
+def muonTriggerMatchMiniAOD(process,triggerProcess,HLT):
+
+   process.triggeredPatMuons = cms.EDProducer("MuonTriggerMatcherMiniAOD",
+                                            src = cms.InputTag("slimmedMuons"),
+                                            trigEvent = cms.InputTag(HLT),
+                                            filters = cms.vstring(
+                                                'hltL1Mu12EG7L3IsoMuFiltered23',#emu filters
+                                                'hltL1sL1Mu5EG20ORL1Mu5IsoEG18L3IsoFiltered8',#emu filters
+                                                'hltOverlapFilterIsoMu17LooseIsoPFTau20',#mutau filter
+                                                'hltL3crIsoL1sMu20Eta2p1L1f0L2f20QL3f24QL3crIsoRhoFiltered0p15IterTrk02',#mutaufilter
+                                            ),
+                                            bits = cms.InputTag("TriggerResults","","HLT"),
+                                            prescales = cms.InputTag("patTrigger"),
+                                            objects = cms.InputTag("selectedPatTrigger"),
+                                            pdgId = cms.int32(13)
+   )
+  
+   process.analysisSequence*= process.triggeredPatMuons
+
+def electronTriggerMatchMiniAOD(process,triggerProcess,HLT):
+
+   process.triggeredPatElectrons = cms.EDProducer("ElectronTriggerMatcherMiniAOD",
+                                            src = cms.InputTag("slimmedElectrons"),
+                                            trigEvent = cms.InputTag(HLT),
+                                            filters = cms.vstring(
+                                                'hltMu23Ele12GsfTrackIsoLegEle12GsfCaloIdTrackIdIsoMediumWPFilter',#emu filters
+                                                'hltMu8Ele23GsfTrackIsoLegEle23GsfCaloIdTrackIdIsoMediumWPFilter',#emu filters
+                                                'hltOverlapFilterIsoEle22WP85GsfLooseIsoPFTau20',#etau filter
+                                                'hltEle27WP85GsfTrackIsoFilter',#etaufilter
+                                            ),
+                                            bits = cms.InputTag("TriggerResults","","HLT"),
+                                            prescales = cms.InputTag("patTrigger"),
+                                            objects = cms.InputTag("selectedPatTrigger"),
+                                            pdgId = cms.int32(11)
+   )
+  
+   process.analysisSequence*= process.triggeredPatElectrons
+
 
 def tauOverloading(process,src,vtxSrc):
 

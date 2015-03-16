@@ -13,6 +13,7 @@
 <use   name="DataFormats/JetReco"/>
 <use   name="DataFormats/HepMCCandidate"/>
 <use   name="DataFormats/PatCandidates"/>
+<use   name="DataFormats/ParticleFlowCandidate"/>
 <use   name="DQMServices/Core"/>
 <use   name="PhysicsTools/IsolationAlgos"/>
 <use   name="PhysicsTools/PatUtils"/>
