@@ -48,8 +48,8 @@ MTanalysisConfigurator = CutSequenceProducer(initialCounter  = 'initialEventsMT'
                                   pyNameSpace  = locals())
 
 #Add smearing
-MTanalysisConfigurator.addSmearing('patOverloadedTaus','slimmedMuons','slimmedElectrons','cleanPatJets','patMVAMet','MT')
-#MTanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','cleanPatJets','patMVAMet','MT')
+#MTanalysisConfigurator.addSmearing('patOverloadedTaus','slimmedMuons','slimmedElectrons','cleanPatJets','patMVAMet','MT')
+MTanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','cleanPatJets','patMVAMet','MT')
 
 #Create di muon pairs for veto purposes
 MTanalysisConfigurator.addDiCandidateModule('diMuons','PATMuPairProducer','smearedMuonsMT','smearedMuonsMT','smearedMETMT','','smearedJetsMT',0,9999,text = '',leadingObjectsOnly = False,dR = 0.15,recoMode = "")
