@@ -8,7 +8,7 @@ process.GlobalTag.globaltag = 'PHYS14_25_V1'
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(2000)
+    input = cms.untracked.int32(500)
 )
 
 
@@ -28,8 +28,10 @@ process.source = cms.Source("PoolSource",
 from UWAnalysis.Configuration.tools.analysisToolsMiniAod import *
 defaultReconstructionMC(process,'HLT',
                       [
-						'HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1',
-						'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v1'
+						'HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1', #etau
+                                                'HLT_Ele27_eta2p1_WP85_Gsf_v1', #etau
+						'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v1', #mutau
+                                                'HLT_IsoMu24_eta2p1_IterTrk02_v1' #mutau
                       ])
 
                       
@@ -75,5 +77,6 @@ addMuTauEventTree(process,'muTauEventTree')
 #addEleTauEventTree(process,'eleTauEventTree')
 
 addEventSummary(process,True,'MT','eventSelectionMT')
+#addEventSummary(process,True,'ET','eventSelectionET')
 
 

@@ -16,7 +16,7 @@
 // $Id: PATTauOverloader.h,v 1.6 2013/09/13 16:59:06 ojalvo Exp $
 //
 //
-#include "PhysicsTools/JetMCUtils/interface/JetMCTag.h"
+//#include "PhysicsTools/JetMCUtils/interface/JetMCTag.h"
 
 // system include files
 #include <memory>
@@ -93,12 +93,11 @@ class PATTauOverloader : public edm::EDProducer {
 	tau.addUserFloat("zIP",z_2);
 
 
-	///FIXME CHECK NEW TAU ID!!!!!!!
-    
+    //Against Electron 
     tau.addUserInt("againstElectronVLooseMVA5",tau.tauID("againstElectronVLooseMVA5"));
-    tau.addUserInt("againstElectronTightMVA5",tau.tauID("againstElectronTightMVA5"));
+    tau.addUserInt("againstElectronTightMVA",tau.tauID("againstElectronTightMVA5"));
     
-    //FIXMEE: IS THIS THE CORRECT MUON DISCRIMINATOR?!?!?!
+    //Against Muon 
     tau.addUserInt("againstMuTightFixed",tau.tauID("againstMuonTight3"));
     tau.addUserInt("againstMuTight3",tau.tauID("againstMuonTight3"));
     tau.addUserInt("againstMuLoose3",tau.tauID("againstMuonLoose3"));

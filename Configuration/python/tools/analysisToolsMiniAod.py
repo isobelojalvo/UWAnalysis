@@ -2,6 +2,7 @@
 import FWCore.ParameterSet.Config as cms
 from CommonTools.ParticleFlow.Isolation.tools_cfi import *
 
+
 from PhysicsTools.PatAlgos.tools.jetTools import *
 from PhysicsTools.PatAlgos.tools.helpers import *
 from PhysicsTools.PatAlgos.tools.tauTools import *
@@ -39,7 +40,6 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   #Build good vertex collection
   goodVertexFilter(process)  
   tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
-  #tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
   
   triLeptons(process)
   renameJetColl(process)
@@ -64,59 +64,6 @@ def renameJetColl(process):
   #)
   process.NewSelectedPatJets=cms.Sequence(process.ak4PFJets)
   process.analysisSequence*=process.NewSelectedPatJets
-
-def tauTriggerMatch(process):
-
-  process.patMatchTriggerTau = cms.EDProducer(
-      'PATTriggerMatcherDRDPtLessByR' # match by DeltaR and DeltaPt, best match by DeltaR
-      , src = cms.InputTag( 'slimmedTaus' )
-      , matched = cms.InputTag( 'selectedPatTrigger' ) # default producer label as defined in PhysicsTools/PatAlgos/python/triggerLayer1/triggerProducer_cfi.py
-      , matchedCuts = cms.string('type("TriggerTau")')
-     # , matchedCuts = cms.string('path( "HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v*" ) || path( "HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v*" )' )
-      , maxDPtRel = cms.double( 0.5 )
-      , maxDeltaR = cms.double( 0.5 )
-      , resolveAmbiguities = cms.bool( True ) # only one match per trigger object
-      , resolveByMatchQuality = cms.bool( False ) # take first match found per reco object
-  )
-
-  process.tauTriggerMatch = cms.Sequence(process.patMatchTriggerTau)
-  process.analysisSequence*=process.tauTriggerMatch
-
-
-def muTriggerMatch(process):
-
-  process.patMatchTriggerMuon = cms.EDProducer(
-      'PATTriggerMatcherDRDPtLessByR' # match by DeltaR and DeltaPt, best match by DeltaR
-      , src = cms.InputTag( 'slimmedMuons' )
-      , matched = cms.InputTag( 'selectedPatTrigger' ) # default producer label as defined in PhysicsTools/PatAlgos/python/triggerLayer1/triggerProducer_cfi.py
-      , matchedCuts = cms.string( 'type("TriggerMuon")' )
-      #, matchedCuts = cms.string( 'path("HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v*")' )
-      , maxDPtRel = cms.double( 0.5 )
-      , maxDeltaR = cms.double( 0.5 )
-      , resolveAmbiguities = cms.bool( True ) # only one match per trigger object
-      , resolveByMatchQuality = cms.bool( False ) # take first match found per reco object
-  )
-
-  process.muTriggerMatch = cms.Sequence(process.patMatchTriggerMuon)
-  process.analysisSequence*=process.muTriggerMatch
-
-def eleTriggerMatch(process):
-
-  process.patMatchTriggerElectron = cms.EDProducer(
-      'PATTriggerMatcherDRDPtLessByR' # match by DeltaR and DeltaPt, best match by DeltaR
-      , src = cms.InputTag( 'slimmedElectrons' )
-      , matched = cms.InputTag( 'selectedPatTrigger' ) # default producer label as defined in PhysicsTools/PatAlgos/python/triggerLayer1/triggerProducer_cfi.py
-      , matchedCuts = cms.string( 'type("TriggerElectron")')
-      #, matchedCuts = cms.string( 'path("HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v*" )' )
-      , maxDPtRel = cms.double( 0.5 )
-      , maxDeltaR = cms.double( 0.5 )
-      , resolveAmbiguities = cms.bool( True ) # only one match per trigger object
-      , resolveByMatchQuality = cms.bool( False ) # take first match found per reco object
-  )
-
-  process.eleTriggerMatch = cms.Sequence(process.patMatchTriggerElectron)
-  process.analysisSequence*=process.eleTriggerMatch
-
 
 
 def jetOverloading(process,jets):
@@ -211,14 +158,15 @@ def triLeptons(process):
 
   process.TightElectrons = cms.EDFilter("PATElectronSelector",
   							src = cms.InputTag("slimmedElectrons"),
-  							cut = cms.string('pt>10&&abs(eta)<2.5'),
+  							cut = cms.string('pt>10&&abs(eta)<2.5&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045'),
+  							#cut = cms.string('pt>10&&abs(eta)<2.5'),
   							#cut = cms.string('pt>10&&abs(eta)<2.5&&userInt("mvaidwp")>0&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045&&(!(userInt("HasMatchedConversion")>0))&&userInt("missingHits")==0&&(userIso(0)+max(userIso(1)+neutralHadronIso()-0.5*userIso(2),0.0))/pt()<0.3'),
   							filter = cms.bool(False)
   						)
   						
   process.TightMuons = cms.EDFilter("PATMuonSelector",
   							src = cms.InputTag("slimmedMuons"),
-  							cut = cms.string('pt>10&&abs(eta)<2.5'),
+  							cut = cms.string('pt>10&&abs(eta)<2.4&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045'),
   							#cut = cms.string('pt>10&&abs(eta)<2.4&&userInt("tightID")>0&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045&&isGlobalMuon&&(userIso(0)+max(photonIso+neutralHadronIso()-0.5*puChargedHadronIso,0.0))/pt()<0.3'),
   							filter = cms.bool(False)
   						)
