@@ -15,7 +15,7 @@ btagging = cms.Sequence(
 	secondaryVertexTagInfos *
 	( simpleSecondaryVertexHighEffBJetTags +
 	  simpleSecondaryVertexHighPurBJetTags +
-	  combinedSecondaryVertexBJetTags + 
+	  combinedInclusiveSecondaryVertexV2BJetTags + 
 	  combinedSecondaryVertexMVABJetTags
 	)
   )

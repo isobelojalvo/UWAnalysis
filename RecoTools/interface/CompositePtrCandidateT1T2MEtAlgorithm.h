@@ -151,10 +151,10 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     for(unsigned int k=0; k<cleanedJets.size();k++){
       btagged = false;
 
-      //std::cout<<"Jet "<< k <<" Pt: "<<cleanedJets.at(k)->pt()<<" Eta: "<<cleanedJets.at(k)->eta()<<" FullDiscriminant "<< cleanedJets.at(k)->userFloat("fullDiscriminant")<<" CSV: "<<cleanedJets.at(k)->bDiscriminator("combinedSecondaryVertexBJetTags") <<" Flavor: "<< cleanedJets.at(k)->partonFlavour()<<std::endl;
+      //std::cout<<"Jet "<< k <<" Pt: "<<cleanedJets.at(k)->pt()<<" Eta: "<<cleanedJets.at(k)->eta()<<" FullDiscriminant "<< cleanedJets.at(k)->userFloat("fullDiscriminant")<<" CSV: "<<cleanedJets.at(k)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags") <<" Flavor: "<< cleanedJets.at(k)->partonFlavour()<<std::endl;
 
       if(cleanedJets.at(k)->pt()>20&&fabs(cleanedJets.at(k)->eta())<2.4){
-	btagged = btsf_->isbtagged(cleanedJets.at(k)->pt(), cleanedJets.at(k)->eta(),cleanedJets.at(k)->bDiscriminator("combinedSecondaryVertexBJetTags"),cleanedJets.at(k)->partonFlavour(), isdata , 0, 0, true);
+	btagged = btsf_->isbtagged(cleanedJets.at(k)->pt(), cleanedJets.at(k)->eta(),cleanedJets.at(k)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags"),cleanedJets.at(k)->partonFlavour(), isdata , 0, 0, true);
 	
       }
       
@@ -362,11 +362,11 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 	CSVM2atl = bFactors_->getCSVM2( cleanedJetsCSVsorted , top );
 	CSVT2 = bFactors_->getCSVT2( cleanedJets , top );
 
-	//cout << "Light2 SF " << CSVL2atl.first << " Light err " << CSVL2atl.second << " second CSV: " << cleanedJetsCSVsorted.at(1)->pt() << " second eta:" << cleanedJetsCSVsorted.at(1)->pt() << "second CSV:"<<cleanedJetsCSVsorted.at(1)->bDiscriminator("combinedSecondaryVertexBJetTags") <<endl;	
+	//cout << "Light2 SF " << CSVL2atl.first << " Light err " << CSVL2atl.second << " second CSV: " << cleanedJetsCSVsorted.at(1)->pt() << " second eta:" << cleanedJetsCSVsorted.at(1)->pt() << "second CSV:"<<cleanedJetsCSVsorted.at(1)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags") <<endl;	
       }
 
     /////////////CSV stuff
-      //cout << "Light1 SF " << CSVL1atl.first << " Light err " << CSVL1atl.second << "lead CSV:" << cleanedJetsCSVsorted.at(0)->pt() << "lead eta:" << cleanedJetsCSVsorted.at(0)->pt() << "lead CSV:"<<cleanedJetsCSVsorted.at(0)->bDiscriminator("combinedSecondaryVertexBJetTags") <<endl;
+      //cout << "Light1 SF " << CSVL1atl.first << " Light err " << CSVL1atl.second << "lead CSV:" << cleanedJetsCSVsorted.at(0)->pt() << "lead eta:" << cleanedJetsCSVsorted.at(0)->pt() << "lead CSV:"<<cleanedJetsCSVsorted.at(0)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags") <<endl;
 
 
     }
@@ -512,7 +512,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
       {}
 
     bool operator()(size_t a , size_t b) {
-      return (vec_.at(a)->bDiscriminator("combinedSecondaryVertexBJetTags") > vec_.at(b)->bDiscriminator("combinedSecondaryVertexBJetTags"));
+      return (vec_.at(a)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags") > vec_.at(b)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags"));
     }
   private:
     JetPtrVector vec_;

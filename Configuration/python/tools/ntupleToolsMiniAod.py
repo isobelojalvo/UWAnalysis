@@ -231,7 +231,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                   tag        = cms.string("svMass"),
                                   method     = cms.string("svMass"),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #FIXME switch to standalone                             
+                              ),#FILLED #FIXME switch to most recent standalone                             
                               muTauSVPt = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairFiller"),
                                   src        = cms.InputTag(src),
@@ -294,14 +294,14 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                   tag        = cms.string("btag"),
                                   method     = cms.string("EventBTag"),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
+                              ),#FILLED #CHECKME
                               muTauEventNBTags = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("NBTags"),
                                   method     = cms.string("NBTags"),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
+                              ),#FILLED
                                muTaumJJReg = cms.PSet(
                                    pluginType = cms.string("PATMuTauPairFiller"),
                                    src        = cms.InputTag(src),
@@ -427,7 +427,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                   tag        = cms.string("lPFIsoDB"),
                                   method     = cms.string('(leg1.userIso(0)+max(leg1.photonIso()+leg1.neutralHadronIso()-0.5*leg1.puChargedHadronIso,0.0))/leg1.pt()'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ), #FIXME #CHECKME
+                              ), #FIXME #CHECKME #newisolation to be used
                               muTauDecayMode = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairFiller"),
                                   src        = cms.InputTag(src),
@@ -559,196 +559,196 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                     tag        = cms.string("EffWEIGHTCSVL"),
                                     method     = cms.string("SFCSVL1"),
                                     leadingOnly=cms.untracked.bool(True)
-                                ),#FIXME ==1 
+                                ),#FILLED 
                                 muTauCSVL2 = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("EffWEIGHTCSVL2"),
                                     method     = cms.string("SFCSVL2"),
                                     leadingOnly=cms.untracked.bool(True)
-                                ),#FIXME
+                                ),#FILLED
                                 muTauCSVM1 = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("EffWEIGHTCSVM"),
                                     method     = cms.string("SFCSVM1"),
                                     leadingOnly=cms.untracked.bool(True)
-                                ),#FIXME
+                                ),#FILLED
                                 muTauCSVM2 = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("EffWEIGHTCSVM2"),
                                     method     = cms.string("SFCSVM2"),
                                     leadingOnly=cms.untracked.bool(True)
-                                ),#FIXME
+                                ),#FILLED
                                 muTauCSVT1 = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("EffWEIGHTCSVT"),
                                     method     = cms.string("SFCSVT1"),
                                     leadingOnly=cms.untracked.bool(True)
-                                ),#FIXME
+                                ),#FILLED
                                 muTauCSVT2 = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("EffWEIGHTCSVT2"),
                                     method     = cms.string("SFCSVT2"),
                                     leadingOnly=cms.untracked.bool(True)
-                                ),#FIXME
+                                ),#FILLED
                                 muTauCSVL1err = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("EffWEIGHTCSVLerr"),
                                     method     = cms.string("SFCSVL1err"),
                                     leadingOnly=cms.untracked.bool(True)
-                                ),#FIXME
+                                ),#FILLED
                                 muTauCSVL2err = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("EffWEIGHTCSVL2err"),
                                     method     = cms.string("SFCSVL2err"),
                                     leadingOnly=cms.untracked.bool(True)
-                                ),#FIXME
+                                ),#FILLED
                                 muTauCSVM1err = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("EffWEIGHTCSVMerr"),
                                     method     = cms.string("SFCSVM1err"),
                                     leadingOnly=cms.untracked.bool(True)
-                                ),#FIXME
+                                ),#FILLED
                                 muTauCSVM2err = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("EffWEIGHTCSVM2err"),
                                     method     = cms.string("SFCSVM2err"),
                                     leadingOnly=cms.untracked.bool(True)
-                                ),#FIXME
+                                ),#FILLED
                                 muTauCSVT1err = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("EffWEIGHTCSVTerr"),
                                     method     = cms.string("SFCSVT1err"),
                                     leadingOnly=cms.untracked.bool(True)
-                                ),#FIXME
+                                ),#FILLED
                                 muTauCSVT2err = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("EffWEIGHTCSVT2err"),
                                     method     = cms.string("SFCSVT2err"),
                                     leadingOnly=cms.untracked.bool(True)
-                                ),#FIXME
+                                ),#FILLED
                               muTauJetsBTagCSVLPt20 = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nJetsBTagCSVLPt20"),
-                                  method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")>=0.244&&pt()>20&&abs(eta)<2.4'),
+                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.244&&pt()>20&&abs(eta)<2.4'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
+                              ),#FILLED
                               muTauJetsBTagCSVLPt25 = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nJetsBTagCSVLPt25"),
-                                  method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")>=0.244&&pt()>25&&abs(eta)<2.4'),
+                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.244&&pt()>25&&abs(eta)<2.4'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
+                              ),#FILLED
                               muTauJetsBTagCSVMPt20 = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nJetsBTagCSVMPt20"),
-                                  method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")>=0.679&&pt()>20&&abs(eta)<2.4'),
+                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679&&pt()>20&&abs(eta)<2.4'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
+                              ),#FILLED
                               muTauJetsBTagCSVMPt25 = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nJetsBTagCSVMPt25"),
-                                  method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")>=0.679&&pt()>25&&abs(eta)<2.4'),
+                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679&&pt()>25&&abs(eta)<2.4'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),  #FIXME
+                              ),  #FILLED
                               muTauJetsBTagCSVTPt20 = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nJetsBTagCSVTPt20"),
-                                  method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")>=0.898&&pt()>20&&abs(eta)<2.4'),
+                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.898&&pt()>20&&abs(eta)<2.4'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),  #FIXME
+                              ),  #FILLED
                               muTauJetsBTagCSVTPt25 = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nJetsBTagCSVTPt25"),
-                                  method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")>=0.898&&pt()>25&&abs(eta)<2.4'),
+                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.898&&pt()>25&&abs(eta)<2.4'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),   #FIXME     
+                              ),   #FILLED    
                               muTauJetsPt30 = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nJetsPt30"),
                                   method     = cms.string('pt()>30'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME #add in Loose Jet ID
+                              ),#FILLED #add in Loose Jet ID
                               muTauJetsPt30Tag = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nTaggableJetsPt30"),
                                   method     = cms.string('pt()>30&&abs(eta)<2.4'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME #removed fullIdLoose
+                              ),#FILLED #removed fullIdLoose
                               muTauJetsPt30TagMatch = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nTaggableJetsPt30Matched"),
-                                  method     = cms.string('userInt("fullIdLoose")>0&&pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5'),
+                                  method     = cms.string('pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
+                              ),#FILLED #removed fullIdLoose
                               muTauJetsPt30TagNoMatch = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nTaggableJetsPt30NotMatched"),
-                                  method     = cms.string('userInt("fullIdLoose")>0&&pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
+                                  method     = cms.string('pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
+                              ),#FILLED #removed fullIdLoose
                               muTauJetsPt20 = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nJetsPt20"),
                                   method     = cms.string('pt()>20'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME #ADD IN LOOSE ID
+                              ),#FILLED #removed fullIdLoose
                               muTauJetsPt20Tag = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nTaggableJetsPt20"),
                                   method     = cms.string('pt()>20&&abs(eta)<2.4'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME #removed userInt("fullIdLoose")>0&&
+                              ),#FILLED #removed userInt("fullIdLoose")>0&&
                               muTauJetsPt20TagMatch = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nTaggableJetsPt20Matched"),
-                                  method     = cms.string('userInt("fullIdLoose")>0&&pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5'),
+                                  method     = cms.string('pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
+                              ),#FILLED #removed fullIdLoose
                               muTauJetsPt20TagNoMatch = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nTaggableJetsPt20NotMatched"),
-                                  method     = cms.string('userInt("fullIdLoose")>0&&pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
+                                  method     = cms.string('pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
+                              ),#FILLED #removed fullIdLoose
                               muTauJetsPt20TagMatchTag = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nTaggableJetsPt20MatchedTagged"),
-                                  method     = cms.string('userInt("fullIdLoose")>0&&pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedSecondaryVertexBJetTags")>=0.679'),
+                                  method     = cms.string('pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
+                              ),#FILLED #removed fullIdLoose
                               muTauJetsPt20TagNoMatchTag = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nTaggableJetsPt20NotMatchedTagged"),
-                                  method     = cms.string('userInt("fullIdLoose")>0&&pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedSecondaryVertexBJetTags")>=0.679'),
+                                  method     = cms.string('pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
+                              ),#FILLED
                               muTauGenPt1 = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairFiller"),
                                   src        = cms.InputTag(src),
@@ -798,7 +798,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                   tag        = cms.string("genVisMass"),
                                   method     = cms.string('p4VisGen().M()'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME #FILLED LOOKS WRONG
+                              ),#FIXME #FILLED #mostly zero LOOKS WRONG
                               muTauGenMassMatched = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairFiller"),
                                   src        = cms.InputTag(src),
@@ -813,12 +813,12 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                   method     = cms.string('genBosonMass()'),
                                   leadingOnly=cms.untracked.bool(True)
                               ),#FILLED #CHECKME
-                              muTauFirstJetID = cms.PSet(
+                              muTauFirstJetID53X = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairHighestPtJetVarFiller"),
                                   src        = cms.InputTag(src),
-                                  tag        = cms.string("highestJetID"),
-                                  method     = cms.string("userFloat('fullDiscriminant')"),
-                              ), #FIXME                             
+                                  tag        = cms.string("highestJetID53X"),
+                                  method     = cms.string("userFloat('pileupJetId:fullDiscriminant')"),
+                              ), #FILLED  #                           
                               muTauFirstJetFlavour = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairHighestPtJetVarFiller"),
                                   src        = cms.InputTag(src),
@@ -841,8 +841,8 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                   pluginType = cms.string("PATMuTauPairHighestPtJetVarFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("highestJetBTagCSV"),
-                                  method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")'),
-                              ), #FIXME
+                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
+                              ), #FILLED
                               muTauFirstJetNeutMultiplicity = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairHighestPtJetVarFiller"),
                                   src        = cms.InputTag(src),
@@ -1013,16 +1013,16 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                   pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("J1CSVbtag"),
-                                  method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")'),
+                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
                                   rank       = cms.untracked.double(0)
-                              ),#FIXME
+                              ),#FILLED
                                muTauSecondJetCSVbtag = cms.PSet(
                                    pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
                                    src        = cms.InputTag(src),
                                    tag        = cms.string("J2CSVbtag"),
-                                   method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")'),
+                                   method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
                                    rank       = cms.untracked.double(1)
-                               ),#FIXME
+                               ),#FILLED
                                 muTauFirstJetPt1CSVSort = cms.PSet(
                                      pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
                                      src        = cms.InputTag(src),
@@ -1030,7 +1030,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                      method     = cms.string('pt()'),
                                      cut        = cms.string('abs(eta())<2.4'),
                                      rank       = cms.untracked.double(0)
-                                 ),#FILLED #FIXME #CHECKME #MUST BE WRONG
+                                 ),#FILLED #CHECKME 
                                   muTauSecondJetPtCSVSort = cms.PSet(
                                       pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
                                       src        = cms.InputTag(src),
@@ -1038,7 +1038,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                       cut        = cms.string('abs(eta())<2.4'),
                                       method     = cms.string('pt()'),
                                       rank       = cms.untracked.double(1)
-                                  ),#FILLED #FIXME #CHECKME #MUST BE WRONG
+                                  ),#FILLED #CHECKME 
                                   muTauFirstJetEtaCSVSort = cms.PSet(
                                       pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
                                       src        = cms.InputTag(src),
@@ -1046,7 +1046,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                       cut        = cms.string('abs(eta())<2.4'),
                                       method     = cms.string('eta()'),
                                       rank       = cms.untracked.double(0)
-                                  ),#FILLED #FIXME #CHECKME #MUST BE WRONG
+                                  ),#FILLED #CHECKME 
                                   muTauSecondJetEtaCSVSort = cms.PSet(
                                       pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
                                       src        = cms.InputTag(src),
@@ -1054,7 +1054,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                       cut        = cms.string('abs(eta())<2.4'),
                                       method     = cms.string('eta()'),
                                       rank       = cms.untracked.double(1)
-                                  ),#FILLED #FIXME #CHECKME #MUST BE WRONG
+                                  ),#FILLED #CHECKME
                                   muTauFirstJetPhiCSVSort = cms.PSet(
                                       pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
                                       src        = cms.InputTag(src),
@@ -1062,7 +1062,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                       cut        = cms.string('abs(eta())<2.4'),
                                       method     = cms.string('phi()'),
                                       rank       = cms.untracked.double(0)
-                                  ),#FILLED #FIXME #CHECKME #MUST BE WRONG
+                                  ),#FILLED #CHECKME
                                   muTauSecondJetPhiCSVSort = cms.PSet(
                                       pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
                                       src        = cms.InputTag(src),
@@ -1070,7 +1070,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                       cut        = cms.string('abs(eta())<2.4'),
                                       method     = cms.string('phi()'),
                                       rank       = cms.untracked.double(1)
-                                  ),#FILLED #FIXME #CHECKME #MUST BE WRONG
+                                  ),#FILLED #CHECKME 
                                   muTauFirstJetFlavorCSVSort = cms.PSet(
                                       pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
                                       src        = cms.InputTag(src),
@@ -1078,7 +1078,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                       cut        = cms.string('abs(eta())<2.4'),
                                       method     = cms.string('partonFlavour()'),
                                       rank       = cms.untracked.double(0)
-                                  ),#FILLED #FIXME #CHECKME #MUST BE WRONG
+                                  ),#FILLED #CHECKME
                                   muTauSecondJetFlavorCSVSort = cms.PSet(
                                       pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
                                       src        = cms.InputTag(src),
@@ -1086,23 +1086,23 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                       cut        = cms.string('abs(eta())<2.4'),
                                       method     = cms.string('partonFlavour()'),
                                       rank       = cms.untracked.double(1)
-                                 ),#FILLED #FIXME #CHECKME #MUST BE WRONG
+                                 ),#FILLED #CHECKME 
                                  muTauFirstJetCSVbtagCSVSort = cms.PSet(
                                      pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
                                      src        = cms.InputTag(src),
                                      tag        = cms.string("J1CSVbtagCSVSort"),
                                      cut        = cms.string('abs(eta())<2.4'),
-                                     method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")'),
+                                     method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
                                      rank       = cms.untracked.double(0)
-                                 ),#FIXME
+                                 ),#FILLED
                                  muTauSecondJetCSVbtagCSVSort = cms.PSet(
                                      pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
                                      src        = cms.InputTag(src),
                                      tag        = cms.string("J2CSVbtagCSVSort"),
                                      cut        = cms.string('abs(eta())<2.4'),
-                                     method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")'),
+                                     method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
                                      rank       = cms.untracked.double(1)
-                               ),#FIXME
+                               ),#FILLED
                               muTauTauZIP = cms.PSet(
                                   pluginType = cms.string("PATMuTauPairFiller"),
                                   src        = cms.InputTag(src),
@@ -1722,42 +1722,42 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                                   pluginType = cms.string("PATEleTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nJetsBTagCSVLPt20"),
-                                  method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")>=0.244&&pt()>20&&abs(eta)<2.4'),
+                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.244&&pt()>20&&abs(eta)<2.4'),
                                   leadingOnly=cms.untracked.bool(True)
                               ),
                               eleTauJetsBTagCSVLPt25 = cms.PSet(
                                   pluginType = cms.string("PATEleTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nJetsBTagCSVLPt25"),
-                                  method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")>=0.244&&pt()>25&&abs(eta)<2.4'),
+                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.244&&pt()>25&&abs(eta)<2.4'),
                                   leadingOnly=cms.untracked.bool(True)
                               ),
                               eleTauJetsBTagCSVMPt20 = cms.PSet(
                                   pluginType = cms.string("PATEleTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nJetsBTagCSVMPt20"),
-                                  method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")>=0.679&&pt()>20&&abs(eta)<2.4'),
+                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679&&pt()>20&&abs(eta)<2.4'),
                                   leadingOnly=cms.untracked.bool(True)
                               ),
                               eleTauJetsBTagCSVMPt25 = cms.PSet(
                                   pluginType = cms.string("PATEleTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nJetsBTagCSVMPt25"),
-                                  method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")>=0.679&&pt()>25&&abs(eta)<2.4'),
+                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679&&pt()>25&&abs(eta)<2.4'),
                                   leadingOnly=cms.untracked.bool(True)
                               ),  
                               eleTauJetsBTagCSVTPt20 = cms.PSet(
                                   pluginType = cms.string("PATEleTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nJetsBTagCSVTPt20"),
-                                  method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")>=0.898&&pt()>20&&abs(eta)<2.4'),
+                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.898&&pt()>20&&abs(eta)<2.4'),
                                   leadingOnly=cms.untracked.bool(True)
                               ),  
                               eleTauJetsBTagCSVTPt25 = cms.PSet(
                                   pluginType = cms.string("PATEleTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nJetsBTagCSVTPt25"),
-                                  method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")>=0.898&&pt()>25&&abs(eta)<2.4'),
+                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.898&&pt()>25&&abs(eta)<2.4'),
                                   leadingOnly=cms.untracked.bool(True)
                               ),                               
                               eleTauJets30 = cms.PSet(
@@ -1904,14 +1904,14 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                                   pluginType = cms.string("PATEleTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nTaggableJetsPt20MatchedTagged"),
-                                  method     = cms.string('userInt("fullIdLoose")>0&&pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedSecondaryVertexBJetTags")>=0.679'),
+                                  method     = cms.string('userInt("fullIdLoose")>0&&pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
                                   leadingOnly=cms.untracked.bool(True)
                               ),
                               eleTauJets20TagNoMatchTag = cms.PSet(
                                   pluginType = cms.string("PATEleTauPairJetCountFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("nTaggableJetsPt20NotMatchedTagged"),
-                                  method     = cms.string('userInt("fullIdLoose")>0&&pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedSecondaryVertexBJetTags")>=0.679'),
+                                  method     = cms.string('userInt("fullIdLoose")>0&&pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
                                   leadingOnly=cms.untracked.bool(True)
                               ), 
                               eleTauVBFDEta = cms.PSet(
@@ -2054,7 +2054,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                                   pluginType = cms.string("PATEleTauPairHighestPtJetVarFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("highestJetBTagCSV"),
-                                  method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")'),
+                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
                               ),
                               eleTauFirstJetNeutMultiplicity = cms.PSet(
                                   pluginType = cms.string("PATEleTauPairHighestPtJetVarFiller"),
@@ -2161,14 +2161,14 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                                   pluginType = cms.string("PATEleTauPairPtJetVarFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("J1CSVbtag"),
-                                  method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")'),
+                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
                                   rank       = cms.untracked.double(0)
                               ),
                               eleTauSecondJetCSVbtag = cms.PSet(
                                   pluginType = cms.string("PATEleTauPairPtJetVarFiller"),
                                   src        = cms.InputTag(src),
                                   tag        = cms.string("J2CSVbtag"),
-                                  method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")'),
+                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
                                   rank       = cms.untracked.double(1)
                               ),
                               eleTauEleMVALoose = cms.PSet(
@@ -2268,7 +2268,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                                      src        = cms.InputTag(src),
                                      tag        = cms.string("J1CSVbtagCSVSort"),
                                      cut        = cms.string('abs(eta())<2.4'),
-                                     method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")'),
+                                     method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
                                      rank       = cms.untracked.double(0)
                                  ),
                                  eleTauSecondJetCSVbtagCSVSort = cms.PSet(
@@ -2276,7 +2276,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                                      src        = cms.InputTag(src),
                                      tag        = cms.string("J2CSVbtagCSVSort"),
                                      cut        = cms.string('abs(eta())<2.4'),
-                                     method     = cms.string('bDiscriminator("combinedSecondaryVertexBJetTags")'),
+                                     method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
                                      rank       = cms.untracked.double(1)
                                ),
                               eleTauTauZIP = cms.PSet(

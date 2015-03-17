@@ -81,12 +81,12 @@ class BTagScaleFactors
       double jetpt, jeteta, jetflavor = 0;
       std::pair<double,double> jetpair; 
       jetpair = std::make_pair(1.,0.); //here the pair is the SF and the Error
-      //cout << "ith: " << i << "jet pt " << jets.at(i)->pt()<< "bdisc value: " << jets.at(i)->bDiscriminator("combinedSecondaryVertexBJetTags")<< endl; 
+      //cout << "ith: " << i << "jet pt " << jets.at(i)->pt()<< "bdisc value: " << jets.at(i)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")<< endl; 
       
       if(jets.at(i)->pt()<20)
 	continue;
       
-      if(jets.at(i)->bDiscriminator("combinedSecondaryVertexBJetTags")<bdisc) ///IF the bdiscriminiator value is less than Light value then move on to next jet in loop
+      if(jets.at(i)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")<bdisc) ///IF the bdiscriminiator value is less than Light value then move on to next jet in loop
 	continue;
       
       jetpt = jets.at(i)->pt();
@@ -150,7 +150,7 @@ class BTagScaleFactors
       if(jets.at(i)->pt()<20)
 	continue;
 
-      if(jets.at(i)->bDiscriminator("combinedSecondaryVertexBJetTags")<bdisc) ///IF the bdiscriminiator value is less than Light value then move on to next jet in loop
+      if(jets.at(i)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")<bdisc) ///IF the bdiscriminiator value is less than Light value then move on to next jet in loop
 	continue;
       
       jetpt = jets.at(i)->pt();
@@ -215,7 +215,7 @@ class BTagScaleFactors
       if(jets.at(i)->pt()<20)
 	continue;
 
-      if(jets.at(i)->bDiscriminator("combinedSecondaryVertexBJetTags")<bdisc) ///IF the bdiscriminiator value is less than Light value then move on to next jet in loop
+      if(jets.at(i)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")<bdisc) ///IF the bdiscriminiator value is less than Light value then move on to next jet in loop
 	continue;
       
       //cout << "btag7" << endl;  
@@ -270,7 +270,7 @@ class BTagScaleFactors
     double bdisc = 0.244;
     //cout<< "Btag7" << endl;
     if(jets.size()>1&&jets.at(0)->pt()>20&&jets.at(1)->pt()>20)
-      if(jets.at(0)->bDiscriminator("combinedSecondaryVertexBJetTags")>bdisc&&jets.at(1)->bDiscriminator("combinedSecondaryVertexBJetTags")>bdisc){
+      if(jets.at(0)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>bdisc&&jets.at(1)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>bdisc){
 	jetpt0 = jets.at(0)->pt(); //define pt,eta,flavor
 	jeteta0 = abs(jets.at(0)->eta());
 	jetflavor0 = abs(jets.at(0)->partonFlavour()); 
@@ -355,7 +355,7 @@ class BTagScaleFactors
     double bdisc = 0.679;
     //cout<< "Btag7" << endl;
     if(jets.size()>1&&jets.at(0)->pt()>20&&jets.at(1)->pt()>20)
-    if(jets.at(0)->bDiscriminator("combinedSecondaryVertexBJetTags")>bdisc&&jets.at(1)->bDiscriminator("combinedSecondaryVertexBJetTags")>bdisc){
+    if(jets.at(0)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>bdisc&&jets.at(1)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>bdisc){
       jetpt0 = jets.at(0)->pt(); //define pt,eta,flavor
       jeteta0 = abs(jets.at(0)->eta());
       jetflavor0 = abs(jets.at(0)->partonFlavour()); 
@@ -435,7 +435,7 @@ class BTagScaleFactors
     double bdisc = 0.898;
     //cout<< "Btag7" << endl;
     if(jets.size()>1&&jets.at(0)->pt()>20&&jets.at(1)->pt()>20)
-    if(jets.at(0)->bDiscriminator("combinedSecondaryVertexBJetTags")>bdisc&&jets.at(1)->bDiscriminator("combinedSecondaryVertexBJetTags")>bdisc){
+    if(jets.at(0)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>bdisc&&jets.at(1)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>bdisc){
       jetpt0 = jets.at(0)->pt(); //define pt,eta,flavor
       jeteta0 = abs(jets.at(0)->eta());
       jetflavor0 = abs(jets.at(0)->partonFlavour()); 
