@@ -209,8 +209,7 @@ def applyDefaultSelectionsPT(process):
                                            filter = cms.bool(False)
   										) 
   process.cleanPatJets = cms.EDProducer("PATJetCleaner",
-                                           #src = cms.InputTag("patMVAEmbeddedJets"),#patOverloadedJets
-                                           src = cms.InputTag("patOverloadedJets"),
+                                           src = cms.InputTag("patOverloadedJets"),#"patMVAEmbeddedJets"
                                            #preselection = cms.string('abs(eta)<4.7&&userFloat("idLoose")>0&&pt>10&&userInt("fullIdLoose")>0'),
                                            preselection = cms.string('abs(eta)<4.7&&pt>10'),
                                            checkOverlaps = cms.PSet(),

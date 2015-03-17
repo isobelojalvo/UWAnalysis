@@ -35,42 +35,42 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                   tag        = cms.string("pt1"),
                                   method     = cms.string("leg1.pt"),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),
+                              ),#FILLED
                               pt2 = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("pt2"),
                                     method     = cms.string("leg2.pt"),
                                     leadingOnly=cms.untracked.bool(True)
-                              ),
+                              ),#FILLED
                               tauNIsoTracks = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("tauNIsoTracks"),
                                     method     = cms.string("leg2.userFloat('nIsoTracks')"),
                                     leadingOnly=cms.untracked.bool(True)
-                              ),
+                              ),#FILLED
                               tauNMatchedSeg = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("tauMuonNMatchedSeg"),
                                     method     = cms.string("leg2.userFloat('muonNMatchedSeg')"),
                                     leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
+                              ),#FILLED
                               tauTauHadMatched = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("tauMuonMatched"),
                                     method     = cms.string("leg2.userFloat('muonTauHadMatched')"),
                                     leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
+                              ),#FILLED
                               tauLeadPFTrackPt = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("tauLeadPFTrackPt"),
                                     method     = cms.string("leg2.userFloat('leadPFTrackPt')"),
                                     leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
+                              ),#FILLED
                               tauLeadPFTrackPtErr = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
@@ -1116,7 +1116,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                   tag        = cms.string("tauMuTightFixed"),
                                   method     = cms.string('leg2.userInt("againstMuTightFixed")'),
                                   leadingOnly=cms.untracked.bool(True)
-                              )#AgainstMuTight3                                                                                                                
+                              )#FILLED #AgainstMuTight3                                                                                                                
    )
 
    setattr(process, name, eventTree)

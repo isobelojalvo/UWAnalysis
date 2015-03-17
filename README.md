@@ -27,8 +27,12 @@ cmsRun LT-MC.py
 #Building comments
 stattools is left behind in 715X because HiggsCombine is stuck there. Will have to add back in StatTools as a later date.
 
-UWAnalysis/DataFormats/CompositePtr*TMet.h file had method names changed 
+'UWAnalysis/DataFormats/CompositePtrCandidateTMet.h' file had method names changed 
 
 FIX the track Pt Error-- unsure who to get trackref in miniaod.
 
 Currently unable to access any btagging
+
+To see what needs to be fixed "grep -r FIXME" 
+
+To see what variables are empty look in 'Configuration/python/tools/ntupleToolsMiniAOD.py.' FIXMEs denote empty/to be fixed. CHECKMEs denote checking. '#WTF' meant I didn't know what did.
