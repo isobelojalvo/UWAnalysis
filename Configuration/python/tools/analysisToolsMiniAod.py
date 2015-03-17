@@ -42,10 +42,9 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
   
   triLeptons(process)
-  #renameJetColl(process)
-  jetOverloading(process,"slimmedJets")  
+  renameJetColl(process)
   #jetOverloading(process,"slimmedJets")  
-  #jetOverloading(process,"NewSelectedPatJets")  
+  jetOverloading(process,"NewSelectedPatJets")  
   #turned off BDT
   #PATJetMVAEmbedder(process,"patOverloadedJets")  
   #Default selections for systematics
