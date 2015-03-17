@@ -43,6 +43,6 @@ Major Changes/Issues detailed in table
 | ESscaling | ptES etc. currently nonfunctional |
 | TBC | TBC |
 
-In general To see what needs to be fixed ``` grep -r FIXME ```
+In general To see what needs to be fixed ``` grep -r FIXME *```
 
 To see what variables are empty look in 'Configuration/python/tools/ntupleToolsMiniAOD.py.' FIXMEs denote empty/to be fixed. CHECKMEs denote checking. '#WTF' meant I didn't know what that variable did.
