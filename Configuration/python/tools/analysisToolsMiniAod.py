@@ -159,15 +159,12 @@ def triLeptons(process):
   process.TightElectrons = cms.EDFilter("PATElectronSelector",
   							src = cms.InputTag("slimmedElectrons"),
   							cut = cms.string('pt>10&&abs(eta)<2.5&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045'),
-  							#cut = cms.string('pt>10&&abs(eta)<2.5'),
-  							#cut = cms.string('pt>10&&abs(eta)<2.5&&userInt("mvaidwp")>0&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045&&(!(userInt("HasMatchedConversion")>0))&&userInt("missingHits")==0&&(userIso(0)+max(userIso(1)+neutralHadronIso()-0.5*userIso(2),0.0))/pt()<0.3'),
   							filter = cms.bool(False)
   						)
   						
   process.TightMuons = cms.EDFilter("PATMuonSelector",
   							src = cms.InputTag("slimmedMuons"),
   							cut = cms.string('pt>10&&abs(eta)<2.4&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045'),
-  							#cut = cms.string('pt>10&&abs(eta)<2.4&&userInt("tightID")>0&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045&&isGlobalMuon&&(userIso(0)+max(photonIso+neutralHadronIso()-0.5*puChargedHadronIso,0.0))/pt()<0.3'),
   							filter = cms.bool(False)
   						)
 
