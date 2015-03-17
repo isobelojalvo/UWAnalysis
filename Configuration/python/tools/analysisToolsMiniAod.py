@@ -33,18 +33,18 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   EScaledTaus(process,True)
 
   #Add trigger Matching
-  muonTriggerMatchMiniAOD(process,triggerProcess,HLT)#broken
-  electronTriggerMatchMiniAOD(process,triggerProcess,HLT)#broken
-  tauTriggerMatchMiniAOD(process,triggerProcess,HLT)#broken
+  muonTriggerMatchMiniAOD(process,triggerProcess,HLT)#NEW
+  electronTriggerMatchMiniAOD(process,triggerProcess,HLT)#NEW
+  tauTriggerMatchMiniAOD(process,triggerProcess,HLT)#NEW
   
   #Build good vertex collection
   goodVertexFilter(process)  
   tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
   
   triLeptons(process)
-  renameJetColl(process)
-  #jetOverloading(process,"slimmedJets")  
-  jetOverloading(process,"NewSelectedPatJets")  
+  renameJetColl(process)#currently does nothing--use to turn off jets
+  jetOverloading(process,"slimmedJets")  
+  #jetOverloading(process,"NewSelectedPatJets")  
   #turned off BDT
   #PATJetMVAEmbedder(process,"patOverloadedJets")  
   #Default selections for systematics
@@ -56,7 +56,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
 
 
 
-def renameJetColl(process):
+def renameJetColl(process): #change to CHS JETs
   process.load("RecoJets.JetProducers.ak4PFJets_cfi")
   process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
   #process.load("PhysicsTools.PatAlgos.patSequences_cff")
@@ -162,10 +162,6 @@ def triLeptons(process):
   							filter = cms.bool(False)
   						)
   						
-#            if name == "POG_ID_Medium":
-#                if not self.looseId(): return False
-#                goodGlb = self.physObj.isGlobalMuon() and self.physObj.globalTrack().normalizedChi2() < 3 and self.physObj.combinedQuality().chi2LocalPosition < 12 and self.physObj.combinedQuality().trkKink < 20;
-#                return self.physObj.innerTrack().validFraction() >= 0.8 and self.physObj.segmentCompatibility() >= (0.303 if goodGlb else 0.451)
   process.TightMuons = cms.EDFilter("PATMuonSelector",
   							src = cms.InputTag("slimmedMuons"),
   							cut = cms.string('pt>10&&abs(eta)<2.4&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045&&isLooseMuon&&(((isGlobalMuon&&globalTrack().normalizedChi2()<3&&combinedQuality().chi2LocalPosition<12&&combinedQuality().trkKink<20)&&(innerTrack().validFraction()>=0.8&&segmentCompatibility()>=0.303))||(!(isGlobalMuon&&globalTrack().normalizedChi2()<3&&combinedQuality().chi2LocalPosition<12&&combinedQuality().trkKink<20)&&(innerTrack().validFraction()>=0.8&&segmentCompatibility()>=0.451)))'),

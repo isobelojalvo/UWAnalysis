@@ -41,6 +41,7 @@
 #include "DataFormats/Math/interface/deltaR.h"
 #include "DataFormats/Math/interface/angle.h"
 
+#include "DataFormats/PatCandidates/interface/PackedCandidate.h"
 
 class PATJetOverloader : public edm::EDProducer {
    public:
@@ -59,9 +60,11 @@ class PATJetOverloader : public edm::EDProducer {
 
   virtual void produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   {
+    //std::cout<<"===== PATJetOverloader NAMESPACE ====="<<std::endl;
     using namespace edm;
     using namespace reco;
     using namespace std;
+    //std::cout<<"===== PATJetOverloader JetCollection ====="<<std::endl;
     std::auto_ptr<pat::JetCollection> jets(new pat::JetCollection);
     Handle<pat::JetCollection > cands;
     Handle<reco::GenJetCollection > genJets;
@@ -71,11 +74,19 @@ class PATJetOverloader : public edm::EDProducer {
 	float pt=0.0;
 	float sumPt=0.0;
 	float sumPt2=0.0;
-	for(unsigned int j=0;j<jet.numberOfDaughters();++j) {
-	  pt = jet.daughter(j)->pt();
+        //std::cout<<"===== PATJetOverloader Jet Number of Daughters ====="<<std::endl;
+        //std::cout<<"numberOfDaughters(Constituents): "<<jet.numberOfDaughters()<<std::endl;
+        std::vector<reco::CandidatePtr> daus(jet.daughterPtrVector());
+        std::sort(daus.begin(), daus.end(), [](const reco::CandidatePtr &p1, const reco::CandidatePtr &p2) { return p1->pt() > p2->pt(); }); // the joys of C++11
+        for (unsigned int i2 = 0, n = daus.size(); i2 < n; ++i2) {
+          const pat::PackedCandidate &cand = dynamic_cast<const pat::PackedCandidate &>(*daus[i2]);
+          pt=cand.pt();
+          //std::cout<<"Constituent Pt: "<<pt<<std::endl;
 	  sumPt+=pt;
 	  sumPt2+=pt*pt;
 	}
+        //std::cout<<"Constituent SumPt: "<<sumPt<<std::endl;
+        //std::cout<<"Constituent SumPt^2: "<<sumPt2<<std::endl;
 
 	float genJetPt =-10;
 	float genJetEta =-10;
@@ -85,8 +96,12 @@ class PATJetOverloader : public edm::EDProducer {
 	float Vtx3deL = -10;
 	float VtxPt = -10;
 	float uncorrectedPt= -10;
+	//std::cout<<"===== PATJetOverloader UncorrectedPt ====="<<std::endl;
 	uncorrectedPt = jet.correctedP4(0).pt();
+        //CHECKME
+        //std::cout<<"'Uncorrected' jet pt: "<<uncorrectedPt<<std::endl;
 
+	//std::cout<<"===== PATJetOverloader GenJet ====="<<std::endl;
 	if(iEvent.getByLabel(genJets_,genJets))
 	  for(unsigned int k=0;k!=genJets->size();k++){
 	    if(ROOT::Math::VectorUtil::DeltaR(genJets->at(k).p4(),jet.p4())<DRMin){
@@ -97,6 +112,7 @@ class PATJetOverloader : public edm::EDProducer {
 	    }
 	  }
 
+	//std::cout<<"===== PATJetOverloader Secondary Vertex ====="<<std::endl;
 	const reco::SecondaryVertexTagInfo* secInfo = jet.tagInfoSecondaryVertex("secondaryVertex");
 	if(secInfo && secInfo->vertexTracks().size()>0){
 	  const reco::Vertex&sv= secInfo->secondaryVertex(0);
@@ -104,6 +120,7 @@ class PATJetOverloader : public edm::EDProducer {
 	  Vtx3dL = (secInfo->flightDistance(0).value());
 	  Vtx3deL = (secInfo->flightDistance(0).error());
 	  reco::Candidate::LorentzVector sumP4(0,0,0,0);
+          //FIXME
 	  if ( sv.tracksSize()>1){
 	    for(reco::Vertex::trackRef_iterator track = sv.tracks_begin(); track!= sv.tracks_end(); ++track)
 	      for(unsigned int pfj=0;pfj<jet.getPFConstituents().size();++pfj) {
