@@ -31,17 +31,15 @@
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "DataFormats/TauReco/interface/PFTau.h"
-#include "DataFormats/ParticleFlowCandidate/interface/PFCandidate.h"
-#include "DataFormats/ParticleFlowCandidate/interface/PFCandidateFwd.h"
-#include "DataFormats/MuonReco/interface/MuonSelectors.h"
+//#include "DataFormats/MuonReco/interface/MuonSelectors.h"
 #include "DataFormats/PatCandidates/interface/Tau.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
 
+#include "DataFormats/PatCandidates/interface/PackedCandidate.h"
+#include "DataFormats/Candidate/interface/Candidate.h"
 
 #include "DataFormats/TrackReco/interface/TrackFwd.h"
 #include "DataFormats/GsfTrackReco/interface/GsfTrackFwd.h"
-#include "DataFormats/TrackReco/interface/Track.h"
-#include "DataFormats/GsfTrackReco/interface/GsfTrack.h"
 #include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/VertexReco/interface/VertexFwd.h"
 
@@ -107,14 +105,18 @@ class PATTauOverloader : public edm::EDProducer {
 
     float nMatchedSegments = -1;
     float muonMatched = 0;
-    float leadPFTrackPt = -1;
-    float leadPFTrackPtErr = -1;
+    float leadChargedHadrTrackPt = -1;
+    float leadChargedHadrTrackPtErr = -1;
     float nIsoTracks=-1;
     nIsoTracks = tau.isolationChargedHadrCands().size();
 
-    if(tau.leadTrack().isNonnull()){
-	    leadPFTrackPtErr = tau.leadTrack()->ptError();
-	    leadPFTrackPt = tau.leadTrack()->pt();
+    if(tau.leadChargedHadrCand().isNonnull()){
+            //std::cout<<"====IN TAU TRACK LOOP ======"<<std::endl;
+            //FIXME
+	    //leadChargedHadrTrackPtErr = tau.leadChargedHadrCand()->innerTrack()->ptError();
+            //std::cout<<" leadPFTrackPtErr: "<<leadChargedHadrTrackPtErr<<std::endl;
+	    leadChargedHadrTrackPt = tau.leadChargedHadrCand()->pt();
+            //std::cout<<" leadChargedHadrTrackPt: "<<leadChargedHadrTrackPt<<std::endl;
 	    if(iEvent.getByLabel(muons_,muons)){
 		    for(unsigned int k =0; k!=muons->size();k++){
 			    if(ROOT::Math::VectorUtil::DeltaR(muons->at(k).p4(),tau.leadChargedHadrCand()->p4())<0.15){
@@ -130,9 +132,9 @@ class PATTauOverloader : public edm::EDProducer {
     }
 
     tau.addUserFloat("nIsoTracks",nIsoTracks);
-    tau.addUserFloat("leadPFTrackPt",leadPFTrackPt);
-    tau.addUserFloat("leadPFTrackPtErr",leadPFTrackPtErr);
-
+    tau.addUserFloat("leadChargedHadrTrackPt",leadChargedHadrTrackPt);
+    //FIXME
+    tau.addUserFloat("leadChargedHadrTrackPtErr",leadChargedHadrTrackPtErr);
     tau.addUserFloat("muonNMatchedSeg",nMatchedSegments);
     tau.addUserFloat("muonTauHadMatched",muonMatched);
 
