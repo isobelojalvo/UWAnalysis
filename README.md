@@ -25,12 +25,17 @@ cmsRun LT-MC.py
 ```
 
 #Building comments
-| First Header  | Second Header |
+
+Major Changes/Issues detailed in table
+
+| Kind Of Issue  | Issue Detail |
 | ------------- | ------------- |
+| Removal of CVS Files  | Removal of CVS Files  |
+| StatTools Not Included  | StatTools is left behind in 715X because HiggsCombine is stuck there. Will have to add back in StatTools as a later date.  |
+| Had to change method names  | Unable to find effect of this change. In 'UWAnalysis/DataFormats/CompositePtrCandidateTMet.h' pt,px,py,mt become Pt,Px,Py,Mt. In order to build.   |
 | Content Cell  | Content Cell  |
 | Content Cell  | Content Cell  |
 
-stattools is left behind in 715X because HiggsCombine is stuck there. Will have to add back in StatTools as a later date.
 
 'UWAnalysis/DataFormats/CompositePtrCandidateTMet.h' file had method names changed 
 
