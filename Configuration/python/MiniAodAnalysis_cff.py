@@ -63,7 +63,7 @@ MTanalysisConfigurator.addSelector('diTausMuonID','PATMuTauPairSelector','abs(le
 #tightMuonSelectionForNow
 MTanalysisConfigurator.addSelector('diTausMuonMediumID','PATMuTauPairSelector','leg1.isLooseMuon&&(((leg1.isGlobalMuon&&leg1.globalTrack().normalizedChi2()<3&&leg1.combinedQuality().chi2LocalPosition<12&&leg1.combinedQuality().trkKink<20)&&(leg1.innerTrack().validFraction()>=0.8&&leg1.segmentCompatibility()>=0.303))||(!(leg1.isGlobalMuon&&leg1.globalTrack().normalizedChi2()<3&&leg1.combinedQuality().chi2LocalPosition<12&&leg1.combinedQuality().trkKink<20)&&(leg1.innerTrack().validFraction()>=0.8&&leg1.segmentCompatibility()>=0.451)))','MuonMediumID',1)
 #MTanalysisConfigurator.addSelector('diTausMuonMediumID','PATMuTauPairSelector','leg1.isTrackerMuon&&leg1.isGlobalMuon','MuonMediumID',1)
-MTanalysisConfigurator.addSelector('diTausMuonPtEta','PATMuTauPairSelector','leg1.pt()>18&&abs(leg1.eta())<2.4','MuonPtEta',1)
+MTanalysisConfigurator.addSelector('diTausMuonPtEta','PATMuTauPairSelector','leg1.pt()>18&&abs(leg1.eta())<2.1','MuonPtEta',1)
 MTanalysisConfigurator.addSelector('diTausMuonIsolationLoose','PATMuTauPairSelector','(leg1.userIso(0)+max(leg1.photonIso+leg1.neutralHadronIso()-0.5*leg1.puChargedHadronIso,0.0))/leg1.pt()<0.5','MuonIsolationLoose',1)
 MTanalysisConfigurator.addSelector('diTausTauPtEta','PATMuTauPairSelector','leg2.pt()>20&&abs(leg2.eta())<2.3','MTTauPtEta',1)
 MTanalysisConfigurator.addSelector('diTausDecayFound','PATMuTauPairSelector','abs(leg2.userFloat("dZ"))<0.2&&leg2.tauID("decayModeFinding")>0.5&&leg2.tauID("decayModeFindingNewDMs")>0.5','MTTauDecayFound',1)
