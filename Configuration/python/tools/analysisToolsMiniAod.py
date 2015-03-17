@@ -42,8 +42,10 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
   
   triLeptons(process)
-  renameJetColl(process)
-  jetOverloading(process,"NewSelectedPatJets")  
+  #renameJetColl(process)
+  jetOverloading(process,"slimmedJets")  
+  #jetOverloading(process,"slimmedJets")  
+  #jetOverloading(process,"NewSelectedPatJets")  
   #turned off BDT
   #PATJetMVAEmbedder(process,"patOverloadedJets")  
   #Default selections for systematics
@@ -71,7 +73,6 @@ def jetOverloading(process,jets):
   process.patOverloadedJets = cms.EDProducer('PATJetOverloader',
                                         src = cms.InputTag(jets),
                                         genJets = cms.InputTag("ak4GenJets")
-                                        #genJets = cms.InputTag("ak5GenJets")
   )                                        
 
   process.jetOverloading = cms.Sequence(process.patOverloadedJets)
@@ -162,9 +163,13 @@ def triLeptons(process):
   							filter = cms.bool(False)
   						)
   						
+#            if name == "POG_ID_Medium":
+#                if not self.looseId(): return False
+#                goodGlb = self.physObj.isGlobalMuon() and self.physObj.globalTrack().normalizedChi2() < 3 and self.physObj.combinedQuality().chi2LocalPosition < 12 and self.physObj.combinedQuality().trkKink < 20;
+#                return self.physObj.innerTrack().validFraction() >= 0.8 and self.physObj.segmentCompatibility() >= (0.303 if goodGlb else 0.451)
   process.TightMuons = cms.EDFilter("PATMuonSelector",
   							src = cms.InputTag("slimmedMuons"),
-  							cut = cms.string('pt>10&&abs(eta)<2.4&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045'),
+  							cut = cms.string('pt>10&&abs(eta)<2.4&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045&&isLooseMuon&&(((isGlobalMuon&&globalTrack().normalizedChi2()<3&&combinedQuality().chi2LocalPosition<12&&combinedQuality().trkKink<20)&&(innerTrack().validFraction()>=0.8&&segmentCompatibility()>=0.303))||(!(isGlobalMuon&&globalTrack().normalizedChi2()<3&&combinedQuality().chi2LocalPosition<12&&combinedQuality().trkKink<20)&&(innerTrack().validFraction()>=0.8&&segmentCompatibility()>=0.451)))'),
   							filter = cms.bool(False)
   						)
 
@@ -211,7 +216,8 @@ def applyDefaultSelectionsPT(process):
   process.cleanPatJets = cms.EDProducer("PATJetCleaner",
                                            #src = cms.InputTag("patMVAEmbeddedJets"),#patOverloadedJets
                                            src = cms.InputTag("patOverloadedJets"),
-                                           preselection = cms.string('abs(eta)<4.7&&userFloat("idLoose")>0&&pt>10&&userInt("fullIdLoose")>0'),
+                                           #preselection = cms.string('abs(eta)<4.7&&userFloat("idLoose")>0&&pt>10&&userInt("fullIdLoose")>0'),
+                                           preselection = cms.string('abs(eta)<4.7&&pt>10'),
                                            checkOverlaps = cms.PSet(),
                                            finalCut = cms.string('')
   										)								 									  

@@ -71,8 +71,8 @@ class PATJetOverloader : public edm::EDProducer {
 	float pt=0.0;
 	float sumPt=0.0;
 	float sumPt2=0.0;
-	for(unsigned int j=0;j<jet.getPFConstituents().size();++j) {
-	  pt = jet.getPFConstituents().at(j)->pt();
+	for(unsigned int j=0;j<jet.numberOfDaughters();++j) {
+	  pt = jet.daughter(j)->pt();
 	  sumPt+=pt;
 	  sumPt2+=pt*pt;
 	}

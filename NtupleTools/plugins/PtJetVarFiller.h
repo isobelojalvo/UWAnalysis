@@ -73,67 +73,6 @@ class PtJetVarFiller : public NtupleFillerBase {
     }
   }
 
-	/*
-	for(unsigned int i=0;i<handle->at(0).jets().size();++i){
-	  printf("%i th pt: %f\n",i,handle->at(0).jets().at(i)->pt());
-	}
-
-	for(unsigned int i=0;i<handle->at(0).jets().size();++i){
-	  if(handle->at(0).jets().at(i)->userInt("fullIdLoose")<1){printf("FailsJetID!!!\n");}
-	  if((ROOT::Math::VectorUtil::DeltaR(handle->at(0).lepton()->p4(),handle->at(0).jets().at(i)->p4()))<0.5){printf("JetFailsMuon Cross Cleaning!!! DeltaR:%f Pt:%f\n",(ROOT::Math::VectorUtil::DeltaR(handle->at(0).lepton()->p4(),handle->at(0).jets().at(i)->p4())),handle->at(0).jets().at(i)->pt());}
-
-	  if(handle->at(0).jets().at(i)->pt()>minPt){ //add muon jet cross cleaning!!
-	    minPt = handle->at(0).jets().at(i)->pt();
-	    singleValue = (*function)(*(handle->at(0).jets().at(i)));
-	    firsteta = handle->at(0).jets().at(i)->eta();
-	    firstphi = handle->at(0).jets().at(i)->phi();
-	  }
-	}
-      }
-	//printf("first jet pt: %f \n",minPt);
-	//}
-
-      if(rank_== 2||rank_ == 3){
-	//printf("checking second jet \n");
-	singleValue = 0;
-	if(handle->at(0).jets().size()>1){
-	  for(unsigned int i=0;i<handle->at(0).jets().size();++i){
-	    if(minPt>handle->at(0).jets().at(i)->pt()&&handle->at(0).jets().at(i)->pt()>secondPt&&handle->at(0).jets().at(i)->userInt("fullIdLoose")>0&&(ROOT::Math::VectorUtil::DeltaR(handle->at(0).lepton()->p4(),handle->at(0).jets().at(i)->p4())>0.5)) {//cross clean jets!!
-	      secondPt = handle->at(0).jets().at(i)->pt();
-	      //printf("second jet pt: %f \n",handle->at(0).jets().at(i)->pt());
-	      singleValue = (*function)(*(handle->at(0).jets().at(i)));
-	      secondeta = handle->at(0).jets().at(i)->eta();
-	      secondphi = handle->at(0).jets().at(i)->phi();
-	    }
-	  }
-	}
-
-	//printf("second jet pt: %f \n",secondPt);
-      }
-
-      if(rank_ == 3){
-	singleValue = 0;//(*function)(*(handle->at(0).jets().at(i)));
-	if(handle->at(0).jets().size()>2){
-	  for(unsigned int i=0;i<handle->at(0).jets().size();++i){
-	    if(secondPt>handle->at(0).jets().at(i)->pt()&&handle->at(0).jets().at(i)->pt()>thirdPt&&handle->at(0).jets().at(i)->userInt("fullIdLoose")>0&&(ROOT::Math::VectorUtil::DeltaR(handle->at(0).lepton()->p4(),handle->at(0).jets().at(i)->p4())>0.5)) {
-	      thirdPt = handle->at(0).jets().at(i)->pt();
-	      singleValue = (*function)(*(handle->at(0).jets().at(i)));
-	    }
-	  }
-	}
-	//printf("third jet pt: %f \n",thirdPt);
-      }
-    }
-    else
-      {
-	printf("Obj not found \n");
-      }
-    //    vbranch->Fill();
-
-  }
-
-	*/  
-
  protected:
   edm::InputTag src_;
   std::string var_;
