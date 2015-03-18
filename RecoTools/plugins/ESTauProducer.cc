@@ -23,7 +23,7 @@ ESTauProducer::~ESTauProducer()
 void 
 ESTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 
-	std::cout << "<ESTauProducer::produce>:" << std::endl;
+	//std::cout << "<ESTauProducer::produce>:" << std::endl;
 
 	using namespace edm;
 	using namespace reco;
@@ -52,7 +52,7 @@ ESTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 	for(unsigned int i=0;i<srcH->size();++i) {
 
 		pat::Tau object = srcH->at(i);
-		std::cout << " original object(" << i << "): Pt = " << object.pt()<< " eta = " << object.eta() << ", phi = " << object.phi() << std::endl;
+		//std::cout << " original object(" << i << "): Pt = " << object.pt()<< " eta = " << object.eta() << ", phi = " << object.phi() << std::endl;
 
 		smearingModule->smear(object);
 		float initialpt = object.pt();
@@ -93,7 +93,7 @@ ESTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 			}
 		}
 
-		std::cout << "smeared object(" << i << ") : decay mode = " << object.decayMode() <<" : Pt = " << object.pt() << " eta = " << object.eta() << ", phi = " << object.phi() << std::endl;
+		//std::cout << "smeared object(" << i << ") : decay mode = " << object.decayMode() <<" : Pt = " << object.pt() << " eta = " << object.eta() << ", phi = " << object.phi() << std::endl;
 
 
 		out->push_back(object);
