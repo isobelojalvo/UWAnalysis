@@ -67,8 +67,8 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               tauLeadPFTrackPt = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
-                                    tag        = cms.string("tauLeadPFTrackPt"),
-                                    method     = cms.string("leg2.userFloat('leadPFTrackPt')"),
+                                    tag        = cms.string("tauLeadChargedHadrTrackPt"),
+                                    method     = cms.string("leg2.userFloat('leadChargedHadrTrackPt')"),
                                     leadingOnly=cms.untracked.bool(True)
                               ),#FILLED
                               tauLeadPFTrackPtErr = cms.PSet(
@@ -84,14 +84,14 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                     tag        = cms.string("mass2ES"),
                                     method     = cms.string("leg2.userFloat('ESmass')"),
                                     leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
+                              ),#FILLED
                               pt2ES = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
                                     tag        = cms.string("pt2ES"),
                                     method     = cms.string("leg2.userFloat('ESpt')"),
                                     leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
+                              ),#FILLED
                               pt2initial = cms.PSet(
                                     pluginType = cms.string("PATMuTauPairFiller"),
                                     src        = cms.InputTag(src),
