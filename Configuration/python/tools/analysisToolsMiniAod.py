@@ -42,9 +42,8 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
   
   triLeptons(process)
-  renameJetColl(process)#currently does nothing--use to turn off jets
-  jetOverloading(process,"slimmedJets")  
-  #jetOverloading(process,"NewSelectedPatJets")  
+  #renameJetColl(process)#currently does nothing--use to turn off jets
+  jetOverloading(process,"slimmedJets")#"NewSelectedPatJets" 
   #turned off BDT
   #PATJetMVAEmbedder(process,"patOverloadedJets")  
   #Default selections for systematics
@@ -78,6 +77,9 @@ def jetOverloading(process,jets):
   #process.createOverloadedJets=cms.Path(process.jetOverloading)
   process.analysisSequence*=process.jetOverloading
 
+
+
+
 def PATJetMVAEmbedder(process,jets):
 
   process.patMVAEmbeddedJets = cms.EDProducer('PATJetMVAEmbedder',
@@ -92,7 +94,7 @@ def EScaledTaus(process,smearing):  #second arg is bool
   process.ESTausID = cms.EDProducer("ESTauProducer",
                                     src = cms.InputTag("slimmedTaus"),
                                     module_label = cms.string("FROGS"),
-                                    genParticles = cms.InputTag("genParticles"),
+                                    genParticles = cms.InputTag("prunedGenParticles"),
                                     smearConstituents = cms.bool(smearing),
                                     smearMCParticle = cms.bool(False),
                                     energyScale  = cms.double(1.0),
@@ -400,7 +402,7 @@ def createGeneratedTaus(process,decayMode,fiducialCuts):
 
 
 def goodVertexFilter(process):
-
+  #CHECKME new vertex selection for taus available?
   process.primaryVertexFilter = cms.EDFilter("VertexSelector",
                                         src = cms.InputTag('offlineSlimmedPrimaryVertices'),
                                         cut = cms.string('ndof()>4&&position().rho()<2&&abs(z())<24'),
