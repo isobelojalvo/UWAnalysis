@@ -3,6 +3,109 @@ import FWCore.ParameterSet.Config as cms
 from UWAnalysis.Configuration.tools.analysisToolsMiniAod import TriggerPaths
 
 
+
+def makeCollSize(srcName,tagName):
+  PSet = cms.PSet(
+        pluginType = cms.string("CollectionSizeFiller"),
+        src        = cms.InputTag(srcName),
+        tag        = cms.string(tagName)
+  )
+  return PSet
+
+def makeLTauGeneric(plugin,sourceDiTaus,tagName,methodName):
+   PSet = cms.PSet(
+         pluginType  = cms.string(plugin),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         method      = cms.string(methodName),
+   )
+   return PSet
+
+def makeMuTauPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATMuTauPairFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         method      = cms.string(methodName),
+         leadingOnly = cms.untracked.bool(leadingOnly)
+   )
+   return PSet
+
+def makeMuTauCSVPair(sourceDiTaus,tagName,cutName,methodName,rank):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATMuTauPairCSVJetVarFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         cut         = cms.string(cutName),
+         method      = cms.string(methodName),
+         rank = cms.untracked.double(rank)
+   )
+   return PSet
+
+def makeMuTauPtPair(sourceDiTaus,tagName,cutName,methodName,rank):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATMuTauPairJetCountFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         cut         = cms.string(cutName),
+         method      = cms.string(methodName),
+         rank = cms.untracked.double(rank)
+   )
+   return PSet
+
+def makeMuTauJetCountPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATMuTauPairJetCountFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         method      = cms.string(methodName),
+         leadingOnly = cms.untracked.bool(leadingOnly)
+   )
+   return PSet
+
+def makeEleTauPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATEleTauPairFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         method      = cms.string(methodName),
+         leadingOnly = cms.untracked.bool(leadingOnly)
+   )
+   return PSet
+
+def makeEleTauCSVPair(sourceDiTaus,tagName,cutName,methodName,rank):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATEleTauPairCSVJetVarFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         cut         = cms.string(cutName),
+         method      = cms.string(methodName),
+         rank = cms.untracked.double(rank)
+   )
+   return PSet
+
+def makeEleTauPtPair(sourceDiTaus,tagName,cutName,methodName,rank):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATEleTauPairJetCountFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         cut         = cms.string(cutName),
+         method      = cms.string(methodName),
+         rank = cms.untracked.double(rank)
+   )
+   return PSet
+
+def makeEleTauJetCountPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATEleTauPairJetCountFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         method      = cms.string(methodName),
+         leadingOnly = cms.untracked.bool(leadingOnly)
+   )
+   return PSet
+
+
 def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted', srcU='TightMuons', srcE='TightElectrons'):
    process.TFileService = cms.Service("TFileService", fileName = cms.string("analysis.root") )
    eventTree = cms.EDAnalyzer('EventTreeMaker',
@@ -13,862 +116,195 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                   pluginType = cms.string("TriggerFiller"),
                                   src        = cms.InputTag("patTrigger"),
                                   paths      = cms.vstring(TriggerPaths)
-                                  ),
+                              ),
                               pu = cms.PSet(
                                   pluginType = cms.string("PUFiller"),
                                   src        = cms.InputTag("addPileupInfo"),
                                   tag        = cms.string("pu"),
-                                  ),
-                              muonsSizeMT = cms.PSet(
-                                  pluginType = cms.string("CollectionSizeFiller"),
-                                  src        = cms.InputTag(srcU),
-                                  tag        = cms.string("tightMuons"),
-                              ),    
-                              electronsSizeMT = cms.PSet(
-                                  pluginType = cms.string("CollectionSizeFiller"),
-                                  src        = cms.InputTag(srcE),
-                                  tag        = cms.string("tightElectrons"),
-                              ),                                  
-                              pt1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("pt1"),
-                                  method     = cms.string("leg1.pt"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              pt2 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("pt2"),
-                                  method     = cms.string("leg2.pt"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              tauNIsoTracks = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauNIsoTracks"),
-                                  method     = cms.string("leg2.userFloat('nIsoTracks')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              tauNMatchedSeg = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauMuonNMatchedSeg"),
-                                  method     = cms.string("leg2.userFloat('muonNMatchedSeg')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              tauTauHadMatched = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauMuonMatched"),
-                                  method     = cms.string("leg2.userFloat('muonTauHadMatched')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              tauLeadChargedHadrTrackPt = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauLeadChargedHadrTrackPt"),
-                                  method     = cms.string("leg2.userFloat('leadChargedHadrTrackPt')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              tauLeadChargedHadrTrackPtErr = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauLeadPFTrackPtErr"),
-                                  method     = cms.string("leg2.userFloat('leadPFTrackPtErr')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
-                              mass2ES = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("mass2ES"),
-                                  method     = cms.string("leg2.userFloat('ESmass')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              pt2ES = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("pt2ES"),
-                                  method     = cms.string("leg2.userFloat('ESpt')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              pt2initial = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("pt2preES"),
-                                  method     = cms.string("leg2.userFloat('preESpt')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              phi2initial = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("phi2preES"),
-                                  method     = cms.string("leg2.userFloat('preESphi')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              charge1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("charge1"),
-                                  method     = cms.string("leg1.charge"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              charge2 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("charge2"),
-                                  method     = cms.string("leg2.charge"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              pt = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("pt"),
-                                  method     = cms.string("pt"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#WTF
-                              muTauEta = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("fullEta"),
-                                  method     = cms.string("fullEta"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#WTF
-                              muTauPhi = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("fullPhi"),
-                                  method     = cms.string("fullPhi"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#WTF
-                              muTauE = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("fullEnergy"),
-                                  method     = cms.string("fullEnergy"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#WTF
-                              muTauEta1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("eta1"),
-                                  method     = cms.string("leg1.eta"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauEta2 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("eta2"),
-                                  method     = cms.string("leg2.eta"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauPhi1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("phi1"),
-                                  method     = cms.string("leg1.phi"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauPhi2 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("phi2"),
-                                  method     = cms.string("leg2.phi"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              METPhi = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("metPhi"),
-                                  method     = cms.string("metPhi"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              CovMat00 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("covMatrix00"),
-                                  method     = cms.string("covMatrix00"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              CovMat10 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("covMatrix10"),
-                                  method     = cms.string("covMatrix10"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              CovMat01 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("covMatrix01"),
-                                  method     = cms.string("covMatrix01"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              CovMat11 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("covMatrix11"),
-                                  method     = cms.string("covMatrix11"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauCharge = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("charge"),
-                                  method     = cms.string("charge"), #-2,0,2(Sum of charges?
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauMass = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("mass"),
-                                  method     = cms.string("mass"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #WTF #MASS OF WHAT--svmass?
-                              muTauSVMass = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("svMass"),
-                                  method     = cms.string("svMass"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #FIXME switch to most recent standalone                             
-                              muTauSVPt = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("svPt"),
-                                  method     = cms.string("svPt"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME NOTFILLED switch to standalone                              
-                              muTauFullPt = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("fullPt"),
-                                  method     = cms.string("fullPt"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#WTF
-                              muTauMT1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("mt1"),
-                                  method     = cms.string("mt1MET"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              muTauMT = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("mt"),
-                                  method     = cms.string("mt12MET"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              muTauMT2 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("mt2"),
-                                  method     = cms.string("mt2MET"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              muTauMET = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("met"),
-                                  method     = cms.string("calibratedMET.pt()"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED corrently uncorrected
-                              muTauMETUnc = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("metUnc"),
-                                  method     = cms.string("met.pt()"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED                              
-                              muTauHT = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("ht"),
-                                  method     = cms.string("ht"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauEventBTag = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("btag"),
-                                  method     = cms.string("EventBTag"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              muTauEventNBTags = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("NBTags"),
-                                  method     = cms.string("NBTags"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTaumJJReg = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("mJJReg"),
-                                  method     = cms.string("mJJReg"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME NO Regression Applied
-                              muTauJJ = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("mJJ"),
-                                  method     = cms.string("mJJ"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauJJPt = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("ptJJ"),
-                                  method     = cms.string("ptJJ"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauJJEta = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("etaJJ"),
-                                  method     = cms.string("etaJJ"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FLLED
-                              muTauJJPhi = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("phiJJ"),
-                                  method     = cms.string("phiJJ"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauJJEnergy = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("energyJJ"),
-                                  method     = cms.string("energyJJ"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauHMass = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("HMass"),
-                                  method     = cms.string("hhMass"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#CHECKME #FILLED
-                              muTauHMassReg= cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("HMassReg"),
-                                  method     = cms.string("hhMassReg"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED NOTAPPLIED
-                              muTauHPt = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("HPt"),
-                                  method     = cms.string("hhPt"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauHEta = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("HEta"),
-                                  method     = cms.string("hhEta"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauHPhi = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("HPhi"),
-                                  method     = cms.string("hhPhi"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauHEnergy = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("HEnergy"),
-                                  method     = cms.string("hhE"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauVBFDEta = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("vbfDEta"),
-                                  method     = cms.string("vbfDEta"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#WTF #FILLED
-                              muTauVBFMass = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("vbfMass"),
-                                  method     = cms.string("vbfMass"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#WTF #FILLED
-                              muMuVBFJets20 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("vbfNJetsGap20"),
-                                  method     = cms.string("vbfNJetsGap20"),
-                                  leadingOnly=cms.untracked.bool(True)
-                               ),#WTF #FILLED
-                              muMuVBFJets30 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("vbfNJetsGap30"),
-                                  method     = cms.string("vbfNJetsGap30"),
-                                  leadingOnly=cms.untracked.bool(True)
-                               ),#WTF #FILLED
-                              muTauPFID = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("lPFId"),
-                                  method     = cms.string('leg1.pfCandidateRef().isNonnull()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ), #FIXME                             
-                              muTauRelPFIsoDB = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("lPFIsoDB"),
-                                  method     = cms.string('(leg1.userIso(0)+max(leg1.photonIso()+leg1.neutralHadronIso()-0.5*leg1.puChargedHadronIso,0.0))/leg1.pt()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ), #FIXME #CHECKME #newisolation to be used
-                              muTauDecayMode = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauDecayMode"),
-                                  method     = cms.string('leg2.decayMode()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauMuTriggerMatch = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("lTrigger"),
-                                  method     = cms.string('leg1.userFloat("hltOverlapFilterIsoMu17LooseIsoPFTau20")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              muTauTauTriggerMatch = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauTrigger"),
-                                  method     = cms.string('leg2.userFloat("hltOverlapFilterIsoMu17LooseIsoPFTau20")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME 
-                               muTauPzeta = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("pZeta"),
-                                  method     = cms.string('pZeta-1.5*pZetaVis'),
-                                  leadingOnly=cms.untracked.bool(True)
-                               ),#FILLED
-                               muTauPZ = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("pZ"),
-                                  method     = cms.string('pZeta'),
-                                  leadingOnly=cms.untracked.bool(True)
-                               ),#FILLED
-                               muTauPZV = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("pZV"),
-                                  method     = cms.string('pZetaVis'),
-                                  leadingOnly=cms.untracked.bool(True)
-                               ),#FILLED
-                              muTauHadMass = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauMass"),
-                                  method     = cms.string('leg2.mass()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauByCombIsoDBRaw3 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauIso"),
-                                  method     = cms.string('leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              muTauAgainstMuonTight2 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("againstMuonTight3"),
-                                  method     = cms.string('leg2.tauID("againstMuonTight3")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauAgainstMuonTightFixed = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("againstMuTightFixed"),
-                                  method     = cms.string('leg2.userInt("againstMuTightFixed")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauDecayFound = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauDecayFound"),
-                                  method     = cms.string('leg2.tauID("decayModeFinding")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              muTauFirstJetMuf = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1Muf"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('muonEnergyFraction()'),
-                                  rank       = cms.untracked.double(0)
-                              ),#FILLED
-                              muTauSecondJetMuf = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2Muf"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('muonEnergyFraction()'),
-                                  rank       = cms.untracked.double(1)
-                              ),#FILLED
-                              muTauFirstJetNhf = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1Nhf"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('neutralHadronEnergyFraction()'),
-                                  rank       = cms.untracked.double(0)
-                              ),#FILLED
-                              muTauSecondJetNhf = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2Nhf"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('neutralHadronEnergyFraction()'),
-                                  rank       = cms.untracked.double(1)
-                              ),#FILLED
-                              muTauFirstJetPhf = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1Phf"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('photonEnergyFraction()'),
-                                  rank       = cms.untracked.double(0)
-                              ),#FILLED
-                              muTauSecondJetPhf = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2Phf"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('photonEnergyFraction()'),
-                                  rank       = cms.untracked.double(1)
-                              ),#FILLED
-                              muTauCSVL1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVL"),
-                                  method     = cms.string("SFCSVL1"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED 
-                              muTauCSVL2 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVL2"),
-                                  method     = cms.string("SFCSVL2"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauCSVM1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVM"),
-                                  method     = cms.string("SFCSVM1"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauCSVM2 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVM2"),
-                                  method     = cms.string("SFCSVM2"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauCSVT1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVT"),
-                                  method     = cms.string("SFCSVT1"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauCSVT2 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVT2"),
-                                  method     = cms.string("SFCSVT2"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauCSVL1err = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVLerr"),
-                                  method     = cms.string("SFCSVL1err"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauCSVL2err = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVL2err"),
-                                  method     = cms.string("SFCSVL2err"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauCSVM1err = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVMerr"),
-                                  method     = cms.string("SFCSVM1err"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauCSVM2err = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVM2err"),
-                                  method     = cms.string("SFCSVM2err"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauCSVT1err = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVTerr"),
-                                  method     = cms.string("SFCSVT1err"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauCSVT2err = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVT2err"),
-                                  method     = cms.string("SFCSVT2err"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauJetsBTagCSVLPt20 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsBTagCSVLPt20"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.244&&pt()>20&&abs(eta)<2.4'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauJetsBTagCSVLPt25 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsBTagCSVLPt25"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.244&&pt()>25&&abs(eta)<2.4'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauJetsBTagCSVMPt20 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsBTagCSVMPt20"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679&&pt()>20&&abs(eta)<2.4'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauJetsBTagCSVMPt25 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsBTagCSVMPt25"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679&&pt()>25&&abs(eta)<2.4'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),  #FILLED
-                              muTauJetsBTagCSVTPt20 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsBTagCSVTPt20"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.898&&pt()>20&&abs(eta)<2.4'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),  #FILLED
-                              muTauJetsBTagCSVTPt25 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsBTagCSVTPt25"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.898&&pt()>25&&abs(eta)<2.4'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),   #FILLED    
-                              muTauJetsPt30 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsPt30"),
-                                  method     = cms.string('pt()>30'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #add in Loose Jet ID
-                              muTauJetsPt30Tag = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nTaggableJetsPt30"),
-                                  method     = cms.string('pt()>30&&abs(eta)<2.4'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #removed fullIdLoose
-                              muTauJetsPt30TagMatch = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nTaggableJetsPt30Matched"),
-                                  method     = cms.string('pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #removed fullIdLoose
-                              muTauJetsPt30TagNoMatch = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nTaggableJetsPt30NotMatched"),
-                                  method     = cms.string('pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #removed fullIdLoose
-                              muTauJetsPt20 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsPt20"),
-                                  method     = cms.string('pt()>20'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #removed fullIdLoose
-                              muTauJetsPt20Tag = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nTaggableJetsPt20"),
-                                  method     = cms.string('pt()>20&&abs(eta)<2.4'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #removed 
-                              muTauJetsPt20TagMatch = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nTaggableJetsPt20Matched"),
-                                  method     = cms.string('pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #removed fullIdLoose
-                              muTauJetsPt20TagNoMatch = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nTaggableJetsPt20NotMatched"),
-                                  method     = cms.string('pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #removed fullIdLoose
-                              muTauJetsPt20TagMatchTag = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nTaggableJetsPt20MatchedTagged"),
-                                  method     = cms.string('pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #removed fullIdLoose
-                              muTauJetsPt20TagNoMatchTag = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nTaggableJetsPt20NotMatchedTagged"),
-                                  method     = cms.string('pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauGenPt1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("genPt1"),
-                                  method     = cms.string('p4Leg1gen().pt()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauGenPt2 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("genPt2"),
-                                  method     = cms.string('p4Leg2gen().pt()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauPdg1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("pdg1"),
-                                  method     = cms.string("genPdg1()"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauPdg2 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("pdg2"),
-                                  method     = cms.string("genPdg2()"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauVisGenPt1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("genVisPt1"),
-                                  method     = cms.string('p4VisLeg1gen().pt()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME #mostly zero?
-                              muTauVisGenPt2 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("genVisPt2"),
-                                  method     = cms.string('p4VisLeg2gen().pt()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME #mostly zero
-                              muTauGenVisMass = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("genVisMass"),
-                                  method     = cms.string('p4VisGen().M()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME #FILLED #mostly zero LOOKS WRONG
-                              muTauGenMassMatched = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("genFullMassMatched"),
-                                  method     = cms.string('p4gen().M()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#CHECKME #FILLED LOOKS WRONG
-                              muTauGenMass = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("genFullMass"),
-                                  method     = cms.string('genBosonMass()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              muTauFirstJetID53X = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairHighestPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("highestJetID53X"),
-                                  method     = cms.string("userFloat('pileupJetId:fullDiscriminant')"),
-                              ), #FILLED  #                           
-                              muTauFirstJetFlavour = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairHighestPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("highestJetFlavour"),
-                                  method     = cms.string('partonFlavour()'),
-                              ), #FILLED
-                              muTauFirstJetShape = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairHighestPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("highestJetShape"),
-                                  method     = cms.string('userFloat("ptRMS")'),
-                              ),#FILLED #sum of jet constituents ptRMS
-                              muTauFirstJetChMultiplicity = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairHighestPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("highestJetNCharged"),
-                                  method     = cms.string('chargedMultiplicity()'),
-                              ),#FILLED
-                              muTauFirstJetBTagCSV = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairHighestPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("highestJetBTagCSV"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
-                              ), #FILLED
-                              muTauFirstJetNeutMultiplicity = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairHighestPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("highestJetNNeutral"),
-                                  method     = cms.string('photonMultiplicity()+neutralHadronMultiplicity()'),
-                              ),#FILLED
-                              PVs = cms.PSet(
+                              ),
+                               PVs = cms.PSet(
                                   pluginType = cms.string("VertexSizeFiller"),
                                   src        = cms.InputTag("primaryVertexFilter"),
                                   tag        = cms.string("vertices")
                               ),#FILLED
-                              mumuSize = cms.PSet(
-                                  pluginType = cms.string("CollectionSizeFiller"),
-                                  src        = cms.InputTag(srcLL),
-                                  tag        = cms.string("diLeptons"),
-                              ),#FIXME #ALWAYS ZERO
-                              mumuDR = cms.PSet(
-                                  pluginType = cms.string("PATMuPairFiller"),
-                                  src        = cms.InputTag(srcLL),
-                                  tag        = cms.string("diLeptonDR"),
-                                  method     = cms.string("dR12")
-                              ),#FIXME #ALWAYS -1
-                              genTaus = cms.PSet(
-                                  pluginType = cms.string("CollectionSizeFiller"),
-                                  src        = cms.InputTag("genTauCands"),
-                                  tag        = cms.string("genTaus"),
-                              ),#FIXME #ALWAYS ZERO
+ 
+                              muTauSize = makeCollSize(src,"nCands"),#FILLED
+                              genTaus = makeCollSize("genTauCands","genTaus"), #FIXME
+                              muMuSize = makeCollSize(srcLL,"diLeptons"),#CHECKME
+
+                              muonsSizeMT = makeCollSize(srcU,"tightMuons"),#FILLED
+                              electronsSizeMT = makeCollSize(srcE,"tightElectrons"),#FILLED
+
+                              tauNIsoTracks =  makeMuTauPair(src,"tauNIsoTracks","leg2.userFloat('nIsoTracks')"), #FILLED
+                              tauNMatchedSeg =  makeMuTauPair(src,"tauMuonNMatchedSeg","leg2.userFloat('muonNMatchedSeg')"),#FILLED
+                              tauTauHadMatched = makeMuTauPair(src,"tauMuonMatched","leg2.userFloat('muonTauHadMatched')"),#FILLED
+                              tauLeadChargedHadrTrackPt = makeMuTauPair(src,"tauLeadChargedHadrTrackPt","leg2.userFloat('leadChargedHadrTrackPt')"),#FILLED
+                              tauLeadChargedHadrTrackPtErr = makeMuTauPair(src,"tauLeadChargedHadrTrackPtErr","leg2.userFloat('leadPFTrackPtErr')"), #FIXME
+
+                              mass2ES = makeMuTauPair(src,"mass2ES","leg2.userFloat('ESmass')"),#FILLED
+                              pt2ES = makeMuTauPair(src,"pt2ES","leg2.userFloat('ESpt')"),#FILLED
+                              pt2initial = makeMuTauPair(src,"pt2preES","leg2.userFloat('preESpt')"),#FILLED
+                              phi2initial = makeMuTauPair(src,"phi2preES","leg2.userFloat('preESphi')"),#FILLED
+
+                              muTauCharge = makeMuTauPair(src,"charge","charge"),#FILLED
+                              charge1 = makeMuTauPair(src,"charge1","leg1.charge"),#FILLED
+                              charge2 = makeMuTauPair(src,"charge2","leg2.charge"),#FILLED
+
+                              muTauPt = makeMuTauPair(src,"pt","pt"),#FILLED
+                              muTauHT = makeMuTauPair(src,"ht","ht"),#FILLED
+                              muTauMass = makeMuTauPair(src,"mass","mass"),#FILLED
+                              muTauSVPt = makeMuTauPair(src,"svPt","svPt"),#FIXME
+                              muTauSVMass = makeMuTauPair(src,"svMass","svMass"),#FILLED
+
+                              muTauFullPt = makeMuTauPair(src,"fullPt","fullPt"),#FILLED
+                              muTauEta = makeMuTauPair(src,"fullEta","fullEta"),#FILLED
+                              muTauPhi = makeMuTauPair(src,"fullPhi","fullPhi"),#FILLED
+                              muTauE = makeMuTauPair(src,"fullEnergy","fullEnergy"),#FILLED
+
+                              muTauPt1 =  makeMuTauPair(src,"pt1","leg1.pt"), #FILLED
+                              muTauPt2 =  makeMuTauPair(src,"pt2","leg2.pt"), #FILLED
+                              muTauEta1 = makeMuTauPair(src,"eta1","leg1.eta"),
+                              muTauEta2 = makeMuTauPair(src,"eta2","leg2.eta"),
+                              muTauPhi1 = makeMuTauPair(src,"phi1","leg1.phi"),
+                              muTauPhi2 = makeMuTauPair(src,"phi2","leg2.phi"),
+
+                              muTauMETUnc = makeMuTauPair(src,"metUnc","met.pt()"),
+                              muTauMET = makeMuTauPair(src,"met","calibratedMET.pt()"),
+                              METPhi = makeMuTauPair(src,"metPhi","metPhi"),
+                              CovMat00 = makeMuTauPair(src,"covMatrix00","covMatrix00"),
+                              CovMat10 = makeMuTauPair(src,"covMatrix10","covMatrix10"),
+                              CovMat01 = makeMuTauPair(src,"covMatrix01","covMatrix01"),
+                              CovMat11 = makeMuTauPair(src,"covMatrix11","covMatrix11"),
+
+                              muTauMT = makeMuTauPair(src,"mt","mt12MET"),
+                              muTauMT1 = makeMuTauPair(src,"mt1","mt1MET"),
+                              muTauMT2 = makeMuTauPair(src,"mt2","mt2MET"),
+
+                              #BTAGS AND JETS
+                              muTauMJJReg = makeMuTauPair(src,"mJJReg","mJJReg"),
+                              muTauMJJ = makeMuTauPair(src,"mJJ","mJJ"),
+                              muTauJJPt = makeMuTauPair(src,"ptJJ","ptJJ"),
+                              muTauJJEta = makeMuTauPair(src,"etaJJ","etaJJ"),
+                              muTauJJPhi = makeMuTauPair(src,"phiJJ","phiJJ"),
+                              muTauJJEnergy = makeMuTauPair(src,"energyJJ","energyJJ"),
+                              muTauHMass = makeMuTauPair(src,"HMass","hhMass"),
+                              muTauHMassReg = makeMuTauPair(src,"HMassReg","hhMassReg"),
+                              muTauHPt = makeMuTauPair(src,"HPt","hhPt"),
+                              muTauHEta = makeMuTauPair(src,"HEta","hhEta"),
+                              muTauHPhi = makeMuTauPair(src,"HPhi","hhPhi"),
+                              muTauHEnergy = makeMuTauPair(src,"HEnergy","hhE"),
+                              muTauVBFDEta = makeMuTauPair(src,"vbfDEta","vbfDEta"),
+                              muTauVBFMass = makeMuTauPair(src,"vbfMass","vbfMass"),
+                              muMuVBFJets20 = makeMuTauPair(src,"vbfNJetsGap20","vbfNJetsGap20"),
+                              muMuVBFJets30 = makeMuTauPair(src,"vbfNJetsGap30","vbfNJetsGap30"),
+
+                              #Muon IDs and Isolation
+                              muTauRelPFIsoDB = makeMuTauPair(src,"lPFIsoDB",'(leg1.userIso(0)+max(leg1.photonIso()+leg1.neutralHadronIso()-0.5*leg1.puChargedHadronIso,0.0))/leg1.pt()'),
+                              muTauDecayMode = makeMuTauPair(src,"tauDecayMode",'leg2.decayMode()'),
+                              muTauDecayFound = makeMuTauPair(src,"tauDecayFound",'leg2.tauID("decayModeFinding")'),
+                              muTauMuTriggerMatch = makeMuTauPair(src,"lTrigger",'leg1.userFloat("hltOverlapFilterIsoMu17LooseIsoPFTau20")'),
+                              muTauTauTriggerMatch = makeMuTauPair(src,"tauTrigger",'leg2.userFloat("hltOverlapFilterIsoMu17LooseIsoPFTau20")'),
+                              muTauPzeta = makeMuTauPair(src,"pZeta",'pZeta-1.5*pZetaVis'),
+                              muTauPZ = makeMuTauPair(src,"pZ",'pZeta'),
+                              muTauPZV = makeMuTauPair(src,"pZV",'pZetaVis'),
+                              muTauTauZIP = makeMuTauPair(src,"tauZIP",'leg2.userFloat("zIP")'),
+                              muTauHadMass = makeMuTauPair(src,"tauMass",'leg2.mass()'),
+
+                              muTauPFID = makeMuTauPair(src,"lPFId",'leg1.pfCandidateRef().isNonnull()'),#FIXME
+                              muTauByCombIsoDBRaw3 = makeMuTauPair(src,"tauIso",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
+                              muTauAgainstMuonTight3 = makeMuTauPair(src,"againstMuonTight3",'leg2.tauID("againstMuonTight3")'),
+                              muTauAgainstMuonTightFixed = makeMuTauPair(src,"againstMuTightFixed",'leg2.userInt("againstMuTightFixed")'),
+
+                              muTauGenPt1 = makeMuTauPair(src,"genPt1",'p4Leg1gen().pt()'),
+                              muTauGenPt2 = makeMuTauPair(src,"genPt2",'p4Leg2gen().pt()'),
+                              muTauPdg1 = makeMuTauPair(src,"pdg1",'genPdg1()'),
+                              muTauPdg2 = makeMuTauPair(src,"pdg2",'genPdg2()'),
+                              muTauVisGenPt1 = makeMuTauPair(src,"genVisPt1",'p4VisLeg1gen().pt()'),
+                              muTauVisGenPt2 = makeMuTauPair(src,"genVisPt2",'p4VisLeg2gen().pt()'),
+                              muTauGenVisMass = makeMuTauPair(src,"genVisMass",'p4VisGen().M()'),
+                              muTauGenMassMatched = makeMuTauPair(src,"genFullMassMatched",'p4gen().M()'),
+                              muTauGenMass = makeMuTauPair(src,"fullGenMass",'genBosonMass()'),
+
+                              #BJETS
+                              muTauEventBTag = makeMuTauPair(src,"btag","EventBTag"),
+                              muTauEventNBTags = makeMuTauPair(src,"NBTags","NBTags"),
+                              muTauCSVL1 = makeMuTauPair(src,"EffWEIGHTCSVL",'SFCSVL1'),
+                              muTauCSVL1err = makeMuTauPair(src,"EffWEIGHTCSVLerr",'SFCSVL1err'),
+                              muTauCSVL2 = makeMuTauPair(src,"EffWEIGHTCSVL2",'SFCSVL2'),
+                              muTauCSVL2err = makeMuTauPair(src,"EffWEIGHTCSVL2err",'SFCSVL2err'),
+                              muTauCSVM1 = makeMuTauPair(src,"EffWEIGHTCSVM",'SFCSVM1'),
+                              muTauCSVM1err = makeMuTauPair(src,"EffWEIGHTCSVMerr",'SFCSVM1err'),
+                              muTauCSVM2 = makeMuTauPair(src,"EffWEIGHTCSVM2",'SFCSVM2'),
+                              muTauCSVM2err = makeMuTauPair(src,"EffWEIGHTCSVM2err",'SFCSVM2err'),
+                              muTauCSVT1 = makeMuTauPair(src,"EffWEIGHTCSVT",'SFCSVT1'),
+                              muTauCSVT1err = makeMuTauPair(src,"EffWEIGHTCSVTerr",'SFCSVT1err'),
+                              muTauCSVT2 = makeMuTauPair(src,"EffWEIGHTCSVT2",'SFCSVT2'),
+                              muTauCSVT2err = makeMuTauPair(src,"EffWEIGHTCSVT2err",'SFCSVT2err'),
+
+                              muTauJet1Muf = makeMuTauCSVPair(src,"J1Muf",'abs(eta())<2.4','muonEnergyFraction()',0),
+                              muTauJet2Muf = makeMuTauCSVPair(src,"J2Muf",'abs(eta())<2.4','muonEnergyFraction()',1),
+                              muTauJet1Nhf = makeMuTauCSVPair(src,"J1Nhf",'abs(eta())<2.4','neutralHadronEnergyFraction()',0),
+                              muTauJet2Nhf = makeMuTauCSVPair(src,"J2Nhf",'abs(eta())<2.4','neutralHadronEnergyFraction()',1),
+                              muTauJet1Phf = makeMuTauCSVPair(src,"J1Phf",'abs(eta())<2.4','photonEnergyFraction()',0),
+                              muTauJet2Phf = makeMuTauCSVPair(src,"J2Phf",'abs(eta())<2.4','photonEnergyFraction()',1),
+                              muTauJet1PtCSVSort = makeMuTauCSVPair(src,"J1PtCSVSort",'abs(eta())<2.4','pt()',0),
+                              muTauJet2PtCSVSort = makeMuTauCSVPair(src,"J2PtCSVSort",'abs(eta())<2.4','pt()',1),
+                              muTauJet1EtaCSVSort = makeMuTauCSVPair(src,"J1EtaCSVSort",'abs(eta())<2.4','eta()',0),
+                              muTauJet2EtaCSVSort = makeMuTauCSVPair(src,"J2EtaCSVSort",'abs(eta())<2.4','eta()',1),
+                              muTauJet1PhiCSVSort = makeMuTauCSVPair(src,"J1PhiCSVSort",'abs(eta())<2.4','phi()',0),
+                              muTauJet2PhiCSVSort = makeMuTauCSVPair(src,"J2PhiCSVSort",'abs(eta())<2.4','phi()',1),
+                              muTauJet1FlavourCSVSort = makeMuTauCSVPair(src,"J1FlavourCSVSort",'abs(eta())<2.4','partonFlavour()',0),
+                              muTauJet2FlavourCSVSort = makeMuTauCSVPair(src,"J2FlavourCSVSort",'abs(eta())<2.4','partonFlavour()',1),
+                              muTauJet1CSVCSVSort = makeMuTauCSVPair(src,"J1CSVbtagCSVSort",'abs(eta())<2.4','bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")',0),
+                              muTauJet2CSVCSVSort = makeMuTauCSVPair(src,"J2CSVbtagCSVSort",'abs(eta())<2.4','bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")',1),
+
+                              muTauJet1PtPtSort = makeMuTauPtPair(src,"J1Pt",'abs(eta())<2.4','pt()',0),
+                              muTauJet2PtPtSort = makeMuTauPtPair(src,"J2Pt",'abs(eta())<2.4','pt()',1),
+                              muTauJet1EtaPtSort = makeMuTauPtPair(src,"J1Eta",'abs(eta())<2.4','eta()',0),
+                              muTauJet2EtaPtSort = makeMuTauPtPair(src,"J2Eta",'abs(eta())<2.4','eta()',1),
+                              muTauJet1PhiPtSort = makeMuTauPtPair(src,"J1Phi",'abs(eta())<2.4','phi()',0),
+                              muTauJet2PhiPtSort = makeMuTauPtPair(src,"J2Phi",'abs(eta())<2.4','phi()',1),
+                              muTauJet1FlavourPtSort = makeMuTauPtPair(src,"J1Flavour",'abs(eta())<2.4','partonFlavour()',0),
+                              muTauJet2FlavourPtSort = makeMuTauPtPair(src,"J2Flavour",'abs(eta())<2.4','partonFlavour()',1),
+                              muTauJet1CSVPtSort = makeMuTauPtPair(src,"J1CSVbtag",'abs(eta())<2.4','bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")',0),
+                              muTauJet2CSVPtSort = makeMuTauPtPair(src,"J2CSVbtag",'abs(eta())<2.4','bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")',1),
+                              muTauJet1MVASfPtSort = makeMuTauPtPair(src,"J1MVASf",'','userFloat("mvaSF")',0),
+                              muTauJet2MVASfPtSort = makeMuTauPtPair(src,"J2MVASf",'','userFloat("mvaSF")',1),
+                              muTauJet1GenPtPtSort = makeMuTauPtPair(src,"J1GenPt",'','userFloat("genJetPt")',0),
+                              muTauJet2GenPtPtSort = makeMuTauPtPair(src,"J2GenPt",'','userFloat("genJetPt")',1),
+                              muTauJet1GenEtaPtSort = makeMuTauPtPair(src,"J1GenEta",'','userFloat("genJetEta")',0),
+                              muTauJet2GenEtaPtSort = makeMuTauPtPair(src,"J2GenEta",'','userFloat("genJetEta")',1),
+                              muTauJet1GenPhiPtSort = makeMuTauPtPair(src,"J1GenPhi",'','userFloat("genJetPhi")',0),
+                              muTauJet2GenPhiPtSort = makeMuTauPtPair(src,"J2GenPhi",'','userFloat("genJetPhi")',1),
+
+                              muTauJetsBTagCSVLPt20 = makeMuTauJetCountPair(src,"nJetsBTagCSVLPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.244&&pt()>20&&abs(eta)<2.4'),
+                              muTauJetsBTagCSVLPt25 = makeMuTauJetCountPair(src,"nJetsBTagCSVLPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.244&&pt()>25&&abs(eta)<2.4'),
+                              muTauJetsBTagCSVMPt20 = makeMuTauJetCountPair(src,"nJetsBTagCSVMPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679&&pt()>20&&abs(eta)<2.4'),
+                              muTauJetsBTagCSVMPt25 = makeMuTauJetCountPair(src,"nJetsBTagCSVMPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679&&pt()>25&&abs(eta)<2.4'),
+                              muTauJetsBTagCSVTPt20 = makeMuTauJetCountPair(src,"nJetsBTagCSVTPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.898&&pt()>20&&abs(eta)<2.4'),
+                              muTauJetsBTagCSVTPt25 = makeMuTauJetCountPair(src,"nJetsBTagCSVTPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.898&&pt()>25&&abs(eta)<2.4'),
+                              muTauJetsPt20 = makeMuTauJetCountPair(src,"nJetsPt20",'pt()>20'),
+                              muTauJetsPt20Tag = makeMuTauJetCountPair(src,"nTaggableJetsPt20",'pt()>20&&abs(eta)<2.4'),
+                              muTauJetsPt20TagMatch = makeMuTauJetCountPair(src,"nTaggableJetsPt20Matched",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5'),
+                              muTauJetsPt20TagMatchTag = makeMuTauJetCountPair(src,"nTaggableJetsPt20MatchedTagM",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
+                              muTauJetsPt20TagNoMatch = makeMuTauJetCountPair(src,"nTaggableJetsPt20NotMatched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
+                              muTauJetsPt20TagNoMatchTag = makeMuTauJetCountPair(src,"nTaggableJetsPt20NotMatchedTagM",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
+                              muTauJetsPt30 = makeMuTauJetCountPair(src,"nJetsPt30",'pt()>30'),
+                              muTauJetsPt30Tag = makeMuTauJetCountPair(src,"nTaggableJetsPt30",'pt()>30&&abs(eta)<2.4'),
+                              muTauJetsPt30TagMatch = makeMuTauJetCountPair(src,"nTaggableJetsPt30Matched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5'),
+                              muTauJetsPt30TagMatchTag = makeMuTauJetCountPair(src,"nTaggableJetsPt30MatchedTagM",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
+                              muTauJetsPt30TagNoMatch = makeMuTauJetCountPair(src,"nTaggableJetsPt30NotMatched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
+                              muTauJetsPt30TagNoMatchTag = makeMuTauJetCountPair(src,"nTaggableJetsPt30NotMatchedTagM",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
+
+                              muTauFirstJetID53X = makeLTauGeneric("PATMuTauPairHighestPtJetVarFiller",src,"highestJetID53X","userFloat('pileupJetId:fullDiscriminant')"), 
+                              muTauFirstJetFlavour = makeLTauGeneric("PATMuTauPairHighestPtJetVarFiller",src,"highestJetFlavour",'partonFlavour()'),
+                              muTauFirstJetShape = makeLTauGeneric("PATMuTauPairHighestPtJetVarFiller",src,"highestJetShape",'userFloat("ptRMS")'),
+                              muTauFirstJetCSV = makeLTauGeneric("PATMuTauPairHighestPtJetVarFiller",src,"highestJetBTagCSV",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
+                              muTauFirstJetChMult = makeLTauGeneric("PATMuTauPairHighestPtJetVarFiller",src,"highestJetNCharged",'chargedMultiplicity()'),
+                              muTauFirstJetNeuMult = makeLTauGeneric("PATMuTauPairHighestPtJetVarFiller",src,"highestJetNNeutral",'photonMultiplicity()+neutralHadronMultiplicity()'),
+
+                              mumuDR = makeLTauGeneric("PATMuPairFiller",srcLL,"diLeptonDR","dR12"),#FIXME
+
                               higgsPt = cms.PSet(
                                   pluginType = cms.string("PATGenParticleFiller"),
                                   src        = cms.InputTag("genDaughters"),
@@ -876,11 +312,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                   method     = cms.string('pt()'),
                                   leadingOnly=cms.untracked.bool(True)
                               ),#FIXME (TOP SAMPLE)
-                              muTauSize = cms.PSet(
-                                  pluginType = cms.string("CollectionSizeFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nCands"),
-                              ),#FILLED
+
                               muTauLHEProduct = cms.PSet(
                                   pluginType = cms.string("LHEProductFiller"),
                                   src        = cms.InputTag("source"),
@@ -909,213 +341,8 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                   tag        = cms.string("embeddedEta"),
                                   method     = cms.string("eta"),
                                   leadingOnly=cms.untracked.bool(False)
-                              ),#FIXME #CHECKME
-                              muTauFirstJetMVASF = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1MVASf"),
-                                  method     = cms.string('userFloat("mvaSF")'),
-                                  rank       = cms.untracked.double(0)
-                              ),#FIXME #no reg applied
-                              muTauSecondJetMVASF = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2MVASf"),
-                                  method     = cms.string('userFloat("mvaSF")'),
-                                  rank       = cms.untracked.double(1)
-                              ),#FIXME #no reg applied
-                              muTauGenJetPt1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1GenPt"),
-                                  method     = cms.string('userFloat("genJetPt")'),
-                                  rank       = cms.untracked.double(0)
-                              ),#FIXME
-                              muTauGenJetPt2 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2GenPt"),
-                                  method     = cms.string('userFloat("genJetPt")'),
-                                  rank       = cms.untracked.double(1)
-                              ),#FIXME
-                              muTauGenJetEta1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1GenEta"),
-                                  method     = cms.string('userFloat("genJetEta")'),
-                                  rank       = cms.untracked.double(0)
-                              ),#FIXME
-                              muTauGenJetEta2 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2GenEta"),
-                                  method     = cms.string('userFloat("genJetEta")'),
-                                  rank       = cms.untracked.double(1)
-                              ),#FIXME
-                              muTauGenJetPhi1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1GenPhi"),
-                                  method     = cms.string('userFloat("genJetPhi")'),
-                                  rank       = cms.untracked.double(0)
-                              ),#FIXME
-                              muTauGenJetPhi2 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2GenPhi"),
-                                  method     = cms.string('userFloat("genJetPhi")'),
-                                  rank       = cms.untracked.double(1)
-                              ),#FIXME
-                              muTauFirstJetPt1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1Pt"),
-                                  method     = cms.string('pt()'),
-                                  rank       = cms.untracked.double(0)
-                              ),#FILLED
-                              muTauSecondJetPt = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2Pt"),
-                                  method     = cms.string('pt()'),
-                                  rank       = cms.untracked.double(1)
-                              ),#FILLED
-                              muTauFirstJetEta1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1Eta"),
-                                  method     = cms.string('eta()'),
-                                  rank       = cms.untracked.double(0)
-                              ),#FILLED
-                              muTauSecondJetEta = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2Eta"),
-                                  method     = cms.string('eta()'),
-                                  rank       = cms.untracked.double(1)
-                              ),#FILLED 
-                              muTauFirstJetPhi1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1Phi"),
-                                  method     = cms.string('phi()'),
-                                  rank       = cms.untracked.double(0)
-                              ),#FILLED
-                              muTauSecondJetPhi = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2Phi"),
-                                  method     = cms.string('phi()'),
-                                  rank       = cms.untracked.double(1)
-                              ),#FILLED
-                              muTauFirstJetCSVbtag1 = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1CSVbtag"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
-                                  rank       = cms.untracked.double(0)
-                              ),#FILLED
-                              muTauSecondJetCSVbtag = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2CSVbtag"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
-                                  rank       = cms.untracked.double(1)
-                              ),#FILLED
-                              muTauFirstJetPt1CSVSort = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1PtCSVSort"),
-                                  method     = cms.string('pt()'),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  rank       = cms.untracked.double(0)
-                              ),#FILLED #CHECKME 
-                              muTauSecondJetPtCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2PtCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('pt()'),
-                                  rank       = cms.untracked.double(1)
-                              ),#FILLED #CHECKME 
-                              muTauFirstJetEtaCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1EtaCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('eta()'),
-                                  rank       = cms.untracked.double(0)
-                              ),#FILLED #CHECKME 
-                              muTauSecondJetEtaCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2EtaCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('eta()'),
-                                  rank       = cms.untracked.double(1)
-                              ),#FILLED #CHECKME
-                              muTauFirstJetPhiCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1PhiCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('phi()'),
-                                  rank       = cms.untracked.double(0)
-                              ),#FILLED #CHECKME
-                              muTauSecondJetPhiCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2PhiCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('phi()'),
-                                  rank       = cms.untracked.double(1)
-                              ),#FILLED #CHECKME 
-                              muTauFirstJetFlavorCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1FlavorCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('partonFlavour()'),
-                                  rank       = cms.untracked.double(0)
-                              ),#FILLED #CHECKME
-                              muTauSecondJetFlavorCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2FlavorCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('partonFlavour()'),
-                                  rank       = cms.untracked.double(1)
-                              ),#FILLED #CHECKME 
-                              muTauFirstJetCSVbtagCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1CSVbtagCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
-                                  rank       = cms.untracked.double(0)
-                              ),#FILLED
-                              muTauSecondJetCSVbtagCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2CSVbtagCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
-                                  rank       = cms.untracked.double(1)
-                              ),#FILLED
-                              muTauTauZIP = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauZIP"),
-                                  method     = cms.string('leg2.userFloat("zIP")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              muTauMuTight = cms.PSet(
-                                  pluginType = cms.string("PATMuTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauMuTightFixed"),
-                                  method     = cms.string('leg2.userInt("againstMuTightFixed")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              )#FILLED #AgainstMuTight3                                                                                                                
+                              )#FIXME #CHECKME
+
    )
 
    setattr(process, name, eventTree)
@@ -1136,925 +363,217 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                                   src        = cms.InputTag("patTrigger"),
                                   paths      = cms.vstring(TriggerPaths)
                               ),
-                              eleTauSize = cms.PSet(
-                                  pluginType = cms.string("CollectionSizeFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nCands"),
-                              ), #FILLED 
-                              muonsSizeET = cms.PSet(
-                                  pluginType = cms.string("CollectionSizeFiller"),
-                                  src        = cms.InputTag(srcU),
-                                  tag        = cms.string("tightMuons"),
-                              ), #FILLED
-                              electronsSizeET = cms.PSet(
-                                  pluginType = cms.string("CollectionSizeFiller"),
-                                  src        = cms.InputTag(srcE),
-                                  tag        = cms.string("tightElectrons"),
-                              ), #FILLED                             
                               pu = cms.PSet(
                                   pluginType = cms.string("PUFiller"),
                                   src        = cms.InputTag("addPileupInfo"),
                                   tag        = cms.string("pu"),
                               ),#FIXME
-                              genTaus = cms.PSet(
-                                  pluginType = cms.string("CollectionSizeFiller"),
-                                  src        = cms.InputTag("genTauCands"),
-                                  tag        = cms.string("genTaus"),
-                              ),#FIXME
-                              eleTauPt1 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("pt1"),
-                                  method     = cms.string("leg1.pt"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauPt2 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("pt2"),
-                                  method     = cms.string("leg2.pt"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauPdg1 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("pdg1"),
-                                  method     = cms.string("genPdg1()"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ), #FILLED
-                              eleTauPdg2 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("pdg2"),
-                                  method     = cms.string("genPdg2()"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              tauNIsoTracks = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauNIsoTracks"),
-                                  method     = cms.string("leg2.userFloat('nIsoTracks')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              tauNMatchedSeg = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauMuonNMatchedSeg"),
-                                  method     = cms.string("leg2.userFloat('muonNMatchedSeg')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              tauTauHadMatched = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauMuonMatched"),
-                                  method     = cms.string("leg2.userFloat('muonTauHadMatched')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              tauLeadChargedHadrTrackPt = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauLeadChargedHadrPFTrackPt"),
-                                  method     = cms.string("leg2.userFloat('leadPFTrackPt')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ), #FILLED
-                              tauLeadChargedHadrTrackPtErr = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauLeadPFTrackPtErr"),
-                                  method     = cms.string("leg2.userFloat('leadPFTrackPtErr')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ), #FIXME
-                              mass2ES = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("mass2ES"),
-                                  method     = cms.string("leg2.userFloat('ESmass')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              pt2ES = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("pt2ES"),
-                                  method     = cms.string("leg2.userFloat('ESpt')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eletaupt2initial = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("pt2preES"),
-                                  method     = cms.string("leg2.userFloat('preESpt')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eletauphi2initial = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("phi2preES"),
-                                  method     = cms.string("leg2.userFloat('preESphi')"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauPt = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("pt"),
-                                  method     = cms.string("pt"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauEta1 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("eta1"),
-                                  method     = cms.string("leg1.eta"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauSCEta1 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("SCeta1"),
-                                  method     = cms.string("leg1.superCluster().eta()"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauEta2 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("eta2"),
-                                  method     = cms.string("leg2.eta"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauPhi1 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("phi1"),
-                                  method     = cms.string("leg1.phi"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauPhi2 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("phi2"),
-                                  method     = cms.string("leg2.phi"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauMVATrig = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("lIDMVATrig"),
-                                  method     = cms.string('leg1.electronID("eidTight")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
-                              eleTauMVANonTrig = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("lIDMVANonTrig"),
-                                  method     = cms.string('leg1.electronID("eidTight")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME    
-                              eleTauConversion = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("eMatchedConversion"),
-                                  method     = cms.string('leg1.userInt("hasMatchedConversion")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME    
-                              eleTauEleTriggerMatch = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("lTrigger"),
-                                  method     = cms.string('leg1.userFloat("hltOverlapFilterIsoEle22WP85GsfLooseIsoPFTau20")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTautauTriggerMatch = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauTrigger"),
-                                  method     = cms.string('leg1.userFloat("hltOverlapFilterIsoEle22WP85GsfLooseIsoPFTau20")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTauDZ = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("dz"),
-                                  method     = cms.string('abs(leg1.userFloat("vz")-leg2.userFloat("vz"))'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
-                              eleTauEledZ = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("l1dz"),
-                                  method     = cms.string('leg1.userFloat("dz")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
-                              eleTauTaudZ = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("l2dz"),
-                                  method     = cms.string('leg2.userFloat("dz")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
-                              eleTauCharge = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("charge"),
-                                  method     = cms.string("charge"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTaucharge1 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("charge1"),
-                                  method     = cms.string("leg1.charge"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTaucharge2 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("charge2"),
-                                  method     = cms.string("leg2.charge"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED                              
-                              eleTauMass = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("mass"),
-                                  method     = cms.string("mass"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauCovMat00 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("covMatrix00"),
-                                  method     = cms.string("covMatrix00"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauCovMat10 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("covMatrix10"),
-                                  method     = cms.string("covMatrix10"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauCovMat01 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("covMatrix01"),
-                                  method     = cms.string("covMatrix01"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauCovMat11 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("covMatrix11"),
-                                  method     = cms.string("covMatrix11"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED                              
-                              eleTauSVMass = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("svMass"),
-                                  method     = cms.string("svMass"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ), #FILLED #CHECKME                               
-                              eleTauSVPt = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("svPt"),
-                                  method     = cms.string("svPt"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
-                              eleTauFullPt = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("fullPt"),
-                                  method     = cms.string("fullPt"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauFullEta = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("fullEta"),
-                                  method     = cms.string("fullEta"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauFullPhi = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("fullPhi"),
-                                  method     = cms.string("fullPhi"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauFullE = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("fullEnergy"),
-                                  method     = cms.string("fullEnergy"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauMT1 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("mt1"),
-                                  method     = cms.string("mt1MET"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauMT2 = cms.PSet(
-                                  pluginType =cms.string("PATEleTauPairFiller"),
-                                  src = cms.InputTag(src),
-                                  tag =cms.string("mt2"),
-                                  method =cms.string("mt2MET"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauMET = cms.PSet(
-                                  pluginType= cms.string("PATEleTauPairFiller"),
-                                  src = cms.InputTag(src),
-                                  tag =cms.string("met"),
-                                  method =cms.string("calibratedMET.pt()"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTauMETPhi = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("metPhi"),
-                                  method     = cms.string("metPhi"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauMETUnc = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("metUnc"),
-                                  method     = cms.string("met.pt()"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED                                 
-                              eleTauDPhi = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src = cms.InputTag(src),
-                                  tag =cms.string("dPhi"),
-                                  method =cms.string("dPhi12"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauDPhi1MET = cms.PSet(
-                                  pluginType =cms.string("PATEleTauPairFiller"),
-                                  src = cms.InputTag(src),
-                                  tag =cms.string("dPhi1MET"),
-                                  method =cms.string("dPhi1MET"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTauDPhi2MET = cms.PSet(
-                                  pluginType =cms.string("PATEleTauPairFiller"),
-                                  src = cms.InputTag(src),
-                                  tag = cms.string("dPhi2MET"),
-                                  method = cms.string("dPhi2MET"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTauHT = cms.PSet(
-                                  pluginType =cms.string("PATEleTauPairFiller"),
-                                  src = cms.InputTag(src),
-                                  tag = cms.string("ht"),
-                                  method =cms.string("ht"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauEventBTag = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("btag"),
-                                  method     = cms.string("EventBTag"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTauEventNBTags = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("NBTags"),
-                                  method     = cms.string("NBTags"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauRelPFIsoDB = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("lPFIsoDB"),
-                                  method     = cms.string('(leg1.userIso(0)+max(leg1.userIso(1)+leg1.neutralHadronIso()-0.5*leg1.userIso(2),0.0))/leg1.pt()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ), #FILLED #FIXME 
-                              eleTauProngs = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauProngs"),
-                                  method     = cms.string('leg2.signalChargedHadrCands.size()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauElectronDecision = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauTightElectronVeto"),
-                                  method     = cms.string('leg2.tauID("againstElectronTight")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #FIXME #CHECKME
-                              eleTauElectronMed = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauElectronMedPass"),
-                                  method     = cms.string('leg2.tauID("againstElectronMedium")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),  #FILLED #FIXME 
-                              eleTauElectronTightMVA5 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauElectronTightMVA5"),
-                                  method     = cms.string('leg2.tauID("againstElectronTightMVA5")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ), #FILLED
-                              eleTauHadMass = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauMass"),
-                                  method     = cms.string('leg2.mass()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauByCombIsoDBRaw3 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauIso"),
-                                  method     = cms.string('leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauAgainstEleMVA3raw = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("againstElectronMVA5raw"),
-                                  method     = cms.string('leg2.tauID("againstElectronMVA5raw")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTauAgainstMuonLoose3 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("againstMuonLoose3"),
-                                  method     = cms.string('leg2.tauID("againstMuonLoose3")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauDecayMode = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauDecayMode"),
-                                  method     = cms.string('leg2.decayMode()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauFirstJetMuf = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1Muf"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('muonEnergyFraction()'),
-                                  rank       = cms.untracked.double(0)
-                              ),#FILLED
-                              eleTauSecondJetMuf = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2Muf"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('muonEnergyFraction()'),
-                                  rank       = cms.untracked.double(1)
-                              ),#FILLED
-                              eleTauCSVL1 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVL"),
-                                  method     = cms.string("SFCSVL1"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTauCSVL2 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVL2"),
-                                  method     = cms.string("SFCSVL2"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTauCSVM1 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVM"),
-                                  method     = cms.string("SFCSVM1"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTauCSVM2 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVM2"),
-                                  method     = cms.string("SFCSVM2"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTauCSVT1 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVT"),
-                                  method     = cms.string("SFCSVT1"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTauCSVT2 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVT2"),
-                                  method     = cms.string("SFCSVT2"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTauCSVL1err = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVLerr"),
-                                  method     = cms.string("SFCSVL1err"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ), #FILLED #CHECKME
-                              eleTauCSVL2err = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVL2err"),
-                                  method     = cms.string("SFCSVL2err"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTauCSVM1err = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVMerr"),
-                                  method     = cms.string("SFCSVM1err"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTauCSVM2err = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVM2err"),
-                                  method     = cms.string("SFCSVM2err"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTauCSVT1err = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVTerr"),
-                                  method     = cms.string("SFCSVT1err"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTauCSVT2err = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("EffWEIGHTCSVT2err"),
-                                  method     = cms.string("SFCSVT2err"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED #CHECKME
-                              eleTauJetsBTagCSVLPt20 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsBTagCSVLPt20"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.244&&pt()>20&&abs(eta)<2.4'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauJetsBTagCSVLPt25 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsBTagCSVLPt25"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.244&&pt()>25&&abs(eta)<2.4'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED 
-                              eleTauJetsBTagCSVMPt20 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsBTagCSVMPt20"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679&&pt()>20&&abs(eta)<2.4'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauJetsBTagCSVMPt25 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsBTagCSVMPt25"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679&&pt()>25&&abs(eta)<2.4'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauJetsBTagCSVTPt20 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsBTagCSVTPt20"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.898&&pt()>20&&abs(eta)<2.4'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),  #FILLED
-                              eleTauJetsBTagCSVTPt25 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsBTagCSVTPt25"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.898&&pt()>25&&abs(eta)<2.4'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ), #FILLED                              
-                              eleTauJets30 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsPt30"),
-                                  method     = cms.string('pt()>30'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FILLED
-                              eleTauJets30Tag = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nTaggableJetsPt30"),
-                                  method     = cms.string('pt()>30&&abs(eta)<2.4'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
-                              eleTauJets30TagMatch = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nTaggableJetsPt30Matched"),
-                                  method     = cms.string('pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
-                              eleTauJets30TagNoMatch = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nTaggableJetsPt30NotMatched"),
-                                  method     = cms.string('pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME
-                              eleTauJJ = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("mJJ"),
-                                  method     = cms.string("mJJ"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauJJPt = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("ptJJ"),
-                                  method     = cms.string("ptJJ"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauJJEta = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("etaJJ"),
-                                  method     = cms.string("etaJJ"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauJJPhi = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("phiJJ"),
-                                  method     = cms.string("phiJJ"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauJJEnergy = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("energyJJ"),
-                                  method     = cms.string("energyJJ"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTaumJJReg = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("mJJReg"),
-                                  method     = cms.string("mJJReg"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauHMass = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("HMass"),
-                                  method     = cms.string("hhMass"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauHMassReg= cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("HMassReg"),
-                                  method     = cms.string("hhMassReg"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauHPt = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("HPt"),
-                                  method     = cms.string("hhPt"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauHEta = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("HEta"),
-                                  method     = cms.string("hhEta"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauHPhi = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("HPhi"),
-                                  method     = cms.string("hhPhi"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauHEnergy = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("HEnergy"),
-                                  method     = cms.string("hhE"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauJets20 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsPt20"),
-                                  method     = cms.string('pt()>20'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauJets20Tag = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nTaggableJetsPt20"),
-                                  method     = cms.string('pt()>20&&abs(eta)<2.4'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauJets20TagMatch = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nTaggableJetsPt20Matched"),
-                                  method     = cms.string('pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauJets20TagNoMatch = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nTaggableJetsPt20NotMatched"),
-                                  method     = cms.string('pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauJets20TagMatchTag = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nTaggableJetsPt20MatchedTagged"),
-                                  method     = cms.string('pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauJets20TagNoMatchTag = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nTaggableJetsPt20NotMatchedTagged"),
-                                  method     = cms.string('pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ), 
-                              eleTauVBFDEta = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("vbfDEta"),
-                                  method     = cms.string("vbfDEta"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauVBFMass = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("vbfMass"),
-                                  method     = cms.string("vbfMass"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ), 
-                              eleTauVBFDPhi = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("vbfDPhi"),
-                                  method     = cms.string("vbfDPhi"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ), 
-                              eleTauVBFJets20 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("vbfNJetsGap20"),
-                                  method     = cms.string("vbfNJetsGap20"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauVBFJets30 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("vbfNJetsGap30"),
-                                  method     = cms.string("vbfNJetsGap30"),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauJetsPt30 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsPt30"),
-                                  method     = cms.string('pt()>30'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauJetsPt20 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairJetCountFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("nJetsPt20"),
-                                  method     = cms.string('pt()>20'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauGenPt1 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("genPt1"),
-                                  method     = cms.string('p4Leg1gen().pt()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauGenPt2 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("genPt2"),
-                                  method     = cms.string('p4Leg2gen().pt()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauVisGenPt1 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("genVisPt1"),
-                                  method     = cms.string('p4VisLeg1gen().pt()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauVisGenPt2 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("genVisPt2"),
-                                  method     = cms.string('p4VisLeg2gen().pt()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauGenVisMass = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("genVisMass"),
-                                  method     = cms.string('p4VisGen().M()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauGenMassMatched = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("genFullMassMatched"),
-                                  method     = cms.string('p4gen().M()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauGenMass = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("genFullMass"),
-                                  method     = cms.string('genBosonMass()'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauFirstJetMVASF = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1MVASf"),
-                                  method     = cms.string('userFloat("mvaSF")'),
-                                  rank       = cms.untracked.double(0)
-                              ),
-                              eleTauSecondJetMVASF = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2MVASf"),
-                                  method     = cms.string('userFloat("mvaSF")'),
-                                  rank       = cms.untracked.double(1)
-                              ),
-                              eleTauFirstJetID = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairHighestPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("highestJetID"),
-                                  method     = cms.string("userFloat('fullDiscriminant')"),
-                              ),                              
-                              eleTauFirstJetFlavour = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairHighestPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("highestJetFlavour"),
-                                  method     = cms.string('partonFlavour()'),
-                              ),
-                              eleTauFirstJetShape = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairHighestPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("highestJetShape"),
-                                  method     = cms.string('userFloat("ptRMS")'),
-                              ),
-                              eleTauFirstJetChMultiplicity = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairHighestPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("highestJetNCharged"),
-                                  method     = cms.string('chargedMultiplicity()'),
-                              ),                              
-                              eleTauFirstJetBTagCSV = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairHighestPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("highestJetBTagCSV"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
-                              ),
-                              eleTauFirstJetNeutMultiplicity = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairHighestPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("highestJetNNeutral"),
-                                  method     = cms.string('photonMultiplicity()+neutralHadronMultiplicity()'),
-                              ),
                               PVs = cms.PSet(
                                   pluginType = cms.string("VertexSizeFiller"),
                                   src        = cms.InputTag("primaryVertexFilter"),
                                   tag        = cms.string("vertices")
                               ),
-                              eleEleSize = cms.PSet(
-                                  pluginType = cms.string("CollectionSizeFiller"),
-                                  src        = cms.InputTag(srcLL),
-                                  tag        = cms.string("diLeptons"),
-                              ),
-                              eeDR = cms.PSet(
-                                  pluginType = cms.string("PATElePairFiller"),
-                                  src        = cms.InputTag(srcLL),
-                                  tag        = cms.string("diLeptonDR"),
-                                  method     = cms.string("dR12")
-                              ),
+
+                              muonsSizeET = makeCollSize(srcU,"tightMuons"),
+                              electronsSizeET = makeCollSize(srcE,"tightElectrons"),
+
+                              eleTauSize = makeCollSize(srcU,"nCands"),
+                              eleEleSize = makeCollSize(srcLL,"diLeptons"),
+                              genTaus = makeCollSize("genTausCands","genTaus"),
+ 
+                              tauNIsoTracks =  makeEleTauPair(src,"tauNIsoTracks","leg2.userFloat('nIsoTracks')"), #FILLED
+                              tauNMatchedSeg =  makeEleTauPair(src,"tauMuonNMatchedSeg","leg2.userFloat('muonNMatchedSeg')"), #FILLED
+                              tauTauHadMatched = makeEleTauPair(src,"tauMuonMatched","leg2.userFloat('muonTauHadMatched')"),
+                              tauLeadChargedHadrTrackPt = makeEleTauPair(src,"tauLeadChargedHadrTrackPt","leg2.userFloat('leadChargedHadrTrackPt')"),
+                              tauLeadChargedHadrTrackPtErr = makeEleTauPair(src,"tauLeadChargedHadrTrackPtErr","leg2.userFloat('leadPFTrackPtErr')"), #FIXME
+
+                              mass2ES = makeEleTauPair(src,"mass2ES","leg2.userFloat('ESmass')"),
+                              pt2ES = makeEleTauPair(src,"pt2ES","leg2.userFloat('ESpt')"),
+                              eleTauPt2initial = makeEleTauPair(src,"pt2preES","leg2.userFloat('preESpt')"),
+                              eleTauPhi2initial = makeEleTauPair(src,"phi2preES","leg2.userFloat('preESphi')"),
+
+                              eleTauCharge = makeEleTauPair(src,"charge","charge"),
+                              eleTauCharge1 = makeEleTauPair(src,"charge1","leg1.charge"),
+                              eleTauCharge2 = makeEleTauPair(src,"charge2","leg2.charge"),
+
+                              eleTauPt = makeEleTauPair(src,"pt","pt"),
+                              eleTauHT = makeEleTauPair(src,"ht","ht"),
+                              eleTauMass = makeEleTauPair(src,"mass","mass"),
+                              eleTauSVPt = makeEleTauPair(src,"svPt","svPt"),
+                              eleTauSVMass = makeEleTauPair(src,"svMass","svMass"),
+
+                              eleTauFullPt = makeEleTauPair(src,"fullPt","fullPt"),
+                              eleTauEta = makeEleTauPair(src,"fullEta","fullEta"),
+                              eleTauPhi = makeEleTauPair(src,"fullPhi","fullPhi"),
+                              eleTauE = makeEleTauPair(src,"fullEnergy","fullEnergy"),
+
+                              eleTauPt1 =  makeEleTauPair(src,"pt1","leg1.pt"), #FILLED
+                              eleTauPt2 =  makeEleTauPair(src,"pt2","leg2.pt"), #FILLED
+                              eleTauEta1 = makeEleTauPair(src,"eta1","leg1.eta"),
+                              eleTauSCEta1 = makeEleTauPair(src,"eta1","leg1.superCluster().eta()"),
+                              eleTauEta2 = makeEleTauPair(src,"eta2","leg2.eta"),
+                              eleTauPhi1 = makeEleTauPair(src,"phi1","leg1.phi"),
+                              eleTauPhi2 = makeEleTauPair(src,"phi2","leg2.phi"),
+
+                              eleTauMETUnc = makeEleTauPair(src,"metUnc","met.pt()"),
+                              eleTauMET = makeEleTauPair(src,"met","calibratedMET.pt()"),
+                              eleTauMETPhi = makeEleTauPair(src,"metPhi","metPhi"),
+                              eleTauCovMat00 = makeEleTauPair(src,"covMatrix00","covMatrix00"),
+                              eleTauCovMat10 = makeEleTauPair(src,"covMatrix10","covMatrix10"),
+                              eleTauCovMat01 = makeEleTauPair(src,"covMatrix01","covMatrix01"),
+                              eleTauCovMat11 = makeEleTauPair(src,"covMatrix11","covMatrix11"),
+
+                              eleTauMT = makeEleTauPair(src,"mt","mt12MET"),
+                              eleTauMT1 = makeEleTauPair(src,"mt1","mt1MET"),
+                              eleTauMT2 = makeEleTauPair(src,"mt2","mt2MET"),
+
+                              #BTAGS AND JETS
+                              eleTauMJJReg = makeEleTauPair(src,"mJJReg","mJJReg"),
+                              eleTauMJJ = makeEleTauPair(src,"mJJ","mJJ"),
+                              eleTauJJPt = makeEleTauPair(src,"ptJJ","ptJJ"),
+                              eleTauJJEta = makeEleTauPair(src,"etaJJ","etaJJ"),
+                              eleTauJJPhi = makeEleTauPair(src,"phiJJ","phiJJ"),
+                              eleTauJJEnergy = makeEleTauPair(src,"energyJJ","energyJJ"),
+                              eleTauHMass = makeEleTauPair(src,"HMass","hhMass"),
+                              eleTauHMassReg = makeEleTauPair(src,"HMassReg","hhMassReg"),
+                              eleTauHPt = makeEleTauPair(src,"HPt","hhPt"),
+                              eleTauHEta = makeEleTauPair(src,"HEta","hhEta"),
+                              eleTauHPhi = makeEleTauPair(src,"HPhi","hhPhi"),
+                              eleTauHEnergy = makeEleTauPair(src,"HEnergy","hhE"),
+                              eleTauVBFDEta = makeEleTauPair(src,"vbfDEta","vbfDEta"),
+                              eleTauVBFDPhi = makeEleTauPair(src,"vbfDPhi","vbfDPhi"),#EO
+                              eleTauVBFMass = makeEleTauPair(src,"vbfMass","vbfMass"),
+                              muMuVBFJets20 = makeEleTauPair(src,"vbfNJetsGap20","vbfNJetsGap20"),
+                              muMuVBFJets30 = makeEleTauPair(src,"vbfNJetsGap30","vbfNJetsGap30"),
+
+                              #ETAU ONLY
+                              eleTauDZ = makeEleTauPair(src,"dz",'abs(leg1.userFloat("vz")-leg2.userFloat("vz"))'),#EO
+                              eleTauEleDZ = makeEleTauPair(src,"l1dz",'leg1.userFloat("dz")'),#EO
+                              eleTauTauDZ = makeEleTauPair(src,"l2dz",'leg2.userFloat("dz")'),#EO
+                              eleTauDPhi = makeEleTauPair(src,"dPhi12",'dPhi12'),
+                              eleTauDPhi1MET = makeEleTauPair(src,"dPhi1MET",'dPhi1MET'),
+                              eleTauDPhi2MET = makeEleTauPair(src,"dPhi2MET",'dPhi2MET'),
+                              eleTauPzeta = makeEleTauPair(src,"pZeta",'pZeta-1.5*pZetaVis'),#EO
+                              eleTauPZ = makeEleTauPair(src,"pZ",'pZeta'),#EO
+                              eleTauPZV = makeEleTauPair(src,"pZV",'pZetaVis'),#EO
+
+                              #Ele IDs and Isolation
+                              eleTauRelPFIsoDB = makeEleTauPair(src,"lPFIsoDB",'(leg1.userIso(0)+max(leg1.userIso(1)+leg1.neutralHadronIso()-0.5*leg1.userIso(2),0.0))/leg1.pt()'),
+                              eleTauDecayMode = makeEleTauPair(src,"tauDecayMode",'leg2.decayMode()'),
+                              eleTauDecayFound = makeEleTauPair(src,"tauDecayFound",'leg2.tauID("decayModeFinding")'),
+                              eleTauProngs = makeEleTauPair(src,"tauProngs",'leg2.signalChargedHadrCands.size()'),#EO
+                              eleTauMuTriggerMatch = makeEleTauPair(src,"lTrigger",'leg1.userFloat("hltOverlapFilterIsoEle22WP85GsfLooseIsoPFTau20")'),
+                              eleTauTauTriggerMatch = makeEleTauPair(src,"tauTrigger",'leg2.userFloat("hltOverlapFilterIsoEle22WP85GsfLooseIsoPFTau20")'),
+                              eleTauTauZIP = makeEleTauPair(src,"tauZIP",'leg2.userFloat("zIP")'),
+                              eleTauHadMass = makeEleTauPair(src,"tauMass",'leg2.mass()'),
+                              eleTauPFID = makeEleTauPair(src,"lPFId",'leg1.pfCandidateRef().isNonnull()'),#FIXME
+                              eleTauByCombIsoDBRaw3 = makeEleTauPair(src,"tauIso",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
+
+                              eleTauAgainstElectronTight = makeEleTauPair(src,"againstElectronTight",'leg2.tauID("againstElectronTight")'),
+                              eleTauAgainstMuonTight3 = makeEleTauPair(src,"againstMuonTight3",'leg2.tauID("againstMuonTight3")'),
+                              eleTauAgainstMuonLoose3 = makeEleTauPair(src,"againstMuonLoose3",'leg2.tauID("againstMuonLoose3")'),
+                              eleTauMVATrig = makeEleTauPair(src,"lIDMVATrig",'leg1.electronID("eidTight")'),#FIXME #PLACEHOLDER
+                              eleTauMVANonTrig = makeEleTauPair(src,"lIDMVANonTrig",'leg1.electronID("eidTight")'),#FIXME #PLACEHOLDER
+                              eleTauConversion = makeEleTauPair(src,"eMatchedConversion",'leg1.userInt("hasMatchedConversion")'),#FIXME
+                              eleTauAgainstElectronMedium = makeEleTauPair(src,"tauElectronMedPass",'leg2.tauID("againstElectronMedium")'),
+                              eleTauAgainstEleMVA5raw = makeEleTauPair(src,"againstElectronMVA5raw",'leg2.tauID("againstElectronMVA5raw")'),
+                              eleTauElectronTightMVA5 = makeEleTauPair(src,"tauElectronTightMVA5",'leg2.tauID("againstElectronTightMVA5")'),
+                              eleTauEleMVALoose = makeEleTauPair(src,"tauEleLoose",'leg2.userInt("againstEleMVALoose")'),
+                              eleTauEleMVAMedium = makeEleTauPair(src,"tauEleMedium",'leg2.userInt("againstEleMVAMedium")'),
+                              eleTauEleMVATight = makeEleTauPair(src,"tauEleTight",'leg2.userInt("againstEleMVATight")'),
+                              eleTauEleMVAVeryTight = makeEleTauPair(src,"tauEleVeryTight",'leg2.userInt("againstEleMVAVeryTight")'),
+
+                              eleTauGenPt1 = makeEleTauPair(src,"genPt1",'p4Leg1gen().pt()'),
+                              eleTauGenPt2 = makeEleTauPair(src,"genPt2",'p4Leg2gen().pt()'),
+                              eleTauPdg1 = makeEleTauPair(src,"pdg1",'genPdg1()'),
+                              eleTauPdg2 = makeEleTauPair(src,"pdg2",'genPdg2()'),
+                              eleTauVisGenPt1 = makeEleTauPair(src,"genVisPt1",'p4VisLeg1gen().pt()'),
+                              eleTauVisGenPt2 = makeEleTauPair(src,"genVisPt2",'p4VisLeg2gen().pt()'),
+                              eleTauGenVisMass = makeEleTauPair(src,"genVisMass",'p4VisGen().M()'),
+                              eleTauGenMassMatched = makeEleTauPair(src,"genFullMassMatched",'p4gen().M()'),
+                              eleTauGenMass = makeEleTauPair(src,"fullGenMass",'genBosonMass()'),
+
+
+                              #BJETS
+                              eleTauEventBTag = makeEleTauPair(src,"btag","EventBTag"),
+                              eleTauEventNBTags = makeEleTauPair(src,"NBTags","NBTags"),
+                              eleTauCSVL1 = makeEleTauPair(src,"EffWEIGHTCSVL",'SFCSVL1'),
+                              eleTauCSVL1err = makeEleTauPair(src,"EffWEIGHTCSVLerr",'SFCSVL1err'),
+                              eleTauCSVL2 = makeEleTauPair(src,"EffWEIGHTCSVL2",'SFCSVL2'),
+                              eleTauCSVL2err = makeEleTauPair(src,"EffWEIGHTCSVL2err",'SFCSVL2err'),
+                              eleTauCSVM1 = makeEleTauPair(src,"EffWEIGHTCSVM",'SFCSVM1'),
+                              eleTauCSVM1err = makeEleTauPair(src,"EffWEIGHTCSVMerr",'SFCSVM1err'),
+                              eleTauCSVM2 = makeEleTauPair(src,"EffWEIGHTCSVM2",'SFCSVM2'),
+                              eleTauCSVM2err = makeEleTauPair(src,"EffWEIGHTCSVM2err",'SFCSVM2err'),
+                              eleTauCSVT1 = makeEleTauPair(src,"EffWEIGHTCSVT",'SFCSVT1'),
+                              eleTauCSVT1err = makeEleTauPair(src,"EffWEIGHTCSVTerr",'SFCSVT1err'),
+                              eleTauCSVT2 = makeEleTauPair(src,"EffWEIGHTCSVT2",'SFCSVT2'),
+                              eleTauCSVT2err = makeEleTauPair(src,"EffWEIGHTCSVT2err",'SFCSVT2err'),
+
+                              eleTauJet1Muf = makeEleTauCSVPair(src,"J1Muf",'abs(eta())<2.4','muonEnergyFraction()',0),
+                              eleTauJet2Muf = makeEleTauCSVPair(src,"J2Muf",'abs(eta())<2.4','muonEnergyFraction()',1),
+                              eleTauJet1Nhf = makeEleTauCSVPair(src,"J1Nhf",'abs(eta())<2.4','neutralHadronEnergyFraction()',0),
+                              eleTauJet2Nhf = makeEleTauCSVPair(src,"J2Nhf",'abs(eta())<2.4','neutralHadronEnergyFraction()',1),
+                              eleTauJet1Phf = makeEleTauCSVPair(src,"J1Phf",'abs(eta())<2.4','photonEnergyFraction()',0),
+                              eleTauJet2Phf = makeEleTauCSVPair(src,"J2Phf",'abs(eta())<2.4','photonEnergyFraction()',1),
+                              eleTauJet1PtCSVSort = makeEleTauCSVPair(src,"J1PtCSVSort",'abs(eta())<2.4','pt()',0),
+                              eleTauJet2PtCSVSort = makeEleTauCSVPair(src,"J2PtCSVSort",'abs(eta())<2.4','pt()',1),
+                              eleTauJet1EtaCSVSort = makeEleTauCSVPair(src,"J1EtaCSVSort",'abs(eta())<2.4','eta()',0),
+                              eleTauJet2EtaCSVSort = makeEleTauCSVPair(src,"J2EtaCSVSort",'abs(eta())<2.4','eta()',1),
+                              eleTauJet1PhiCSVSort = makeEleTauCSVPair(src,"J1PhiCSVSort",'abs(eta())<2.4','phi()',0),
+                              eleTauJet2PhiCSVSort = makeEleTauCSVPair(src,"J2PhiCSVSort",'abs(eta())<2.4','phi()',1),
+                              eleTauJet1FlavourCSVSort = makeEleTauCSVPair(src,"J1FlavourCSVSort",'abs(eta())<2.4','partonFlavour()',0),
+                              eleTauJet2FlavourCSVSort = makeEleTauCSVPair(src,"J2FlavourCSVSort",'abs(eta())<2.4','partonFlavour()',1),
+                              eleTauJet1CSVCSVSort = makeEleTauCSVPair(src,"J1CSVbtagCSVSort",'abs(eta())<2.4','bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")',0),
+                              eleTauJet2CSVCSVSort = makeEleTauCSVPair(src,"J2CSVbtagCSVSort",'abs(eta())<2.4','bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")',1),
+
+                              eleTauJet1PtPtSort = makeEleTauPtPair(src,"J1Pt",'abs(eta())<2.4','pt()',0),
+                              eleTauJet2PtPtSort = makeEleTauPtPair(src,"J2Pt",'abs(eta())<2.4','pt()',1),
+                              eleTauJet1EtaPtSort = makeEleTauPtPair(src,"J1Eta",'abs(eta())<2.4','eta()',0),
+                              eleTauJet2EtaPtSort = makeEleTauPtPair(src,"J2Eta",'abs(eta())<2.4','eta()',1),
+                              eleTauJet1PhiPtSort = makeEleTauPtPair(src,"J1Phi",'abs(eta())<2.4','phi()',0),
+                              eleTauJet2PhiPtSort = makeEleTauPtPair(src,"J2Phi",'abs(eta())<2.4','phi()',1),
+                              eleTauJet1FlavourPtSort = makeEleTauPtPair(src,"J1Flavour",'abs(eta())<2.4','partonFlavour()',0),
+                              eleTauJet2FlavourPtSort = makeEleTauPtPair(src,"J2Flavour",'abs(eta())<2.4','partonFlavour()',1),
+                              eleTauJet1CSVPtSort = makeEleTauPtPair(src,"J1CSVbtag",'abs(eta())<2.4','bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")',0),
+                              eleTauJet2CSVPtSort = makeEleTauPtPair(src,"J2CSVbtag",'abs(eta())<2.4','bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")',1),
+                              eleTauJet1MVASfPtSort = makeEleTauPtPair(src,"J1MVASf",'','userFloat("mvaSF")',0),
+                              eleTauJet2MVASfPtSort = makeEleTauPtPair(src,"J2MVASf",'','userFloat("mvaSF")',1),
+                              eleTauJet1GenPtPtSort = makeEleTauPtPair(src,"J1GenPt",'','userFloat("genJetPt")',0),
+                              eleTauJet2GenPtPtSort = makeEleTauPtPair(src,"J2GenPt",'','userFloat("genJetPt")',1),
+                              eleTauJet1GenEtaPtSort = makeEleTauPtPair(src,"J1GenEta",'','userFloat("genJetEta")',0),
+                              eleTauJet2GenEtaPtSort = makeEleTauPtPair(src,"J2GenEta",'','userFloat("genJetEta")',1),
+                              eleTauJet1GenPhiPtSort = makeEleTauPtPair(src,"J1GenPhi",'','userFloat("genJetPhi")',0),
+                              eleTauJet2GenPhiPtSort = makeEleTauPtPair(src,"J2GenPhi",'','userFloat("genJetPhi")',1),
+
+                              eleTauJetsBTagCSVLPt20 = makeEleTauJetCountPair(src,"nJetsBTagCSVLPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.244&&pt()>20&&abs(eta)<2.4'),
+                              eleTauJetsBTagCSVLPt25 = makeEleTauJetCountPair(src,"nJetsBTagCSVLPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.244&&pt()>25&&abs(eta)<2.4'),
+                              eleTauJetsBTagCSVMPt20 = makeEleTauJetCountPair(src,"nJetsBTagCSVMPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679&&pt()>20&&abs(eta)<2.4'),
+                              eleTauJetsBTagCSVMPt25 = makeEleTauJetCountPair(src,"nJetsBTagCSVMPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679&&pt()>25&&abs(eta)<2.4'),
+                              eleTauJetsBTagCSVTPt20 = makeEleTauJetCountPair(src,"nJetsBTagCSVTPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.898&&pt()>20&&abs(eta)<2.4'),
+                              eleTauJetsBTagCSVTPt25 = makeEleTauJetCountPair(src,"nJetsBTagCSVTPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.898&&pt()>25&&abs(eta)<2.4'),
+                              eleTauJetsPt20 = makeEleTauJetCountPair(src,"nJetsPt20",'pt()>20'),
+                              eleTauJetsPt20Tag = makeEleTauJetCountPair(src,"nTaggableJetsPt20",'pt()>20&&abs(eta)<2.4'),
+                              eleTauJetsPt20TagMatch = makeEleTauJetCountPair(src,"nTaggableJetsPt20Matched",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5'),
+                              eleTauJetsPt20TagMatchTag = makeEleTauJetCountPair(src,"nTaggableJetsPt20MatchedTagM",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
+                              eleTauJetsPt20TagNoMatch = makeEleTauJetCountPair(src,"nTaggableJetsPt20NotMatched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
+                              eleTauJetsPt20TagNoMatchTag = makeEleTauJetCountPair(src,"nTaggableJetsPt20NotMatchedTagM",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
+                              eleTauJetsPt30 = makeEleTauJetCountPair(src,"nJetsPt30",'pt()>30'),
+                              eleTauJetsPt30Tag = makeEleTauJetCountPair(src,"nTaggableJetsPt30",'pt()>30&&abs(eta)<2.4'),
+                              eleTauJetsPt30TagMatch = makeEleTauJetCountPair(src,"nTaggableJetsPt30Matched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5'),
+                              eleTauJetsPt30TagMatchTag = makeEleTauJetCountPair(src,"nTaggableJetsPt30MatchedTagM",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
+                              eleTauJetsPt30TagNoMatch = makeEleTauJetCountPair(src,"nTaggableJetsPt30NotMatched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
+                              eleTauJetsPt30TagNoMatchTag = makeEleTauJetCountPair(src,"nTaggableJetsPt30NotMatchedTagM",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
+
+                              eleTauFirstJetID53X = makeLTauGeneric("PATEleTauPairHighestPtJetVarFiller",src,"highestJetID53X","userFloat('pileupJetId:fullDiscriminant')"), 
+                              eleTauFirstJetFlavour = makeLTauGeneric("PATEleTauPairHighestPtJetVarFiller",src,"highestJetFlavour",'partonFlavour()'),
+                              eleTauFirstJetShape = makeLTauGeneric("PATEleTauPairHighestPtJetVarFiller",src,"highestJetShape",'userFloat("ptRMS")'),
+                              eleTauFirstJetCSV = makeLTauGeneric("PATEleTauPairHighestPtJetVarFiller",src,"highestJetBTagCSV",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
+                              eleTauFirstJetChMult = makeLTauGeneric("PATEleTauPairHighestPtJetVarFiller",src,"highestJetNCharged",'chargedMultiplicity()'),
+                              eleTauFirstJetNeuMult = makeLTauGeneric("PATEleTauPairHighestPtJetVarFiller",src,"highestJetNNeutral",'photonMultiplicity()+neutralHadronMultiplicity()'),
+
+                              eeDR = makeLTauGeneric("PATElePairFiller",srcLL,"diLeptonDR","dR12"),#FIXME
+
                               eleTauLHEProduct = cms.PSet(
                                   pluginType = cms.string("LHEProductFiller"),
                                   src        = cms.InputTag("source"),
@@ -2090,181 +609,8 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                                   tag        = cms.string("embeddedEta"),
                                   method     = cms.string("eta"),
                                   leadingOnly=cms.untracked.bool(False)
-                              ),
-                              eleTauFirstJetPt1 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1Pt"),
-                                  method     = cms.string('pt()'),
-                                  rank       = cms.untracked.double(0)
-                              ),
-                              eleTauSecondJetPt = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2Pt"),
-                                  method     = cms.string('pt()'),
-                                  rank       = cms.untracked.double(1)
-                              ),
-                              eleTauFirstJetEta1 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1Eta"),
-                                  method     = cms.string('eta()'),
-                                  rank       = cms.untracked.double(0)
-                              ),
-                              eleTauSecondJetEta = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2Eta"),
-                                  method     = cms.string('eta()'),
-                                  rank       = cms.untracked.double(1)
-                              ),
-                              eleTauFirstJetPhi1 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1Phi"),
-                                  method     = cms.string('phi()'),
-                                  rank       = cms.untracked.double(0)
-                              ),
-                              eleTauSecondJetPhi = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2Phi"),
-                                  method     = cms.string('phi()'),
-                                  rank       = cms.untracked.double(1)
-                              ),
-                              eleTauFirstJetCSVbtag1 = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1CSVbtag"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
-                                  rank       = cms.untracked.double(0)
-                              ),
-                              eleTauSecondJetCSVbtag = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairPtJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2CSVbtag"),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
-                                  rank       = cms.untracked.double(1)
-                              ),
-                              eleTauEleMVALoose = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauEleLoose"),
-                                  method     = cms.string('leg2.userInt("againstEleMVALoose")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ), 
-                              eleTauEleMVAMedium = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauEleMedium"),
-                                  method     = cms.string('leg2.userInt("againstEleMVAMedium")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ), 
-                              eleTauEleMVATight = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauEleTight"),
-                                  method     = cms.string('leg2.userInt("againstEleMVATight")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ), 
-                              eleTauEleMVAVTight = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauEleVeryTight"),
-                                  method     = cms.string('leg2.userInt("againstEleMVAVeryTight")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              ),
-                              eleTauFirstJetPt1CSVSort = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1PtCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('pt()'),
-                                  rank       = cms.untracked.double(0)
-                              ),
-                              eleTauSecondJetPtCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2PtCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('pt()'),
-                                  rank       = cms.untracked.double(1)
-                              ),
-                              eleTauFirstJetEtaCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1EtaCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('eta()'),
-                                  rank       = cms.untracked.double(0)
-                              ),
-                              eleTauSecondJetEtaCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2EtaCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('eta()'),
-                                  rank       = cms.untracked.double(1)
-                              ),
-                              eleTauFirstJetPhiCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1PhiCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('phi()'),
-                                  rank       = cms.untracked.double(0)
-                              ),
-                              eleTauSecondJetPhiCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2PhiCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('phi()'),
-                                  rank       = cms.untracked.double(1)
-                              ),
-                              eleTauFirstJetFlavorCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1FlavorCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('partonFlavour()'),
-                                  rank       = cms.untracked.double(0)
-                              ),
-                              eleTauSecondJetFlavorCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2FlavorCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('partonFlavour()'),
-                                  rank       = cms.untracked.double(1)
-                              ),
-                              eleTauFirstJetCSVbtagCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J1CSVbtagCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
-                                  rank       = cms.untracked.double(0)
-                              ),
-                              eleTauSecondJetCSVbtagCSVSort = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairCSVJetVarFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("J2CSVbtagCSVSort"),
-                                  cut        = cms.string('abs(eta())<2.4'),
-                                  method     = cms.string('bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
-                                  rank       = cms.untracked.double(1)
-                              ),
-                              eleTauTauZIP = cms.PSet(
-                                  pluginType = cms.string("PATEleTauPairFiller"),
-                                  src        = cms.InputTag(src),
-                                  tag        = cms.string("tauZIP"),
-                                  method     = cms.string('leg2.userFloat("zIP")'),
-                                  leadingOnly=cms.untracked.bool(True)
-                              )                                                            
+                              )
    )
-
-
 
    setattr(process, name, eventTree)
    p = cms.Path(getattr(process,name))
