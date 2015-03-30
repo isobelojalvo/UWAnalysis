@@ -1,3 +1,0 @@
-#!/bin/sh
-rm *.png *.pdf *.root
-

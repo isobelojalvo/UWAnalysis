@@ -56,7 +56,7 @@ int main (int argc, char* argv[])
    w->factory(catStr.Data());
 
 
-   std::map<string,RooDataHist*> importMap;
+   std::map<std::string,RooDataHist*> importMap;
 
    
 

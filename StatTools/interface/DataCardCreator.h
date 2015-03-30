@@ -2002,7 +2002,7 @@ class DataCardCreator {
 
 	//creating Correction Factor on the fly:
 	double corr = zttShape.first/zttPreYield.first;
-	double corrErr =max(TEfficiency::ClopperPearson((int)zttPreYield.first,(int)zttShape.first,0.68,true)-corr,corr-TEfficiency::ClopperPearson((int)zttPreYield.first,(int)zttShape.first,0.68,false));
+	double corrErr =std::max(TEfficiency::ClopperPearson((int)zttPreYield.first,(int)zttShape.first,0.68,true)-corr,corr-TEfficiency::ClopperPearson((int)zttPreYield.first,(int)zttShape.first,0.68,false));
 	  
 	zttYield = std::make_pair(zttPreMC.first*corr,sqrt(zttPreMC.second*zttPreMC.second*corr*corr+zttPreMC.first*zttPreMC.first*corrErr*corrErr));
 
@@ -4130,7 +4130,7 @@ class DataCardCreator {
 
   void qcdSyst(std::string channel, std::string prefix, std::string histo1, float corr, float unc){
 
-	std:string chan = "mutau";
+	std::string chan = "mutau";
 	if(channel == "eleTau")
 		chan = "etau";
 	

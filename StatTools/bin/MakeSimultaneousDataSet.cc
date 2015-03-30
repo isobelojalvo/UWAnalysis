@@ -51,7 +51,7 @@ int main (int argc, char* argv[])
    w->factory(catStr.Data());
 
 
-   std::map<string,RooDataSet*> importMap;
+   std::map<std::string,RooDataSet*> importMap;
 
    RooArgSet variables;
 
