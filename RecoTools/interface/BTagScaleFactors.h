@@ -68,7 +68,7 @@ class BTagScaleFactors
     double EffWEIGHTCSVL1 = 0;
     double EffWEIGHTCSVL1err = 0;
     ///================================================================== ////Light Jet Atleast 1  
-    bdisc = 0.244;
+    bdisc = 0.423;
     int ntagged = 0;
     int nfakes = 0;
     double faketotal = 0;
@@ -132,7 +132,7 @@ class BTagScaleFactors
 
   std::pair<double,double> CSVMedium1( JetPtrVector jets , bool top ){
  
-    double bdisc = 0.679;
+    double bdisc = 0.814;
     double EffWEIGHTCSVM1 = 0;
     double EffWEIGHTCSVM1err = 0;
     ///==================================================================    ////Medium Jet Atleast 1  
@@ -199,7 +199,7 @@ class BTagScaleFactors
     double EffWEIGHTCSVT1err = 0;
     ///==================================================================
     ////Tight Jet Atleast 1  
-    bdisc = 0.898;
+    bdisc = 0.941;
     int ntagged = 0;
     int nfakes = 0;
     double faketotal = 0;
@@ -267,7 +267,7 @@ class BTagScaleFactors
     double SF2err = 0;
     double EffWEIGHTCSVL2 = 0;
     double EffWEIGHTCSVL2err = 0;
-    double bdisc = 0.244;
+    double bdisc = 0.423;
     //cout<< "Btag7" << endl;
     if(jets.size()>1&&jets.at(0)->pt()>20&&jets.at(1)->pt()>20)
       if(jets.at(0)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>bdisc&&jets.at(1)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>bdisc){
@@ -352,7 +352,7 @@ class BTagScaleFactors
     double SF2err = 0;
     double EffWEIGHTCSVM2 = 0; 
     double EffWEIGHTCSVM2err = 0;
-    double bdisc = 0.679;
+    double bdisc = 0.814;
     //cout<< "Btag7" << endl;
     if(jets.size()>1&&jets.at(0)->pt()>20&&jets.at(1)->pt()>20)
     if(jets.at(0)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>bdisc&&jets.at(1)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>bdisc){
@@ -432,7 +432,7 @@ class BTagScaleFactors
     double SF2err = 0;
     double EffWEIGHTCSVT2 = 0;
     double EffWEIGHTCSVT2err = 0;
-    double bdisc = 0.898;
+    double bdisc = 0.941;
     //cout<< "Btag7" << endl;
     if(jets.size()>1&&jets.at(0)->pt()>20&&jets.at(1)->pt()>20)
     if(jets.at(0)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>bdisc&&jets.at(1)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>bdisc){

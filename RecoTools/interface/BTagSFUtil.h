@@ -78,7 +78,7 @@ public:
     Bool_t btagged = kFALSE;
     //cout<< "Gets Here 2" <<endl;
     if(isdata) {
-    if(csv>0.679) btagged = kTRUE;
+    if(csv>0.814) btagged = kTRUE;
     else          btagged = kFALSE;
     return btagged;
     }
@@ -98,7 +98,7 @@ public:
     }
         //cout<< "Gets Here 4" <<endl;
   if(fabs(jetflavor) == 5) {                // real b-jet
-    if(csv > 0.679) {                       // if tagged
+    if(csv > 0.814) {                       // if tagged
       btagged = kTRUE;
       
       if(demoteProb_btag > 0 && randm1->Uniform() > demoteProb_btag) btagged = kTRUE;  // leave it tagged
@@ -135,7 +135,7 @@ public:
     demoteProb_mistag = SFl;
   }
       //cout<< "Gets Here 7" <<endl;
-  if(csv > 0.679) {         // if tagged
+  if(csv > 0.814) {         // if tagged
     btagged = kTRUE;
     if(demoteProb_mistag > 0 && randm1->Uniform() > demoteProb_mistag) btagged = kFALSE; // demote it to untagged
     else                                                              btagged = kTRUE;  // leave it tagged
