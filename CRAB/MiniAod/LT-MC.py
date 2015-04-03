@@ -1,21 +1,23 @@
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process("ANALYSIS")
-process.load('Configuration.StandardSequences.Services_cff')
+#process.load('Configuration.StandardSequences.Services_cff')
+process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
 process.GlobalTag.globaltag = 'PHYS14_25_V1'
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(500)
+    input = cms.untracked.int32(4000)
 )
 
 
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-'file:/hdfs/store/mc/Phys14DR/TT_Tune4C_13TeV-pythia8-tauola/MINIAODSIM/PU20bx25_tsg_PHYS14_25_V1-v1/10000/F842EB7D-B470-E411-B141-0025905A60CE.root'
+'file:/hdfs/store/mc/Phys14DR/GluGluToHToTauTau_M-125_13TeV-powheg-pythia6/MINIAODSIM/PU20bx25_tsg_PHYS14_25_V1-v1/10000/86CFA7C5-B96F-E411-B077-00266CF25490.root'
+#'file:/hdfs/store/mc/Phys14DR/TT_Tune4C_13TeV-pythia8-tauola/MINIAODSIM/PU20bx25_tsg_PHYS14_25_V1-v1/10000/F842EB7D-B470-E411-B141-0025905A60CE.root'
 		),
 		inputCommands=cms.untracked.vstring(
 						'keep *',
@@ -42,7 +44,7 @@ process.load("UWAnalysis.Configuration.MiniAodAnalysis_cff")
 process.metCalibration.applyCalibration = cms.bool(False)
 
 process.eventSelectionMT = cms.Path(process.selectionSequenceMT)
-#process.eventSelectionET = cms.Path(process.selectionSequenceET)
+process.eventSelectionET = cms.Path(process.selectionSequenceET)
 
 createGeneratedParticles(process,
                          'genDaughters',
@@ -73,10 +75,10 @@ createGeneratedParticles(process,
 from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
 
-#from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addEleTauEventTree
-#addEleTauEventTree(process,'eleTauEventTree')
+from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addEleTauEventTree
+addEleTauEventTree(process,'eleTauEventTree')
 
 addEventSummary(process,True,'MT','eventSelectionMT')
-#addEventSummary(process,True,'ET','eventSelectionET')
+addEventSummary(process,True,'ET','eventSelectionET')
 
 
