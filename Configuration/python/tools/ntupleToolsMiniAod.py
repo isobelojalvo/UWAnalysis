@@ -163,26 +163,26 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
 
                               muTauPt1 =  makeMuTauPair(src,"pt1","leg1.pt"), #FILLED
                               muTauPt2 =  makeMuTauPair(src,"pt2","leg2.pt"), #FILLED
-                              muTauEta1 = makeMuTauPair(src,"eta1","leg1.eta"),
-                              muTauEta2 = makeMuTauPair(src,"eta2","leg2.eta"),
-                              muTauPhi1 = makeMuTauPair(src,"phi1","leg1.phi"),
-                              muTauPhi2 = makeMuTauPair(src,"phi2","leg2.phi"),
+                              muTauEta1 = makeMuTauPair(src,"eta1","leg1.eta"),#FILLED
+                              muTauEta2 = makeMuTauPair(src,"eta2","leg2.eta"),#FILLED
+                              muTauPhi1 = makeMuTauPair(src,"phi1","leg1.phi"),#FILLED
+                              muTauPhi2 = makeMuTauPair(src,"phi2","leg2.phi"),#FILLED
 
-                              muTauMETUnc = makeMuTauPair(src,"metUnc","met.pt()"),
-                              muTauMET = makeMuTauPair(src,"met","calibratedMET.pt()"),
-                              METPhi = makeMuTauPair(src,"metPhi","metPhi"),
-                              CovMat00 = makeMuTauPair(src,"covMatrix00","covMatrix00"),
-                              CovMat10 = makeMuTauPair(src,"covMatrix10","covMatrix10"),
-                              CovMat01 = makeMuTauPair(src,"covMatrix01","covMatrix01"),
-                              CovMat11 = makeMuTauPair(src,"covMatrix11","covMatrix11"),
+                              muTauMETUnc = makeMuTauPair(src,"metUnc","met.pt()"),#FILLED
+                              muTauMET = makeMuTauPair(src,"met","calibratedMET.pt()"),#FILLED
+                              METPhi = makeMuTauPair(src,"metPhi","metPhi"),#FILLED
+                              CovMat00 = makeMuTauPair(src,"covMatrix00","covMatrix00"),#FILLED
+                              CovMat10 = makeMuTauPair(src,"covMatrix10","covMatrix10"),#FILLED
+                              CovMat01 = makeMuTauPair(src,"covMatrix01","covMatrix01"),#FILLED
+                              CovMat11 = makeMuTauPair(src,"covMatrix11","covMatrix11"),#FILLED
 
-                              muTauMT = makeMuTauPair(src,"mt","mt12MET"),
-                              muTauMT1 = makeMuTauPair(src,"mt1","mt1MET"),
-                              muTauMT2 = makeMuTauPair(src,"mt2","mt2MET"),
+                              muTauMT = makeMuTauPair(src,"mt","mt12MET"),#FILLED
+                              muTauMT1 = makeMuTauPair(src,"mt1","mt1MET"),#FILLED
+                              muTauMT2 = makeMuTauPair(src,"mt2","mt2MET"),#FILLED
 
                               #BTAGS AND JETS
-                              muTauMJJReg = makeMuTauPair(src,"mJJReg","mJJReg"),
-                              muTauMJJ = makeMuTauPair(src,"mJJ","mJJ"),
+                              muTauMJJReg = makeMuTauPair(src,"mJJReg","mJJReg"),#FIXME
+                              muTauMJJ = makeMuTauPair(src,"mJJ","mJJ"),#FILLED
                               muTauJJPt = makeMuTauPair(src,"ptJJ","ptJJ"),
                               muTauJJEta = makeMuTauPair(src,"etaJJ","etaJJ"),
                               muTauJJPhi = makeMuTauPair(src,"phiJJ","phiJJ"),
@@ -277,24 +277,24 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               muTauJet1GenPhiPtSort = makeMuTauPtPair(src,"J1GenPhi",'','userFloat("genJetPhi")',0),
                               muTauJet2GenPhiPtSort = makeMuTauPtPair(src,"J2GenPhi",'','userFloat("genJetPhi")',1),
 
-                              muTauJetsBTagCSVLPt20 = makeMuTauJetCountPair(src,"nJetsBTagCSVLPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.244&&pt()>20&&abs(eta)<2.4'),
-                              muTauJetsBTagCSVLPt25 = makeMuTauJetCountPair(src,"nJetsBTagCSVLPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.244&&pt()>25&&abs(eta)<2.4'),
-                              muTauJetsBTagCSVMPt20 = makeMuTauJetCountPair(src,"nJetsBTagCSVMPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679&&pt()>20&&abs(eta)<2.4'),
-                              muTauJetsBTagCSVMPt25 = makeMuTauJetCountPair(src,"nJetsBTagCSVMPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679&&pt()>25&&abs(eta)<2.4'),
-                              muTauJetsBTagCSVTPt20 = makeMuTauJetCountPair(src,"nJetsBTagCSVTPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.898&&pt()>20&&abs(eta)<2.4'),
-                              muTauJetsBTagCSVTPt25 = makeMuTauJetCountPair(src,"nJetsBTagCSVTPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.898&&pt()>25&&abs(eta)<2.4'),
+                              muTauJetsBTagCSVLPt20 = makeMuTauJetCountPair(src,"nJetsBTagCSVLPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.423&&pt()>20&&abs(eta)<2.4'),
+                              muTauJetsBTagCSVLPt25 = makeMuTauJetCountPair(src,"nJetsBTagCSVLPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.423&&pt()>25&&abs(eta)<2.4'),
+                              muTauJetsBTagCSVMPt20 = makeMuTauJetCountPair(src,"nJetsBTagCSVMPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.814&&pt()>20&&abs(eta)<2.4'),
+                              muTauJetsBTagCSVMPt25 = makeMuTauJetCountPair(src,"nJetsBTagCSVMPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.814&&pt()>25&&abs(eta)<2.4'),
+                              muTauJetsBTagCSVTPt20 = makeMuTauJetCountPair(src,"nJetsBTagCSVTPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.941&&pt()>20&&abs(eta)<2.4'),
+                              muTauJetsBTagCSVTPt25 = makeMuTauJetCountPair(src,"nJetsBTagCSVTPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.941&&pt()>25&&abs(eta)<2.4'),
                               muTauJetsPt20 = makeMuTauJetCountPair(src,"nJetsPt20",'pt()>20'),
                               muTauJetsPt20Tag = makeMuTauJetCountPair(src,"nTaggableJetsPt20",'pt()>20&&abs(eta)<2.4'),
                               muTauJetsPt20TagMatch = makeMuTauJetCountPair(src,"nTaggableJetsPt20Matched",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5'),
-                              muTauJetsPt20TagMatchTag = makeMuTauJetCountPair(src,"nTaggableJetsPt20MatchedTagM",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
+                              muTauJetsPt20TagMatchTag = makeMuTauJetCountPair(src,"nTaggableJetsPt20MatchedTagM",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),
                               muTauJetsPt20TagNoMatch = makeMuTauJetCountPair(src,"nTaggableJetsPt20NotMatched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
-                              muTauJetsPt20TagNoMatchTag = makeMuTauJetCountPair(src,"nTaggableJetsPt20NotMatchedTagM",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
+                              muTauJetsPt20TagNoMatchTag = makeMuTauJetCountPair(src,"nTaggableJetsPt20NotMatchedTagM",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),
                               muTauJetsPt30 = makeMuTauJetCountPair(src,"nJetsPt30",'pt()>30'),
                               muTauJetsPt30Tag = makeMuTauJetCountPair(src,"nTaggableJetsPt30",'pt()>30&&abs(eta)<2.4'),
                               muTauJetsPt30TagMatch = makeMuTauJetCountPair(src,"nTaggableJetsPt30Matched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5'),
-                              muTauJetsPt30TagMatchTag = makeMuTauJetCountPair(src,"nTaggableJetsPt30MatchedTagM",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
+                              muTauJetsPt30TagMatchTag = makeMuTauJetCountPair(src,"nTaggableJetsPt30MatchedTagM",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),
                               muTauJetsPt30TagNoMatch = makeMuTauJetCountPair(src,"nTaggableJetsPt30NotMatched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
-                              muTauJetsPt30TagNoMatchTag = makeMuTauJetCountPair(src,"nTaggableJetsPt30NotMatchedTagM",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
+                              muTauJetsPt30TagNoMatchTag = makeMuTauJetCountPair(src,"nTaggableJetsPt30NotMatchedTagM",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),
 
                               muTauFirstJetID53X = makeLTauGeneric("PATMuTauPairHighestPtJetVarFiller",src,"highestJetID53X","userFloat('pileupJetId:fullDiscriminant')"), 
                               muTauFirstJetFlavour = makeLTauGeneric("PATMuTauPairHighestPtJetVarFiller",src,"highestJetFlavour",'partonFlavour()'),
@@ -311,13 +311,13 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                   tag        = cms.string("higgsPt"),
                                   method     = cms.string('pt()'),
                                   leadingOnly=cms.untracked.bool(True)
-                              ),#FIXME (TOP SAMPLE)
+                              ),#FILLED in higgs sample
 
                               muTauLHEProduct = cms.PSet(
                                   pluginType = cms.string("LHEProductFiller"),
                                   src        = cms.InputTag("source"),
                                   tag        = cms.string("LHEProduct"),
-                              ),#FIXME
+                              ),#FILLED in higgs sample
                               muTauLHEProduct2 = cms.PSet(
                                   pluginType = cms.string("LHEProductFiller"),
                                   src        = cms.InputTag("externalLHEProducer"),
@@ -475,6 +475,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauMVATrig = makeEleTauPair(src,"lIDMVATrig",'leg1.electronID("eidTight")'),#FIXME #PLACEHOLDER
                               eleTauMVANonTrig = makeEleTauPair(src,"lIDMVANonTrig",'leg1.electronID("eidTight")'),#FIXME #PLACEHOLDER
                               eleTauConversion = makeEleTauPair(src,"eMatchedConversion",'leg1.userInt("hasMatchedConversion")'),#FIXME
+                              eleTauPassConversion = makeEleTauPair(src,"ePassConversion",'leg1.passConversionVeto()'),#FIXME
                               eleTauAgainstElectronMedium = makeEleTauPair(src,"tauElectronMedPass",'leg2.tauID("againstElectronMedium")'),
                               eleTauAgainstEleMVA5raw = makeEleTauPair(src,"againstElectronMVA5raw",'leg2.tauID("againstElectronMVA5raw")'),
                               eleTauElectronTightMVA5 = makeEleTauPair(src,"tauElectronTightMVA5",'leg2.tauID("againstElectronTightMVA5")'),
@@ -546,24 +547,24 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauJet1GenPhiPtSort = makeEleTauPtPair(src,"J1GenPhi",'','userFloat("genJetPhi")',0),
                               eleTauJet2GenPhiPtSort = makeEleTauPtPair(src,"J2GenPhi",'','userFloat("genJetPhi")',1),
 
-                              eleTauJetsBTagCSVLPt20 = makeEleTauJetCountPair(src,"nJetsBTagCSVLPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.244&&pt()>20&&abs(eta)<2.4'),
-                              eleTauJetsBTagCSVLPt25 = makeEleTauJetCountPair(src,"nJetsBTagCSVLPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.244&&pt()>25&&abs(eta)<2.4'),
-                              eleTauJetsBTagCSVMPt20 = makeEleTauJetCountPair(src,"nJetsBTagCSVMPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679&&pt()>20&&abs(eta)<2.4'),
-                              eleTauJetsBTagCSVMPt25 = makeEleTauJetCountPair(src,"nJetsBTagCSVMPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679&&pt()>25&&abs(eta)<2.4'),
-                              eleTauJetsBTagCSVTPt20 = makeEleTauJetCountPair(src,"nJetsBTagCSVTPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.898&&pt()>20&&abs(eta)<2.4'),
-                              eleTauJetsBTagCSVTPt25 = makeEleTauJetCountPair(src,"nJetsBTagCSVTPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.898&&pt()>25&&abs(eta)<2.4'),
+                              eleTauJetsBTagCSVLPt20 = makeEleTauJetCountPair(src,"nJetsBTagCSVLPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.423&&pt()>20&&abs(eta)<2.4'),
+                              eleTauJetsBTagCSVLPt25 = makeEleTauJetCountPair(src,"nJetsBTagCSVLPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.423&&pt()>25&&abs(eta)<2.4'),
+                              eleTauJetsBTagCSVMPt20 = makeEleTauJetCountPair(src,"nJetsBTagCSVMPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.814&&pt()>20&&abs(eta)<2.4'),
+                              eleTauJetsBTagCSVMPt25 = makeEleTauJetCountPair(src,"nJetsBTagCSVMPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.814&&pt()>25&&abs(eta)<2.4'),
+                              eleTauJetsBTagCSVTPt20 = makeEleTauJetCountPair(src,"nJetsBTagCSVTPt20",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.941&&pt()>20&&abs(eta)<2.4'),
+                              eleTauJetsBTagCSVTPt25 = makeEleTauJetCountPair(src,"nJetsBTagCSVTPt25",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.941&&pt()>25&&abs(eta)<2.4'),
                               eleTauJetsPt20 = makeEleTauJetCountPair(src,"nJetsPt20",'pt()>20'),
                               eleTauJetsPt20Tag = makeEleTauJetCountPair(src,"nTaggableJetsPt20",'pt()>20&&abs(eta)<2.4'),
                               eleTauJetsPt20TagMatch = makeEleTauJetCountPair(src,"nTaggableJetsPt20Matched",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5'),
-                              eleTauJetsPt20TagMatchTag = makeEleTauJetCountPair(src,"nTaggableJetsPt20MatchedTagM",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
+                              eleTauJetsPt20TagMatchTag = makeEleTauJetCountPair(src,"nTaggableJetsPt20MatchedTagM",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),
                               eleTauJetsPt20TagNoMatch = makeEleTauJetCountPair(src,"nTaggableJetsPt20NotMatched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
-                              eleTauJetsPt20TagNoMatchTag = makeEleTauJetCountPair(src,"nTaggableJetsPt20NotMatchedTagM",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
+                              eleTauJetsPt20TagNoMatchTag = makeEleTauJetCountPair(src,"nTaggableJetsPt20NotMatchedTagM",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),
                               eleTauJetsPt30 = makeEleTauJetCountPair(src,"nJetsPt30",'pt()>30'),
                               eleTauJetsPt30Tag = makeEleTauJetCountPair(src,"nTaggableJetsPt30",'pt()>30&&abs(eta)<2.4'),
                               eleTauJetsPt30TagMatch = makeEleTauJetCountPair(src,"nTaggableJetsPt30Matched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5'),
-                              eleTauJetsPt30TagMatchTag = makeEleTauJetCountPair(src,"nTaggableJetsPt30MatchedTagM",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
+                              eleTauJetsPt30TagMatchTag = makeEleTauJetCountPair(src,"nTaggableJetsPt30MatchedTagM",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),
                               eleTauJetsPt30TagNoMatch = makeEleTauJetCountPair(src,"nTaggableJetsPt30NotMatched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
-                              eleTauJetsPt30TagNoMatchTag = makeEleTauJetCountPair(src,"nTaggableJetsPt30NotMatchedTagM",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.679'),
+                              eleTauJetsPt30TagNoMatchTag = makeEleTauJetCountPair(src,"nTaggableJetsPt30NotMatchedTagM",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),
 
                               eleTauFirstJetID53X = makeLTauGeneric("PATEleTauPairHighestPtJetVarFiller",src,"highestJetID53X","userFloat('pileupJetId:fullDiscriminant')"), 
                               eleTauFirstJetFlavour = makeLTauGeneric("PATEleTauPairHighestPtJetVarFiller",src,"highestJetFlavour",'partonFlavour()'),
