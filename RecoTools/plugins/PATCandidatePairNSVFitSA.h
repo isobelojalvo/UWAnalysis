@@ -20,9 +20,8 @@
 #include "UWAnalysis/DataFormats/interface/CompositePtrCandidateT1T2MEt.h"
 #include "UWAnalysis/DataFormats/interface/CompositePtrCandidateT1T2MEtFwd.h"
 
-//#include "TauAnalysis/CandidateTools/plugins/NSVfitStandaloneTestAnalyzer.h"
-//#include "TauAnalysis/CandidateTools/interface/PFMEtSignInterface.h"
-#include "TauAnalysis/CandidateTools/interface/NSVfitStandaloneAlgorithm.h"
+//#include "TauAnalysis/CandidateTools/interface/NSVfitStandaloneAlgorithm.h"
+#include "TauAnalysis/SVfitStandalone/interface/SVfitStandaloneAlgorithm.h"
 
 
 #include "UWAnalysis/RecoTools/interface/candidateAuxFunctions.h"
@@ -87,10 +86,21 @@ class PATCandidatePairNSVFitSA : public edm::EDProducer
 		reco::Candidate::LorentzVector theMETP4_ = compositePtrCandidate.calibratedMET();
 		TMatrixD covMatrix_ = compositePtrCandidate.covMatrix();
 		
-	    std::vector<NSVfitStandalone::MeasuredTauLepton> measuredTauLeptons;
-	    measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(NSVfitStandalone::kLepDecay, compositePtrCandidate.leg1()->p4()));
-	    measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(NSVfitStandalone::kHadDecay, compositePtrCandidate.leg2()->p4()));
-	    NSVfitStandaloneAlgorithm algo(measuredTauLeptons, theMETP4_.Vect(), covMatrix_, 0);
+	    //std::vector<NSVfitStandalone::MeasuredTauLepton> measuredTauLeptons;
+	    std::vector<svFitStandalone::MeasuredTauLepton> measuredTauLeptons;
+	    //measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(NSVfitStandalone::kLepDecay, compositePtrCandidate.leg1()->p4()));
+	    std::cout<<"ID :"<<compositePtrCandidate.leg1()->pdgId()<<std::endl;
+	    if (abs(compositePtrCandidate.leg1()->pdgId())==11)
+	    {
+		    measuredTauLeptons.push_back(svFitStandalone::MeasuredTauLepton(svFitStandalone::kTauToElecDecay, compositePtrCandidate.leg1()->pt(),compositePtrCandidate.leg1()->eta(),compositePtrCandidate.leg1()->phi(),compositePtrCandidate.leg1()->mass()));
+	    }
+	    else {
+		    measuredTauLeptons.push_back(svFitStandalone::MeasuredTauLepton(svFitStandalone::kTauToMuDecay, compositePtrCandidate.leg1()->pt(),compositePtrCandidate.leg1()->eta(),compositePtrCandidate.leg1()->phi(),compositePtrCandidate.leg1()->mass()));
+	    }
+	    //measuredTauLeptons.push_back(NSVfitStandalone::MeasuredTauLepton(NSVfitStandalone::kHadDecay, compositePtrCandidate.leg2()->p4()));
+	    measuredTauLeptons.push_back(svFitStandalone::MeasuredTauLepton(svFitStandalone::kTauToHadDecay, compositePtrCandidate.leg2()->pt(),compositePtrCandidate.leg2()->eta(),compositePtrCandidate.leg2()->phi(),compositePtrCandidate.leg2()->mass(),compositePtrCandidate.leg2()->decayMode()));
+	    //NSVfitStandaloneAlgorithm algo(measuredTauLeptons, theMETP4_.Vect(), covMatrix_, 0);
+	    SVfitStandaloneAlgorithm algo(measuredTauLeptons, theMETP4_.px(), theMETP4_.py(), covMatrix_, 0);
 	    algo.addLogM(false);
 	    //algo.integrateMarkovChain();
 	    //algo.integrateVEGAS();
@@ -99,7 +109,7 @@ class PATCandidatePairNSVFitSA : public edm::EDProducer
 	    //double massErr = algo.massUncert(); 
 	    double pt = 0;//algo.pt(); 
 	    //double ptErr = algo.ptUncert();
-			    
+
 	    compositePtrCandidate.setSVMass(mass);
 	    compositePtrCandidate.setSVPt(pt);
 	    out->push_back(compositePtrCandidate);

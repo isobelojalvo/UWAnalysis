@@ -25,7 +25,7 @@
   <use   name="UWAnalysis/RecoTools"/>
   <use   name="UWAnalysis/DataFormats"/>
   <use   name="TauAnalysis/CandidateTools"/>
-  <use   name="AnalysisDataFormats/TauAnalysis"/>
+  <use   name="TauAnalysis/SVfitStandalone"/>
   <use   name="CommonTools/UtilAlgos"/>
   <use   name="Geometry/CommonDetUnit"/>
   <use   name="Geometry/TrackerGeometryBuilder"/>

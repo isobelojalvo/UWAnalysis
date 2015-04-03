@@ -10,12 +10,12 @@
 
 typedef PATCandidatePairNSVFitSA<pat::Muon, pat::Tau> PATMuTauNSVFitSA;
 typedef PATCandidatePairNSVFitSA<pat::Electron, pat::Tau> PATElecTauNSVFitSA;
-typedef PATCandidatePairNSVFitSA<pat::Electron, pat::Muon> PATElecMuNSVFitSA;
-typedef PATCandidatePairNSVFitSA<pat::Muon, pat::Muon> PATMuMuNSVFitSA;
+//typedef PATCandidatePairNSVFitSA<pat::Electron, pat::Muon> PATElecMuNSVFitSA;
+//typedef PATCandidatePairNSVFitSA<pat::Muon, pat::Muon> PATMuMuNSVFitSA;
 
 
 
 DEFINE_FWK_MODULE(PATMuTauNSVFitSA);
 DEFINE_FWK_MODULE(PATElecTauNSVFitSA);
-DEFINE_FWK_MODULE(PATElecMuNSVFitSA);
-DEFINE_FWK_MODULE(PATMuMuNSVFitSA);
+//DEFINE_FWK_MODULE(PATElecMuNSVFitSA);
+//DEFINE_FWK_MODULE(PATMuMuNSVFitSA);
