@@ -199,7 +199,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               muMuVBFJets30 = makeMuTauPair(src,"vbfNJetsGap30","vbfNJetsGap30"),
 
                               #Muon IDs and Isolation
-                              muTauRelPFIsoDB = makeMuTauPair(src,"lPFIsoDB",'(leg1.userIso(0)+max(leg1.photonIso()+leg1.neutralHadronIso()-0.5*leg1.puChargedHadronIso,0.0))/leg1.pt()'),
+                              muTauRelPFIsoDB = makeMuTauPair(src,"lPFIsoDB",'(leg1.chargedHadronIso()+max(leg1.photonIso()+leg1.neutralHadronIso()-0.5*leg1.puChargedHadronIso,0.0))/leg1.pt()'),
                               muTauDecayMode = makeMuTauPair(src,"tauDecayMode",'leg2.decayMode()'),
                               muTauDecayFound = makeMuTauPair(src,"tauDecayFound",'leg2.tauID("decayModeFinding")'),
                               muTauMuTriggerMatch = makeMuTauPair(src,"lTrigger",'leg1.userFloat("hltOverlapFilterIsoMu17LooseIsoPFTau20")'),
@@ -458,7 +458,8 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauPZV = makeEleTauPair(src,"pZV",'pZetaVis'),#EO
 
                               #Ele IDs and Isolation
-                              eleTauRelPFIsoDB = makeEleTauPair(src,"lPFIsoDB",'(leg1.userIso(0)+max(leg1.userIso(1)+leg1.neutralHadronIso()-0.5*leg1.userIso(2),0.0))/leg1.pt()'),
+                              eleTauRelPFIsoDB = makeEleTauPair(src,"lPFIsoDB",'(leg1.chargedHadronIso()+max(leg1.photonIso()+leg1.neutralHadronIso()-0.5*leg1.userIso(2),0.0))/leg1.pt()'), #photonIso
+                              #eleTauRelPFIsoDB = makeEleTauPair(src,"lPFIsoDB",'(leg1.chargedHadronIso()+max(leg1.userIso(1)+leg1.neutralHadronIso()-0.5*leg1.userIso(2),0.0))/leg1.pt()'), #photonIso
                               eleTauDecayMode = makeEleTauPair(src,"tauDecayMode",'leg2.decayMode()'),
                               eleTauDecayFound = makeEleTauPair(src,"tauDecayFound",'leg2.tauID("decayModeFinding")'),
                               eleTauProngs = makeEleTauPair(src,"tauProngs",'leg2.signalChargedHadrCands.size()'),#EO

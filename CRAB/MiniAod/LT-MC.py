@@ -9,7 +9,7 @@ process.GlobalTag.globaltag = 'PHYS14_25_V1'
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(4000)
+    input = cms.untracked.int32(1000)
 )
 
 

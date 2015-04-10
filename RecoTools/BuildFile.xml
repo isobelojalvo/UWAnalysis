@@ -15,6 +15,7 @@
 <use   name="DataFormats/PatCandidates"/>
 <use   name="DataFormats/ParticleFlowCandidate"/>
 <use   name="DQMServices/Core"/>
+<use   name="EgammaAnalysis/ElectronTools"/>
 <use   name="PhysicsTools/IsolationAlgos"/>
 <use   name="PhysicsTools/PatUtils"/>
 <use   name="PhysicsTools/UtilAlgos"/>

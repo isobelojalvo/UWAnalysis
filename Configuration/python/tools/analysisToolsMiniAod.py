@@ -32,6 +32,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   #Apply Tau Energy Scale Changes
   EScaledTaus(process,True)
 
+  MiniAODEleMVAEmbedder(process,"slimmedElectrons")  
   #Add trigger Matching
   muonTriggerMatchMiniAOD(process,triggerProcess,HLT)#NEW
   electronTriggerMatchMiniAOD(process,triggerProcess,HLT)#NEW
@@ -88,6 +89,17 @@ def PATJetMVAEmbedder(process,jets):
 
   process.jetMVAEmbedding = cms.Sequence(process.patMVAEmbeddedJets)
   process.analysisSequence*=process.jetMVAEmbedding
+
+
+
+def MiniAODEleMVAEmbedder(process,eles):
+  process.load("miniAODElectronMVAIDs_cfi")
+  process.miniAODElectronMVAID.src = cms.InputTag(eles)
+
+  process.embedElecMVAIDs = cms.Sequence(process.miniAODElectronMVAID)
+  process.analysisSequence*=process.embedElecMVAIDs
+
+
     
 def EScaledTaus(process,smearing):  #second arg is bool
 

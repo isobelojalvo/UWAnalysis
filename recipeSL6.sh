@@ -6,11 +6,11 @@ set -o errexit
 set -o nounset
 
 
-cd ../
-git clone https://github.com/cms-analysis/TauAnalysis-CandidateTools.git TauAnalysis/CandidateTools
-pushd $CMSSW_BASE/src/TauAnalysis/CandidateTools
-git checkout TauAnalysis-CandidateTools-V00-01-04s
-pushd $CMSSW_BASE/src
+#cd ../
+#git clone https://github.com/cms-analysis/TauAnalysis-CandidateTools.git TauAnalysis/CandidateTools
+#pushd $CMSSW_BASE/src/TauAnalysis/CandidateTools
+#git checkout TauAnalysis-CandidateTools-V00-01-04s
+#pushd $CMSSW_BASE/src
 
 git clone git@github.com:veelken/SVFit_standalone.git TauAnalysis/SVfitStandalone
 cd TauAnalysis/SVfitStandalone
@@ -35,6 +35,9 @@ git cms-addpkg FWCore/Version
 
 #MVA & No-PU MET Recipe
 git-cms-merge-topic -u cms-met:72X-13TeV-Training-30Jan15
+
+#Get Electron PHYS14 Ids
+git cms-merge-topic HuguesBrun:trigElecIdInCommonIsoSelection720
 #get new trainings
 cd RecoMET/METPUSubtraction/
 git clone https://github.com/rfriese/RecoMET-METPUSubtraction data

@@ -13,7 +13,6 @@
 #include "DataFormats/Candidate/interface/LeafCandidate.h"
 #include "DataFormats/Common/interface/Ptr.h"
 
-#include "AnalysisDataFormats/TauAnalysis/interface/NSVfitResonanceHypothesisSummary.h"
 
 #include "UWAnalysis/DataFormats/interface/tauAnalysisAuxFunctions.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
@@ -260,35 +259,6 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
     return out;
   }
 
-
-  // NSVFit getters and setters.  From C. Veelken
-  /// get Mtautau solutions reconstructed by NSVfit algorithm
-  void addNSVfitSolution(const NSVfitResonanceHypothesisSummary& solution) {
-    nSVfitSolutions_.push_back(solution);
-  }
-
-  bool hasNSVFitSolutions() const { return (nSVfitSolutions_.begin() != nSVfitSolutions_.end()); }
-
-  const NSVfitResonanceHypothesisSummary* nSVfitSolution(
-      const std::string& algorithm, int* errorFlag = 0) const {
-    const NSVfitResonanceHypothesisSummary* retVal = 0;
-    for (std::vector<NSVfitResonanceHypothesisSummary>::const_iterator
-        nSVfitSolution = nSVfitSolutions_.begin();
-        nSVfitSolution != nSVfitSolutions_.end(); ++nSVfitSolution ) {
-      if ( nSVfitSolution->name() == algorithm ) {
-        retVal = &(*nSVfitSolution);
-        break;
-      }
-    }
-
-    if ( !retVal ) {
-      if ( errorFlag ) {
-        (*errorFlag) = 1;
-      }
-    }
-
-    return retVal;
-  }
 
   void setSVMass(double svMass) { svMass_ = svMass; }
   void setSVPt(double svPt) { svPt_ = svPt; }
@@ -569,8 +539,6 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   int vbfNJetsGap20_;
   int vbfNJetsGap30_;
 
-  /// Mtautau solutions reconstructed by NSVfit algorithm
-  std::vector<NSVfitResonanceHypothesisSummary> nSVfitSolutions_;
   double svMass_;
   double svPt_;
 
