@@ -37,14 +37,17 @@ Major Changes/Issues detailed in table
 | MVAMet Overcorrects | No solution yet. Needed for svFit |
 | PileupJetID | Trained on 53X, probably not optimal. HtauTau twiki instructs us to use it anyway.Will switch when newest stable trainings released|
 | CSV change | CHANGE in 72X : combinedSecondaryVertexBJetTags is no longer included. The new default is combinedInclusiveSecondaryVertexV2BJetTags. See https://hypernews.cern.ch/HyperNews/CMS/get/physTools/3265/1.html ... UPDATE:HTT Twiki updated to read the new CSV tag no rerunning. WP: 0.423,0.814,0.941 |
-| Efficiencies Application | Add Efficiencies into Ntuples, rather than computing afterwards !!|
-| SVFit | Using legacy SVFit, (NSVFit?) need to switch to standalone as requested by Twiki. EDIT: Updated to latest SVfit |
+| Efficiencies Application | Add Efficiencies into Ntuples, rather than computing afterwards !! TODO|
+| SVFit | Using legacy SVFit, (NSVFit?) need to switch to standalone as requested by Twiki. EDIT: Updated to latest SVfit TODO: REMOVE ALL NSVFit |
 | Jet Id | Need a new loose pf id -- POG_PFID_LOOSE  as show here: https://github.com/CERN-PH-CMG/cmg-cmssw/blob/v7.0.1-from-CMSSW_7_2_3/PhysicsTools/Heppy/python/physicsobjects/Jet.py#L67|
-| ESscaling | Edited file to add pt2ES. This energy scle confuses me. userFloat(ESpt) was never getting filled. Now filled in TauESProducer. This shoupld be checked.  |
+| ESscaling | Edited file to add pt2ES. This energy scle confuses me. userFloat(ESpt) was never getting filled. Now filled in TauESProducer. This should be checked.  |
 | relIso | use only PF-charged instead of all-charged... I will need to change to this. EDIT:Updated userIso(0) -> chargedHadronIso()|
 | ntupleTools edited | ntuple tools edited. Output checked |
-| no embedding yet | TBC |
-| Electron ID | No Formal decision yet use ele MVA ID |
+| no particle embedding yet | TBC |
+| Electron ID | No Formal decision yet use ele MVA ID. Edited: in tree use "BDTIDNonTrig" todo, introduce cutbased ID|
+| genParticles | genParticles not getting filled!!!! FIX THIS!!!! |
+| Triggering | New Trigger matching implemented, fix code to include all triggers  |
+| ID embedding | electron embeddeding implementetd, for cut based id, recipe updated. embed muon ID and isolation, jet ID  |
 | TBC | TBC |
 
 In general To see what needs to be fixed ``` grep -r FIXME *```
