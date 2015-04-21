@@ -44,7 +44,7 @@ def makeMuTauCSVPair(sourceDiTaus,tagName,cutName,methodName,rank):
 
 def makeMuTauPtPair(sourceDiTaus,tagName,cutName,methodName,rank):
    PSet = cms.PSet(
-         pluginType  = cms.string("PATMuTauPairJetCountFiller"),
+         pluginType  = cms.string("PATMuTauPairPtJetVarFiller"),
          src         = cms.InputTag(sourceDiTaus),
          tag         = cms.string(tagName),
          cut         = cms.string(cutName),
@@ -86,7 +86,7 @@ def makeEleTauCSVPair(sourceDiTaus,tagName,cutName,methodName,rank):
 
 def makeEleTauPtPair(sourceDiTaus,tagName,cutName,methodName,rank):
    PSet = cms.PSet(
-         pluginType  = cms.string("PATEleTauPairJetCountFiller"),
+         pluginType  = cms.string("PATEleTauPairPtJetVarFiller"),
          src         = cms.InputTag(sourceDiTaus),
          tag         = cms.string(tagName),
          cut         = cms.string(cutName),
@@ -179,6 +179,8 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               muTauMT = makeMuTauPair(src,"mt","mt12MET"),#FILLED
                               muTauMT1 = makeMuTauPair(src,"mt1","mt1MET"),#FILLED
                               muTauMT2 = makeMuTauPair(src,"mt2","mt2MET"),#FILLED
+                              
+		              muTauTopGenPt = makeMuTauPair(src,"topGenPt","topGenPt"),#FIXME
 
                               #BTAGS AND JETS
                               muTauMJJReg = makeMuTauPair(src,"mJJReg","mJJReg"),#FIXME
@@ -214,6 +216,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               muTauByCombIsoDBRaw3 = makeMuTauPair(src,"tauIso",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
                               muTauAgainstMuonTight3 = makeMuTauPair(src,"againstMuonTight3",'leg2.tauID("againstMuonTight3")'),
                               muTauAgainstMuonTightFixed = makeMuTauPair(src,"againstMuTightFixed",'leg2.userInt("againstMuTightFixed")'),
+                              muTauAgainstEleVLooseMVA5 = makeMuTauPair(src,"againstElectronVLooseMVA5",'leg2.tauID("againstElectronVLooseMVA5")'),
 
                               muTauGenPt1 = makeMuTauPair(src,"genPt1",'p4Leg1gen().pt()'),
                               muTauGenPt2 = makeMuTauPair(src,"genPt2",'p4Leg2gen().pt()'),
@@ -379,7 +382,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
 
                               eleTauSize = makeCollSize(srcU,"nCands"),
                               eleEleSize = makeCollSize(srcLL,"diLeptons"),
-                              genTaus = makeCollSize("genTausCands","genTaus"),
+                              genTaus = makeCollSize("genTausCands","genTaus"), #FIXME
  
                               tauNIsoTracks =  makeEleTauPair(src,"tauNIsoTracks","leg2.userFloat('nIsoTracks')"), #FILLED
                               tauNMatchedSeg =  makeEleTauPair(src,"tauMuonNMatchedSeg","leg2.userFloat('muonNMatchedSeg')"), #FILLED
@@ -427,6 +430,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauMT1 = makeEleTauPair(src,"mt1","mt1MET"),
                               eleTauMT2 = makeEleTauPair(src,"mt2","mt2MET"),
 
+                              eleTauTopGenPt = makeEleTauPair(src,"topGenPt","topGenPt"),
                               #BTAGS AND JETS
                               eleTauMJJReg = makeEleTauPair(src,"mJJReg","mJJReg"),
                               eleTauMJJ = makeEleTauPair(src,"mJJ","mJJ"),
@@ -470,16 +474,15 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauPFID = makeEleTauPair(src,"lPFId",'leg1.pfCandidateRef().isNonnull()'),#FIXME
                               eleTauByCombIsoDBRaw3 = makeEleTauPair(src,"tauIso",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
 
-                              eleTauAgainstElectronTight = makeEleTauPair(src,"againstElectronTight",'leg2.tauID("againstElectronTight")'),
-                              eleTauAgainstMuonTight3 = makeEleTauPair(src,"againstMuonTight3",'leg2.tauID("againstMuonTight3")'),
                               eleTauAgainstMuonLoose3 = makeEleTauPair(src,"againstMuonLoose3",'leg2.tauID("againstMuonLoose3")'),
-                              eleTauMVATrig = makeEleTauPair(src,"lIDMVATrig",'leg1.electronID("eidTight")'),#FIXME #PLACEHOLDER
-                              eleTauMVANonTrig = makeEleTauPair(src,"lIDMVANonTrig",'leg1.electronID("eidTight")'),#FIXME #PLACEHOLDER
+                              eleTauMVATrig = makeEleTauPair(src,"BDTIDTrig",'leg1.userFloat("BDTIDTrig")'),#FIXME #PLACEHOLDER
+                              eleTauMVANonTrig = makeEleTauPair(src,"BDTIDNonTrig",'leg1.userFloat("BDTIDNonTrig")'),#FIXME #PLACEHOLDER
+
                               eleTauConversion = makeEleTauPair(src,"eMatchedConversion",'leg1.userInt("hasMatchedConversion")'),#FIXME
                               eleTauPassConversion = makeEleTauPair(src,"ePassConversion",'leg1.passConversionVeto()'),#FIXME
-                              eleTauAgainstElectronMedium = makeEleTauPair(src,"tauElectronMedPass",'leg2.tauID("againstElectronMedium")'),
                               eleTauAgainstEleMVA5raw = makeEleTauPair(src,"againstElectronMVA5raw",'leg2.tauID("againstElectronMVA5raw")'),
-                              eleTauElectronTightMVA5 = makeEleTauPair(src,"tauElectronTightMVA5",'leg2.tauID("againstElectronTightMVA5")'),
+                              eleTauAgainstElectronTightMVA5 = makeEleTauPair(src,"tauElectronTightMVA5",'leg2.tauID("againstElectronTightMVA5")'),
+                              eleTauAgainstElectronVLooseMVA5 = makeEleTauPair(src,"tauElectronVLooseMVA5",'leg2.tauID("againstElectronVLooseMVA5")'),
                               eleTauEleMVALoose = makeEleTauPair(src,"tauEleLoose",'leg2.userInt("againstEleMVALoose")'),
                               eleTauEleMVAMedium = makeEleTauPair(src,"tauEleMedium",'leg2.userInt("againstEleMVAMedium")'),
                               eleTauEleMVATight = makeEleTauPair(src,"tauEleTight",'leg2.userInt("againstEleMVATight")'),

@@ -31,7 +31,6 @@
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "DataFormats/TauReco/interface/PFTau.h"
-//#include "DataFormats/MuonReco/interface/MuonSelectors.h"
 #include "DataFormats/PatCandidates/interface/Tau.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
 
@@ -97,8 +96,7 @@ class PATTauOverloader : public edm::EDProducer {
     
     //Against Muon 
     tau.addUserInt("againstMuTightFixed",tau.tauID("againstMuonTight3"));
-    tau.addUserInt("againstMuTight3",tau.tauID("againstMuonTight3"));
-    tau.addUserInt("againstMuLoose3",tau.tauID("againstMuonLoose3"));
+    tau.addUserInt("againstMuLooseFixed",tau.tauID("againstMuonLoose3"));
 
 
 

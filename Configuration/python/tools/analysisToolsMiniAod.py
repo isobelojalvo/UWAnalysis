@@ -32,6 +32,8 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   #Apply Tau Energy Scale Changes
   EScaledTaus(process,True)
 
+  #MiniAODJetIDEmbedder(process,"slimmedJets")  
+
   MiniAODEleMVAEmbedder(process,"slimmedElectrons")  
   #Add trigger Matching
   muonTriggerMatchMiniAOD(process,triggerProcess,HLT)#NEW
@@ -43,10 +45,10 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
   
   triLeptons(process)
-  #renameJetColl(process)#currently does nothing--use to turn off jets
   jetOverloading(process,"slimmedJets")#"NewSelectedPatJets" 
   #turned off BDT
   #PATJetMVAEmbedder(process,"patOverloadedJets")  
+
   #Default selections for systematics
   applyDefaultSelectionsPT(process)
 
@@ -91,10 +93,35 @@ def PATJetMVAEmbedder(process,jets):
   process.analysisSequence*=process.jetMVAEmbedding
 
 
+#def MiniAODJetIDEmbedder(process,jets):
+#  process.miniAODElectronMVAID.src = cms.InputTag(jets)
+#  process.embedElecMVAIDs = cms.Sequence(process.miniAODElectronMVAID)
+#  process.analysisSequence*=process.embedElecMVAIDs
+
+
 
 def MiniAODEleMVAEmbedder(process,eles):
-  process.load("miniAODElectronMVAIDs_cfi")
-  process.miniAODElectronMVAID.src = cms.InputTag(eles)
+  trigMVAWeights = [
+      'EgammaAnalysis/ElectronTools/data/CSA14/TrigIDMVA_25ns_EB_BDT.weights.xml',
+      'EgammaAnalysis/ElectronTools/data/CSA14/TrigIDMVA_25ns_EE_BDT.weights.xml',
+      ]
+  nonTrigMVAWeights = [
+      'EgammaAnalysis/ElectronTools/data/PHYS14/EIDmva_EB1_5_oldscenario2phys14_BDT.weights.xml',
+      'EgammaAnalysis/ElectronTools/data/PHYS14/EIDmva_EB2_5_oldscenario2phys14_BDT.weights.xml',
+      'EgammaAnalysis/ElectronTools/data/PHYS14/EIDmva_EE_5_oldscenario2phys14_BDT.weights.xml',
+      'EgammaAnalysis/ElectronTools/data/PHYS14/EIDmva_EB1_10_oldscenario2phys14_BDT.weights.xml',
+      'EgammaAnalysis/ElectronTools/data/PHYS14/EIDmva_EB2_10_oldscenario2phys14_BDT.weights.xml',
+      'EgammaAnalysis/ElectronTools/data/PHYS14/EIDmva_EE_10_oldscenario2phys14_BDT.weights.xml',
+      ]
+  
+  process.miniAODElectronMVAID = cms.EDProducer(
+      "MiniAODElectronMVAIDEmbedder",
+      src=cms.InputTag(eles),
+      trigWeights = cms.vstring(*trigMVAWeights),
+      trigLabel = cms.string('BDTIDTrig'), # triggering MVA ID userfloat key
+      nonTrigWeights = cms.vstring(*nonTrigMVAWeights),
+      nonTrigLabel = cms.string('BDTIDNonTrig') # nontriggering MVA ID userfloat key
+      )
 
   process.embedElecMVAIDs = cms.Sequence(process.miniAODElectronMVAID)
   process.analysisSequence*=process.embedElecMVAIDs
@@ -171,7 +198,7 @@ def LHEFilter(process):
 def triLeptons(process):
 
   process.TightElectrons = cms.EDFilter("PATElectronSelector",
-  							src = cms.InputTag("slimmedElectrons"),
+  							src = cms.InputTag("miniAODElectronMVAID"),
   							cut = cms.string('pt>10&&abs(eta)<2.5&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045'),
   							filter = cms.bool(False)
   						)
@@ -296,7 +323,7 @@ def muonTriggerMatchMiniAOD(process,triggerProcess,HLT):
 def electronTriggerMatchMiniAOD(process,triggerProcess,HLT):
 
    process.triggeredPatElectrons = cms.EDProducer("ElectronTriggerMatcherMiniAOD",
-                                            src = cms.InputTag("slimmedElectrons"),
+                                            src = cms.InputTag("miniAODElectronMVAID"),
                                             trigEvent = cms.InputTag(HLT),
                                             filters = cms.vstring(
                                                 'hltMu23Ele12GsfTrackIsoLegEle12GsfCaloIdTrackIdIsoMediumWPFilter',#emu filters
@@ -382,18 +409,6 @@ def createGeneratedParticles(process,name,commands):
   setattr(process,name,refObjects)
   process.analysisSequence*= getattr(process,name)
 
-def createGeneratedParticles2(process,name,commands):
-
-
-  refObjects = cms.EDProducer("GenParticlePruner",
-    src = cms.InputTag("prunedGenParticles"),
-    select = cms.vstring(
-    "drop  *  " 
-    )
-   )
-  refObjects.select.extend(commands)
-  setattr(process,name,refObjects)
-  #process.analysisSequence*= getattr(process,name)
 
 
 

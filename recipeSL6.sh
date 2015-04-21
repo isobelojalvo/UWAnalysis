@@ -43,3 +43,8 @@ cd RecoMET/METPUSubtraction/
 git clone https://github.com/rfriese/RecoMET-METPUSubtraction data
 
 pushd $CMSSW_BASE/src
+git cms-merge-topic ikrav:egm_id_phys14
+
+
+
+pushd $CMSSW_BASE/src
