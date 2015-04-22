@@ -113,8 +113,6 @@ void MiniAODElectronMVAIDEmbedder::produce(edm::Event& iEvent, const edm::EventS
 	    out->push_back(*ei); // copy electron to save correctly in event
 	    float trigMVAVal = trigMVA.mvaValue(*ei, false);
 	    float nonTrigMVAVal = nonTrigMVA.mvaValue(*ei, false);
-	    std::cout<<trigLabel_ <<": "<<trigMVAVal<<std::endl;      
-	    std::cout<<nonTrigLabel_<<": "<<nonTrigMVAVal<<std::endl;      
 	    out->back().addUserFloat(trigLabel_, trigMVAVal);
 	    out->back().addUserFloat(nonTrigLabel_, nonTrigMVAVal);
     }

@@ -20,7 +20,7 @@ ETanalysisConfigurator.addSelector('osDiElectrons','PATElePairSelector','abs(leg
 #Make DiTaus
 ETanalysisConfigurator.addDiCandidateModule('eleTaus','PATEleTauPairProducer','smearedElectronsET','smearedTausET','patMVAMet','smearedTausET','smearedJetsET',1,9999,text = 'AtLeastOneEleTau',leadingObjectsOnly = False,dR = 0.5,recoMode = "",genParticles='genDaughters')
 
-ETanalysisConfigurator.addSelector('eleTausEleID','PATEleTauPairSelector','(abs(leg1.superCluster().eta())<0.8&&leg1.electronID("eidTight")>0)||(abs(leg1.superCluster().eta())<1.479&&leg1.electronID("eidTight")>0)||(leg1.electronID("eidTight")>0)','ElectronID',1)
+ETanalysisConfigurator.addSelector('eleTausEleID','PATEleTauPairSelector','leg1.userFloat("BDTIDNonTrig")>0','ElectronID',1)
 ETanalysisConfigurator.addSelector('eleTausEleConvRej','PATEleTauPairSelector','leg1.userInt("missingHits")==0&&!(leg1.userInt("HasMatchedConversion")>0)','electronConvRej',1)
 ETanalysisConfigurator.addSelector('eleTausElePtEta','PATEleTauPairSelector','leg1.pt()>23&&abs(leg1.eta())<2.1&&abs(leg1.userFloat("dz"))<0.2&&abs(leg1.userFloat("ipDXY"))<0.045','electronPtEta',1)
 ETanalysisConfigurator.addSelector('eleTausEleIsolationLoose','PATEleTauPairSelector','(leg1.chargedHadronIso()+max(leg1.userIso(1)+leg1.neutralHadronIso()-0.5*leg1.userIso(2),0.0))/leg1.pt()<0.5','electronIsolationLoose',1)
@@ -31,7 +31,6 @@ ETanalysisConfigurator.addSelector('eleTausTauMuonVeto','PATEleTauPairSelector',
 ETanalysisConfigurator.addSelector('eleTausTauElectronVeto','PATEleTauPairSelector','leg2.tauID("againstElectronTightMVA5")>0&&(!(leg2.userFloat("zIP")>-1.5&&leg2.userFloat("zIP")<0.5))','ETAgainstElectron',1)
 ETanalysisConfigurator.addEleTauSVFitSA('eleTausSVFit')
 ETanalysisConfigurator.addSorter('eleTausSorted','PATEleTauPairSorter')
-#ETanalysisConfigurator.addSelector('eleTausTauElectronVetoM','PATEleTauPairSelector','leg2.userInt("againstEleMVAMedium")>0','ETAgainstElectronM',1)
 ETanalysisConfigurator.addSelector('eleTausEleIsolation','PATEleTauPairSelector','(leg1.chargedHadronIso()+max(leg1.userIso(1)+leg1.neutralHadronIso()-0.5*leg1.userIso(2),0.0))/leg1.pt()<0.1','electronIsolation',1)
 ETanalysisConfigurator.addSelector('eleTausTauIsolation','PATEleTauPairSelector','leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<1.5','ETTauLooseIso',1)
 ETanalysisConfigurator.addSelector('eleTausEleTrigMatch','PATEleTauPairSelector','leg1.userFloat("hltOverlapFilterIsoEle22WP85GsfLooseIsoPFTau20")>0','ETEleTrigMatch',1)
@@ -62,14 +61,13 @@ MTanalysisConfigurator.addDiCandidateModule('diTaus','PATMuTauPairProducer','sme
 MTanalysisConfigurator.addSelector('diTausMuonID','PATMuTauPairSelector','abs(leg1.userFloat("dz"))<0.2&&abs(leg1.userFloat("ipDXY"))<0.045','MuonID',1)
 #tightMuonSelectionForNow
 MTanalysisConfigurator.addSelector('diTausMuonMediumID','PATMuTauPairSelector','leg1.isLooseMuon&&(((leg1.isGlobalMuon&&leg1.globalTrack().normalizedChi2()<3&&leg1.combinedQuality().chi2LocalPosition<12&&leg1.combinedQuality().trkKink<20)&&(leg1.innerTrack().validFraction()>=0.8&&leg1.segmentCompatibility()>=0.303))||(!(leg1.isGlobalMuon&&leg1.globalTrack().normalizedChi2()<3&&leg1.combinedQuality().chi2LocalPosition<12&&leg1.combinedQuality().trkKink<20)&&(leg1.innerTrack().validFraction()>=0.8&&leg1.segmentCompatibility()>=0.451)))','MuonMediumID',1)
-#MTanalysisConfigurator.addSelector('diTausMuonMediumID','PATMuTauPairSelector','leg1.isTrackerMuon&&leg1.isGlobalMuon','MuonMediumID',1)
 MTanalysisConfigurator.addSelector('diTausMuonPtEta','PATMuTauPairSelector','leg1.pt()>18&&abs(leg1.eta())<2.1','MuonPtEta',1)
 MTanalysisConfigurator.addSelector('diTausMuonIsolationLoose','PATMuTauPairSelector','(leg1.chargedHadronIso()+max(leg1.photonIso+leg1.neutralHadronIso()-0.5*leg1.puChargedHadronIso,0.0))/leg1.pt()<0.5','MuonIsolationLoose',1)
 MTanalysisConfigurator.addSelector('diTausTauPtEta','PATMuTauPairSelector','leg2.pt()>20&&abs(leg2.eta())<2.3','MTTauPtEta',1)
 MTanalysisConfigurator.addSelector('diTausDecayFound','PATMuTauPairSelector','abs(leg2.userFloat("dZ"))<0.2&&leg2.tauID("decayModeFinding")>0.5&&leg2.tauID("decayModeFindingNewDMs")>0.5','MTTauDecayFound',1)
 MTanalysisConfigurator.addSelector('diTausVLooseTauIsolation','PATMuTauPairSelector','leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<10','MTTauVLooseMVAIso',1)
 MTanalysisConfigurator.addSelector('diTausTauElectronVeto','PATMuTauPairSelector','leg2.tauID("againstElectronVLooseMVA5")','MTAgainstElectron',1)
-MTanalysisConfigurator.addSelector('diTausTauMuonVeto','PATMuTauPairSelector','leg2.userInt("againstMuTight3")>0','MTAgainstMuon',1)
+MTanalysisConfigurator.addSelector('diTausTauMuonVeto','PATMuTauPairSelector','leg2.tauID("againstMuonTight3")>0','MTAgainstMuon',1)
 MTanalysisConfigurator.addMuTauSVFitSA('muTausSVFit')
 MTanalysisConfigurator.addSorter('diTausSorted','PATMuTauPairSorter')
 MTanalysisConfigurator.addSelector('diTausMuonIsolation','PATMuTauPairSelector','(leg1.chargedHadronIso+max(leg1.photonIso+leg1.neutralHadronIso()-0.5*leg1.puChargedHadronIso,0.0))/leg1.pt()<0.1','MuonIsolation',1)

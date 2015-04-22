@@ -29,7 +29,7 @@
 
 
 
-// class decleration
+// class declaration
 //
 template <typename T> 
 class MiniAODTriggerMatcher : public edm::EDProducer {

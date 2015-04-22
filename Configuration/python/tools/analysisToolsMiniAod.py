@@ -133,7 +133,7 @@ def EScaledTaus(process,smearing):  #second arg is bool
   process.ESTausID = cms.EDProducer("ESTauProducer",
                                     src = cms.InputTag("slimmedTaus"),
                                     module_label = cms.string("FROGS"),
-                                    genParticles = cms.InputTag("prunedGenParticles"),
+                                    genParticles = cms.InputTag("genParticles"),
                                     smearConstituents = cms.bool(smearing),
                                     smearMCParticle = cms.bool(False),
                                     energyScale  = cms.double(1.0),
