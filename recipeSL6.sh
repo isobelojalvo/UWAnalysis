@@ -26,21 +26,21 @@ git cms-addpkg DataFormats/PatCandidates
 git apply UWAnalysis/recipeFSA/patches/DataFormats_PatCandidates_TriggerEvent.cc.patch
 set -o errexit
 
+#Get Electron PHYS14 Ids
+git cms-merge-topic HuguesBrun:trigElecIdInCommonIsoSelection720
+
+
 #get MVA MET updated as of JAn30
 #PAT Recipe (https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuidePATReleaseNotes72X)
 git cms-addpkg PhysicsTools/PatAlgos
 git cms-addpkg FWCore/Version
-
 #MET Recipe ()
 
 #MVA & No-PU MET Recipe
 git-cms-merge-topic -u cms-met:72X-13TeV-Training-30Jan15
-
-#Get Electron PHYS14 Ids
-git cms-merge-topic HuguesBrun:trigElecIdInCommonIsoSelection720
-#get new trainings
+#get new JEC trainings
 cd RecoMET/METPUSubtraction/
-git clone https://github.com/rfriese/RecoMET-METPUSubtraction data
+git clone https://github.com/rfriese/RecoMET-METPUSubtraction data -b 72X-13TeV-Phys14_25_V4-26Mar15
 
 
 pushd $CMSSW_BASE/src
