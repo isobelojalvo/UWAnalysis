@@ -1,15 +1,5 @@
 // -*- C++ -*-
 //
-// Package:    PATMuonTrackVetoSelector
-// Class:      PATMuonTrackVetoSelector
-// 
-/**\class PATMuonTrackVetoSelector PATMuonTrackVetoSelector.cc UWAnalysis/PATMuonTrackVetoSelector/src/PATMuonTrackVetoSelector.cc
-
- Description: <one line class summary>
-
- Implementation:
-     <Notes on implementation>
-*/
 //
 // Original Author:  Michail Bachtis
 //         Created:  Sun Jan 31 15:04:57 CST 2010
@@ -90,32 +80,32 @@ class PATTauOverloader : public edm::EDProducer {
 	tau.addUserFloat("zIP",z_2);
 
 
-    //Against Electron 
-    tau.addUserInt("againstElectronVLooseMVA5",tau.tauID("againstElectronVLooseMVA5"));
-    tau.addUserInt("againstElectronTightMVA",tau.tauID("againstElectronTightMVA5"));
+        //Against Electron 
+        tau.addUserInt("againstElectronVLooseMVA5",tau.tauID("againstElectronVLooseMVA5"));
+        tau.addUserInt("againstElectronTightMVA",tau.tauID("againstElectronTightMVA5"));
     
-    //Against Muon 
-    tau.addUserInt("againstMuTightFixed",tau.tauID("againstMuonTight3"));
-    tau.addUserInt("againstMuLooseFixed",tau.tauID("againstMuonLoose3"));
+        //Against Muon 
+        tau.addUserInt("againstMuTightFixed",tau.tauID("againstMuonTight3"));
+        tau.addUserInt("againstMuLooseFixed",tau.tauID("againstMuonLoose3"));
 
 
 
 
-    float nMatchedSegments = -1;
-    float muonMatched = 0;
-    float leadChargedHadrTrackPt = -1;
-    float leadChargedHadrTrackPtErr = -1;
-    float nIsoTracks=-1;
-    nIsoTracks = tau.isolationChargedHadrCands().size();
+        float nMatchedSegments = -1;
+        float muonMatched = 0;
+        float leadChargedHadrTrackPt = -1;
+        float leadChargedHadrTrackPtErr = -1;
+        float nIsoTracks=-1;
+        nIsoTracks = tau.isolationChargedHadrCands().size();
 
-    if(tau.leadChargedHadrCand().isNonnull()){
-            //std::cout<<"====IN TAU TRACK LOOP ======"<<std::endl;
-            //FIXME
-	    //leadChargedHadrTrackPtErr = tau.leadChargedHadrCand()->innerTrack()->ptError();
-            //std::cout<<" leadPFTrackPtErr: "<<leadChargedHadrTrackPtErr<<std::endl;
-	    leadChargedHadrTrackPt = tau.leadChargedHadrCand()->pt();
-            //std::cout<<" leadChargedHadrTrackPt: "<<leadChargedHadrTrackPt<<std::endl;
-	    if(iEvent.getByLabel(muons_,muons)){
+        if(tau.leadChargedHadrCand().isNonnull()){
+                //std::cout<<"====IN TAU TRACK LOOP ======"<<std::endl;
+                //FIXME
+	        //leadChargedHadrTrackPtErr = tau.leadChargedHadrCand()->innerTrack()->ptError();
+                //std::cout<<" leadPFTrackPtErr: "<<leadChargedHadrTrackPtErr<<std::endl;
+	        leadChargedHadrTrackPt = tau.leadChargedHadrCand()->pt();
+                //std::cout<<" leadChargedHadrTrackPt: "<<leadChargedHadrTrackPt<<std::endl;
+	        if(iEvent.getByLabel(muons_,muons)){
 		    for(unsigned int k =0; k!=muons->size();k++){
 			    if(ROOT::Math::VectorUtil::DeltaR(muons->at(k).p4(),tau.leadChargedHadrCand()->p4())<0.15){
 				    if(muons->at(k).numberOfMatches()>nMatchedSegments){
@@ -125,18 +115,17 @@ class PATTauOverloader : public edm::EDProducer {
 				    muonMatched=1;
 			    }
 		    }
+	        }
+        }
 
-	    }
-    }
+        tau.addUserFloat("nIsoTracks",nIsoTracks);
+        tau.addUserFloat("leadChargedHadrTrackPt",leadChargedHadrTrackPt);
+        //FIXME
+        tau.addUserFloat("leadChargedHadrTrackPtErr",leadChargedHadrTrackPtErr);
+        tau.addUserFloat("muonNMatchedSeg",nMatchedSegments);
+        tau.addUserFloat("muonTauHadMatched",muonMatched);
 
-    tau.addUserFloat("nIsoTracks",nIsoTracks);
-    tau.addUserFloat("leadChargedHadrTrackPt",leadChargedHadrTrackPt);
-    //FIXME
-    tau.addUserFloat("leadChargedHadrTrackPtErr",leadChargedHadrTrackPtErr);
-    tau.addUserFloat("muonNMatchedSeg",nMatchedSegments);
-    tau.addUserFloat("muonTauHadMatched",muonMatched);
-
-    taus->push_back(tau);
+        taus->push_back(tau);
       }
 
     iEvent.put(taus);

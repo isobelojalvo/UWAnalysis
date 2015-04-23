@@ -274,6 +274,12 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               muTauJet2CSVPtSort = makeMuTauPtPair(src,"J2CSVbtag",'abs(eta())<2.4','bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")',1),
                               muTauJet1MVASfPtSort = makeMuTauPtPair(src,"J1MVASf",'','userFloat("mvaSF")',0),
                               muTauJet2MVASfPtSort = makeMuTauPtPair(src,"J2MVASf",'','userFloat("mvaSF")',1),
+                              muTauJet1LooseIdPtSort = makeMuTauPtPair(src,"J1LId",'','userFloat("idLoose")',0),
+                              muTauJet2LooseIdPtSort = makeMuTauPtPair(src,"J2LId",'','userFloat("idLoose")',1),
+                              muTauJet1MedIdPtSort = makeMuTauPtPair(src,"J1MId",'','userFloat("idMedium")',0),
+                              muTauJet2MedIdPtSort = makeMuTauPtPair(src,"J2MId",'','userFloat("idMedium")',1),
+                              muTauJet1TightIdPtSort = makeMuTauPtPair(src,"J1TId",'','userFloat("idTight")',0),
+                              muTauJet2TightIdPtSort = makeMuTauPtPair(src,"J2TId",'','userFloat("idTight")',1),
                               muTauJet1GenPtPtSort = makeMuTauPtPair(src,"J1GenPt",'','userFloat("genJetPt")',0),
                               muTauJet2GenPtPtSort = makeMuTauPtPair(src,"J2GenPt",'','userFloat("genJetPt")',1),
                               muTauJet1GenEtaPtSort = makeMuTauPtPair(src,"J1GenEta",'','userFloat("genJetEta")',0),
@@ -301,6 +307,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               muTauJetsPt30TagNoMatchTag = makeMuTauJetCountPair(src,"nTaggableJetsPt30NotMatchedTagM",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),
 
                               muTauFirstJetID53X = makeLTauGeneric("PATMuTauPairHighestPtJetVarFiller",src,"highestJetID53X","userFloat('pileupJetId:fullDiscriminant')"), 
+                              muTauFirstJetID53XPuPass = makeLTauGeneric("PATMuTauPairHighestPtJetVarFiller",src,"highestJetID53XPuPass","userFloat('puID')"), 
                               muTauFirstJetFlavour = makeLTauGeneric("PATMuTauPairHighestPtJetVarFiller",src,"highestJetFlavour",'partonFlavour()'),
                               muTauFirstJetShape = makeLTauGeneric("PATMuTauPairHighestPtJetVarFiller",src,"highestJetShape",'userFloat("ptRMS")'),
                               muTauFirstJetCSV = makeLTauGeneric("PATMuTauPairHighestPtJetVarFiller",src,"highestJetBTagCSV",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),
@@ -432,6 +439,8 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauMT2 = makeEleTauPair(src,"mt2","mt2MET"),
 
                               eleTauTopGenPt = makeEleTauPair(src,"topGenPt","topGenPt"),
+                              eleTauAntiTopGenPt = makeEleTauPair(src,"antiTopGenPt","antiTopGenPt"),
+
                               #BTAGS AND JETS
                               eleTauMJJReg = makeEleTauPair(src,"mJJReg","mJJReg"),
                               eleTauMJJ = makeEleTauPair(src,"mJJ","mJJ"),
@@ -545,6 +554,13 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauJet2CSVPtSort = makeEleTauPtPair(src,"J2CSVbtag",'abs(eta())<2.4','bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")',1),
                               eleTauJet1MVASfPtSort = makeEleTauPtPair(src,"J1MVASf",'','userFloat("mvaSF")',0),
                               eleTauJet2MVASfPtSort = makeEleTauPtPair(src,"J2MVASf",'','userFloat("mvaSF")',1),
+                              eleTauJet1LooseIdPtSort = makeEleTauPtPair(src,"J1LId",'','userFloat("idLoose")',0),
+                              eleTauJet2LooseIdPtSort = makeEleTauPtPair(src,"J2LId",'','userFloat("idLoose")',1),
+                              eleTauJet1MedIdPtSort = makeEleTauPtPair(src,"J1MId",'','userFloat("idMedium")',0),
+                              eleTauJet2MedIdPtSort = makeEleTauPtPair(src,"J2MId",'','userFloat("idMedium")',1),
+                              eleTauJet1TightIdPtSort = makeEleTauPtPair(src,"J1TId",'','userFloat("idTight")',0),
+                              eleTauJet2TightIdPtSort = makeEleTauPtPair(src,"J2TId",'','userFloat("idTight")',1),
+ 
                               eleTauJet1GenPtPtSort = makeEleTauPtPair(src,"J1GenPt",'','userFloat("genJetPt")',0),
                               eleTauJet2GenPtPtSort = makeEleTauPtPair(src,"J2GenPt",'','userFloat("genJetPt")',1),
                               eleTauJet1GenEtaPtSort = makeEleTauPtPair(src,"J1GenEta",'','userFloat("genJetEta")',0),
@@ -572,6 +588,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauJetsPt30TagNoMatchTag = makeEleTauJetCountPair(src,"nTaggableJetsPt30NotMatchedTagM",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),
 
                               eleTauFirstJetID53X = makeLTauGeneric("PATEleTauPairHighestPtJetVarFiller",src,"highestJetID53X","userFloat('pileupJetId:fullDiscriminant')"), 
+                              eleTauFirstJetID53XPuPass = makeLTauGeneric("PATEleTauPairHighestPtJetVarFiller",src,"highestJetID53XPuPass","userFloat('puID')"), 
                               eleTauFirstJetFlavour = makeLTauGeneric("PATEleTauPairHighestPtJetVarFiller",src,"highestJetFlavour",'partonFlavour()'),
                               eleTauFirstJetShape = makeLTauGeneric("PATEleTauPairHighestPtJetVarFiller",src,"highestJetShape",'userFloat("ptRMS")'),
                               eleTauFirstJetCSV = makeLTauGeneric("PATEleTauPairHighestPtJetVarFiller",src,"highestJetBTagCSV",'bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")'),

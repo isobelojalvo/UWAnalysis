@@ -85,8 +85,92 @@ class PATJetOverloader : public edm::EDProducer {
 	  sumPt+=pt;
 	  sumPt2+=pt*pt;
 	}
-        //std::cout<<"Constituent SumPt: "<<sumPt<<std::endl;
-        //std::cout<<"Constituent SumPt^2: "<<sumPt2<<std::endl;
+	//std::cout<<"Constituent SumPt: "<<sumPt<<std::endl;
+	//std::cout<<"Constituent SumPt^2: "<<sumPt2<<std::endl;
+
+	bool loose = true;
+	bool medium = true;
+	bool tight = true;
+	if (jet.neutralHadronEnergyFraction() >= 0.99)
+		loose = false;
+	if (jet.neutralHadronEnergyFraction() >= 0.95)
+		medium = false;
+	if (jet.neutralHadronEnergyFraction() >= 0.90)
+		tight = false;
+
+	if (jet.neutralEmEnergyFraction() >= 0.99)
+		loose = false;
+	if (jet.neutralEmEnergyFraction() >= 0.95)
+		medium = false;
+	if (jet.neutralEmEnergyFraction() >= 0.90)
+		tight = false;
+
+	if (jet.numberOfDaughters() <= 1) { //getPFConstitutents broken in miniAOD
+		loose = false;
+		medium = false;
+		tight = false;
+	}
+
+	if (std::abs(jet.eta()) < 2.4) {
+		if (jet.chargedHadronEnergyFraction() == 0) {
+			loose = false;
+			medium = false;
+			tight = false;
+		}
+		if (jet.chargedHadronMultiplicity() == 0) {
+			loose = false;
+			medium = false;
+			tight = false;
+		}
+		if (jet.chargedEmEnergyFraction() >= 0.99) {
+			loose = false;
+			medium = false;
+			tight = false;
+		}
+	}
+	jet.addUserFloat("idLoose", loose);
+	jet.addUserFloat("idMedium", medium);
+	jet.addUserFloat("idTight", tight);
+
+	// Pileup discriminant
+	bool passPU = true;
+	float jpumva = jet.userFloat("pileupJetId:fullDiscriminant");
+	if(jet.pt() > 20)
+	{
+		if(fabs(jet.eta()) > 3.)
+		{
+			if(jpumva <= -0.45) passPU = false;
+		}
+		else if(fabs(jet.eta()) > 2.75)
+		{
+			if(jpumva <= -0.55) passPU = false;
+		}
+		else if(fabs(jet.eta()) > 2.5)
+		{
+			if(jpumva <= -0.6) passPU = false;
+		}
+		else if(jpumva <= -0.63) passPU = false;
+	}
+	else
+	{
+		if(fabs(jet.eta()) > 3.)
+		{
+			if(jpumva <= -0.95) passPU = false;
+		}
+		else if(fabs(jet.eta()) > 2.75)
+		{
+			if(jpumva <= -0.94) passPU = false;
+		}
+		else if(fabs(jet.eta()) > 2.5)
+		{
+			if(jpumva <= -0.96) passPU = false;
+		}
+		else if(jpumva <= -0.95) passPU = false;
+	}
+
+	jet.addUserFloat("puID", float(passPU));
+
+
 
 	float genJetPt =-10;
 	float genJetEta =-10;
@@ -98,47 +182,47 @@ class PATJetOverloader : public edm::EDProducer {
 	float uncorrectedPt= -10;
 	//std::cout<<"===== PATJetOverloader UncorrectedPt ====="<<std::endl;
 	uncorrectedPt = jet.correctedP4(0).pt();
-        //CHECKME
-        //std::cout<<"'Uncorrected' jet pt: "<<uncorrectedPt<<std::endl;
+	//CHECKME
+	//std::cout<<"'Uncorrected' jet pt: "<<uncorrectedPt<<std::endl;
 
 	//std::cout<<"===== PATJetOverloader GenJet ====="<<std::endl;
 	if(iEvent.getByLabel(genJets_,genJets))
-	  for(unsigned int k=0;k!=genJets->size();k++){
-	    if(ROOT::Math::VectorUtil::DeltaR(genJets->at(k).p4(),jet.p4())<DRMin){
-	      DRMin = ROOT::Math::VectorUtil::DeltaR(genJets->at(k).p4(),jet.p4());
-	      genJetPt=genJets->at(k).pt();
-	      genJetEta=genJets->at(k).eta();
-	      genJetPhi=genJets->at(k).phi();
-	    }
-	  }
+		for(unsigned int k=0;k!=genJets->size();k++){
+			if(ROOT::Math::VectorUtil::DeltaR(genJets->at(k).p4(),jet.p4())<DRMin){
+				DRMin = ROOT::Math::VectorUtil::DeltaR(genJets->at(k).p4(),jet.p4());
+				genJetPt=genJets->at(k).pt();
+				genJetEta=genJets->at(k).eta();
+				genJetPhi=genJets->at(k).phi();
+			}
+		}
 
 	//std::cout<<"===== PATJetOverloader Secondary Vertex ====="<<std::endl;
 	const reco::SecondaryVertexTagInfo* secInfo = jet.tagInfoSecondaryVertex("secondaryVertex");
 	if(secInfo && secInfo->vertexTracks().size()>0){
-	  const reco::Vertex&sv= secInfo->secondaryVertex(0);
-	  //jetVtxPt = sv.pt();
-	  Vtx3dL = (secInfo->flightDistance(0).value());
-	  Vtx3deL = (secInfo->flightDistance(0).error());
-	  reco::Candidate::LorentzVector sumP4(0,0,0,0);
-          //FIXME
-	  if ( sv.tracksSize()>1){
-	    for(reco::Vertex::trackRef_iterator track = sv.tracks_begin(); track!= sv.tracks_end(); ++track)
-	      for(unsigned int pfj=0;pfj<jet.getPFConstituents().size();++pfj) {
-		pfcand = jet.getPFConstituents().at(pfj);
-		if(pfcand.isNonnull())
-		  //if(abs(pfcand->pdgId())==211&&pfcand->pt()>0.25&&pfcand->charge()!=0) ///create charged particle collection
-		  if((*track).key() == pfcand->trackRef().key())
-		    sumP4+=pfcand->p4();
-	      }
-	  }
-	  /*
-	  for (unsigned int h=0; h<secInfo->vertexTracks().size(); h++) {
-	    //sumP4=(secInfo->vertexTracks()[h]->px(),0,0,0);
-	    float pt=secInfo->track(h).pt();
-	    }*/
-	  VtxPt=sumP4.pt();
+		const reco::Vertex&sv= secInfo->secondaryVertex(0);
+		//jetVtxPt = sv.pt();
+		Vtx3dL = (secInfo->flightDistance(0).value());
+		Vtx3deL = (secInfo->flightDistance(0).error());
+		reco::Candidate::LorentzVector sumP4(0,0,0,0);
+		//FIXME
+		if ( sv.tracksSize()>1){
+			for(reco::Vertex::trackRef_iterator track = sv.tracks_begin(); track!= sv.tracks_end(); ++track)
+				for(unsigned int pfj=0;pfj<jet.getPFConstituents().size();++pfj) {
+					pfcand = jet.getPFConstituents().at(pfj);
+					if(pfcand.isNonnull())
+						//if(abs(pfcand->pdgId())==211&&pfcand->pt()>0.25&&pfcand->charge()!=0) ///create charged particle collection
+						if((*track).key() == pfcand->trackRef().key())
+							sumP4+=pfcand->p4();
+				}
+		}
+		/*
+		   for (unsigned int h=0; h<secInfo->vertexTracks().size(); h++) {
+		//sumP4=(secInfo->vertexTracks()[h]->px(),0,0,0);
+		float pt=secInfo->track(h).pt();
+		}*/
+		VtxPt=sumP4.pt();
 	}
-	
+
 
 	jet.addUserFloat("PtUncorr",uncorrectedPt);
 	jet.addUserFloat("VtxPt",VtxPt);
@@ -151,12 +235,12 @@ class PATJetOverloader : public edm::EDProducer {
 	jets->push_back(jet);
 
       }  
-    
+
     iEvent.put(jets);
 
   } 
 
-      // ----------member data ---------------------------
+  // ----------member data ---------------------------
   edm::InputTag src_;
   edm::InputTag genJets_;
   reco::PFCandidatePtr pfcand;
