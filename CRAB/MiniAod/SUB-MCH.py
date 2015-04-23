@@ -1,26 +1,10 @@
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process("ANALYSIS")
-process.load('Configuration.StandardSequences.Services_cff')
+process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
 process.GlobalTag.globaltag = 'PHYS14_25_V1'
-
-process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring(
-       $inputFileNames
-		),
-		inputCommands=cms.untracked.vstring(
-						'keep *',
-		)
-)
-
-process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
-)
-
-process.TFileService.fileName=cms.string("$outputFileName")
-
 
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsMiniAod import *
@@ -77,4 +61,23 @@ addEleTauEventTree(process,'eleTauEventTree')
 addEventSummary(process,True,'MT','eventSelectionMT')
 addEventSummary(process,True,'ET','eventSelectionET')
 
+
+process.source = cms.Source("PoolSource",
+    fileNames = cms.untracked.vstring(
+       $inputFileNames
+		),
+		inputCommands=cms.untracked.vstring(
+						'keep *',
+		)
+)
+
+process.maxEvents = cms.untracked.PSet(
+    input = cms.untracked.int32(-1)
+)
+
+#process.TFileService.fileName=cms.string("$outputFileName")
+process.TFileService = cms.Service(
+    "TFileService",
+    fileName = cms.string("$outputFileName")
+)
 

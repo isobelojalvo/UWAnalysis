@@ -78,5 +78,3 @@ process.TFileService = cms.Service(
     "TFileService",
     fileName = cms.string("$outputFileName")
 )
-
-
