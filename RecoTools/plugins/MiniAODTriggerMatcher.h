@@ -85,7 +85,7 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 			edm::Handle<TriggerEvent> trigEv;
 			iEvent.getByLabel(triggerEvent_,trigEv);
 
-			const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);
+			//const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);
 
 			if(iEvent.getByLabel(src_,src))
 				for(unsigned int k=0;k<src->size();++k) {

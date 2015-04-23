@@ -181,6 +181,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               muTauMT2 = makeMuTauPair(src,"mt2","mt2MET"),#FILLED
                               
 		              muTauTopGenPt = makeMuTauPair(src,"topGenPt","topGenPt"),#FIXME
+		              muTauAntiTopGenPt = makeMuTauPair(src,"antiTopGenPt","antiTopGenPt"),#FIXME
 
                               #BTAGS AND JETS
                               muTauMJJReg = makeMuTauPair(src,"mJJReg","mJJReg"),#FIXME

@@ -292,14 +292,20 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 
     bool top = false;
     float topGenPt = -1;
+    float antiTopGenPt = -1;
     if(genParticles!=0&& genParticles->size()>0)
       for(reco::GenParticleCollection::const_iterator i = genParticles->begin(); i!=genParticles->end(); ++i){ 
-	if(abs(i->pdgId())==6){
-          top = true; 
+	if(i->pdgId()==6){
           topGenPt = i->pt(); 
+          top = true;
+      }
+	if(i->pdgId()==-6){
+          antiTopGenPt = i->pt(); 
+          top = true;
       }
     }
     compositePtrCandidate.setTopGenPt(topGenPt);
+    compositePtrCandidate.setAntiTopGenPt(antiTopGenPt);
 
     //sort them by bdisc
     cleanedJetsCSVsorted = cleanedJets20;
