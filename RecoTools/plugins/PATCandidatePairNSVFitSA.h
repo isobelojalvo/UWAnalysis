@@ -41,16 +41,6 @@ class PATCandidatePairNSVFitSA : public edm::EDProducer
     src_     = cfg.getParameter<edm::InputTag>("src");
     srcPV_       =  cfg.getParameter<edm::InputTag>("srcPrimaryVertex") ;
 
-//     label_ = cfg.getParameter<std::string>("resultLabel");
-// 
-//     printf("Will use NSV FIt\n");
-//     edm::ParameterSet cfg_config = cfg.getParameter<edm::ParameterSet>("config");
-//     edm::ParameterSet cfg_event = cfg_config.getParameter<edm::ParameterSet>("event");
-
-    //edm::ParameterSet cfg_algorithm = cfg.getParameter<edm::ParameterSet>("algorithm");
-    //cfg_algorithm.addParameter<edm::ParameterSet>("event", cfg_event);
-    //std::string pluginType = cfg_algorithm.getParameter<std::string>("pluginType");
-    //algorithm_ = NSVfitAlgorithmPluginFactory::get()->create(pluginType, cfg_algorithm);
 
     produces<CompositePtrCandidateCollection>();
   }
@@ -65,14 +55,6 @@ class PATCandidatePairNSVFitSA : public edm::EDProducer
 
   void produce(edm::Event& evt, const edm::EventSetup& es) {
     std::auto_ptr<CompositePtrCandidateCollection> out(new CompositePtrCandidateCollection);
-
-    // Get primary vertex
-//     const reco::Vertex* pv = NULL;
-//     if ( srcPV_.label() != "" ) {
-//        edm::Handle<reco::VertexCollection> pvs;
-//        pf::fetchCollection(pvs, srcPV_, evt);
-//        pv = &((*pvs)[0]);
-//     }
 
 
     edm::Handle<std::vector<CompositePtrCandidateT1T2MEt<T1,T2> > > cands;
