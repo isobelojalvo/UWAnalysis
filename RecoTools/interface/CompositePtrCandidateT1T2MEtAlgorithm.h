@@ -41,7 +41,6 @@
 #include "Geometry/CommonDetUnit/interface/GeomDet.h"
 #include "Geometry/TrackerGeometryBuilder/interface/GluedGeomDet.h"
 #include "UWAnalysis/RecoTools/interface/BTagScaleFactors.h"
-#include "UWAnalysis/RecoTools/interface/BTagSFUtil.h"
 #include "DataFormats/Math/interface/LorentzVector.h"
 
 
@@ -71,14 +70,12 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 
   void setMETCalibrator(METCalibrator * calibrator) {calibrator_ = calibrator;}
   void setBTagScaleFactor(BTagScaleFactors * bFactors) {bFactors_ = bFactors;}
-  void setBTSF(BtagSFV * btsf) {btsf_=  btsf;}
 
   TMatrixD convert_matrix(const ROOT::Math::SMatrix<double,2>& mat) const {
      TMatrixD output = TMatrixD(mat.kRows,mat.kCols, mat.Array());
      return output;
   }
 
-  //BtagSF* btsf = new BtagSF(12345);
   CompositePtrCandidateT1T2MEt<T1,T2> buildCompositePtrCandidate(const T1Ptr leg1, 
 								 const T2Ptr leg2,
  								 const JetPtrVector& pfJets, 
@@ -137,35 +134,12 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     }
 
     ///////implementing MIT's buggy code :(
-
-    bool isdata = false;
+    // Memory leak here
     bool bTagEvent = false;
-    bool btagged = false;
     int nbtags = 0;
 
-    if(IsRealData){
-      isdata=1;
-      //std::cout<< "Is real Data" << std::endl;
-    }
+   //Can implement new btag thing here when time comes
 
-    for(unsigned int k=0; k<cleanedJets.size();k++){
-      btagged = false;
-
-      //std::cout<<"Jet "<< k <<" Pt: "<<cleanedJets.at(k)->pt()<<" Eta: "<<cleanedJets.at(k)->eta()<<" FullDiscriminant "<< cleanedJets.at(k)->userFloat("fullDiscriminant")<<" CSV: "<<cleanedJets.at(k)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags") <<" Flavor: "<< cleanedJets.at(k)->partonFlavour()<<std::endl;
-
-      if(cleanedJets.at(k)->pt()>20&&fabs(cleanedJets.at(k)->eta())<2.4){
-	btagged = btsf_->isbtagged(cleanedJets.at(k)->pt(), cleanedJets.at(k)->eta(),cleanedJets.at(k)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags"),cleanedJets.at(k)->partonFlavour(), isdata , 0, 0, true);
-	
-      }
-      
-      
-      if(btagged){
-	//cleanedJets.at(k)->addUserFloat((string)"btag",n);
-	bTagEvent=true;
-	nbtags +=1;
-      }
-
-    }
     compositePtrCandidate.setEventBTag(bTagEvent);
     compositePtrCandidate.setNBTags(nbtags);
     
@@ -288,7 +262,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     compositePtrCandidate.setRecoil(recoil_);
     compositePtrCandidate.setRecoilDPhi(fabs(normalizedPhi(compositePtrCandidate.p4Vis().phi() - recoil_.phi())));
  
-    //std::cout<<"Gets Here1"<<std::endl;    
 
     bool top = false;
     float topGenPt = -1;
@@ -358,9 +331,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     std::pair<double,double> CSVL2atl = std::make_pair(1,0);
     std::pair<double,double> CSVM2atl = std::make_pair(1,0);
 
-
-
-    //if(bFactors_!=0 && cleanedJets.size()>0){
     if(cleanedJets.size()>0){
       CSVL1 = bFactors_->getCSVL1( cleanedJets , top );
       CSVL1atl = bFactors_->getCSVL1( cleanedJetsCSVsorted , top );
@@ -383,7 +353,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 
     }
     /////////////CSV stuff
-    //std::cout<<"Gets Here5"<<std::endl;    
     compositePtrCandidate.setSFCSVL1(CSVL1atl.first);
     compositePtrCandidate.setSFCSVL1err(CSVL1atl.second);
     
@@ -832,7 +801,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 
   METCalibrator *calibrator_;
   BTagScaleFactors * bFactors_;
-  BtagSFV* btsf_; 
 
 
 
