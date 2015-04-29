@@ -310,9 +310,9 @@ class CutSequenceProducer(cms._ParameterTypeBase):
 
                    
 ################################################################################
-#####		Stand Alone SVFit											   #####
+#####		Stand Alone SVFit	               		################
 ################################################################################
-
+#currently used
 
     def addMuTauSVFitSA(self,moduleName):
 			dicand  = cms.EDProducer('PATMuTauSVFitSA')
@@ -341,10 +341,11 @@ class CutSequenceProducer(cms._ParameterTypeBase):
                
                   
 
+#NOT USED
 ################################################################################
 #####     NSV fit configuration                                            #####
 ################################################################################
-
+#NOT USED
     def addDiCandNSVFit(self,moduleName,finalState=("Mu", "Tau"),algo="fit"):
                # Do import here so python only crashes (at run time)
                # if TauAna packages aren't checked out.
