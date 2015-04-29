@@ -205,7 +205,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
       compositePtrCandidate.setMt2MET(compMt(leg2->p4(), correctedMET.px(), correctedMET.py()));
       compositePtrCandidate.setDPhi1MET(TMath::Abs(normalizedPhi(leg1->phi() - correctedMET.phi())));
       compositePtrCandidate.setDPhi2MET(TMath::Abs(normalizedPhi(leg2->phi() - correctedMET.phi())));
-      //compositePtrCandidate.setCovMatrix( metPtr->getSignificanceMatrix() );
       compositePtrCandidate.setCovMatrix( convert_matrix(metPtr->getSignificanceMatrix()) );
       compZeta(compositePtrCandidate, leg1->p4(), leg2->p4(), correctedMET.px(), correctedMET.py()); 
       compProjMET(compositePtrCandidate, leg1->p4(), leg2->p4(), correctedMET);
@@ -214,10 +213,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
       compositePtrCandidate.setCovMat01( convert_matrix(metPtr->getSignificanceMatrix()) );
       compositePtrCandidate.setCovMat10( convert_matrix(metPtr->getSignificanceMatrix()) );
       compositePtrCandidate.setCovMat11( convert_matrix(metPtr->getSignificanceMatrix()) );
-      //compositePtrCandidate.setCovMat00( metPtr->getSignificanceMatrix() );
-      //compositePtrCandidate.setCovMat01( metPtr->getSignificanceMatrix() );
-      //compositePtrCandidate.setCovMat10( metPtr->getSignificanceMatrix() );
-      //compositePtrCandidate.setCovMat11( metPtr->getSignificanceMatrix() );
       compositePtrCandidate.setFullPt( (correctedMET + leg1->p4() + leg2->p4()).pt() );
       compositePtrCandidate.setFullEta( (correctedMET + leg1->p4() + leg2->p4()).eta() );
       compositePtrCandidate.setFullPhi( (correctedMET + leg1->p4() + leg2->p4()).phi() );
@@ -306,10 +301,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     if(cleanedJetsCSVsorted.size()>1)
       compositePtrCandidate.setJJVariables(
 					   (cleanedJetsCSVsorted.at(0)->p4()+cleanedJetsCSVsorted.at(1)->p4())
-					 //(cleanedJets.at(0)+cleanedJets.at(1)).pt(),
-					 //(cleanedJets.at(0)+cleanedJets.at(1)).eta(),
-					 //(cleanedJets.at(0)+cleanedJets.at(1)).phi(),
-					 //(cleanedJets.at(0)+cleanedJets.at(1)).E(),
 					 );
 
     if(cleanedJetsCSVsorted.size()>1)
@@ -374,14 +365,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 
     //Calculate HT
     double ht = leg1->pt()+leg2->pt();
-    for(int k=0;k<nJets;++k)
-      ht+=cleanedJets.at(k)->pt();
-    /*
-    if(nJets>1) 
-      compositePtrCandidate.setJJVariables((cleanedJets.at(0)->p4()+cleanedJets.at(1)->p4()).M(),(cleanedJets.at(0)->p4()+cleanedJets.at(1)->p4()).pt());
-    else
-      compositePtrCandidate.setJJVariables(0.0,0.0);
-    */
+    for(int k=0;k<nJets;++k)  ht+=cleanedJets.at(k)->pt();
     compositePtrCandidate.setJetVariables(cleanedJets,ht);
     computeVBFVariables(compositePtrCandidate,leg1->p4(),leg2->p4(),cleanedJets,correctedMET);
     return compositePtrCandidate;
@@ -497,31 +481,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     }
   private:
     JetPtrVector vec_;
-  };
-  /*
-  class refVectorHMassSorter {
-  public:
-    refVectorHMassSorter(const JetPtrVector vec)
-      {
-	vec_ = vec;
-      }
-    refVectorCSVSorter()
-      {
-      }
-    ~refVectorHMassSorter()
-      {}
-
-    bool operator()(size_t a , size_t b) {
-
-      return (abs((vec_.at(a)->p4()+vec_.at(b)->p4()).M()-125)
-	      < 
-	      abs((vec_.at(a)->p4()+vec_.at(b)->p4()).M()-125));
-	      }
-  private:
-    JetPtrVector vec_;
-  };
-  */
-
 
   void sortRefVectorByPt(JetPtrVector& vec)
   {
@@ -700,38 +659,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
   	compositePtrCandidate.setProjMET(PMET);
   
   }
-
-
-
-  //Complicated approach
-  //  void computeVBFVariables(CompositePtrCandidateT1T2MEt<T1,T2>& compositePtrCandidate,const JetPtrVector& jets) {
-  //    double deta=0.0;
-  //    double mass=0.0;
-  //    double gap=0.0;
-  //    for( int i=0;i<(int)jets.size()-1;++i)
-  //      for(int j=i+1;j<(int)jets.size();++j) {
-  //	deta =fabs(jets.at(i)->eta()-jets.at(j)->eta()); 
-  //	  if(deta>2.0&&jets.at(i)->eta()*jets.at(j)->eta()<0)
-  //	    {
-  //	      mass = (jets.at(i)->p4()+jets.at(j)->p4()).M();
-  //	      float minEta = std::min(jets.at(i)->eta(),jets.at(j)->eta());
-  //	      float maxEta = std::max(jets.at(i)->eta(),jets.at(j)->eta());
-  //	      for(int k=0;k<(int)jets.size();++k)
-  //		if(k!=i && k!=j)
-  //		  if(jets.at(k)->eta()>minEta && jets.at(k)->eta()<maxEta)
-  //		    gap+=jets.at(k)->pt();
-  //	      break;
-  //	    }
-  //
-  //	  
-  //	  if(deta>2.0)
-  //	    break;
-  //	      
-  //      }
-  //
-  //    if(deta<2.0) { deta=0.0; mass=0.0; gap=0.0;}
-  //    compositePtrCandidate.setVBFVariables(mass,deta,gap);
-  //  }
 
 
   //Simple approach -> Just highest 2 jets 
