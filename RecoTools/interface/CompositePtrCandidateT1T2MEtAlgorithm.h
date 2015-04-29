@@ -481,7 +481,8 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     }
   private:
     JetPtrVector vec_;
-
+  };
+  
   void sortRefVectorByPt(JetPtrVector& vec)
   {
     std::vector<size_t> indices;

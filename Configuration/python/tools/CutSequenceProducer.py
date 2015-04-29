@@ -315,7 +315,7 @@ class CutSequenceProducer(cms._ParameterTypeBase):
 
 
     def addMuTauSVFitSA(self,moduleName):
-			dicand  = cms.EDProducer('PATMuTauNSVFitSA')
+			dicand  = cms.EDProducer('PATMuTauSVFitSA')
 			dicand.src = cms.InputTag(self.input)
 			dicand.srcPrimaryVertex = cms.InputTag("offlinePrimaryVerticesWithBS")                  
 			
@@ -328,7 +328,7 @@ class CutSequenceProducer(cms._ParameterTypeBase):
 
                
     def addEleTauSVFitSA(self,moduleName):
-			dicand  = cms.EDProducer('PATElecTauNSVFitSA')
+			dicand  = cms.EDProducer('PATElecTauSVFitSA')
 			dicand.src = cms.InputTag(self.input)
 			dicand.srcPrimaryVertex = cms.InputTag("offlinePrimaryVerticesWithBS")                  
 			
@@ -368,7 +368,6 @@ class CutSequenceProducer(cms._ParameterTypeBase):
                leg1, leg2 = finalState
                dicand  = cms.EDProducer("PAT"+leg1+leg2+"NSVFitter")
                dicand.src = cms.InputTag(self.input)
-               #dicand.srcPrimaryVertex = cms.InputTag("offlinePrimaryVerticesWithBS")
                dicand.srcPrimaryVertex = cms.InputTag("offlineSlimmedPrimaryVertices")
                dicand.config = nsv.nSVfitConfig_template.clone()
                # Setup final state specific plugins
@@ -407,6 +406,11 @@ class CutSequenceProducer(cms._ParameterTypeBase):
 
     def addMuMuNSVFit(self,moduleName, algo="fit"):
                self.addDiCandNSVFit(moduleName,("Mu","Mu"), algo)
+
+########################################################
+#           END NSVFIT
+#######################################################
+
 
 
     def setSRC(self,src):
