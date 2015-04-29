@@ -94,15 +94,11 @@ class PATTauOverloader : public edm::EDProducer {
         float nMatchedSegments = -1;
         float muonMatched = 0;
         float leadChargedHadrTrackPt = -1;
-        float leadChargedHadrTrackPtErr = -1;
         float nIsoTracks=-1;
         nIsoTracks = tau.isolationChargedHadrCands().size();
 
         if(tau.leadChargedHadrCand().isNonnull()){
-                //std::cout<<"====IN TAU TRACK LOOP ======"<<std::endl;
-                //FIXME
-	        //leadChargedHadrTrackPtErr = tau.leadChargedHadrCand()->innerTrack()->ptError();
-                //std::cout<<" leadPFTrackPtErr: "<<leadChargedHadrTrackPtErr<<std::endl;
+                std::cout<<"====IN TAU TRACK LOOP ======"<<std::endl;
 	        leadChargedHadrTrackPt = tau.leadChargedHadrCand()->pt();
                 //std::cout<<" leadChargedHadrTrackPt: "<<leadChargedHadrTrackPt<<std::endl;
 	        if(iEvent.getByLabel(muons_,muons)){
@@ -121,7 +117,6 @@ class PATTauOverloader : public edm::EDProducer {
         tau.addUserFloat("nIsoTracks",nIsoTracks);
         tau.addUserFloat("leadChargedHadrTrackPt",leadChargedHadrTrackPt);
         //FIXME
-        tau.addUserFloat("leadChargedHadrTrackPtErr",leadChargedHadrTrackPtErr);
         tau.addUserFloat("muonNMatchedSeg",nMatchedSegments);
         tau.addUserFloat("muonTauHadMatched",muonMatched);
 
