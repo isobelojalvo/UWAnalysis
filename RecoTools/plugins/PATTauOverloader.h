@@ -109,7 +109,7 @@ class PATTauOverloader : public edm::EDProducer {
 			    if(ROOT::Math::VectorUtil::DeltaR(muons->at(k).p4(),tau.leadChargedHadrCand()->p4())<0.15){
 				    if(muons->at(k).numberOfMatches()>nMatchedSegments){
 					    nMatchedSegments = muons->at(k).numberOfMatches();
-                                            std::cout<<"====IN MUON LOOP: Matched Segments ======"<<std::endl;
+                                            //std::cout<<"====IN MUON LOOP: Matched Segments ======"<<std::endl;
 					    //std::cout<<" matched muon N Seg: "<<nMatchedSegments<<std::endl;
 				    }
 				    muonMatched=1;
