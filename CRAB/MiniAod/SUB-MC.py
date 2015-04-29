@@ -34,6 +34,8 @@ createGeneratedParticles(process,
                            "keep pdgId = {tau-}",
                            "keep pdgId = {mu+}",
                            "keep pdgId = {mu-}",
+                           "keep pdgId = 6",
+                           "keep pdgId = -6",
                            "keep pdgId = 11",
                            "keep pdgId = -11",
                           ]
