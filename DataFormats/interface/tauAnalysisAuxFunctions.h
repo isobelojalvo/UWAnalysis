@@ -1,5 +1,5 @@
-#ifndef AnalysisDataFormats_TauAnalysis_tauAnalysisAuxFunctions_h
-#define AnalysisDataFormats_TauAnalysis_tauAnalysisAuxFunctions_h
+#ifndef UWAnalysis_DataFormats_Analysis_tauAnalysisAuxFunctions_h
+#define UWAnalysis_DataFormats_Analysis_tauAnalysisAuxFunctions_h
 
 #include "DataFormats/Candidate/interface/Candidate.h"
 #include "DataFormats/CLHEP/interface/AlgebraicObjects.h"
