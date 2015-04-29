@@ -17,7 +17,7 @@ cd TauAnalysis/SVfitStandalone
 git checkout tags/2015Feb10
 pushd $CMSSW_BASE/src
 
-cp -r /cms/laura/UWAnalysis13/CMSSW_7_3_3/src/AnalysisDataFormats/ .
+#cp -r /cms/laura/UWAnalysis13/CMSSW_7_3_3/src/AnalysisDataFormats/ .
 cp /cms/ojalvo/mssm8TeV/CMSSW_5_3_7/src/UWAnalysis/Configuration/data/factoryJetRegNewGenJets* UWAnalysis/Configuration/data/.
 
 set +o errexit

@@ -24,7 +24,6 @@
 <use   name="PhysicsTools/UtilAlgos"/>
 <use   name="PhysicsTools/JetMCUtils"/>
 <use   name="SimGeneral/HepPDTRecord"/>
-<use   name="TauAnalysis/CandidateTools"/>
 <use   name="TrackingTools/TransientTrack"/>
 <use   name="TrackingTools/Records"/>
 <use   name="TrackingTools/GeomPropagators"/>
