@@ -387,9 +387,9 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               muonsSizeET = makeCollSize(srcU,"tightMuons"),
                               electronsSizeET = makeCollSize(srcE,"tightElectrons"),
 
-                              eleTauSize = makeCollSize(srcU,"nCands"),
+                              eleTauSize = makeCollSize(srcE,"nCands"),
                               eleEleSize = makeCollSize(srcLL,"diLeptons"),
-                              genTaus = makeCollSize("genTausCands","genTaus"), #FIXME
+                              genTaus = makeCollSize("genTauCands","genTaus"), #FIXME
  
                               tauNIsoTracks =  makeEleTauPair(src,"tauNIsoTracks","leg2.userFloat('nIsoTracks')"), #FILLED
                               tauNMatchedSeg =  makeEleTauPair(src,"tauMuonNMatchedSeg","leg2.userFloat('muonNMatchedSeg')"), #FILLED
