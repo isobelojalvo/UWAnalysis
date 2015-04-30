@@ -26,6 +26,10 @@ cmsRun LT-MC.py
 
 #Building comments
 
+Critical: Get Gen-Level Particles!!!!!!! embed Muon Isolation+Muon ID, embed electron isolaiton
+
+candidatAuxFunctions brought to MiniAod
+
 Major Changes/Issues detailed in table
 
 | Kind Of Issue  | Issue Detail |
@@ -53,4 +57,3 @@ Major Changes/Issues detailed in table
 In general To see what needs to be fixed ``` grep -r FIXME *```
 
 
-Critical: Get Gen-Level Particles!!!!!!! embed Muon Isolation+Muon ID, embed electron isolaiton
