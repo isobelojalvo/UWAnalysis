@@ -5,8 +5,6 @@
 
 int main (int argc, char* argv[]) 
 {
-
-
    optutl::CommandLineParser parser ("Background subtrcation ");
 
    //Input Files-------------------
@@ -316,15 +314,10 @@ int main (int argc, char* argv[])
 					
 	}
 
-
-
-     
-
      if(bitmask.size()<4||bitmask[3]==1) {
        creator.setBinning(parser.doubleVector("binningHighStat"));
        printf("Z -> tau tau cross section-------------------------------------\n");
        BkgOutput outputZTT = creator.runOSLSMT(parser.stringValue("preselection"),"_ZTT",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"));
-       creator.makeZTTLTauDataCard(output,"_ZTT");
      }
 
 

@@ -20,6 +20,14 @@
 <bin   name="MakeDataCard" file="MakeDataCard.cc">
 </bin>
 
+<bin   name="MakeDataCardHhh" file="MakeDataCardHhh.cc">
+</bin>
+
+<bin   name="MakeDataCardSS" file="MakeDataCardSS.cc">
+</bin>
+
+<bin   name="MakeDataCardZTT" file="MakeDataCardZTT.cc">
+</bin>
 
 <bin   name="MakeNormalization" file="MakeNormalization.cc">
 </bin>

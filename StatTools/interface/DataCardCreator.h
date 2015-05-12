@@ -15,6 +15,7 @@
 #include <iostream>
 #include <string>
 #include <boost/lexical_cast.hpp>
+
 //#include "FineBins.h"
 
 
@@ -201,7 +202,7 @@ class DataCardCreator {
     dir_ = parser.stringValue("dir");
 
 
-    //predefine te masses you are going to make 
+    //predefine the masses you are going to make 
     mssmMasses_.push_back("80");
     mssmMasses_.push_back("90");
     mssmMasses_.push_back("100");
@@ -223,29 +224,29 @@ class DataCardCreator {
     mssmMasses_.push_back("900");
     mssmMasses_.push_back("1000");    
     
-     smMasses_.push_back("90");
-     smMasses_.push_back("95");
-     smMasses_.push_back("100");
-     smMasses_.push_back("105");
-     smMasses_.push_back("110");
-     smMasses_.push_back("115");
-     smMasses_.push_back("120");
-     smMasses_.push_back("125");
-     smMasses_.push_back("130");
-     smMasses_.push_back("135");
-     smMasses_.push_back("140");
-     smMasses_.push_back("145");
-	if(energy_ == "8TeV"){
-     smMasses_.push_back("150");
-     smMasses_.push_back("155");
-     smMasses_.push_back("160");
-	}
-	
-	smMassesDC_ = smMasses_;
-
-//     for(unsigned int i=110;i<=160;++i)
-//       smMassesDC_.push_back(boost::lexical_cast<std::string>(i));
-
+    smMasses_.push_back("90");
+    smMasses_.push_back("95");
+    smMasses_.push_back("100");
+    smMasses_.push_back("105");
+    smMasses_.push_back("110");
+    smMasses_.push_back("115");
+    smMasses_.push_back("120");
+    smMasses_.push_back("125");
+    smMasses_.push_back("130");
+    smMasses_.push_back("135");
+    smMasses_.push_back("140");
+    smMasses_.push_back("145");
+    if(energy_ == "8TeV"){
+      smMasses_.push_back("150");
+      smMasses_.push_back("155");
+      smMasses_.push_back("160");
+    }
+    
+    smMassesDC_ = smMasses_;
+    
+    //     for(unsigned int i=110;i<=160;++i)
+    //       smMassesDC_.push_back(boost::lexical_cast<std::string>(i));
+    
 
 
     smSigma_.push_back(1.0);//1.234);
@@ -281,8 +282,6 @@ class DataCardCreator {
     vbfSigma_.push_back(1.0);
     vbfSigma_.push_back(1.0);
 
-
-
     vhSigma_.push_back(1.0);//0.0772);
     vhSigma_.push_back(1.0);
     vhSigma_.push_back(1.0);
@@ -299,7 +298,6 @@ class DataCardCreator {
     vhSigma_.push_back(1.0);
     vhSigma_.push_back(1.0);
 
-
     mssmBBFraction_.push_back(0.5180);
     mssmBBFraction_.push_back(0.5661);
     mssmBBFraction_.push_back(0.6481);
@@ -315,897 +313,10 @@ class DataCardCreator {
     mssmBBFraction_.push_back(0.9327);
     mssmBBFraction_.push_back(0.9415);
 
-
-
-
     scaleUp_ = parser.doubleValue("scaleUp");
-
-
     fout_ = new TFile(parser.stringValue("outputfile").c_str(),"RECREATE");
 
   }
-
-
-  void makeMSSMLTauDataCard(BkgOutput out,std::string postfix) {
-    for(unsigned int m = 0;m<mssmMasses_.size();++m) {
-      FILE *pfile = fopen(("datacards/"+channel_+postfix+"_mA"+mssmMasses_[m]+".txt").c_str(),"w");
-      fprintf(pfile,"imax 1\n");
-      fprintf(pfile,"jmax *\n");
-      fprintf(pfile,"kmax *\n");
-      fprintf(pfile,"shapes *  *    %s  $CHANNEL/$PROCESS $CHANNEL/$PROCESS_$SYSTEMATIC \n",(channel_+".root").c_str());
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      fprintf(pfile,"observation %d\n",(int)out.DATA);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      std::string ch = channel_+postfix;
-      fprintf(pfile,"bin            %s            %s            %s            %s            %s            %s            %s            %s            %s\n",ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str());
-      fprintf(pfile,"process        GGH%s        BBH%s        ZTT           QCD           W             ZJ            ZL            TT            VV\n",mssmMasses_[m].c_str(),mssmMasses_[m].c_str());
-      fprintf(pfile,"process        -1            0             1             2             3             4             5             6             7\n");
-      fprintf(pfile,"rate           %.3f          %.3f          %.3f          %.3f          %.3f          %.3f          %.3f          %.3f          %.3f\n",
-	     getYield("GGH"+mssmMasses_[m],postfix),getYield("BBH"+mssmMasses_[m],postfix),out.ZTT,out.QCD,out.W,out.ZJFT,out.ZLFT,out.TOP,out.VV);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      if(luminosityErr_!=0)
-	fprintf(pfile,"lumi     lnN   %.3f          %.3f          -             -             -             -             -             -             -          luminosity\n",
-	   1+luminosityErr_,1+luminosityErr_);
-      if(muID_!=0)
-	fprintf(pfile,"CMS_eff_m     lnN   %.3f          %.3f          %.3f          -             -             %.3f          %.3f          %.3f          %.3f       muon ID /HLT\n",
-	       1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_);
-      if(tauID_!=0)
-	fprintf(pfile,"CMS_eff_t    lnN   %.3f          %.3f          %.3f          -             -             -             -             %.3f          %.3f        Tau IDf\n",
-	       1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_);
-    if(eleID_!=0)
-      fprintf(pfile,"CMS_eff_e    lnN   %.3f          %.3f          %.3f          -             -             %.3f          %.3f          %.3f           %.3f      Electron ID\n",
-	     1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_);
-    if(zttScale_!=0)
-      fprintf(pfile,"CMS_htt_zttNorm lnN   -             -             %.3f          -             -             %.3f          %.3f          -              -         ZTT Scale  \n",
-	     1+zttScaleErr_/zttScale_,1+zttScaleErr_/zttScale_,1+zttScaleErr_/zttScale_);
-    fprintf(pfile,"CMS_htt_ttbarNorm  lnN      -             -             -             -             -             -             -              %.3f           -      TTbar background  \n",1+out.dTOP/out.TOP);
-    fprintf(pfile,"CMS_htt_DiBosonNorm  lnN      -             -             -             -             -             -             -              -              %.3f   DiBoson background \n",1+out.dVV/out.VV);
-    fprintf(pfile,"CMS_htt_%s_WNorm lnN      -             -             -             -             %.3f          -             -              -              -      W Backghround \n",(channel_+postfix).c_str(),1+out.dW/out.W);
-    fprintf(pfile,"CMS_htt_%s_ZJFTNorm  lnN      -             -             -             -             -             %.3f          -              -              -      Z(jet->tau) background\n",(channel_+postfix).c_str(),1+out.dZJFT/out.ZJFT);
-    fprintf(pfile,"CMS_htt_%s_ZLFTNorm  lnN      -             -             -             -             -             -             %.3f           -              -      Z(l->tau)   background\n",(channel_+postfix).c_str(),1+out.dZLFT/out.ZLFT);
-    fprintf(pfile,"CMS_htt_%s_QCDNorm gmN   %d   -             -             -             %.3f          -             -             -              -              -      QCD Background\n",(channel_+postfix).c_str(),(int)out.QCDSDB,qcdFactor_);
-    fprintf(pfile,"CMS_htt_%s_QCDSyst lnN        -             -             -             %.3f          -             -             -              -              -      QCD Background Systematics\n",(channel_).c_str(),1.+qcdFactorErr_/qcdFactor_);
-
-    for(unsigned int j=0;j<shifts_.size();++j)
-	fprintf(pfile,"%s    shape    1             1             1             -             -             -             -              -              -      shape\n",shiftsPostFix_[j].c_str());
-
-    fprintf(pfile,"CMS_scale_met lnN  1.05          1.05          -             -             -             -             -              1.02          1.03      MET Scale\n");
-    fprintf(pfile,"CMS_scale_j   lnN  1.05          1.05          -             -             -             -             -              1.02          1.03      Jet Scale\n");
-
-
-    fclose(pfile);
-    }
-  
- 
-
-  }
-
-
-
-  void makeMSSMEMuDataCard(BkgOutput out,std::string postfix) {
-    for(unsigned int m = 0;m<mssmMasses_.size();++m) {
-      FILE *pfile = fopen(("datacards/"+channel_+postfix+"_mA"+mssmMasses_[m]+".txt").c_str(),"w");
-      fprintf(pfile,"imax 1\n");
-      fprintf(pfile,"jmax *\n");
-      fprintf(pfile,"kmax *\n");
-      fprintf(pfile,"shapes *  *    %s  $CHANNEL/$PROCESS $CHANNEL/$PROCESS_$SYSTEMATIC \n",(channel_+".root").c_str());
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      fprintf(pfile,"observation %d\n",(int)out.DATA);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      std::string ch = channel_+postfix;
-      fprintf(pfile,"bin            %s            %s            %s            %s            %s            %s   \n",ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str());
-      fprintf(pfile,"process        GGH%s        BBH%s        ZTT         FAKES            TT            VV\n",mssmMasses_[m].c_str(),mssmMasses_[m].c_str());
-      fprintf(pfile,"process        -1            0             1             2             3             4          \n");
-      fprintf(pfile,"rate           %.3f          %.3f          %.3f          %.3f          %.3f          %.3f       \n",
-	     getYield("GGH"+mssmMasses_[m],postfix),getYield("BBH"+mssmMasses_[m],postfix),out.ZTT,out.QCD,out.TOP,out.VV);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      if(luminosityErr_!=0)
-	fprintf(pfile,"lumi     lnN   %.3f          %.3f          -             -             -             -           luminosity\n",
-	   1+luminosityErr_,1+luminosityErr_);
-      if(muID_!=0)
-	fprintf(pfile,"CMS_eff_m     lnN   %.3f          %.3f          %.3f          -        %.3f          %.3f          muon ID /HLT\n",
-	       1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_);
-      if(eleID_!=0)
-	fprintf(pfile,"CMS_eff_e    lnN   %.3f          %.3f          %.3f          -         %.3f          %.3f         Electron ID\n",
-	     1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_);
-    if(zttScale_!=0)
-      fprintf(pfile,"CMS_htt_zttNorm lnN   -             -             %.3f          -             -          -         ZTT Scale  \n",1+zttScaleErr_/zttScale_);
-    fprintf(pfile,"CMS_htt_ttbarNorm  lnN      -             -             -             -           %.3f     -    TTbar background  \n",1+out.dTOP/out.TOP);
-    fprintf(pfile,"CMS_htt_DiBosonNorm  lnN      -             -             -             -             -     %.3f   DiBoson background \n",1+out.dVV/out.VV);
-    fprintf(pfile,"CMS_htt_%s_FAKENorm lnN        -             -             -             %.3f          -             -       FAKE Background Systematics\n",(channel_).c_str(),1.+out.dQCD/out.QCD);
-    for(unsigned int j=0;j<shifts_.size();++j)
-      fprintf(pfile,"%s    shape    1             1             1             -             -             -      shape\n",shiftsPostFix_[j].c_str());
-
-    fprintf(pfile,"CMS_scale_met lnN  1.05          1.05          -             -           1.02          1.03      MET Scale\n");
-    fprintf(pfile,"CMS_scale_j   lnN  1.05          1.05          -             -           1.02          1.03      Jet Scale\n");
-
-
-    fclose(pfile);
-    }
-  }
-
-
-
-  void makeMSSMLTauDataCardNoBTag(BkgOutput out,std::string postfix) {
-    for(unsigned int m = 0;m<mssmMasses_.size();++m) {
-      FILE *pfile = fopen(("datacards/"+channel_+postfix+"_mA"+mssmMasses_[m]+".txt").c_str(),"w");
-
-      fprintf(pfile,"imax 1\n");
-      fprintf(pfile,"jmax *\n");
-      fprintf(pfile,"kmax *\n");
-      fprintf(pfile,"shapes *  *    %s  $CHANNEL/$PROCESS $CHANNEL/$PROCESS_$SYSTEMATIC \n",(channel_+".root").c_str());
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      fprintf(pfile,"observation %d\n",(int)out.DATA);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      std::string ch = channel_+postfix;
-      fprintf(pfile,"bin            %s            %s             %s            %s             %s                 %s            %s            %s             %s           %s            %s              %s\n",ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str());
-      fprintf(pfile,"process        GGHNoJet%s   GGHJet%s        BBHNoJet%s     BBHJet%s     BBHBJet%s           ZTT           QCD           W             ZJ            ZL            TT            VV\n",mssmMasses_[m].c_str(),mssmMasses_[m].c_str(),mssmMasses_[m].c_str(),mssmMasses_[m].c_str(),mssmMasses_[m].c_str());
-      fprintf(pfile,"process        -4              -3           -2              -1            0                 1             2             3             4             5            6             7  \n");
-      fprintf(pfile,"rate           %.3f            %.3f          %.3f         %.3f          %.3f             %.3f          %.3f          %.3f          %.3f          %.3f          %.3f            %.3f\n",
-	      getYield("GGHNoJet"+mssmMasses_[m],postfix),getYield("GGHJet"+mssmMasses_[m],postfix),getYield("BBHNoJet"+mssmMasses_[m],postfix),getYield("BBHJet"+mssmMasses_[m],postfix),getYield("BBHBJet"+mssmMasses_[m],postfix),out.ZTT,out.QCD,out.W,out.ZJFT,out.ZLFT,out.TOP,out.VV);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      if(luminosityErr_!=0)
-	fprintf(pfile,"lumi     lnN %.3f           %.3f          %.3f           %.3f           %.3f              -             -             -             -             -             -             -          luminosity\n",
-		1+luminosityErr_,1+luminosityErr_,1+luminosityErr_,1+luminosityErr_,1+luminosityErr_);
-      
-      if(muID_!=0)
-	fprintf(pfile,"CMS_eff_m     lnN   %.3f          %.3f          %.3f          %.3f           %.3f             %.3f          -             -             %.3f          %.3f          %.3f          %.3f       muon ID /HLT\n",
-	        1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_);
-      if(tauID_!=0)
-	fprintf(pfile,"CMS_eff_t    lnN   %.3f          %.3f          %.3f          %.3f          %.3f          %.3f          -             -             -             -             %.3f          %.3f        Tau IDf\n",
-	       1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_);
-    if(eleID_!=0)
-      fprintf(pfile,"CMS_eff_e    lnN   %.3f          %.3f          %.3f          %.3f          %.3f          %.3f             -             -             %.3f          %.3f          %.3f           %.3f      Electron ID\n",
-	     1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_);
-    if(zttScale_!=0)
-      fprintf(pfile,"CMS_htt_zttNorm lnN   -             -             -               -            -             %.3f          -             -             %.3f          %.3f          -              -         ZTT Scale  \n",
-	     1+zttScaleErr_/zttScale_,1+zttScaleErr_/zttScale_,1+zttScaleErr_/zttScale_);
-      fprintf(pfile,"CMS_htt_zttExtrap_nob  lnN   -             -             -               -            -             %.8f          -             -             -          -          -              -         ZTT Scale  \n",
-	     1+out.dZTTCORR/out.ZTTCORR);
-
-    for(unsigned int j=0;j<shifts_.size();++j)
-	fprintf(pfile,"%s    shape    1.0             1.0             1.0             1.0             1.0             1.0             -             -             -             -              -              -      shape\n",shiftsPostFix_[j].c_str());
-
-
-    fprintf(pfile,"CMS_htt_%s_QCDNorm gmN %d      -             -             -             -             -             -             %.3f          -             -             -              -              -      QCD Background\n",(channel_+postfix).c_str(),(int)out.QCDSDB,qcdFactor_);
-    fprintf(pfile,"CMS_htt_%s_QCDSyst lnN        -             -             -             -          -                      -          %.3f        -              -              -            -           -      QCD Background Systematics\n",(channel_).c_str(),1.+qcdFactorErr_/qcdFactor_);
-    fprintf(pfile,"CMS_htt_ttbarNorm  lnN      -             -            -             -              -              -             -             -             -             -              %.3f           -      TTbar background  \n",1+out.dTOP/out.TOP);
-    fprintf(pfile,"CMS_htt_DiBosonNorm  lnN      -             -             -             -             -              -             -             -             -             -              -              %.3f   DiBoson background \n",1+out.dVV/out.VV);
-    fprintf(pfile,"CMS_htt_%s_WNorm   lnN        -             -             -             -             -             -             -             %.3f          -             -              -              -      W Backghround \n",(channel_+postfix).c_str(),(int)1+out.dW/out.W);
-    fprintf(pfile,"CMS_htt_%s_ZJFTNorm  lnN      -            -             -             -              -             -             -             -             %.3f          -              -              -      Z(jet->tau) background\n",(channel_+postfix).c_str(),1+out.dZJFT/out.ZJFT);
-    fprintf(pfile,"CMS_htt_%s_ZLFTNorm  lnN      -             -            -            -               -             -             -             -             -             %.3f           -              -      Z(l->tau)   background\n",(channel_+postfix).c_str(),1+out.dZLFT/out.ZLFT);
-
-    fprintf(pfile,"CMS_eff_b      lnN      -             -             -             -             %.3f          -             -              -              -             -              %.3f           -    BTag efficiency \n",1-bIDErr_/bID_,1-bIDErr_/bID_);
-    fprintf(pfile,"CMS_fake_b   lnN      -             %.3f          -             %.3f           -             -             -             -             -             -              -              -     BTag MisTag \n",1-bMisIDErr_/bMisID_,1-bMisIDErr_/bMisID_);
-
-
-    fprintf(pfile,"CMS_scale_j      lnN      0.98            0.98             0.98             0.98             0.98          -             -              -            -                -             0.93              0.97      Jet Scale \n");
-    fprintf(pfile,"CMS_scale_met      lnN      -             -             -             -             -          -             -              -              -             -            1.03          1.04   MET scale \n");
-
-    fclose(pfile);
-    }
-  
- 
-
-  }
-
-
-
-  void makeMSSMEMuDataCardNoBTag(BkgOutput out,std::string postfix) {
-    for(unsigned int m = 0;m<mssmMasses_.size();++m) {
-      FILE *pfile = fopen(("datacards/"+channel_+postfix+"_mA"+mssmMasses_[m]+".txt").c_str(),"w");
-
-      fprintf(pfile,"imax 1\n");
-      fprintf(pfile,"jmax *\n");
-      fprintf(pfile,"kmax *\n");
-      fprintf(pfile,"shapes *  *    %s  $CHANNEL/$PROCESS $CHANNEL/$PROCESS_$SYSTEMATIC \n",(channel_+".root").c_str());
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      fprintf(pfile,"observation %d\n",(int)out.DATA);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      std::string ch = channel_+postfix;
-      fprintf(pfile,"bin            %s            %s             %s            %s             %s                 %s            %s            %s            %s\n",ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str());
-      fprintf(pfile,"process        GGHNoJet%s   GGHJet%s        BBHNoJet%s     BBHJet%s     BBHBJet%s           ZTT           FAKES           TT            VV\n",mssmMasses_[m].c_str(),mssmMasses_[m].c_str(),mssmMasses_[m].c_str(),mssmMasses_[m].c_str(),mssmMasses_[m].c_str());
-      fprintf(pfile,"process        -4              -3           -2              -1            0                 1             2             3             4\n");
-      fprintf(pfile,"rate           %.3f            %.3f          %.3f         %.3f          %.3f             %.3f          %.3f          %.3f             %.3f\n",
-	      getYield("GGHNoJet"+mssmMasses_[m],postfix),getYield("GGHJet"+mssmMasses_[m],postfix),getYield("BBHNoJet"+mssmMasses_[m],postfix),getYield("BBHJet"+mssmMasses_[m],postfix),getYield("BBHBJet"+mssmMasses_[m],postfix),out.ZTT,out.QCD,out.TOP,out.VV);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      if(luminosityErr_!=0)
-	fprintf(pfile,"lumi     lnN %.3f           %.3f          %.3f           %.3f           %.3f              -             -             -             -             -             -             -          luminosity\n",
-		1+luminosityErr_,1+luminosityErr_,1+luminosityErr_,1+luminosityErr_,1+luminosityErr_);
-      
-      if(muID_!=0)
-	fprintf(pfile,"CMS_eff_m     lnN   %.3f          %.3f          %.3f          %.3f           %.3f             %.3f          -                 %.3f          %.3f       muon ID /HLT\n",
-	        1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_);
-      if(eleID_!=0)
-	fprintf(pfile,"CMS_eff_e    lnN   %.3f          %.3f          %.3f          %.3f          %.3f          %.3f             -             %.3f           %.3f      Electron ID\n",
-	     1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_);
-    if(zttScale_!=0)
-      fprintf(pfile,"CMS_htt_zttNorm lnN   -             -             -               -            -             %.3f          -             -                -         ZTT Scale  \n",
-	     1+zttScaleErr_/zttScale_);
-      fprintf(pfile,"CMS_htt_zttExtrap_nob lnN   -             -             -               -            -             %.3f          -             -                -         ZTT Scale  \n",
-	     1+out.dZTTCORR/out.ZTTCORR);
-    for(unsigned int j=0;j<shifts_.size();++j)
-      fprintf(pfile,"%s    shape    1.0             1.0             1.0             1.0             1.0             1.0            -             -           shape\n",shiftsPostFix_[j].c_str());
-    fprintf(pfile,"CMS_htt_%s_FakeNorm lnN          -               -               -                -                -       -     %.3f           -              -               QCD Background Systematics\n",(channel_).c_str(),1.+qcdFactorErr_/qcdFactor_);
-
-    fprintf(pfile,"CMS_htt_ttbarNorm  lnN      -             -            -             -              -              -             -             %.3f           -      TTbar background  \n",1+out.dTOP/out.TOP);
-    fprintf(pfile,"CMS_htt_DiBosonNorm  lnN      -             -             -             -             -              -             -             -           %.3f   DiBoson background \n",1+out.dVV/out.VV);
-    fprintf(pfile,"CMS_eff_b      lnN            -             -             -             -             %.3f          -             -              %.3f           -    BTag efficiency \n",1-bIDErr_/bID_,1-bIDErr_/bID_);
-    fprintf(pfile,"CMS_fake_b   lnN              -             %.3f          -             %.3f           -            -             -              -              -     BTag MisTag \n",1-bMisIDErr_/bMisID_,1-bMisIDErr_/bMisID_);
-
-
-
-    fprintf(pfile,"CMS_scale_j      lnN      0.98            0.98             0.98             0.98             0.98          -             -                 0.93              0.97      Jet Scale \n");
-    fprintf(pfile,"CMS_scale_met      lnN      -             -                -                -                 -            -             -                 1.03          1.04   MET scale \n");
-
-    fclose(pfile);
-    }
-  
- 
-
-  }
-
-
-
-  void makeZTTLTauDataCard(BkgOutput out,std::string postfix) {
-      FILE *pfile = fopen(("datacards/"+channel_+postfix+".txt").c_str(),"w");
-      fprintf(pfile,"imax 1\n");
-      fprintf(pfile,"jmax *\n");
-      fprintf(pfile,"kmax *\n");
-      fprintf(pfile,"shapes *  *    %s  $CHANNEL/$PROCESS $CHANNEL/$PROCESS_$SYSTEMATIC \n",(channel_+".root").c_str());
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      fprintf(pfile,"observation %d\n",(int)out.DATA);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      std::string ch = channel_+postfix;
-      fprintf(pfile,"bin             %s            %s            %s            %s            %s            %s            %s\n",ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str());
-      fprintf(pfile,"process         ZTT           QCD           W             ZJ            ZL            TT            VV\n");
-      fprintf(pfile,"process          0             1             2             3             4             5             6\n");
-      fprintf(pfile,"rate           %.3f          %.3f          %.3f          %.3f          %.3f          %.3f           %.3f\n",
-	     out.ZTT,out.QCD,out.W,out.ZJFT,out.ZLFT,out.TOP,out.VV);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      if(muID_!=0)
-	fprintf(pfile,"CMS_eff_m     lnN    %.3f          -             -             %.3f          %.3f          %.3f          %.3f       muon ID /HLT\n",
-	       1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_);
-      if(tauID_!=0)
-	fprintf(pfile,"CMS_eff_t    lnN     %.3f          -             -             -             -             %.3f          %.3f        Tau IDf\n",
-	       1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_);
-      if(eleID_!=0)
-	fprintf(pfile,"CMS_eff_e    lnN       %.3f          -             -             %.3f          %.3f          %.3f           %.3f      Electron ID\n",
-	     1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_);
-      fprintf(pfile,"CMS_htt_ttbarNorm  lnN       -             -             -             -             -              %.3f           -      TTbar background  \n",1+out.dTOP/out.TOP);
-      fprintf(pfile,"CMS_htt_DiBosonNorm  lnN    -             -             -             -             -              -              %.3f   DiBoson background \n",1+out.dVV/out.VV);
-
-    for(unsigned int j=0;j<shifts_.size();++j)
-      fprintf(pfile,"%s    shape            1             -             -             -             -              -              -      shape\n",shiftsPostFix_[j].c_str());
-    fprintf(pfile,"CMS_htt_%s_QCDNorm gmN   %d   -            %.3f          -             -             -              -              -      QCD Background\n",(channel_+postfix).c_str(),(int)out.QCDSDB,qcdFactor_);
-    fprintf(pfile,"CMS_htt_%s_QCDSyst lnN        -             %.3f          -             -             -              -              -      QCD Background Systematics\n",(channel_).c_str(),1.+qcdFactorErr_/qcdFactor_);
-    fprintf(pfile,"CMS_htt_%s_WNorm     lnN      -             -             %.3f          -             -              -              -      W Backghround \n",(channel_+postfix).c_str(),1+out.dW/out.W);
-    fprintf(pfile,"CMS_htt_%s_ZJetFakeTau  lnN  -             -             -             %.3f          -              -              -      Z(jet->tau) background\n",(channel_+postfix).c_str(),1+out.dZJFT/out.ZJFT);
-    fprintf(pfile,"CMS_htt_%s_ZLeptonFakeTau  lnN -             -             -             -             %.3f           -              -      Z(l->tau)   background\n",(channel_+postfix).c_str(),1+out.dZLFT/out.ZLFT);
-    fclose(pfile);
-
-  }
-
-
-  void makeSMLTauDataCardNoVBF(BkgOutput out,std::string postfix, std::string rootS) {
-    for(unsigned int m = 0;m<smMassesDC_.size();++m) {
-      FILE *pfile = fopen(("datacards/"+channel_+postfix+"_mH"+smMassesDC_[m]+".txt").c_str(),"w");
-
-      fprintf(pfile,"imax 1\n");
-      fprintf(pfile,"jmax *\n");
-      fprintf(pfile,"kmax *\n");
-      fprintf(pfile,"shapes *  *    %s  $CHANNEL/$PROCESS $CHANNEL/$PROCESS_$SYSTEMATIC \n",(channel_+"SM.root").c_str());
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      fprintf(pfile,"observation %d\n",(int)out.DATA);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      std::string ch = channel_+postfix;
-      fprintf(pfile,"bin       %s        %s            %s            %s            %s            %s            %s            %s            %s            %s\n",ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str());
-      fprintf(pfile,"process   VH%s     ggH%s        qqH%s        ZTT           QCD           W             ZJ            ZL            TT            VV\n",smMassesDC_[m].c_str(),smMassesDC_[m].c_str(),smMassesDC_[m].c_str());
-      fprintf(pfile,"process   -2     -1            0             1             2             3             4             5             6             7\n");
-      fprintf(pfile,"rate      %.3f     %.3f          %.3f          %.3f          %.3f          %.3f          %.3f          %.3f          %.3f          %.3f\n",
-	      getYield("VH"+smMassesDC_[m],postfix),getYield("ggH"+smMassesDC_[m],postfix),getYield("qqH"+smMassesDC_[m],postfix),out.ZTT,out.QCD,out.W,out.ZJFT,out.ZLFT,out.TOP,out.VV);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      if(luminosityErr_!=0)
-	fprintf(pfile,"lumi_%s     lnN    %.3f        %.3f          %.3f          -             -             -             -             -             -             -          luminosity\n",
-		rootS.c_str(),1+luminosityErr_,1+luminosityErr_,1+luminosityErr_);      
-      if(muID_!=0)
-	fprintf(pfile,"CMS_eff_m     lnN   %.3f     %.3f          %.3f          %.3f          -             -             %.3f          %.3f          %.3f          %.3f       muon ID /HLT\n",
-		1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_);
-      if(tauID_!=0)
-	fprintf(pfile,"CMS_eff_t    lnN    %.3f      %.3f          %.3f          %.3f          -             -             -             -             %.3f          %.3f        Tau IDf\n",
-		1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_);
-    if(eleID_!=0)
-      fprintf(pfile,"CMS_eff_e    lnN      %.3f       %.3f          %.3f          %.3f          -             -             %.3f          %.3f          %.3f           %.3f      Electron ID\n",
-	      1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_);
-    if(zttScale_!=0)
-      fprintf(pfile,"CMS_htt_zttNorm_%s lnN   -         -             -             %.3f          -             -             %.3f          %.3f          -              -         ZTT Scale  \n",
-	     rootS.c_str(),1+zttScaleErr_/zttScale_,1+zttScaleErr_/zttScale_,1+zttScaleErr_/zttScale_);
-    fprintf(pfile,"CMS_htt_ttbarNorm_%s      lnN    -       -             -             -             -             -             -             -              %.3f           -      TTbar background  \n",rootS.c_str(),1+out.dTOP/out.TOP);
-    fprintf(pfile,"CMS_htt_DiBosonNorm_%s     lnN  -           -             -             -             -             -             -             -              -              %.3f   DiBoson background \n",rootS.c_str(),1+out.dVV/out.VV);
-    fprintf(pfile,"CMS_htt_%s_WNorm_%s       lnN      -        -             -             -             -             %.3f          -             -              -              -      W Background \n",channel_.c_str(),rootS.c_str(),1+out.dW/out.W);
-    fprintf(pfile,"CMS_htt_%s_QCDNorm_%s gmN     %d   -        -             -             -             %.3f          -             -             -              -              -      QCD Background\n",(channel_+postfix).c_str(),rootS.c_str(),(int)out.QCDSDB,qcdFactor_);
-    fprintf(pfile,"CMS_htt_%s_QCDSyst_%s lnN          -       -             -             -             %.3f          -             -             -              -              -      QCD Background\n",(channel_+postfix).c_str(),rootS.c_str(),1+qcdFactorErr_/qcdFactor_);
-    fprintf(pfile,"CMS_htt_%s_ZJetFakeTau_%s lnN      -        -             -             -             -             -             %.3f          -              -              -      Z(jet->tau) background\n",(channel_+postfix).c_str(),rootS.c_str(),1+out.dZJFT/out.ZJFT);
-    fprintf(pfile,"CMS_htt_%s_ZLeptonFakeTau_%s   lnN  -        -             -             -             -             -             -             %.3f           -              -      Z(l->tau)   background\n",(channel_+postfix).c_str(),rootS.c_str(),1+out.dZLFT/out.ZLFT);
-
-       for(unsigned int j=0;j<shifts_.size();++j)
-	     fprintf(pfile,"%s_%s    shape    1             1             1             1             -             -             -             -              -             -   -      shape\n",shiftsPostFix_[j].c_str(),rootS.c_str());
-
-    fprintf(pfile,"CMS_scale_j_%s           lnN  0.96        0.99          0.92          -            -              -        -         -          0.94            0.97    Jet scale\n",rootS.c_str());
-    fprintf(pfile,"CMS_scale_met_%s           lnN  1.05        1.05          1.05          -            -             -     1.05      1.05          1.02            1.06    Met scale\n",rootS.c_str());
-       
-    fprintf(pfile,"pdf_qqbar            lnN  -        -          1.08          -            -              -        -         -          -            -    PDF VBF\n");
-    fprintf(pfile,"pdf_vh               lnN  1.08     -            -           -            -              -        -         -          -            -    PDF VBF\n");
-    fprintf(pfile,"pdf_gg               lnN  -    1.08       -             -            -              -        -         -          -            -    PDF VBF\n");
-    fprintf(pfile,"QCDscale_ggH         lnN  -    1.12       -             -            -              -        -         -          -            -    PDF VBF\n");
-    fprintf(pfile,"QCDscale_qqH         lnN  -    -          1.035         -            -              -        -         -          -            -    PDF VBF\n");
-    fprintf(pfile,"UEPS                 lnN  0.96    0.96       0.96          -            -              -        -         -          -            -    PDF VBF\n");
-
-
-    fclose(pfile);
-    }
-  
-  }
-
-
-
-  void makeSMEMuDataCardNoVBF(BkgOutput out,std::string postfix) {
-    for(unsigned int m = 0;m<smMassesDC_.size();++m) {
-      FILE *pfile = fopen(("datacards/"+channel_+postfix+"_mH"+smMassesDC_[m]+".txt").c_str(),"w");
-
-      fprintf(pfile,"imax 1\n");
-      fprintf(pfile,"jmax *\n");
-      fprintf(pfile,"kmax *\n");
-      fprintf(pfile,"shapes *  *    %s  $CHANNEL/$PROCESS $CHANNEL/$PROCESS_$SYSTEMATIC \n",(channel_+"SM.root").c_str());
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      fprintf(pfile,"observation %d\n",(int)out.DATA);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      std::string ch = channel_+postfix;
-      fprintf(pfile,"bin       %s     %s            %s            %s            %s         %s           %s\n",ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str());
-      fprintf(pfile,"process   VH%s     ggH%s        qqH%s          ZTT           FAKES        TT            VV\n",smMassesDC_[m].c_str(),smMassesDC_[m].c_str(),smMassesDC_[m].c_str());
-      fprintf(pfile,"process   -2      -1            0             1             2             3            4\n");
-      fprintf(pfile,"rate      %.3f     %.3f          %.3f          %.3f          %.3f          %.3f          %.3f\n",
-	      getYield("VH"+smMassesDC_[m],postfix),getYield("ggH"+smMassesDC_[m],postfix),getYield("qqH"+smMassesDC_[m],postfix),out.ZTT,out.QCD,out.TOP,out.VV);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      if(luminosityErr_!=0)
-	fprintf(pfile,"lumi     lnN    %.3f    %.3f          %.3f          -             -             -             -             -             -             -          luminosity\n",
-		1+luminosityErr_,1+luminosityErr_,1+luminosityErr_);      
-      if(muID_!=0)
-	fprintf(pfile,"CMS_eff_m     lnN   %.3f   %.3f          %.3f          %.3f          -         %.3f          %.3f       muon ID /HLT\n",
-	       1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_);
-      if(eleID_!=0)
-	fprintf(pfile,"CMS_eff_e    lnN    %.3f      %.3f          %.3f          %.3f          -           %.3f          %.3f       Electron ID\n",
-	     1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_);
-    if(zttScale_!=0)
-      fprintf(pfile,"CMS_htt_zttNorm lnN   -         -             -             %.3f          -             -         -         ZTT Scale  \n",
-	     1+zttScaleErr_/zttScale_);
-      fprintf(pfile,"CMS_htt_zttExtrap_sm0 lnN   -         -             -             %.3f          -             -         -         ZTT Scale  \n",
-	     1+out.dZTTCORR/out.ZTTCORR);
-    fprintf(pfile,"CMS_htt_ttbarNorm      lnN  -         -             -             -             -              %.3f           -      TTbar background  \n",1+out.dTOP/out.TOP);
-    fprintf(pfile,"CMS_htt_DiBosonNorm     lnN -         -             -             -             -           -              %.3f   DiBoson background \n",1+out.dVV/out.VV);
-    fprintf(pfile,"CMS_htt_%s_FakeNorm    lnN  -         -             -             -             %.3f          -             -      QCD Background\n",(channel_+postfix).c_str(),1+out.dQCD/out.QCD);
-       for(unsigned int j=0;j<shifts_.size();++j)
-	   fprintf(pfile,"%s    shape    1             1             1               1             -             -             -        shape\n",shiftsPostFix_[j].c_str());
-
-//    fprintf(pfile,"CMS_scale_j           lnN  0.96        0.99          0.92          -            -              0.94            0.97    Jet scale\n");
-    fprintf(pfile,"CMS_scale_met           lnN  1.05        1.05          1.05          -            -              1.02            1.06    Met scale\n");
-    fprintf(pfile,"pdf_qqbar            lnN  -    -          1.08          -            -              -            -    PDF VBF\n");
-    fprintf(pfile,"pdf_vh               lnN  1.08    -       -          -            -              -            -    PDF VBF\n");
-    fprintf(pfile,"pdf_gg               lnN  -    1.08       -             -            -              -            -    PDF VBF\n");
-    fprintf(pfile,"QCDscale_ggH         lnN  -    1.12       -             -            -              -            -    PDF VBF\n");
-    fprintf(pfile,"QCDscale_qqH         lnN  -    -          1.035         -            -              -            -    PDF VBF\n");
-    fprintf(pfile,"UEPS                 lnN  0.96    0.96       0.96          -            -              -            -    PDF VBF\n");
-    fclose(pfile);
-    }
-  
-
-  }
-
-
-
-  void makeSMLTauDataCardVBF(BkgOutput out,std::string postfix, std::string rootS) {
-    for(unsigned int m = 0;m<smMassesDC_.size();++m) {
-      FILE *pfile = fopen(("datacards/"+channel_+postfix+"_mH"+smMassesDC_[m]+".txt").c_str(),"w");
-
-      fprintf(pfile,"imax 1\n");
-      fprintf(pfile,"jmax *\n");
-      fprintf(pfile,"kmax *\n");
-      fprintf(pfile,"shapes *  *    %s  $CHANNEL/$PROCESS $CHANNEL/$PROCESS_$SYSTEMATIC \n",(channel_+"SM.root").c_str());
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      fprintf(pfile,"observation %d\n",(int)out.DATA);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      std::string ch = channel_+postfix;
-      fprintf(pfile,"bin            %s           %s            %s            %s            %s            %s            %s            %s            %s\n",ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str());
-      fprintf(pfile,"process        VH%s        ggH%s        qqH%s        ZTT           QCD           W             ZLL             TT            VV\n",smMassesDC_[m].c_str(),smMassesDC_[m].c_str(),smMassesDC_[m].c_str());
-      fprintf(pfile,"process        -2           -1            0            1             2           3             4             5             6  \n");
-      fprintf(pfile,"rate           %.3f        %.3f          %.3f          %.3f          %.3f          %.3f          %.3f          %.3f          %.3f\n",
-	     getYield("VH"+smMassesDC_[m],postfix),getYield("ggH"+smMassesDC_[m],postfix),getYield("qqH"+smMassesDC_[m],postfix),out.ZTT,out.QCD,out.W,out.ZLFT,out.TOP,out.VV);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      if(luminosityErr_!=0)
-	fprintf(pfile,"lumi_%s     lnN   %.3f     %.3f          %.3f          -             -             -             -            -             -          luminosity\n",
-		rootS.c_str(),1+luminosityErr_,1+luminosityErr_,1+luminosityErr_);
-      for(unsigned int j=0;j<shifts_.size();++j)
-	  fprintf(pfile,"%s_%s    shape    1   1     1       1         -           -          -         -        -                 shape(Ignore small ones that cause instabilities)\n",shiftsPostFix_[j].c_str(),rootS.c_str());
-	  
-      if(muID_!=0)
-	fprintf(pfile,"CMS_eff_m     lnN   %.3f  %.3f          %.3f          %.3f          -             -             %.3f            %.3f          %.3f       muon ID /HLT\n",
-		1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_);
-      if(tauID_!=0)
-	fprintf(pfile,"CMS_eff_t     lnN   %.3f   %.3f          %.3f          %.3f          -             -             -                     %.3f          %.3f        Tau IDf\n",
-		1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_);
-      if(eleID_!=0)
-	fprintf(pfile,"CMS_eff_e       lnN %.3f   %.3f          %.3f          %.3f          -             -             %.3f               %.3f           %.3f      Electron ID\n",
-		1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_);
-      if(zttScale_!=0)
-	fprintf(pfile,"CMS_htt_zttNorm_%s lnN   -             -             -             %.3f          -             -             %.3f                    -              -         ZTT Scale  \n",
-		rootS.c_str(),1+zttScaleErr_/zttScale_,1+zttScaleErr_/zttScale_);
-
-    /////////FIXPOINT
-      fprintf(pfile,"CMS_htt_ztt_extrap_vbf_%s lnN   -                 -             -             %.3f          -             -                %.3f          -              -         ZTT Extrapolation  \n",
-	      rootS.c_str(),1+out.dZTTCORR/out.ZTTCORR,1+vbfFactorZErr_/vbfFactorZ_);
-    fprintf(pfile,"CMS_htt_ttbarNorm_%s          lnN   -   -             -             -             -             -             -                           %.3f           -      TTbar background  \n",rootS.c_str(),1+out.dTOP/out.TOP);
-    fprintf(pfile,"CMS_htt_DiBosonNorm_%s        lnN    -  -             -             -             -             -             -                           -              %.3f   DiBoson background \n",rootS.c_str(),1+out.dVV/out.VV);
-    fprintf(pfile,"CMS_htt_%s_QCDSyst_%s             lnN -       -             -             -             %.3f          -             -             -                            -      QCD Background\n",(channel_+postfix).c_str(),rootS.c_str(),1+out.dQCD/out.QCD);
-    fprintf(pfile,"CMS_htt_W_extrap_vbf_%s           lnN  -    -             -             -             -             %.3f          -             -                            -      W Extrapolation \n",rootS.c_str(),1+vbfFactorWErr_/vbfFactorW_);
-    fprintf(pfile,"CMS_htt_%s_WNorm_%s                  lnN   -   -             -             -             -             %.3f          -             -              -              -      W Background \n",channel_.c_str(),rootS.c_str(),1+out.dWCORR/out.WCORR);
-    fprintf(pfile,"CMS_htt_ZLLNorm_%s                  lnN   -   -             -             -             -             -          %.3f           -              -      Z(l->tau)   background\n",rootS.c_str(),1+out.dZLFT/out.ZLFT);
-
-    fprintf(pfile,"CMS_scale_j_%s         lnN  1.20        1.03          1.08          -            -              -         -          1.15            1.10    Jet scale\n", rootS.c_str());
-    fprintf(pfile,"CMS_scale_met_%s       lnN  1.05        1.05          1.05          -            -              -      1.05       1.10            1.10    Met scale\n", rootS.c_str());
-
-    fprintf(pfile,"pdf_qqbar            lnN -     -          1.08          -            -              -        -         -          -            -    PDF VBF\n");
-    fprintf(pfile,"pdf_gg               lnN -     1.08       -             -            -              -        -         -          -            -    PDF GGH\n");
-    fprintf(pfile,"pdf_vh               lnN 1.08   -         -             -            -              -        -         -          -            -    PDF GGH\n");
-    fprintf(pfile,"QCDscale_ggH2in      lnN  -   1.30        -         -            -              -        -         -          -            -    QCD scale \n");
-    fprintf(pfile,"QCDscale_qqH         lnN  -    -          1.04         -            -              -        -         -          -            -    QCD scale VBF\n");
-    fprintf(pfile,"UEPS                 lnN  1.04    1.04       1.04          -            -              -        -         -          -            -    UEPS VBF\n");
-    fclose(pfile);
-    }
-  
- 
-
-  }
-
-
-
-
-  void makeSMEMuDataCardVBF(BkgOutput out,std::string postfix) {
-    for(unsigned int m = 0;m<smMassesDC_.size();++m) {
-      FILE *pfile = fopen(("datacards/"+channel_+postfix+"_mH"+smMassesDC_[m]+".txt").c_str(),"w");
-
-      fprintf(pfile,"imax 1\n");
-      fprintf(pfile,"jmax *\n");
-      fprintf(pfile,"kmax *\n");
-      fprintf(pfile,"shapes *  *    %s  $CHANNEL/$PROCESS $CHANNEL/$PROCESS_$SYSTEMATIC \n",(channel_+"SM.root").c_str());
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      fprintf(pfile,"observation %d\n",(int)out.DATA);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      std::string ch = channel_+postfix;
-      fprintf(pfile,"bin            %s           %s            %s            %s            %s            %s            %s        \n",ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str());
-      fprintf(pfile,"process   VH%s     ggH%s        qqH%s        ZTT           FAKES         TT            VV\n",smMassesDC_[m].c_str(),smMassesDC_[m].c_str(),smMassesDC_[m].c_str());
-      fprintf(pfile,"process   -2     -1            0            1             2           3             4\n");
-      fprintf(pfile,"rate      %.3f     %.3f          %.3f         %.3f          %.3f          %.3f       %.3f\n",
-	     getYield("VH"+smMassesDC_[m],postfix),getYield("ggH"+smMassesDC_[m],postfix),getYield("qqH"+smMassesDC_[m],postfix),out.ZTT,out.QCD,out.TOP,out.VV);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      if(luminosityErr_!=0)
-	fprintf(pfile,"lumi     lnN   %.3f    %.3f          %.3f          -             -             -             -          luminosity\n",
-	   1+luminosityErr_,1+luminosityErr_,1+luminosityErr_);
-      for(unsigned int j=0;j<shifts_.size();++j)
-	fprintf(pfile,"%s    shape    1      1     1       1         -               -        -     -            shape(Ignore small ones that cause instabilities)\n",shiftsPostFix_[j].c_str());
-
-      if(muID_!=0)
-	fprintf(pfile,"CMS_eff_m     lnN   %.3f   %.3f          %.3f          %.3f          -             %.3f          %.3f       muon ID /HLT\n",
-		1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_);
-      if(tauID_!=0)
-	fprintf(pfile,"CMS_eff_t     lnN   %.3f  %.3f          %.3f          %.3f          -             %.3f          %.3f        Tau IDf\n",
-	       1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_);
-      if(eleID_!=0)
-	fprintf(pfile,"CMS_eff_e     lnN   %.3f   %.3f          %.3f          %.3f          -            %.3f           %.3f      Electron ID\n",
-		1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_);
-      if(zttScale_!=0)
-	fprintf(pfile,"CMS_htt_zttNorm lnN   -  -             -             %.3f          -              -              -         ZTT Scale  \n",
-		1+zttScaleErr_/zttScale_);
-    /////////FIXPOINT
-      fprintf(pfile,"CMS_htt_ztt_extrap_vbf lnN  -     -          -             %.3f          -            -              -         ZTT Extrapolation  \n",
-	      1+out.dZTTCORR/out.ZTTCORR);
-    fprintf(pfile,"CMS_htt_ttbarNorm          lnN   -   -             -             -             -         %.3f           -      TTbar background  \n",1+out.dTOP/out.TOP);
-    fprintf(pfile,"CMS_htt_DiBosonNorm        lnN   -   -             -             -             -          -              %.3f   DiBoson background \n",1+out.dVV/out.VV);
-    fprintf(pfile,"CMS_htt_%s_FakeNorm        lnN   -   -             -             -             %.3f          -             -       FAKE Background\n",(channel_+postfix).c_str(),1+out.dQCD/out.QCD);
-
-    fprintf(pfile,"CMS_scale_j         lnN  1.20        1.03          1.08          -            -              1.15            1.10    Jet scale\n");
-    fprintf(pfile,"CMS_scale_met       lnN  1.05        1.05          1.05          -            -              1.10            1.10    Met scale\n");
-
-
-    fprintf(pfile,"pdf_qqbar            lnN   -   -          1.08          -            -              -        -       PDF VBF\n");
-    fprintf(pfile,"pdf_gg               lnN   -   1.08       -             -            -              -        -       PDF GGH\n");
-    fprintf(pfile,"pdf_vh               lnN   1.08 -         -             -            -              -        -       PDF GGH\n");
-    fprintf(pfile,"QCDscale_ggH2in      lnN   -   1.30       -         -            -              -        -           QCD scale \n");
-    fprintf(pfile,"QCDscale_qqH         lnN   -   -          1.04         -            -              -        -        QCD scale VBF\n");
-    fprintf(pfile,"UEPS                 lnN   1.04   1.04       1.04          -            -              -        -       UEPS VBF\n");
-    fclose(pfile);
-    }
-  
- 
-
-  }
-
-
-
-
-
-
-
-  void makeSMLTauDataCardBoost(BkgOutput out,std::string postfix) {
-    for(unsigned int m = 0;m<smMassesDC_.size();++m) {
-      FILE *pfile = fopen(("datacards/"+channel_+postfix+"_mH"+smMassesDC_[m]+".txt").c_str(),"w");
-
-      fprintf(pfile,"imax 1\n");
-      fprintf(pfile,"jmax *\n");
-      fprintf(pfile,"kmax *\n");
-      fprintf(pfile,"shapes *  *    %s  $CHANNEL/$PROCESS $CHANNEL/$PROCESS_$SYSTEMATIC \n",(channel_+"SM.root").c_str());
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      fprintf(pfile,"observation %d\n",(int)out.DATA);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      std::string ch = channel_+postfix;
-      fprintf(pfile,"bin          %s             %s            %s            %s            %s            %s            %s            %s            %s\n",ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str());
-      fprintf(pfile,"process   VH%s      ggH%s        qqH%s        ZTT           QCD           W             ZLL             TT            VV\n",smMassesDC_[m].c_str(),smMassesDC_[m].c_str(),smMassesDC_[m].c_str());
-      fprintf(pfile,"process    -2       -1            0            1             2           3             4             5             6  \n");
-      fprintf(pfile,"rate       %.3f    %.3f          %.3f          %.3f          %.3f          %.3f          %.3f          %.3f          %.3f\n",
-	 getYield("VH"+smMassesDC_[m],postfix),getYield("ggH"+smMassesDC_[m],postfix),getYield("qqH"+smMassesDC_[m],postfix),out.ZTT,out.QCD,out.W,out.ZLFT,out.TOP,out.VV);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      if(luminosityErr_!=0)
-	fprintf(pfile,"lumi     lnN   %.3f   %.3f          %.3f          -             -             -             -            -             -          luminosity\n",
-	   1+luminosityErr_,1+luminosityErr_,1+luminosityErr_);
-
-      for(unsigned int j=0;j<shifts_.size();++j)
-	  fprintf(pfile,"%s    shape    1     1     1       1         -           -          -         -        -                 shape(Ignore small ones that cause instabilities)\n",shiftsPostFix_[j].c_str());
-
-      if(muID_!=0)
-	fprintf(pfile,"CMS_eff_m     lnN   %.3f    %.3f          %.3f          %.3f          -             -             %.3f            %.3f          %.3f       muon ID /HLT\n",
-		1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_);
-      if(tauID_!=0)
-	fprintf(pfile,"CMS_eff_t     lnN   %.3f   %.3f          %.3f          %.3f          -             -             -                     %.3f          %.3f        Tau IDf\n",
-	       1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_);
-      if(eleID_!=0)
-	fprintf(pfile,"CMS_eff_e       lnN %.3f    %.3f          %.3f          %.3f          -             -             %.3f               %.3f           %.3f      Electron ID\n",
-		1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_);
-      if(zttScale_!=0)
-	fprintf(pfile,"CMS_htt_zttNorm lnN   -     -             -             %.3f          -             -             %.3f                    -              -         ZTT Scale  \n",
-		1+zttScaleErr_/zttScale_,1+zttScaleErr_/zttScale_);
-
-    /////////FIXPOINT
-      fprintf(pfile,"CMS_htt_ztt_extrap_boost lnN    - -             -             %.3f          -             -                %.3f          -              -         ZTT Extrapolation  \n",
-	      1+out.dZTTCORR/out.ZTTCORR,1+boostFactorZErr_/boostFactorZ_);
-    fprintf(pfile,"CMS_htt_ttbarNorm          lnN   -   -             -             -             -             -             -                           %.3f           -      TTbar background  \n",1+out.dTOP/out.TOP);
-    fprintf(pfile,"CMS_htt_DiBosonNorm        lnN    -  -             -             -             -             -             -                           -              %.3f   DiBoson background \n",1+out.dVV/out.VV);
-    fprintf(pfile,"CMS_htt_%s_QCDSyst             lnN -       -             -             -             %.3f          -             -             -                            -      QCD Background\n",channel_.c_str(),1+out.dQCD/out.QCD);
-    fprintf(pfile,"CMS_htt_W_extrap_boost           lnN -      -             -             -             -             %.3f          -             -                            -      W Extrapolation \n",1+boostFactorWErr_/boostFactorW_);
-    fprintf(pfile,"CMS_htt_%s_WNorm                  lnN  -    -             -             -             -             %.3f          -             -              -              -      W Background \n",channel_.c_str(),1+out.dWCORR/out.WCORR);
-    fprintf(pfile,"CMS_htt_ZLL                  lnN    -  -             -             -             -             -          %.3f           -              -      Z(l->tau)   background\n",1+out.dZLFT/out.ZLFT);
-
-    fprintf(pfile,"CMS_scale_j         lnN  1.02        1.02          1.05          -            -              -         -          1.03            1.08    Jet scale\n");
-    fprintf(pfile,"CMS_scale_met       lnN  1.05        1.05          1.05          -            -              -      1.05       1.07            1.06    Met scale\n");
-    fprintf(pfile,"pdf_qqbar            lnN      -         -          1.08          -            -              -        -         -          -            -    PDF VBF\n");
-    fprintf(pfile,"pdf_gg               lnN      -       1.08       -             -            -              -        -         -          -            -    PDF GGH\n");
-    fprintf(pfile,"pdf_vh               lnN      1.08    -          -             -            -              -        -         -          -            -    PDF GGH\n");
-    fprintf(pfile,"QCDscale_ggH1in      lnN     -        1.25       -         -            -              -        -         -          -            -    QCD scale \n");
-    fprintf(pfile,"QCDscale_qqH         lnN      -        -          1.04         -            -              -        -         -          -            -    QCD scale VBF\n");
-    fprintf(pfile,"UEPS                 lnN      1.04     1.04       1.04          -            -              -        -         -          -            -    UEPS VBF\n");
-    fclose(pfile);
-    }
-  
- 
-
-  }
-
-
-
-
-
-
-  void makeSMLTauDataCardVH(BkgOutput out,std::string postfix) {
-    for(unsigned int m = 0;m<smMassesDC_.size();++m) {
-      FILE *pfile = fopen(("datacards/"+channel_+postfix+"_mH"+smMassesDC_[m]+".txt").c_str(),"w");
-
-      fprintf(pfile,"imax 1\n");
-      fprintf(pfile,"jmax *\n");
-      fprintf(pfile,"kmax *\n");
-      fprintf(pfile,"shapes *  *    %s  $CHANNEL/$PROCESS $CHANNEL/$PROCESS_$SYSTEMATIC \n",(channel_+"SM.root").c_str());
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      fprintf(pfile,"observation %d\n",(int)out.DATA);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      std::string ch = channel_+postfix;
-      fprintf(pfile,"bin          %s             %s            %s            %s            %s            %s            %s            %s            %s\n",ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str());
-      fprintf(pfile,"process   VH%s      ggH%s        qqH%s        ZTT           QCD           W             ZLL             TT            VV\n",smMassesDC_[m].c_str(),smMassesDC_[m].c_str(),smMassesDC_[m].c_str());
-      fprintf(pfile,"process    -2       -1            0            1             2           3             4             5             6  \n");
-      fprintf(pfile,"rate       %.3f    %.3f          %.3f          %.3f          %.3f          %.3f          %.3f          %.3f          %.3f\n",
-	 getYield("VH"+smMassesDC_[m],postfix),getYield("ggH"+smMassesDC_[m],postfix),getYield("qqH"+smMassesDC_[m],postfix),out.ZTT,out.QCD,out.W,out.ZLFT,out.TOP,out.VV);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      if(luminosityErr_!=0)
-	fprintf(pfile,"lumi     lnN   %.3f   %.3f          %.3f          -             -             -             -            -             -          luminosity\n",
-	   1+luminosityErr_,1+luminosityErr_,1+luminosityErr_);
-
-      for(unsigned int j=0;j<shifts_.size();++j)
-	  fprintf(pfile,"%s    shape    1     1     1       1         -           -          -         -        -                 shape(Ignore small ones that cause instabilities)\n",shiftsPostFix_[j].c_str());
-      if(muID_!=0)
-	fprintf(pfile,"CMS_eff_m     lnN   %.3f    %.3f          %.3f          %.3f          -             -             %.3f            %.3f          %.3f       muon ID /HLT\n",
-		1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_);
-      if(tauID_!=0)
-	fprintf(pfile,"CMS_eff_t     lnN   %.3f   %.3f          %.3f          %.3f          -             -             -                     %.3f          %.3f        Tau IDf\n",
-	       1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_);
-      if(eleID_!=0)
-	fprintf(pfile,"CMS_eff_e       lnN %.3f    %.3f          %.3f          %.3f          -             -             %.3f               %.3f           %.3f      Electron ID\n",
-		1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_);
-      if(zttScale_!=0)
-	fprintf(pfile,"CMS_htt_zttNorm lnN   -     -             -             %.3f          -             -             %.3f                    -              -         ZTT Scale  \n",
-		1+zttScaleErr_/zttScale_,1+zttScaleErr_/zttScale_);
-
-    /////////FIXPOINT
-      fprintf(pfile,"CMS_htt_ztt_extrap_vh lnN    - -             -             %.3f          -             -                %.3f          -              -         ZTT Extrapolation  \n",
-	      1+out.dZTTCORR/out.ZTTCORR,1+vhFactorZErr_/vhFactorZ_);
-    fprintf(pfile,"CMS_htt_ttbarNorm          lnN   -   -             -             -             -             -             -                           %.3f           -      TTbar background  \n",1+out.dTOP/out.TOP);
-    fprintf(pfile,"CMS_htt_DiBosonNorm        lnN    -  -             -             -             -             -             -                           -              %.3f   DiBoson background \n",1+out.dVV/out.VV);
-    fprintf(pfile,"CMS_htt_%s_QCDSyst             lnN -       -             -             -             %.3f          -             -             -                            -      QCD Background\n",channel_.c_str(),1+out.dQCD/out.QCD);
-    fprintf(pfile,"CMS_htt_W_extrap_boost           lnN -      -             -             -             -             %.3f          -             -                            -      W Extrapolation \n",1+vhFactorWErr_/vhFactorW_);
-    fprintf(pfile,"CMS_htt_%s_WNorm                  lnN  -    -             -             -             -             %.3f          -             -              -              -      W Background \n",channel_.c_str(),1+out.dWCORR/out.WCORR);
-    fprintf(pfile,"CMS_htt_ZLL                  lnN    -  -             -             -             -             -          %.3f           -              -      Z(l->tau)   background\n",1+out.dZLFT/out.ZLFT);
-
-    fprintf(pfile,"CMS_scale_j         lnN  1.04        1.07          1.04          -            -              -         -          1.02            1.02    Jet scale\n");
-    fprintf(pfile,"CMS_scale_met       lnN  1.05        1.05          1.05          -            -              -      1.05       1.06            1.04    Met scale\n");
-    fprintf(pfile,"pdf_qqbar            lnN      -         -          1.08          -            -              -        -         -          -            -    PDF VBF\n");
-    fprintf(pfile,"pdf_gg               lnN      -       1.08       -             -            -              -        -         -          -            -    PDF GGH\n");
-    fprintf(pfile,"pdf_vh               lnN      1.08    -          -             -            -              -        -         -          -            -    PDF GGH\n");
-    fprintf(pfile,"QCDscale_ggH1in      lnN     -        1.25       -         -            -              -        -         -          -            -    QCD scale \n");
-    fprintf(pfile,"QCDscale_qqH         lnN      -        -          1.04         -            -              -        -         -          -            -    QCD scale VBF\n");
-    fprintf(pfile,"UEPS                 lnN      1.04     1.04       1.04          -            -              -        -         -          -            -    UEPS VBF\n");
-    fclose(pfile);
-    }
-  
- 
-
-  }
-
-
-
-
-  void makeSMEMuDataCardBoost(BkgOutput out,std::string postfix) {
-    for(unsigned int m = 0;m<smMassesDC_.size();++m) {
-      FILE *pfile = fopen(("datacards/"+channel_+postfix+"_mH"+smMassesDC_[m]+".txt").c_str(),"w");
-
-      fprintf(pfile,"imax 1\n");
-      fprintf(pfile,"jmax *\n");
-      fprintf(pfile,"kmax *\n");
-      fprintf(pfile,"shapes *  *    %s  $CHANNEL/$PROCESS $CHANNEL/$PROCESS_$SYSTEMATIC \n",(channel_+"SM.root").c_str());
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      fprintf(pfile,"observation %d\n",(int)out.DATA);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      std::string ch = channel_+postfix;
-      fprintf(pfile,"bin            %s               %s            %s            %s            %s            %s            %s\n",ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str());
-      fprintf(pfile,"process        VH%s           ggH%s        qqH%s        ZTT           FAKES         TT            VV\n",smMassesDC_[m].c_str(),smMassesDC_[m].c_str(),smMassesDC_[m].c_str());
-      fprintf(pfile,"process        -2              -1            0            1             2           3             4       \n");
-      fprintf(pfile,"rate           %.3f            %.3f          %.3f          %.3f          %.3f          %.3f          %.3f\n",
-	     getYield("VH"+smMassesDC_[m],postfix),getYield("ggH"+smMassesDC_[m],postfix),getYield("qqH"+smMassesDC_[m],postfix),out.ZTT,out.QCD,out.TOP,out.VV);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      if(luminosityErr_!=0)
-	fprintf(pfile,"lumi     lnN   %.3f     %.3f          %.3f          -             -             -             -     luminosity\n",
-	   1+luminosityErr_,1+luminosityErr_,1+luminosityErr_);
-      for(unsigned int j=0;j<shifts_.size();++j)
-	fprintf(pfile,"%s    shape    1    1     1       -         -           -    -                shape(Ignore small ones that cause instabilities)\n",shiftsPostFix_[j].c_str());
-
-      if(muID_!=0)
-	fprintf(pfile,"CMS_eff_m     lnN   %.3f    %.3f          %.3f          %.3f          -                 %.3f          %.3f       muon ID /HLT\n",
-		1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_);
-      if(eleID_!=0)
-	fprintf(pfile,"CMS_eff_e       lnN   %.3f   %.3f          %.3f          %.3f          -               %.3f           %.3f      Electron ID\n",
-		1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_);
-      if(zttScale_!=0)
-	fprintf(pfile,"CMS_htt_zttNorm lnN   -      -             -             %.3f          -                      -              -         ZTT Scale  \n",
-		1+zttScaleErr_/zttScale_);
-
-    fprintf(pfile,"CMS_scale_j         lnN  1.02        1.02          1.05          -            -              1.03            1.08    Jet scale\n");
-    fprintf(pfile,"CMS_scale_met       lnN  1.05        1.05          1.05          -            -              1.07            1.06    Met scale\n");
-
-    /////////FIXPOINT
-      fprintf(pfile,"CMS_htt_ztt_extrap_boost lnN   -    -             -             %.3f          -               -              -         ZTT Extrapolation  \n",
-	      1+out.dZTTCORR/out.ZTTCORR);
-    fprintf(pfile,"CMS_htt_ttbarNorm          lnN   -   -             -             -             -            %.3f           -      TTbar background  \n",1+out.dTOP/out.TOP);
-    fprintf(pfile,"CMS_htt_DiBosonNorm        lnN   -   -             -             -             -             -              %.3f   DiBoson background \n",1+out.dVV/out.VV);
-    fprintf(pfile,"CMS_htt_%s_FakeNorm        lnN  -     -             -             -             %.3f          -             -     Fake  Background\n",channel_.c_str(),1+qcdFactorErr_/qcdFactor_);
-    fprintf(pfile,"pdf_qqbar            lnN     -   -          1.08          -            -             -            -    PDF VBF\n");
-    fprintf(pfile,"pdf_gg               lnN    -    1.08       -             -            -             -            -    PDF GGH\n");
-    fprintf(pfile,"pdf_vh               lnN    1.08 -          -             -            -             -            -    PDF GGH\n");
-    fprintf(pfile,"QCDscale_ggH1in      lnN   -    1.25       -         -            -                 -            -    QCD scale \n");
-    fprintf(pfile,"QCDscale_qqH         lnN   -     -          1.04         -            -              -            -    QCD scale VBF\n");
-    fprintf(pfile,"UEPS                 lnN   1.04   1.04       1.04          -            -             -            -    UEPS VBF\n");
-    fclose(pfile);
-    }
-  
- 
-
-  }
-
-
-
-
-
-
-
-  void makeSMEMuDataCardVH(BkgOutput out,std::string postfix) {
-    for(unsigned int m = 0;m<smMassesDC_.size();++m) {
-      FILE *pfile = fopen(("datacards/"+channel_+postfix+"_mH"+smMassesDC_[m]+".txt").c_str(),"w");
-
-      fprintf(pfile,"imax 1\n");
-      fprintf(pfile,"jmax *\n");
-      fprintf(pfile,"kmax *\n");
-      fprintf(pfile,"shapes *  *    %s  $CHANNEL/$PROCESS $CHANNEL/$PROCESS_$SYSTEMATIC \n",(channel_+"SM.root").c_str());
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      fprintf(pfile,"observation %d\n",(int)out.DATA);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      std::string ch = channel_+postfix;
-      fprintf(pfile,"bin            %s               %s            %s            %s            %s            %s            %s\n",ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str());
-      fprintf(pfile,"process        VH%s           ggH%s        qqH%s        ZTT           FAKES         TT            VV\n",smMassesDC_[m].c_str(),smMassesDC_[m].c_str(),smMassesDC_[m].c_str());
-      fprintf(pfile,"process        -2              -1            0            1             2           3             4       \n");
-      fprintf(pfile,"rate           %.3f            %.3f          %.3f          %.3f          %.3f          %.3f          %.3f\n",
-	     getYield("VH"+smMassesDC_[m],postfix),getYield("ggH"+smMassesDC_[m],postfix),getYield("qqH"+smMassesDC_[m],postfix),out.ZTT,out.QCD,out.TOP,out.VV);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      if(luminosityErr_!=0)
-	fprintf(pfile,"lumi     lnN   %.3f     %.3f          %.3f          -             -             -             -     luminosity\n",
-	   1+luminosityErr_,1+luminosityErr_,1+luminosityErr_);
-      for(unsigned int j=0;j<shifts_.size();++j)
-	fprintf(pfile,"%s    shape    1    1     1       -         -           -    -                shape(Ignore small ones that cause instabilities)\n",shiftsPostFix_[j].c_str());
-
-      if(muID_!=0)
-	fprintf(pfile,"CMS_eff_m     lnN   %.3f    %.3f          %.3f          %.3f          -                 %.3f          %.3f       muon ID /HLT\n",
-		1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_);
-      if(eleID_!=0)
-	fprintf(pfile,"CMS_eff_e       lnN   %.3f   %.3f          %.3f          %.3f          -               %.3f           %.3f      Electron ID\n",
-		1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_);
-      if(zttScale_!=0)
-	fprintf(pfile,"CMS_htt_zttNorm lnN   -      -             -             %.3f          -                      -              -         ZTT Scale  \n",
-		1+zttScaleErr_/zttScale_);
-
-    /////////FIXPOINT
-      fprintf(pfile,"CMS_htt_ztt_extrap_vh lnN   -    -             -             %.3f          -               -              -         ZTT Extrapolation  \n",
-	      1+out.dZTTCORR/out.ZTTCORR);
-    fprintf(pfile,"CMS_htt_ttbarNorm          lnN   -   -             -             -             -            %.3f           -      TTbar background  \n",1+out.dTOP/out.TOP);
-    fprintf(pfile,"CMS_htt_DiBosonNorm        lnN   -   -             -             -             -             -              %.3f   DiBoson background \n",1+out.dVV/out.VV);
-    fprintf(pfile,"CMS_htt_%s_FakeNorm        lnN  -     -             -             -             %.3f          -             -     Fake  Background\n",channel_.c_str(),1+qcdFactorErr_/qcdFactor_);
-
-
-    fprintf(pfile,"CMS_scale_j         lnN  1.04        1.07          1.04          -            -             1.02            1.02    Jet scale\n");
-    fprintf(pfile,"CMS_scale_met       lnN  1.05        1.05          1.05          -            -             1.06            1.04    Met scale\n");
-
-    fprintf(pfile,"pdf_qqbar            lnN     -   -          1.08          -            -             -            -    PDF VBF\n");
-    fprintf(pfile,"pdf_gg               lnN    -    1.08       -             -            -             -            -    PDF GGH\n");
-    fprintf(pfile,"pdf_vh               lnN    1.08 -          -             -            -             -            -    PDF GGH\n");
-    fprintf(pfile,"QCDscale_ggH1in      lnN   -    1.25       -         -            -                 -            -    QCD scale \n");
-    fprintf(pfile,"QCDscale_qqH         lnN   -     -          1.04         -            -              -            -    QCD scale VBF\n");
-    fprintf(pfile,"UEPS                 lnN   1.04   1.04       1.04          -            -             -            -    UEPS VBF\n");
-    fclose(pfile);
-    }
-  
- 
-
-  }
-
-
-
-
-  void makeMSSMLTauDataCardBTagged(BkgOutput out,std::string postfix) {
-    for(unsigned int m = 0;m<mssmMasses_.size();++m) {
-      FILE *pfile = fopen(("datacards/"+channel_+postfix+"_mA"+mssmMasses_[m]+".txt").c_str(),"w");
-
-      fprintf(pfile,"imax 1\n");
-      fprintf(pfile,"jmax *\n");
-      fprintf(pfile,"kmax *\n");
-      fprintf(pfile,"shapes *  *    %s  $CHANNEL/$PROCESS $CHANNEL/$PROCESS_$SYSTEMATIC \n",(channel_+".root").c_str());
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      fprintf(pfile,"observation %d\n",(int)out.DATA);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      std::string ch = channel_+postfix;
-      fprintf(pfile,"bin            %s            %s            %s            %s            %s            %s             %s            %s\n",ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str());
-      fprintf(pfile,"process        GGH%s        BBH%s        ZTT           QCD           W             ZLL             TT            VV\n",mssmMasses_[m].c_str(),mssmMasses_[m].c_str());
-      fprintf(pfile,"process        -1            0             1             2             3             4             5              6\n");
-      fprintf(pfile,"rate           %.3f          %.3f          %.3f          %.3f          %.3f          %.3f          %.3f          %.3f\n",
-	      getYield("GGH"+mssmMasses_[m],postfix),getYield("BBH"+mssmMasses_[m],postfix),out.ZTT,out.QCD,out.W,out.ZLFT,out.TOP,out.VV);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      if(luminosityErr_!=0)
-	fprintf(pfile,"lumi     lnN   %.3f          %.3f          -             -             -             -             -              -          luminosity\n",
-	   1+luminosityErr_,1+luminosityErr_);
-      
-      if(muID_!=0)
-	fprintf(pfile,"CMS_eff_m     lnN   %.3f          %.3f          %.3f          -             -             %.3f          %.3f          %.3f       muon ID /HLT\n",
-	       1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_);
-      if(tauID_!=0)
-	fprintf(pfile,"CMS_eff_t    lnN   %.3f          %.3f          %.3f          -             -             -             -             %.3f        Tau IDf\n",
-	       1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_,1+tauIDErr_/tauID_);
-    if(eleID_!=0)
-      fprintf(pfile,"CMS_eff_e    lnN   %.3f          %.3f          %.3f          -             -             %.3f          %.3f          %.3f                 Electron ID\n",
-	     1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_);
-    if(zttScale_!=0)
-      fprintf(pfile,"CMS_htt_zttNorm lnN   -             -             %.3f          -             -             %.3f          %.3f          -                 ZTT Scale  \n",
-	     1+zttScaleErr_/zttScale_,1+zttScaleErr_/zttScale_,1+zttScaleErr_/zttScale_);
-    //FIXPOINTTTT
-    fprintf(pfile,"CMS_htt_ztt_extrap_btag lnN   -             -             %.3f          -             -             %.3f        -          -         ZTT Extrapolation\n", 1+out.dZTTCORR/out.ZTTCORR,1+bFactorZErr_/bFactorZ_);
-    fprintf(pfile,"CMS_htt_w_extrap_btag lnN   -             -                -             -            %.3f          -             -          -       W Extrapolation\n", 1+bFactorWErr_/bFactorW_);
-    fprintf(pfile,"CMS_htt_ttbarNorm  lnN      -             -             -             -             -             -             %.3f           -      TTbar background  \n",1+out.dTOP/out.TOP);
-    fprintf(pfile,"CMS_htt_DiBosonNorm  lnN      -             -             -             -             -             -             -            %.3f   DiBoson background \n",1+out.dVV/out.VV);
-    fprintf(pfile,"CMS_htt_%s_ZLLTNorm  lnN      -             -             -             -             -               %.3f           -              -      Z(l->tau)   background\n",(channel_+postfix).c_str(),1+out.dZLFT/out.ZLFT);
-
-    for(unsigned int j=0;j<shifts_.size();++j)
-      fprintf(pfile,"%s    shape    1             1             1            -             -             -             -              -      shape\n",shiftsPostFix_[j].c_str());
-
-    fprintf(pfile,"CMS_htt_%s_QCDNorm  lnN         -             -             -             %.3f          -             -             -                          -      QCD Background\n",(channel_+postfix).c_str(),1+out.dQCD/out.QCD);
-    fprintf(pfile,"CMS_htt_%s_WNorm    lnN      -             -             -             -             %.3f          -             -                         -      W Backghround \n",channel_.c_str(),1+out.dWCORR/out.WCORR);
-
-    fprintf(pfile,"CMS_eff_b      lnN      -             %.3f          -             -             -             -                         %.3f           -     BTag efficiency \n",1+bIDErr_/bID_,1+bIDErr_/bID_);
-    fprintf(pfile,"CMS_fake_b      lnN      %.3f          -             -             -             -             -                       -              -     BTag MisTag \n",1+bMisIDErr_/bMisID_);
-
-
-    fprintf(pfile,"CMS_scale_j      lnN     1.04           1.02             -             -             -             -                       1.10              1.03     Jet Scale \n");
-    fprintf(pfile,"CMS_scale_met    lnN     1.05           1.05             -             -             -             -                       1.01              1.03     MET SCale \n");
-
-    fclose(pfile);
-    }
-
-  }
-
-
-
-
-  void makeMSSMEMuDataCardBTagged(BkgOutput out,std::string postfix) {
-    for(unsigned int m = 0;m<mssmMasses_.size();++m) {
-      FILE *pfile = fopen(("datacards/"+channel_+postfix+"_mA"+mssmMasses_[m]+".txt").c_str(),"w");
-
-      fprintf(pfile,"imax 1\n");
-      fprintf(pfile,"jmax *\n");
-      fprintf(pfile,"kmax *\n");
-      fprintf(pfile,"shapes *  *    %s  $CHANNEL/$PROCESS $CHANNEL/$PROCESS_$SYSTEMATIC \n",(channel_+".root").c_str());
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      fprintf(pfile,"observation %d\n",(int)out.DATA);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      std::string ch = channel_+postfix;
-      fprintf(pfile,"bin            %s            %s            %s            %s            %s            %s\n",ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str(),ch.c_str());
-      fprintf(pfile,"process        GGH%s        BBH%s        ZTT           FAKES           TT            VV\n",mssmMasses_[m].c_str(),mssmMasses_[m].c_str());
-      fprintf(pfile,"process        -1            0             1             2             3             4 \n");
-      fprintf(pfile,"rate           %.3f          %.3f          %.3f          %.3f          %.3f          %.3f\n",
-	      getYield("GGH"+mssmMasses_[m],postfix),getYield("BBH"+mssmMasses_[m],postfix),out.ZTT,out.QCD,out.TOP,out.VV);
-      fprintf(pfile,"------------------------------------------------------------------------------------------------------------------------------------\n");
-      if(luminosityErr_!=0)
-	fprintf(pfile,"lumi     lnN   %.3f          %.3f          -             -             -             -             -              -          luminosity\n",
-	   1+luminosityErr_,1+luminosityErr_);
-      
-      if(muID_!=0)
-	fprintf(pfile,"CMS_eff_m     lnN   %.3f          %.3f          %.3f          -             %.3f          %.3f     muon ID /HLT\n",
-	       1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_,1+muIDErr_/muID_);
-      if(eleID_!=0)
-	fprintf(pfile,"CMS_eff_e    lnN   %.3f          %.3f          %.3f          -              %.3f          %.3f              Electron ID\n",
-	     1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_,1+eleIDErr_/eleID_);
-    if(zttScale_!=0)
-      fprintf(pfile,"CMS_htt_zttNorm lnN   -             -             %.3f          -             %.3f          %.3f     ZTT Scale  \n",
-	     1+zttScaleErr_/zttScale_,1+zttScaleErr_/zttScale_,1+zttScaleErr_/zttScale_);
-    //FIXPOINTTTT
-    fprintf(pfile,"CMS_htt_ztt_extrap_btag lnN   -             -             %.3f          -       -          -         ZTT Extrapolation\n", 1+out.dZTTCORR/out.ZTTCORR);
-    fprintf(pfile,"CMS_htt_ttbarNorm  lnN      -             -             -             -         %.3f           -      TTbar background  \n",1+out.dTOP/out.TOP);
-    fprintf(pfile,"CMS_htt_DiBosonNorm  lnN     -             -             -             -             -         %.3f   DiBoson background \n",1+out.dVV/out.VV);
-    for(unsigned int j=0;j<shifts_.size();++j)
-      fprintf(pfile,"%s    shape    1             1             1             -             -             -       shape\n",shiftsPostFix_[j].c_str());
-    fprintf(pfile,"CMS_htt_%s_FakeNorm  lnN        -             -            -             %.3f          -             -          QCD Background\n",(channel_+postfix).c_str(),1+out.dQCD/out.QCD);
-    fprintf(pfile,"CMS_eff_b      lnN      -             %.3f          -             -                 %.3f           -     BTag efficiency \n",1+bIDErr_/bID_,1+bIDErr_/bID_);
-    fprintf(pfile,"CMS_fake_b      lnN      %.3f          -             -             -             -             -      BTag MisTag \n",1+bMisIDErr_/bMisID_);
-
-    fprintf(pfile,"CMS_scale_j      lnN     1.04           1.02             -             -            1.10              1.03     Jet Scale \n");
-    fprintf(pfile,"CMS_scale_met    lnN     1.05           1.05             -             -            1.01              1.03     MET SCale \n");
-
-
-    fclose(pfile);
-    }
-
-  }
-
-
-
-
 
   void makeHiggsShapesAll(std::string preselection,std::string prefix) {
     std::pair<float,float> tmp;
@@ -1214,7 +325,6 @@ class DataCardCreator {
     if(muID_!=0&&eleID_!=0) {legCorr*=muID_*eleID_;}
     if(muID_!=0&&eleID_==0) {legCorr*=muID_*tauID_;}
     if(muID_==0&&eleID_!=0) {legCorr*=eleID_*tauID_;}
-
 
     for(unsigned int i=0;i<mssmMasses_.size();++i) {
       tmp= createHistogramAndShiftsFinal(dir_+"bbA"+mssmMasses_[i]+".root","BBH"+mssmMasses_[i],("("+preselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*"+weight_),luminosity_*legCorr,prefix);
@@ -1269,16 +379,11 @@ class DataCardCreator {
 
 	
     for(unsigned int i=0;i<smMasses_.size();++i) {
-
-
-
 		tmp= createHistogramAndShiftsFinal(dir_+"sm"+smMasses_[i]+".root","ggH"+smMasses_[i],("("+preselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*__HPT__*"+weight_),luminosity_*legCorr*smSigma_[i],prefix);
 		tmp= createHistogramAndShiftsFinal(dir_+"sm"+smMasses_[i]+".root","ggH"+smMasses_[i]+"_QCDscale_ggH1inUp",("("+preselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*__HPTUp__*"+weight_),luminosity_*legCorr*smSigma_[i],prefix);
 		tmp= createHistogramAndShiftsFinal(dir_+"sm"+smMasses_[i]+".root","ggH"+smMasses_[i]+"_QCDscale_ggH1inDown",("("+preselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*__HPTDown__*"+weight_),luminosity_*legCorr*smSigma_[i],prefix);
 		tmp= createHistogramAndShiftsFinal(dir_+"vbf"+smMasses_[i]+".root","qqH"+smMasses_[i],("("+preselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*"+weight_),luminosity_*legCorr*vbfSigma_[i],prefix);
 		tmp= createHistogramAndShiftsFinal(dir_+"vh"+smMasses_[i]+".root","VH"+smMasses_[i],("("+preselection+"&&"+trigSelection_+"&&"+osSignalSelection_+")*"+weight_),luminosity_*legCorr*vhSigma_[i],prefix);
-		
-
     }
     CheckFirstFourBins(channel_,prefix); 
     //interpolateHistogramAndShifts(prefix);
@@ -1610,18 +715,8 @@ class DataCardCreator {
       renormalizeHistogram(channel_+prefix,"QCD",osQCD.first);
       renormalizeHistogram(channel_+prefix,"W",osWLow.first);
       
-//       if(channel_=="eleTau"){
-//       	zeeShapeSyst(channel_+prefix, "ZL");
-// 	  }
-	
       return output;
   }
-
-
-
-
-
-
 
   BkgOutput runMinimalExtrapolation(std::string preSelection,std::string categorySelection,std::string prefix,float zExtrap_, float zExtrapErr_,float topExtrap,float topExtrapErr,BkgOutput inclusive, std::string zShape) {
 
@@ -1699,28 +794,17 @@ class DataCardCreator {
     std::pair<float,float> vvYieldSdb     = createHistogramAndShiftsFinal(vvFile_,"VV_SDB",("("+preSelection+"&&"+trigSelection_+"&&"+osWSelection_+"&&"+categorySelection+")*"+weight_),luminosity_*leg1Corr*tauID,prefix);
     std::pair<float,float> vvYieldSS        = createHistogramAndShifts(vvFile_,"VV_SS",("("+preSelection+"&&"+trigSelection_+"&&"+ssSignalSelection_+"&&"+categorySelection+")*"+weight_),luminosity_*leg1Corr*tauID,prefix);
 
-//    std::pair<float,float> zlftYield;
-//     if(channel_=="eleTau"&&prefix=="_boost_high"){
-//       std::pair<float,float> zlftShape      = createHistogramAndShiftsFinal(zllFile_,"ZL",("("+relaxedSelection_+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&&genPt2>1)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zlftFactor_*zttScale_*zExtrap,prefix);
-//       zlftYield      = createHistogramAndShiftsFinal(zllFile_,"ZLTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&&genPt2>1)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zlftFactor_*zttScale_*zExtrap,prefix);
-//       renormalizeHistogram(channel_+prefix,"ZL",zlftYield.first);
-//     }  
-//     else{
-
-      std::pair<float,float> zlftYield      = createHistogramAndShiftsFinal(zllFile_,"ZL",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zlftFactor_*zttScale_*zExtrap,prefix);
-	if(channel_=="eleTau"){
+    std::pair<float,float> zlftYield      = createHistogramAndShiftsFinal(zllFile_,"ZL",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zlftFactor_*zttScale_*zExtrap,prefix);
+    if(channel_=="eleTau"){
       std::pair<float,float> zlShiftUp      = createHistogramShifted(zllFile_,"ZL_CMS_htt_ZLScale_etau_"+energy_+"Up",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),"1.02",luminosity_*leg1Corr*zlftFactor_*zttScale_*zExtrap,prefix);
       std::pair<float,float> zlShifDown     = createHistogramShifted(zllFile_,"ZL_CMS_htt_ZLScale_etau_"+energy_+"Down",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),"0.98",luminosity_*leg1Corr*zlftFactor_*zttScale_*zExtrap,prefix);
-	}
-	else{
-	  std::pair<float,float> zlShiftUp      = createHistogramShifted(zllFile_,"ZL_CMS_htt_ZLScale_mutau_"+energy_+"Up",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),"1.02",luminosity_*leg1Corr*zlftFactor_*zttScale_*zExtrap,prefix);
+    }
+    else{
+      std::pair<float,float> zlShiftUp      = createHistogramShifted(zllFile_,"ZL_CMS_htt_ZLScale_mutau_"+energy_+"Up",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),"1.02",luminosity_*leg1Corr*zlftFactor_*zttScale_*zExtrap,prefix);
       std::pair<float,float> zlShifDown     = createHistogramShifted(zllFile_,"ZL_CMS_htt_ZLScale_mutau_"+energy_+"Down",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),"0.98",luminosity_*leg1Corr*zlftFactor_*zttScale_*zExtrap,prefix);
-	}
-//	}
-	
+    }
+    
     std::pair<float,float> zjftYield      = createHistogramAndShiftsFinal(zllFile_,"ZJ",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&(!((genTaus==0&&abs(pdg2)==13&&genPt2>8)||(genTaus==0&&abs(pdg2)==11&&genPt2>8)||(genTaus>0&&genVisPt2>18))))*"+weight_),luminosity_*leg1Corr*zttScale_*zExtrap,prefix);
-
-
     std::pair<float,float> zlftSSYield    = createHistogramAndShifts(zllFile_,"ZL_SS",("("+preSelection+"&&"+trigSelection_+"&&"+ssSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zttScale_*zExtrap,prefix,false);
     std::pair<float,float> zjftSSYield    = createHistogramAndShifts(zllFile_,"ZJ_SS",("("+preSelection+"&&"+trigSelection_+"&&"+ssSignalSelection_+"&&"+categorySelection+"&&(!((genTaus==0&&abs(pdg2)==13&&genPt2>8)||(genTaus==0&&abs(pdg2)==11&&genPt2>8)||(genTaus>0&&genVisPt2>18))))*"+weight_),luminosity_*leg1Corr*zttScale_*zExtrap,prefix);
     std::pair<float,float> wMCYield       = createHistogramAndShiftsFinal(wFile_,"WMC",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+")*"+weight_),luminosity_*leg1Corr,prefix);
@@ -1862,15 +946,11 @@ class DataCardCreator {
 				     pow(quadrature(zttYield.first,zttYield.second,muIDErr_,eleIDErr_,zttScaleErr_,tauIDErr_,zExtrapErr),2));
       printf("Total Background & %.2f $\\pm$ %.2f & - & - & - \\\\ \n",background,fullBackgroundErr);
 
-
-
       //create a histogram with the error for plotting reasons and only
       TH1F *err = new TH1F("BKGErr","",1,0,1);
       err->SetBinContent(1,fullBackgroundErr/background);
       fout_->cd((channel_+prefix).c_str());
       err->Write();
-
-
 
       output.DATA = dataYield.first;
       output.W = osWLow.first;
@@ -1913,8 +993,6 @@ class DataCardCreator {
       output.WF = wFactor.first;
       output.dWF = wFactor.second;
 
-      
-
       //now renormalize the histograms that you extracted from OS/LS+MT Method
       
       FixEmptyBins(channel_+prefix,"QCD",true);
@@ -1940,51 +1018,14 @@ class DataCardCreator {
       	FixEmptyBinsMC(channel_+prefix,"ZJ",false);
       }
       
-//       if(channel_=="muTau"&&prefix=="_0jet_high"){
-//       	superSmooth(channel_+prefix, "W");
-//       }
       
-      
-      
-//       if(channel_=="eleTau"){
-//       	if(prefix=="_0jet_low"){
-//       		superSmooth(channel_+prefix, "ZJ");
-//       		superSmooth(channel_+prefix, "W");
-//       	}
-//       	if(prefix=="_boost_low"){
-//       		superSmooth(channel_+prefix, "TT");
-//       		superSmooth(channel_+prefix, "ZL");
-//       		superSmooth(channel_+prefix, "VV");
-//       		superSmooth(channel_+prefix, "QCD");
-//       		superSmooth(channel_+prefix, "W");
-//       	}
-//       	if(prefix=="_0jet_high"){
-//       		superSmooth(channel_+prefix, "W");
-//       		superSmooth(channel_+prefix, "QCD");
-//       	}
-//       	if(prefix=="_boost_high"){
-//       		superSmooth(channel_+prefix, "ZL");
-//       		superSmooth(channel_+prefix, "W");
-//       	}
-//       }
-      		
-      
-//       if(channel_=="eleTau"){
-//       	zeeShapeSyst(channel_+prefix, "ZL");
-// 	  }
-
-
       return output;
   }
-
-
-
-
-
+  
+  
   BkgOutput runABCD(std::string preSelection,std::string catSelection,std::string prefix,float zExtrap,float zExtrapErr,float topExtrap,float topExtrapErr,std::string zShape = "") {
     BkgOutput output;
-
-
+    
     //create Z->tautau 
     std::pair<float,float> zttYield       = createHistogramAndShifts(zttFile_,"ZTTTMP",("("+preSelection+"&&"+trigSelection_+"&&"+catSelection+"&&"+osSignalSelection_+"&&genTaus>0&&genVisPt2>18)*"+weight_),luminosity_*zttScale_*muID_*zExtrap*eleID_,prefix);
 
@@ -2030,11 +1071,6 @@ class DataCardCreator {
     std::pair<float,float> vYield = std::make_pair(wYield.first+zYield.first,quadrature(wYield.first+zYield.first,sqrt(wYield.second*wYield.second+zYield.second*zYield.second),zjftErr_));
     std::pair<float,float> vSSYield = std::make_pair(wSSYield.first+zSSYield.first,quadrature(wSSYield.first+zSSYield.first,sqrt(wSSYield.second*wSSYield.second+zSSYield.second*zSSYield.second),zjftErr_));
 
-
-
-    //oooook Now create the four regions:
-
-
     // OS+Isolated
     std::pair<float,float> dataY         = createHistogramAndShifts(dataFile_,"data_obs","("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+catSelection+")",scaleUp_,prefix);
     std::pair<float,float> dataYRounded  = std::make_pair(rintf(dataY.first),dataY.second);
@@ -2054,9 +1090,7 @@ class DataCardCreator {
     //    std::pair<float,float> dataSSYSdb        = createHistogramAndShifts(dataFile_,"data_sdb","("+preSelection+"&&"+trigSelection_+"&&"+ssWSelection_+"&&"+catSelection+")",scaleUp_,prefix);
     std::pair<float,float> dataSSYSdb        = createHistogramAndShifts(dataFile_,"data_sdb","("+preSelection+"&&"+trigSelection_+"&&"+ssWSelection_+")",scaleUp_,prefix);
 
-
     std::pair<float,float> dataSSYieldSdb = convertToPoisson(dataSSYSdb);
-
 
     //shape creation for Fakes
     std::pair<float,float> dataFAKEControl = createHistogramAndShifts(dataFile_,"FAKES",qcdSelection_,scaleUp_,prefix);
@@ -2154,16 +1188,8 @@ class DataCardCreator {
 				     std::string zShape_="",
 				     std::string wShape_="",
 				     std::string btagSF="1"){
-    //std::string embeddedWeight ="1") {
-    //bool RunBTagUnc=false;  
     bool finebins = false;
 
-    /*
-    fakeRateFile << " creating b-tagging FakeRates for: " << prefix << "\n \n";
-    fakeRateFile << "\tInclusive \t MeanMatch \t MeanNotMatch \t Match1 \t Match2 \t Match3 \t Fake1 \t Fake2 \t Fake3 \n";
-    std::cout<< "      number of bins: "<< bins_ <<std::endl;
-    std::cout << " WEIGHT:  " <<weight_ << std::endl;
-    */
     weight_=weight_+"*"+btagSF;
 
     float leg1Corr=1.0;
@@ -2304,10 +1330,10 @@ class DataCardCreator {
 
     std::pair<float,float> wYieldUp;
     std::pair<float,float> wYieldDown;
+
     if(shifts_.size()>0){
       wYieldUp = std::make_pair(osWHigh.first*wFactorUp.first,
 				sqrt(osWHigh.first*osWHigh.first*wFactor.second*wFactor.second+osWHigh.second*osWHigh.second*wFactor.first*wFactor.first));
-      
       wYieldDown = std::make_pair(osWHigh.first*wFactorDown.first,
 				  sqrt(osWHigh.first*osWHigh.first*wFactor.second*wFactor.second+osWHigh.second*osWHigh.second*wFactor.first*wFactor.first));
     }
@@ -2325,20 +1351,6 @@ class DataCardCreator {
     }
 
     /////// start QCD estimation
-    /*
-    std::pair<float,float> dataYWSDBL   = createHistogramAndShiftsFinal(dataFile_,"dataWSDBL","("+preSelection+"&&"+btagRelaxedSelection_+"&&"+osWSelection_+"&&"+trigSelection_+"&&"+dataSelection_+")",scaleUp_,prefix);
-    std::pair<float,float> vvYieldSDBL  = createHistogramAndShiftsFinal(vvFile_,"VVSDBL",("("+preSelection+"&&"+btagRelaxedSelection_+"&&"+osWSelection_+"&&"+trigSelection_+")*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);
-    std::pair<float,float> topYieldSDBL = createHistogramAndShiftsFinal(topFile_,"TTSDBL",("("+preSelection+"&&"+btagRelaxedSelection_+"&&"+osWSelection_+"&&"+trigSelection_+")*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
-    std::pair<float,float> zYieldSDBL = createHistogramAndShiftsFinal(zttFile_,"ZSDBL",("("+preSelection+"&&"+btagRelaxedSelection_+"&&"+osWSelection_+"&&"+trigSelection_+")*ZeFakeTau*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
-    //std::pair<float,float> wFactorL = extractWFactor(wFile_,preSelection+"&&"+categorySelection,prefix);
-    std::pair<float,float> wFactorL = extractWFactor(wFile_,preSelection+"&&"+btagRelaxedSelection_+"",prefix);
-    std::pair<float,float> osWHighL = std::make_pair(TMath::Nint(dataYWSDBL.first-topYieldSDBL.first-vvYieldSDBL.first-zYieldSDBL.first),
-						    sqrt(dataYWSDBL.second*dataYWSDBL.second+topYieldSDBL.second*topYieldSDBL.second+vvYieldSDBL.second*vvYieldSDBL.second+zYieldSDBL.second*zYieldSDBL.second));	  
-    
-    std::pair<float,float> wYieldL = std::make_pair(osWHighL.first*wFactorL.first,
-			      sqrt(osWHighL.first*osWHighL.first*wFactorL.second*wFactorL.second+osWHighL.second*osWHighL.second*wFactorL.first*wFactorL.first));
-    */
-    //std::pair<float,float> wSSYield = std::make_pair(wYield.first*inclusive.WSS/inclusive.W,wYield.second*inclusive.WSS/inclusive.W);
     
     std::pair<float,float> dataY         = createHistogramAndShiftsFinal(dataFile_,"data_obs","("+defaultSelection+"&&"+blinding_+"&&"+dataSelection_+")",scaleUp_,prefix);
     if(finebins) std::pair<float,float> dataYFineBins = createHistogramAndShiftsFinalFineBins(dataFile_,"data_obs","("+defaultSelection+"&&"+blinding_+"&&"+dataSelection_+")",scaleUp_,prefix);
@@ -2549,545 +1561,11 @@ class DataCardCreator {
     if(shifts_.size()>0)renameHist(channel_+prefix,"W_CMS_htt_WShape_"+chan+prefix+"_"+energy_+"Up","WShapeUp");
     if(finebins)renameHist(channel_+prefix,"W_CMS_htt_WShape_"+chan+prefix+"_"+energy_+"Up_fine_binning","WShapeUp_fine_binning");
 
-  
-    /*
-    /////////////Output Signal Efficiency and Significance to file ///////////////// This is a temporary method!!!!!!
-    std::pair<float,float> signalYield = createHistogramAndShiftsFinal(dir_+"Hhhttbb300.root","sigtemp","("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+")*"+weight_,luminosity_*leg1Corr,prefix);
-    std::pair<float,float> signalYieldNoWeight = createHistogramAndShiftsFinal(dir_+"Hhhttbb300.root","sigtempNoWeight","("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+")",leg1Corr,prefix);
-    std::pair<float,float> signalYieldNoSel = createHistogramAndShiftsFinal(dir_+"Hhhttbb300.root","sigtemp1","(pt1>0)*"+weight_,luminosity_*leg1Corr,prefix);
-
-    //float signalYield = getYield("Hhh300",prefix);
-    //float signalYieldNoSel = getYield("Hhh300NoSel",prefix);
-    FILE *pfile = fopen("datacards/SignalSignificance.txt","a");
-    fprintf(pfile,"%s  --> Hhh: %f  Efficiency: %f  Significance: %f S/B: %f\n",categorySelection.c_str(),signalYield.first,signalYield.first/signalYieldNoSel.first,signalYield.first/sqrt(background+signalYield.first),signalYield.first/background);
-
-    float sigUnc = sqrt((signalYield.second*signalYield.second)/(signalYield.first*signalYield.first)+(fullBackgroundErr)/(background))*(signalYield.first/sqrt(background+signalYield.first));
-
-    float effUnc = sqrt((signalYield.second*signalYield.second)/(signalYield.first*signalYield.first)+(signalYieldNoSel.second*signalYieldNoSel.second)/(signalYieldNoSel.first*signalYieldNoSel.first))*(signalYield.first/signalYieldNoSel.first);
-    fprintf(pfile,"%.3f $\pm$ %.3f & %.3f $\pm$ %.3f & %.3f \n\n",
-	    signalYield.first/(signalYieldNoSel.first),
-	    effUnc,
-	    signalYield.first/sqrt(background+signalYield.first),
-	    sigUnc,
-	    signalYield.first/background);
-    fprintf(pfile,"Yield from file %.3f Eff %.3f $\pm$ %.3f & %.3f $\pm$ %.3f & %.3f \n\n",
-	    signalYieldNoWeight.first,
-	    signalYieldNoWeight.first/(1*10^6),
-	    effUnc,
-	    signalYield.first/sqrt(background+signalYield.first),
-	    sigUnc,
-	    signalYield.first/background);
-    // printf("Total Background & %.2f $\\pm$ %.2f & - & - & - \\\\ \n",background,fullBackgroundErr);
-    //std::cout<<" Hhh 300" << signalYield<< " Total Background "
-    fclose(pfile);
-    */
-    ///////////////////////////////////
     
       return output;
   }
 
 
-//   BkgOutput runFullExtrapolation(std::string preSelection,std::string categorySelection, std::string prefix, BkgOutput inclusive,float zExtrap,float zExtrapErr,float wExtrap,float wExtrapErr,float topExtrap,float topExtrapErr,std::string zShape_="",std::string wShape_="") {
-// 
-//     float leg1Corr=1.0;
-//     if(muID_!=0) leg1Corr*=muID_;
-//     if(eleID_!=0) leg1Corr*=eleID_;
-// 
-// 	float tauID = 1.0;
-// 	if(prefix=="_vbf"||prefix=="_2jet")
-// 		tauID = tauID_ - (1.-tauIDHigh_)/2. ;
-// 	else
-// 		tauID = tauID_; 
-// 
-// 	printf("Tau ID Scale Factor is %.3f \n",tauID);		
-// 
-//       BkgOutput output;
-// 
-//       output.ZTTCORR=zExtrap;
-//       output.dZTTCORR=zExtrapErr;
-// 
-// 
-//     std::pair<float,float> zttYield       = createHistogramAndShiftsFinal(zttFile_,"ZTTTMP",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+osSignalSelection_+"&&genTaus>0&&genVisPt2>18)*"+weight_),luminosity_*zttScale_*leg1Corr*tauID*zExtrap,prefix,true);
-// 	float corr = 1.0;
-// 	float corrZee = 1.0;
-// 
-// 	
-//     if(zShape_.size()==0) {
-//       std::pair<float,float> zttShape       = createHistogramAndShiftsFinal(zttFile_,"ZTT",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+osSignalSelection_+"&&genTaus>0&&genVisPt2>18)*"+weight_),luminosity_*zttScale_*leg1Corr*tauID*zExtrap,prefix,true);
-// 
-//     }
-//     else
-//       {
-// 
-// 	printf("You have embedded samples.Calculating corrections on the fly overidding the crappy ones you gave me!\n");
-// 
-// 	std::pair<float,float> zttShape       = createHistogramAndShifts(zShape_,"ZTT",("("+preSelection+"&&"+categorySelection+"&&"+osSignalSelection_+"&&genFullMass>50&&genVisPt2>18)*embeddedWeight*__CORR__"),leg1Corr*tauID,prefix,true);
-// 	
-// 	std::pair<float,float> zttEmbYield    = createHistogramAndShifts(zShape_,"ZTTTMP",("("+preSelection+"&&"+categorySelection+"&&"+osSignalSelection_+"&&genFullMass>50&&genVisPt2>18)*embeddedWeight*__CORR__"),leg1Corr*tauID,prefix,true);
-// 
-// 	std::pair<float,float> zttShapePre    = createHistogramAndShifts(zShape_,"ZTTPre",("("+preSelection+"&&"+osSignalSelection_+"&&genFullMass>50&&genVisPt2>18)*embeddedWeight*__CORR__"),leg1Corr*tauID,prefix,true);
-// 	std::pair<float,float> zttShape2Jet;
-// 	if(prefix=="_vbf"&&channel_=="eleTau"&&energy_=="8TeV")
-// 		zttShape2Jet    = createHistogramAndShifts(zShape_,"ZTT2J",("("+preSelection+"&&"+osSignalSelection_+"&&"+vbfTightS_+"&&nJetsPt30>=2&&genFullMass>50&&genVisPt2>18)*embeddedWeight*__CORR__"),leg1Corr*tauID,prefix,true);
-// 	else if(prefix=="_vbf"&&channel_=="muTau"&&energy_=="8TeV")
-// 		zttShape2Jet    = createHistogramAndShifts(zShape_,"ZTT2J",("("+preSelection+"&&"+osSignalSelection_+"&&"+vbfTightS_+"&&nJetsPt30>=2&&genFullMass>50&&genVisPt2>18)*embeddedWeight*__CORR__"),leg1Corr*tauID,prefix,true);
-// 	else
-// 		zttShape2Jet    = createHistogramAndShifts(zShape_,"ZTT2J",("("+preSelection+"&&"+osSignalSelection_+"&&nJetsPt30>=2&&genFullMass>50&&genVisPt2>18)*embeddedWeight*__CORR__"),leg1Corr*tauID,prefix,true);
-// 			
-// 	std::pair<float,float> zttYieldWCut   = createHistogramAndShiftsFinal(zttFile_,"ZTTTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&genTaus>0&&genVisPt2>18)*"+weight_),luminosity_*zttScale_*leg1Corr*tauID,prefix,false);
-// 
-// 	
-// 	corr = zttEmbYield.first/zttShapePre.first;
-// 	corrZee = zttEmbYield.first/zttShape2Jet.first;
-// 	printf("Efficiency for embedding =%f\n",corr);	
-// 	printf("Efficiency for embedding 2Jet to VBF =%f\n",corrZee);		
-// 	double corrErr = corr*sqrt(1/zttEmbYield.first + 1/zttShapePre.first);;
-// 	zttYield = std::make_pair(inclusive.ZTT*corr,inclusive.dZTT*corrErr);
-// 	renormalizeHistogram(channel_+prefix,"ZTT",inclusive.ZTT*corr);
-// 	output.ZTTCORR=corr;
-// 	output.dZTTCORR=corrErr;
-//       }
-// 
-//     if(prefix=="_vbf")
-//       std::pair<float,float> topShape       = createHistogramAndShifts(topFile_,"TT",("("+preSelection+"&&"+trigSelection_+"&&"+vbfRelaxedSelection_+"&&"+signalSelection_+"&&nJetsPt30>=2)*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);
-//     else if(prefix=="_2jet")
-//       std::pair<float,float> topShape       = createHistogramAndShifts(topFile_,"TT",("("+preSelection+"&&"+trigSelection_+"&&vbfMass>200&&vbfDEta>2&&"+signalSelection_+"&&nJetsPt30>=2)*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);
-//     else if(prefix=="_btag_low" || prefix=="_btag_high" || prefix=="_btag")
-// 	  std::pair<float,float> topShape       = createHistogramAndShifts(topFile_,"TT",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+")*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);  
-// 	else
-// 	  std::pair<float,float> topShape       = createHistogramAndShifts(topFile_,"TT",("("+relaxedSelection_+"&&"+categorySelection+")*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);    	
-//   	
-// 
-//     std::pair<float,float> topYield       = createHistogramAndShiftsFinal(topFile_,"TTTMP",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+osSignalSelection_+")*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
-//     renormalizeHistogram(channel_+prefix,"TT",topYield.first);
-// 
-//     std::pair<float,float> topSSYield       = createHistogramAndShifts(topFile_,"TTSS",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+ssSignalSelection_+")*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
-// 	if(prefix=="_vbf")
-// 		std::pair<float,float> vvShape        = createHistogramAndShiftsFinal(vvFile_,"VV",("("+preSelection+"&&"+trigSelection_+"&&"+vbfRelaxedSelection_+"&&"+osSignalSelection_+"&&nJetsPt30>=2)*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);
-// 	if(prefix=="_2jet")
-// 		std::pair<float,float> vvShape        = createHistogramAndShiftsFinal(vvFile_,"VV",("("+preSelection+"&&"+trigSelection_+"&&vbfMass>200&&vbfDEta>2&&"+osSignalSelection_+"&&nJetsPt30>=2)*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);
-//     else if(prefix=="_btag_low" || prefix=="_btag_high" || prefix=="_btag")
-// 		std::pair<float,float> vvShape        = createHistogramAndShiftsFinal(vvFile_,"VV",("("+relaxedSelection_+"&&"+osSignalSelection_+"&&nJetsPt20==1)*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);
-//     else
-// 		std::pair<float,float> vvShape        = createHistogramAndShiftsFinal(vvFile_,"VV",("("+relaxedSelection_+"&&"+osSignalSelection_+")*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);
-//     
-//     std::pair<float,float> vvYield        = createHistogramAndShiftsFinal(vvFile_,"VVTMP",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+osSignalSelection_+")*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);
-//     renormalizeHistogram(channel_+prefix,"VV",vvYield.first);
-//     
-// 	std::pair<float,float> zllShape;
-// 	
-// 	if(prefix=="_vbf"){
-// 		if(channel_=="eleTau")
-//       		std::pair<float,float> zlShape      = createHistogramAndShiftsFinal(zttFile_,"ZL",("("+relaxedSelection_+"&&"+osSignalSelection_+"&&"+trigSelection_+"&&"+vbfRelaxedSelection_+"&&nJetsPt20>=2&&genTaus==0&&genPt2>1)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zttScale_,prefix,false,false);
-//       	else
-//       		std::pair<float,float> zlShape      = createHistogramAndShiftsFinal(zttFile_,"ZL",("("+preSelection+"&&"+osSignalSelection_+"&&"+trigSelection_+"&&"+vbfRelaxedSelection_+"&&nJetsPt20>=2&&genTaus==0&&genPt2>1)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zttScale_,prefix,false,false);
-//       		std::pair<float,float> zjShape      = createHistogramAndShiftsFinal(zttFile_,"ZJ",("("+preSelection+"&&"+osSignalSelection_+"&&"+trigSelection_+"&&"+vbfRelaxedSelection_+"&&nJetsPt20>=2&&genTaus==0&&genPt2<1)*"+weight_),luminosity_*leg1Corr*zttScale_,prefix,false,false);
-// 	}
-// 	else if(prefix=="_2jet"){
-// 		if(channel_=="eleTau")
-//       		std::pair<float,float> zlShape      = createHistogramAndShiftsFinal(zttFile_,"ZL",("("+relaxedSelection_+"&&"+osSignalSelection_+"&&"+trigSelection_+"&&vbfMass>200&&vbfDEta>2&&nJetsPt20>=2&&genTaus==0&&genPt2>1)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zttScale_,prefix,false,false);
-//       	else
-//       		std::pair<float,float> zlShape      = createHistogramAndShiftsFinal(zttFile_,"ZL",("("+preSelection+"&&"+osSignalSelection_+"&&"+trigSelection_+"&&vbfMass>200&&vbfDEta>2&&nJetsPt20>=2&&genTaus==0&&genPt2>1)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zttScale_,prefix,false,false);
-//       		std::pair<float,float> zjShape      = createHistogramAndShiftsFinal(zttFile_,"ZJ",("("+preSelection+"&&"+osSignalSelection_+"&&"+trigSelection_+"&&vbfMass>200&&vbfDEta>2&&nJetsPt20>=2&&genTaus==0&&genPt2<1)*"+weight_),luminosity_*leg1Corr*zttScale_,prefix,false,false);
-// 	}
-// 	else if(prefix=="_btag_low"){
-//       zllShape      = createHistogramAndShiftsFinal(zttFile_,"ZLL",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&genTaus==0&&nJetsPt20>=1&&pt2<40)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zttScale_,prefix,false,false);
-// 	}
-// 	else if(prefix=="_btag_high"){
-//       zllShape      = createHistogramAndShiftsFinal(zttFile_,"ZLL",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&genTaus==0&&nJetsPt20>=1&&pt2>40)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zttScale_,prefix,false,false);
-// 	}
-// 	else if(prefix=="_btag"){
-//       zllShape      = createHistogramAndShiftsFinal(zttFile_,"ZLL",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&genTaus==0&&nJetsPt20>=1)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zttScale_,prefix,false,false);
-// 	}
-// 	else{
-//       zllShape      = createHistogramAndShiftsFinal(zttFile_,"ZLL",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&genTaus==0)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zttScale_,prefix,false,false);
-// 	}
-// 	
-// 	std::pair<float,float> zllYield;	
-// 	std::pair<float,float> zlYield;
-// 	std::pair<float,float> zjYield;
-// 	std::pair<float,float> zj2Jet;
-// 	std::pair<float,float> zl2Jet;
-// 	if(zShape_.size()==0){
-// 	    zlYield      = createHistogramAndShiftsFinal(zttFile_,"ZLTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&&genPt2>1)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_,prefix,false);
-// 	    zjYield      = createHistogramAndShiftsFinal(zttFile_,"ZJTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&&genPt2<1)*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_,prefix,false);
-// 	}
-// 	else{
-// 		if(prefix=="_vbf"&&channel_=="eleTau"&&energy_=="8TeV")
-// 	    	zlYield      = createHistogramAndShiftsFinal(zttFile_,"ZLTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+vbfTightS_+"&&nJetsPt30>=2&&genTaus==0&&genPt2>1)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_*corrZee,prefix,false);
-// 		else if(prefix=="_vbf"&&channel_=="muTau"&&energy_=="8TeV")
-// 	    	zlYield      = createHistogramAndShiftsFinal(zttFile_,"ZLTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+vbfTightS_+"&&nJetsPt30>=2&&genTaus==0&&genPt2>1)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_*corrZee,prefix,false);
-// 		else if(prefix=="_2jet"||prefix=="_vbf")
-// 	    	zlYield      = createHistogramAndShiftsFinal(zttFile_,"ZLTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&nJetsPt30>=2&&genTaus==0&&genPt2>1)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_*corrZee,prefix,false);
-// 	    else
-// 	    	zlYield      = createHistogramAndShiftsFinal(zttFile_,"ZLTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&genTaus==0&&genPt2>1)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_*corr,prefix,false);
-// 
-// 	    zjYield      = createHistogramAndShiftsFinal(zttFile_,"ZJTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&&genPt2<1)*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_,prefix,false);
-// 	    
-// 	    if(prefix=="_vbf"&&energy_=="8TeV"){
-// 	    
-// // 	    	zj2Jet  =  createHistogramAndShiftsFinal(zttFile_,"ZJ2Jet",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&nJetsPt30>=1&&genTaus==0&&genPt2<1)*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_,prefix,false);
-// // 	    	zl2Jet  =  createHistogramAndShiftsFinal(zttFile_,"ZL2Jet",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&nJetsPt30>=1&&genTaus==0&&genPt2>1)*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_,prefix,false);
-// // 			zjYield.first = zlYield.first*zj2Jet.first/zl2Jet.first;
-// 	        zlYield      = createHistogramAndShiftsFinal(zttFile_,"ZLTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&&genPt2>1)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_,prefix,false);
-// 	        zjYield      = createHistogramAndShiftsFinal(zttFile_,"ZJTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&&genPt2<1)*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_,prefix,false);
-// 			
-// 		}	    	
-// 	}
-// 	
-// 	zllYield.first = zlYield.first+zjYield.first;
-// 	zllYield.second = sqrt(zlYield.second*zlYield.second+zjYield.second*zjYield.second);
-// 	if(prefix=="_vbf"||prefix=="_2jet"){
-//     	renormalizeHistogram(channel_+prefix,"ZL",zlYield.first);
-//     	renormalizeHistogram(channel_+prefix,"ZJ",zjYield.first);
-//     	mergeHistogram(channel_+prefix,"ZL","ZJ","ZLL");
-//     }
-//     else{
-//     	renormalizeHistogram(channel_+prefix,"ZLL",zlYield.first);
-//     	renormalizeHistogram(channel_+prefix,"ZJ",zjYield.first);    	
-//     	addHistogram(channel_+prefix,"ZLL","ZJ");
-//     }
-// 
-//     std::pair<float,float> zllSSYield    = createHistogramAndShifts(zttFile_,"ZL_SS",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+ssSignalSelection_+"&&genTaus==0)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_,prefix,false);
-// 
-// 	std::pair<float,float> wYield;
-//     
-// 
-//      if(prefix=="_btag_low"){
-//      
-//      //Renormalize TT for contamination of the sample in embedded
-// 	  renormalizeHistogram(channel_+prefix,"TT",topYield.first-0.015*zttYield.first);				     
-// 
-//       std::pair<float,float> wShape      = createHistogramAndShiftsFinal(wFile_,"W",("("+preSelection+"&&"+osSignalSelection_+"&&"+btagRelaxedSelection_+"&&pt2<40)*"+weight_),luminosity_*leg1Corr*wExtrap,prefix,false,false);
-//       std::pair<float,float> dataYWSDB   = createHistogramAndShiftsFinal(dataFile_,"dataWSDB","("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")",scaleUp_,prefix);
-//    	  std::pair<float,float> vvYieldSDB  = createHistogramAndShiftsFinal(vvFile_,"VVSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);
-// 	  std::pair<float,float> topYieldSDB = createHistogramAndShiftsFinal(topFile_,"TTSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
-// 	  std::pair<float,float> zYieldSDB = createHistogramAndShiftsFinal(zttFile_,"ZSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*ZeFakeTau*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
-// 
-//       std::pair<float,float> wFactor = extractWFactor(wFile_,preSelection+"&&"+btagRelaxedSelection_+"&&pt2<40",prefix);
-// 	  
-// 
-//       std::pair<float,float> osWHigh = std::make_pair(TMath::Nint(dataYWSDB.first-topYieldSDB.first-vvYieldSDB.first-zYieldSDB.first),
-// 						      sqrt(dataYWSDB.second*dataYWSDB.second+topYieldSDB.second*topYieldSDB.second+vvYieldSDB.second*vvYieldSDB.second+zYieldSDB.second*zYieldSDB.second));	  
-// 
-//       wYield = std::make_pair(osWHigh.first*wFactor.first,
-// 						     sqrt(osWHigh.first*osWHigh.first*wFactor.second*wFactor.second+osWHigh.second*osWHigh.second*wFactor.first*wFactor.first));
-// 	   renormalizeHistogram(channel_+prefix,"W",wYield.first);   
-// 	     
-//      }
-//      else if(prefix=="_btag"){
-//      
-//      //Renormalize TT for contamination of the sample in embedded
-// 	  renormalizeHistogram(channel_+prefix,"TT",topYield.first-0.015*zttYield.first);				     
-// 
-//       std::pair<float,float> wShape      = createHistogramAndShiftsFinal(wFile_,"W",("("+preSelection+"&&"+osSignalSelection_+"&&"+btagRelaxedSelection_+")*"+weight_),luminosity_*leg1Corr*wExtrap,prefix,false,false);
-//       std::pair<float,float> dataYWSDB   = createHistogramAndShiftsFinal(dataFile_,"dataWSDB","("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")",scaleUp_,prefix);
-//    	  std::pair<float,float> vvYieldSDB  = createHistogramAndShiftsFinal(vvFile_,"VVSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);
-// 	  std::pair<float,float> topYieldSDB = createHistogramAndShiftsFinal(topFile_,"TTSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
-// 	  std::pair<float,float> zYieldSDB = createHistogramAndShiftsFinal(zttFile_,"ZSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*ZeFakeTau*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
-// 
-//       std::pair<float,float> wFactor = extractWFactor(wFile_,preSelection+"&&"+btagRelaxedSelection_+"",prefix);
-// 	  
-// 
-//       std::pair<float,float> osWHigh = std::make_pair(TMath::Nint(dataYWSDB.first-topYieldSDB.first-vvYieldSDB.first-zYieldSDB.first),
-// 						      sqrt(dataYWSDB.second*dataYWSDB.second+topYieldSDB.second*topYieldSDB.second+vvYieldSDB.second*vvYieldSDB.second+zYieldSDB.second*zYieldSDB.second));	  
-// 
-//       wYield = std::make_pair(osWHigh.first*wFactor.first,
-// 						     sqrt(osWHigh.first*osWHigh.first*wFactor.second*wFactor.second+osWHigh.second*osWHigh.second*wFactor.first*wFactor.first));
-// 	   renormalizeHistogram(channel_+prefix,"W",wYield.first);   
-// 	     
-//      }
-//      else if(prefix=="_btag_high"){
-//      
-// 	  renormalizeHistogram(channel_+prefix,"TT",topYield.first-0.053*zttYield.first);				     
-// 
-//       std::pair<float,float> wShape      = createHistogramAndShiftsFinal(wFile_,"W",("("+preSelection+"&&"+osSignalSelection_+"&&"+btagRelaxedSelection_+"&&pt2>40)*"+weight_),luminosity_*leg1Corr*wExtrap,prefix,false,false);
-//       std::pair<float,float> dataYWSDB   = createHistogramAndShiftsFinal(dataFile_,"dataWSDB","("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")",scaleUp_,prefix);
-//    	  std::pair<float,float> vvYieldSDB  = createHistogramAndShiftsFinal(vvFile_,"VVSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);
-// 	  std::pair<float,float> topYieldSDB = createHistogramAndShiftsFinal(topFile_,"TTSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
-// 	  std::pair<float,float> zYieldSDB = createHistogramAndShiftsFinal(zttFile_,"ZSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*ZeFakeTau*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
-// 
-//       std::pair<float,float> wFactor = extractWFactor(wFile_,preSelection+"&&nJetsBTagCSVLPt20>=1&&nJetsPt30<2&&pt2>40",prefix);
-// 	  
-// 
-//       std::pair<float,float> osWHigh = std::make_pair(TMath::Nint(dataYWSDB.first-topYieldSDB.first-vvYieldSDB.first-zYieldSDB.first),
-// 						      sqrt(dataYWSDB.second*dataYWSDB.second+topYieldSDB.second*topYieldSDB.second+vvYieldSDB.second*vvYieldSDB.second+zYieldSDB.second*zYieldSDB.second));	  
-// 
-//       wYield = std::make_pair(osWHigh.first*wFactor.first,
-// 						     sqrt(osWHigh.first*osWHigh.first*wFactor.second*wFactor.second+osWHigh.second*osWHigh.second*wFactor.first*wFactor.first));
-// 	   renormalizeHistogram(channel_+prefix,"W",wYield.first);   
-// 	     
-//      }
-//      else if(prefix=="_vbf" || prefix=="_2jet"){
-//       wSelection_="mt1>60&&mt1<120";
-//       osWSelection_="mt1>60&&mt1<120&&charge==0";
-// 
-//       if(prefix=="_vbf")
-// 	  	std::pair<float,float> wShape      = createHistogramAndShiftsFinal(wFile_,"W",("("+preSelection+"&&"+trigSelection_+"&&"+vbfRelaxedSelection_+"&&"+signalSelection_+")*"+weight_),luminosity_*leg1Corr,prefix,false,false);
-//       else if(prefix=="_2jet")
-// 	  	std::pair<float,float> wShape      = createHistogramAndShiftsFinal(wFile_,"W",("("+preSelection+"&&"+trigSelection_+"&&vbfMass>200&&vbfDEta>2&&nJetsPt20>=2&&"+signalSelection_+")*"+weight_),luminosity_*leg1Corr,prefix,false,false);
-// 
-//       std::pair<float,float> dataYWSDB   = createHistogramAndShiftsFinal(dataFile_,"dataWSDB","("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")",scaleUp_,prefix);
-//    	  std::pair<float,float> vvYieldSDB  = createHistogramAndShiftsFinal(vvFile_,"VVSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);
-// 	  std::pair<float,float> topYieldSDB = createHistogramAndShiftsFinal(topFile_,"TTSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
-// 	  std::pair<float,float> zYieldSDB = createHistogramAndShiftsFinal(zttFile_,"ZSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*ZeFakeTau*"+weight_),luminosity_*leg1Corr*tauID,prefix);
-// 
-//       std::pair<float,float> wFactor = extractWFactor(wShape_,"nJetsPt30>=2&&"+vbfRelaxedSelection_+"&&"+preSelection+"&&"+trigSelection_,prefix);
-// 	  
-// 
-//       std::pair<float,float> osWHigh = std::make_pair((dataYWSDB.first-topYieldSDB.first-vvYieldSDB.first-zYieldSDB.first),
-// 						      sqrt(dataYWSDB.second*dataYWSDB.second+topYieldSDB.second*topYieldSDB.second+vvYieldSDB.second*vvYieldSDB.second+zYieldSDB.second*zYieldSDB.second));	  
-// 
-//       printf("OS W in sideband  =%f -%f -%f -%f = %f +- %f \n",dataYWSDB.first,topYieldSDB.first,vvYieldSDB.first,zYieldSDB.first,osWHigh.first,osWHigh.second);
-//       
-// 
-//       wYield = std::make_pair(osWHigh.first*wFactor.first,
-// 						     sqrt(osWHigh.first*osWHigh.first*wFactor.second*wFactor.second+osWHigh.second*osWHigh.second*wFactor.first*wFactor.first));
-// 
-//       printf("W Yield = %f * %f = %f\n", osWHigh.first, wFactor.first, wYield.first);
-// 		     
-// 	  renormalizeHistogram(channel_+prefix,"W",wYield.first);				     
-// 	  				     
-// 	}
-// 	else{
-//        std::pair<float,float> wShape      = createHistogramAndShifts(wFile_,"W",("("+relaxedSelection_+"&&"+categorySelection+")*"+weight_),luminosity_*leg1Corr*wExtrap*inclusive.WCORR,prefix,false,false);
-//        wYield      = createHistogramAndShiftsFinal(wFile_,"WTMP",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+osSignalSelection_+")*"+weight_),luminosity_*leg1Corr*wExtrap*inclusive.WCORR,prefix,false);
-// 	   renormalizeHistogram(channel_+prefix,"W",wYield.first);
-// 	   
-//     }
-// 
-// 
-// 
-//     //Trick:For W_SS yield use the OS/SS ratio as measured in inclusive for W
-//     std::pair<float,float> wSSYield = std::make_pair(wYield.first*inclusive.WSS/inclusive.W,wYield.second*inclusive.WSS/inclusive.W);
-//     //    std::pair<float,float> wSSYield     = createHistogramAndShifts(wFile_,"WSSTMP",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+ssSignalSelection_+")*"+weight_),luminosity_*leg1Corr*wExtrap*inclusive.WSSCORR,prefix);
-//     
-// 
-//     std::pair<float,float> dataY         = createHistogramAndShiftsFinal(dataFile_,"data_obs","("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+osSignalSelection_+"&&"+blinding_+")",scaleUp_,prefix);
-//     std::pair<float,float> dataYRounded  = std::make_pair(rintf(dataY.first),dataY.second);
-//     renormalizeHistogram(channel_+prefix,"data_obs",dataYRounded.first);
-//     std::pair<float,float> dataYield      = convertToPoisson(dataYRounded);
-//  
-//     std::pair<float,float> dataSSY          = createHistogramAndShifts(dataFile_,"data_obs_ss","("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+ssSignalSelection_+")",scaleUp_,prefix);
-//     std::pair<float,float> dataSSYield      = convertToPoisson(dataSSY);
-// 
-// 	float qcdPass;
-//     float qcdAll;
-//     std::pair<float,float> dataQCDShape;
-//     float qcdFactor;
-//     float qcdFactorErr;
-//     std::pair<float,float> osQCD;
-//      
-//     
-// 	if(prefix=="_btag_low"){
-// 	
-// 	  dataQCDShape = createHistogramAndShifts(dataFile_,"QCD",qcdSelection_+"&&nJetsBTagCSVLPt20>=1&&nJetsPt30<2&&pt2<40",scaleUp_,prefix,false,false);
-// 	  std::pair<float,float> topYieldQCD = createHistogramAndShifts(topFile_,"TTQCD",("("+qcdSelection_+"&&nJetsBTagCSVLPt20>=1&&nJetsPt30<2&&pt2<40)*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
-//       subtractHistogram(channel_+prefix,"QCD","TTQCD");
-//       
-//    	  std::pair<float,float> vvYieldSS  = createHistogramAndShifts(vvFile_,"VVSS",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+ssSignalSelection_+")*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);
-// 	  std::pair<float,float> topYieldSS = createHistogramAndShifts(topFile_,"TTSS",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+ssSignalSelection_+")*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
-// 	  std::pair<float,float> zYieldSS = createHistogramAndShifts(zttFile_,"ZSS",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+ssSignalSelection_+")*ZeFakeTau*"+weight_),luminosity_*leg1Corr*tauID,prefix);
-//       
-//       std::pair<float,float> ssQCD = std::make_pair(TMath::Nint(dataSSYield.first-wSSYield.first-zYieldSS.first-topYieldSS.first-vvYieldSS.first),
-// 						  sqrt(dataSSYield.second*dataSSYield.second+wSSYield.second*wSSYield.second+zYieldSS.second*zYieldSS.second+vvYieldSS.second*vvYieldSS.second));
-// 
-//       if(ssQCD.first<0) {
-// 	   ssQCD.first=0.0000001;
-// 	   ssQCD.second=1.8;
-//       }
-// 
-//       osQCD = std::make_pair(ssQCD.first*qcdFactor_,sqrt(ssQCD.second*ssQCD.second*qcdFactor_*qcdFactor_+qcdFactorErr_*qcdFactorErr_*ssQCD.first*ssQCD.first));
-//         		
-// 		
-// 	}
-// 	else if(prefix=="_btag"){
-// 	
-// 	  dataQCDShape = createHistogramAndShifts(dataFile_,"QCD",qcdSelection_+"&&nJetsBTagCSVLPt20>=1&&nJetsPt30<2",scaleUp_,prefix,false,false);
-// 	  std::pair<float,float> topYieldQCD = createHistogramAndShifts(topFile_,"TTQCD",("("+qcdSelection_+"&&nJetsBTagCSVLPt20>=1&&nJetsPt30<2)*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
-//       subtractHistogram(channel_+prefix,"QCD","TTQCD");
-//       
-//    	  std::pair<float,float> vvYieldSS  = createHistogramAndShifts(vvFile_,"VVSS",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+ssSignalSelection_+")*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);
-// 	  std::pair<float,float> topYieldSS = createHistogramAndShifts(topFile_,"TTSS",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+ssSignalSelection_+")*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
-// 	  std::pair<float,float> zYieldSS = createHistogramAndShifts(zttFile_,"ZSS",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+ssSignalSelection_+")*ZeFakeTau*"+weight_),luminosity_*leg1Corr*tauID,prefix);
-//       
-//       std::pair<float,float> ssQCD = std::make_pair(TMath::Nint(dataSSYield.first-wSSYield.first-zYieldSS.first-topYieldSS.first-vvYieldSS.first),
-// 						  sqrt(dataSSYield.second*dataSSYield.second+wSSYield.second*wSSYield.second+zYieldSS.second*zYieldSS.second+vvYieldSS.second*vvYieldSS.second));
-// 
-//       if(ssQCD.first<0) {
-// 	   ssQCD.first=0.0000001;
-// 	   ssQCD.second=1.8;
-//       }
-// 
-//       osQCD = std::make_pair(ssQCD.first*qcdFactor_,sqrt(ssQCD.second*ssQCD.second*qcdFactor_*qcdFactor_+qcdFactorErr_*qcdFactorErr_*ssQCD.first*ssQCD.first));
-//         		
-// 		
-// 	}
-// 	else if(prefix=="_btag_high"){
-// 	
-// 	  dataQCDShape = createHistogramAndShifts(dataFile_,"QCD",qcdSelection_+"&&nJetsBTagCSVLPt20>=1&&nJetsPt30<2&&pt2>40",scaleUp_,prefix,false,false);
-// 	  std::pair<float,float> topYieldQCD    = createHistogramAndShifts(topFile_,"TTQCD",("("+qcdSelection_+"&&nJetsBTagCSVLPt20>=1&&nJetsPt30<2&&pt2>40)*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
-//       subtractHistogram(channel_+prefix,"QCD","TTQCD");
-// 
-// 	  std::pair<float,float> dataQCDControl = createHistogramAndShifts(dataFile_,"QCDC1",qcdSelection_+"&&"+categorySelection,scaleUp_,prefix,false,false);
-// 	  std::pair<float,float> dataQCDControlInc = createHistogramAndShifts(dataFile_,"QCDC2",qcdSelection_,scaleUp_,prefix,false,false);	
-// 
-//       qcdPass=dataQCDControl.first;
-//       qcdAll=dataQCDControlInc.first;		
-//       
-// 	}
-// 	else if(prefix=="_vbf" || prefix=="_2jet"){
-// 	
-// 		if(prefix=="_vbf"){
-// 			dataQCDShape = createHistogramAndShifts(dataFile_,"QCD","vertices>0&&diLeptons==0&&charge!=0&&lPFIsoDB>0.2&&nJetsPt20>=2&&"+vbfRelaxedSelection_+"&&"+signalSelection_,scaleUp_,prefix,false,false);
-// 		}
-// 		else if(prefix=="_2jet"){
-// 			dataQCDShape = createHistogramAndShifts(dataFile_,"QCD","vertices>0&&diLeptons==0&&charge!=0&&lPFIsoDB>0.2&&nJetsPt20>=2&&vbfMass>200&&vbfDEta>2",scaleUp_,prefix,false,false);
-// 		}
-// 			
-// 		std::pair<float,float> dataQCDControl = createHistogramAndShifts(dataFile_,"QCDC1","vertices>0&&diLeptons==0&&charge!=0&&lPFIsoDB>0.2&&"+categorySelection+"&&"+signalSelection_,scaleUp_,prefix,false,false);
-// 		std::pair<float,float> dataQCDControlInc = createHistogramAndShifts(dataFile_,"QCDC2","vertices>0&&diLeptons==0&&charge!=0&&lPFIsoDB>0.2&&"+signalSelection_,scaleUp_,prefix,false,false);	
-// 
-//     	qcdPass=dataQCDControl.first;
-//     	qcdAll=dataQCDControlInc.first;		
-// 	}
-// 	else if(prefix=="_vh"){
-// 	
-// 		dataQCDShape = createHistogramAndShifts(dataFile_,"QCD",qcdSelection_+"&&nJetsPt20>=2&&vbfMass>75",scaleUp_,prefix,false,false);
-// 		std::pair<float,float> dataQCDControl = createHistogramAndShifts(dataFile_,"QCDC1",qcdSelection_+"&&"+categorySelection,scaleUp_,prefix,false,false);
-// 		std::pair<float,float> dataQCDControlInc = createHistogramAndShifts(dataFile_,"QCDC2",qcdSelection_,scaleUp_,prefix,false,false);	
-// 
-//     	qcdPass=dataQCDControl.first;
-//     	qcdAll=dataQCDControlInc.first;		
-// 	}
-// 	else{
-// 	
-// 		dataQCDShape = createHistogramAndShifts(dataFile_,"QCD",qcdSelection_+"&&"+categorySelection,scaleUp_,prefix,false,false);
-// 		std::pair<float,float> dataQCDControl = createHistogramAndShifts(dataFile_,"QCDC1",qcdSelection_+"&&"+categorySelection,scaleUp_,prefix,false,false);
-// 		std::pair<float,float> dataQCDControlInc = createHistogramAndShifts(dataFile_,"QCDC2",qcdSelection_,scaleUp_,prefix,false,false);
-// 
-//     	qcdPass=dataQCDControl.first;
-//     	qcdAll=dataQCDControlInc.first;
-// 	}
-//     
-// 
-//     //Estimate QCD extrapolation factor
-//    
-// 	if(prefix!="_btag_low"&&prefix!="_btag"){
-// 	
-// 		qcdFactor = qcdPass/qcdAll;
-// 		qcdFactorErr = TEfficiency::ClopperPearson(qcdAll,qcdPass,0.68,true)-qcdFactor; 
-// 	
-// 		osQCD = std::make_pair(inclusive.QCD*qcdFactor,sqrt(inclusive.QCD*inclusive.QCD*qcdFactorErr*qcdFactorErr+qcdFactor*qcdFactor*inclusive.dQCD*inclusive.dQCD));
-// 		
-// 		printf("osQCD = %f * %f = %f\n", inclusive.QCD, qcdFactor, osQCD.first);
-// 
-// 	}
-// 	
-//     //Inflate the errors
-//     std::pair<float,float> topInflYield  = inflateError(topYield,topErr_);
-//     printf("TTbar events in signal region = %f + %f \n",topInflYield.first,topInflYield.second);
-// 
-//     std::pair<float,float> topInflSSYield  = inflateError(topSSYield,topErr_,topExtrapErr);
-//     printf("TTbar events in SS region = %f + %f \n",topInflSSYield.first,topInflSSYield.second);
-// 
-//     std::pair<float,float> vvInflYield  = inflateError(vvYield,vvErr_);
-//     printf("Diboson events in signal region = %f + %f \n",vvInflYield.first,vvInflYield.second);
-//     
-//     std::pair<float,float> zllInflYield  = inflateError(zllYield,zlftErr_,zjftErr_);
-//     printf("Z ->ll in signal region = %f + %f \n",zllInflYield.first,zllInflYield.second);
-// 
-//     std::pair<float,float> zllInflSSYield  = inflateError(zllSSYield,zjftErr_);
-//     printf("Z ->ll in SS region = %f + %f \n",zllInflSSYield.first,zllInflSSYield.second);
-// 
-//     std::pair<float,float> wInflYield  = inflateError(wYield,inclusive.dWCORR);
-//     printf("W in signal region = %f + %f \n",wInflYield.first,wInflYield.second);
-// 
-//     std::pair<float,float> wInflSSYield  = inflateError(wSSYield,inclusive.dWSSCORR,wExtrapErr);
-//     printf("W in SS region = %f + %f \n",wInflSSYield.first,wInflSSYield.second);
-// 
-// 
-//     //Estimate QCD!
-//       printf("OS QCD in  core  =%f *%f = %f +- %f \n",inclusive.QCD,qcdFactor,osQCD.first,osQCD.second);
-//            
-//       float background    = osQCD.first+wInflYield.first+topInflYield.first+vvInflYield.first+zllInflYield.first+zttYield.first;
-//       float backgroundErr = sqrt(osQCD.second*osQCD.second+wInflYield.second*wInflYield.second+topInflYield.second*topInflYield.second+vvInflYield.second*vvInflYield.second+zllInflYield.second*zllInflYield.second+zttYield.second*zttYield.second);
-//       printf("BACKGROUND=%f +-%f \n",background,backgroundErr);
-// 
-// 
-//       ///LATEX
-//       printf("LATEX ------------------------------------\n");
-// 
-//       printf("Total & %.2f  \\\\ \n", dataYield.first);
-//       printf("Di-Boson & %.2f $\\pm$ %.2f  \\\\ \n", vvInflYield.first, quadrature(vvInflYield.first,vvInflYield.second,muIDErr_,eleIDErr_,zttScaleErr_,tauIDErr_));
-//       printf("$t\\bar{t}$ & %.2f $\\pm$ %.2f \\\\ \n", topInflYield.first,quadrature(topInflYield.first,topInflYield.second,muIDErr_,eleIDErr_,tauIDErr_,topExtrapErr));
-//       printf("$Zll & %.2f $\\pm$ %.2f  \\\\ \n", zllInflYield.first, quadrature(zllInflYield.first,zllInflYield.second,muIDErr_,eleIDErr_,zttScaleErr_,zExtrapErr));
-//       printf("$W+jets$ & %.2f $\\pm$ %.2f   \\\\ \n", wInflYield.first, quadrature(wInflYield.first,wInflYield.second,wExtrapErr));
-//       printf("QCD & %.2f $\\pm$ %.2f \\\\ \n", osQCD.first, osQCD.second);
-//       printf("$Z\\rightarrow\\tau\\tau$ & %.2f $\\pm$ %.2f & - & - & - \\\\ \n", zttYield.first,quadrature(zttYield.first,zttYield.second,muIDErr_,eleIDErr_,zttScaleErr_,tauIDErr_,zExtrapErr));
-//       float fullBackgroundErr = sqrt(pow(quadrature(vvInflYield.first,vvInflYield.second,muIDErr_,eleIDErr_,zttScaleErr_,tauIDErr_),2)+
-// 										       pow(quadrature(topInflYield.first,topInflYield.second,muIDErr_,eleIDErr_,tauIDErr_),2)+
-// 										       pow(quadrature(zllInflYield.first,zllInflYield.second,muIDErr_,eleIDErr_,zttScaleErr_,zExtrapErr),2)+
-// 										       pow(osQCD.second,2)+
-// 										       pow(quadrature(wInflYield.first,wInflYield.second,wExtrapErr),2)+
-// 				                                                       pow(quadrature(zttYield.first,zttYield.second,muIDErr_,eleIDErr_,zttScaleErr_,tauIDErr_,zExtrapErr),2));
-//       printf("Total Background & %.2f $\\pm$ %.2f & - & - & - \\\\ \n",background,fullBackgroundErr);
-// 
-// 
-// 
-//       //create a histogram with the error for plotting reasons and only
-//       TH1F *err = new TH1F("BKGErr","",1,0,1);
-//       err->SetBinContent(1,fullBackgroundErr/background);
-//       fout_->cd((channel_+prefix).c_str());
-//       err->Write();
-// 
-// 
-// 
-//       output.DATA = dataYield.first;
-//       output.W = wInflYield.first;
-//       output.dW = wInflYield.second;
-//       
-//       output.WSS = wInflSSYield.first;
-//       output.dWSS =wInflYield.second;
-//       
-//       output.QCD = osQCD.first;
-//       output.dQCD = osQCD.second;
-// 
-//       output.ZLFT = zllInflYield.first;
-//       output.dZLFT =zllInflYield.second;
-//       output.ZLFTSS = zllInflSSYield.first;
-//       output.dZLFTSS =zllInflSSYield.second;
-// 
-//       output.TOP = topInflYield.first;
-//       output.dTOP = topInflYield.second;
-//       output.VV = vvInflYield.first;
-//       output.dVV = vvInflYield.second;
-//       output.ZTT = zttYield.first;
-//       output.dZTT = zttYield.second;
-//       
-//       output.WCORR = inclusive.WCORR;
-//       output.dWCORR = inclusive.dWCORR;
-//       
-//       //now renormalize the data driven histograms
-//       FixEmptyBins(channel_+prefix,"QCD",true);
-//       FixEmptyBinsMC(channel_+prefix,"W",false);
-//       FixEmptyBinsMC(channel_+prefix,"ZTT",false);
-//       if(channel_=="eleTau"){
-//       	FixEmptyBinsMC(channel_+prefix,"ZLL",false);
-//       	FixEmptyBinsMC(channel_+prefix,"ZL",false);
-//       	FixEmptyBinsMC(channel_+prefix,"ZJ",false);      	
-//       }
-//       
-// //       if(channel_=="muTau"&&prefix=="_vbf"){
-// //       	superSmooth(channel_+prefix,"ZLL");
-// //       }
-// 
-//       renormalizeHistogram(channel_+prefix,"QCD",osQCD.first);
-//       //zeeShapeSyst(channel_+prefix, "ZLL");
-//       
-// 
-//       return output;
-//   }
 
   BkgOutput runBoost(std::string preSelection,std::string categorySelection, std::string prefix, BkgOutput inclusive,float zExtrap,float zExtrapErr,float wExtrap,float wExtrapErr,float topExtrap,float topExtrapErr,std::string zShape_="",std::string wShape_="") {
 
@@ -3111,28 +1589,25 @@ class DataCardCreator {
 	float corr = 1.0;
 	
     if(zShape_.size()==0) {
-    
         std::pair<float,float> zttShape       = createHistogramAndShiftsFinal(zttFile_,"ZTT",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+osSignalSelection_+"&&genTaus>0&&genVisPt2>18)*"+weight_),luminosity_*zttScale_*leg1Corr*tauID*zExtrap,prefix,true);
-
     }
     else{
-
-		printf("You have embedded samples.Calculating corrections on the fly overidding the crappy ones you gave me!\n");
-
-		std::pair<float,float> zttShape       = createHistogramAndShifts(zShape_,"ZTT",("("+preSelection+"&&"+categorySelection+"&&"+osSignalSelection_+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),leg1Corr*tauID,prefix,true);	
-		std::pair<float,float> zttEmbYield    = createHistogramAndShifts(zShape_,"ZTTTMP",("("+preSelection+"&&"+categorySelection+"&&"+osSignalSelection_+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),leg1Corr*tauID,prefix,true);
-		std::pair<float,float> zttShapePre    = createHistogramAndShifts(zShape_,"ZTTPre",("("+preSelection+"&&"+osSignalSelection_+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),leg1Corr*tauID,prefix,true);
-
-	
-		corr = zttEmbYield.first/zttShapePre.first;
-		printf("Efficiency for embedding =%f\n",corr);	
-		double corrErr = corr*sqrt(1/zttEmbYield.first + 1/zttShapePre.first);;
-		zttYield = std::make_pair(inclusive.ZTT*corr,inclusive.dZTT*corrErr);
-		renormalizeHistogram(channel_+prefix,"ZTT",inclusive.ZTT*corr);
-		output.ZTTCORR=corr;
-		output.dZTTCORR=corrErr;
-		
-		addHistogramZTT(channel_+prefix, "ZTT", "ZTT_LL");
+      
+      printf("You have embedded samples.Calculating corrections on the fly overidding the crappy ones you gave me!\n");
+      
+      std::pair<float,float> zttShape       = createHistogramAndShifts(zShape_,"ZTT",("("+preSelection+"&&"+categorySelection+"&&"+osSignalSelection_+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),leg1Corr*tauID,prefix,true);	
+      std::pair<float,float> zttEmbYield    = createHistogramAndShifts(zShape_,"ZTTTMP",("("+preSelection+"&&"+categorySelection+"&&"+osSignalSelection_+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),leg1Corr*tauID,prefix,true);
+      std::pair<float,float> zttShapePre    = createHistogramAndShifts(zShape_,"ZTTPre",("("+preSelection+"&&"+osSignalSelection_+"&&genFullMass>50&&genVisPt2>18)*"+embWeight_),leg1Corr*tauID,prefix,true);
+      
+      corr = zttEmbYield.first/zttShapePre.first;
+      printf("Efficiency for embedding =%f\n",corr);	
+      double corrErr = corr*sqrt(1/zttEmbYield.first + 1/zttShapePre.first);;
+      zttYield = std::make_pair(inclusive.ZTT*corr,inclusive.dZTT*corrErr);
+      renormalizeHistogram(channel_+prefix,"ZTT",inclusive.ZTT*corr);
+      output.ZTTCORR=corr;
+      output.dZTTCORR=corrErr;
+      
+      addHistogramZTT(channel_+prefix, "ZTT", "ZTT_LL");
     }
 
 	//////////////// Estimate ttbar ///////////////
@@ -3149,62 +1624,61 @@ class DataCardCreator {
     std::pair<float,float> vvYield        = createHistogramAndShiftsFinal(vvFile_,"VVTMP",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+osSignalSelection_+")*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);
     renormalizeHistogram(channel_+prefix,"VV",vvYield.first);
 	
-
-	//////////////// Estimate ZLL  ////////////////
-	    
-	std::pair<float,float> zlShape      = createHistogramAndShiftsFinal(zttFile_,"ZL",("("+preSelection+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zttScale_,prefix,false,false);
-	std::pair<float,float> zjShape      = createHistogramAndShiftsFinal(zttFile_,"ZJ",("("+preSelection+"&&"+osSignalSelection_+"&&"+categorySelection+"&&(!((genTaus==0&&abs(pdg2)==13&&genPt2>8)||(genTaus==0&&abs(pdg2)==11&&genPt2>8)||(genTaus>0&&genVisPt2>18))))*"+weight_),luminosity_*leg1Corr*zttScale_,prefix,false,false);
-	
-	std::pair<float,float> zlYield      = createHistogramAndShiftsFinal(zttFile_,"ZLTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_,prefix,false);
-	std::pair<float,float> zjYield      = createHistogramAndShiftsFinal(zttFile_,"ZJTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&(!((genTaus==0&&abs(pdg2)==13&&genPt2>8)||(genTaus==0&&abs(pdg2)==11&&genPt2>8)||(genTaus>0&&genVisPt2>18))))*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_,prefix,false);
-	
-	std::pair<float,float> zllYield;
-	zllYield.first = zlYield.first+zjYield.first;
-	zllYield.second = sqrt(zlYield.second*zlYield.second+zjYield.second*zjYield.second);
-	renormalizeHistogram(channel_+prefix,"ZL",zlYield.first);
-	renormalizeHistogram(channel_+prefix,"ZJ",zjYield.first);
-
-	if(channel_=="eleTau"){
-		std::pair<float,float> zlShiftUp      = createHistogramShifted(zllFile_,"ZL_CMS_htt_ZLScale_etau_"+energy_+"Up",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),"1.02",luminosity_*leg1Corr*zlftFactor_*zttScale_*zExtrap,prefix);
-		std::pair<float,float> zlShiftDown     = createHistogramShifted(zllFile_,"ZL_CMS_htt_ZLScale_etau_"+energy_+"Down",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),"0.98",luminosity_*leg1Corr*zlftFactor_*zttScale_*zExtrap,prefix);
-	}
-	else{
-		std::pair<float,float> zlShiftUp      = createHistogramShifted(zllFile_,"ZL_CMS_htt_ZLScale_mutau_"+energy_+"Up",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),"1.02",luminosity_*leg1Corr*zlftFactor_*zttScale_*zExtrap,prefix);
-		std::pair<float,float> zlShiftDown     = createHistogramShifted(zllFile_,"ZL_CMS_htt_ZLScale_mutau_"+energy_+"Down",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),"0.98",luminosity_*leg1Corr*zlftFactor_*zttScale_*zExtrap,prefix);	
-	}
-
-	std::pair<float,float> zllSSYield    = createHistogramAndShifts(zttFile_,"ZL_SS",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+ssSignalSelection_+"&&genTaus==0)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_,prefix,false);
-
-
-	///////////////// W Background estimate ///////////////////
-
-	std::pair<float,float> wShape;
-	if(channel_=="eleTau"){
-	  wShape      = createHistogramAndShifts(wFile_,"W",("(diLeptons==0&&lPFIsoDB<0.1&&(tightElectrons+tightMuons)<=1&&tauEleMedium>0&&"+trigSelection_+"&&"+categorySelection+"&&"+signalSelection_+")*"+weight_),luminosity_*leg1Corr,prefix,false,false);
-	}
-	else{
-	  wShape      = createHistogramAndShifts(wFile_,"W",("(diLeptons==0&&lPFIsoDB<0.1&&(tightElectrons+tightMuons)<=1&&"+trigSelection_+"&&"+categorySelection+"&&"+signalSelection_+")*"+weight_),luminosity_*leg1Corr,prefix,false,false);	
-	}
-	  std::pair<float,float> dataYWSDB   = createHistogramAndShiftsFinal(dataFile_,"dataWSDB","("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")",scaleUp_,prefix);
-	  std::pair<float,float> vvYieldSDB  = createHistogramAndShiftsFinal(vvFile_,"VVSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);
-	  std::pair<float,float> topYieldSDB = createHistogramAndShiftsFinal(topFile_,"TTSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
-	  std::pair<float,float> zYieldSDB = createHistogramAndShiftsFinal(zttFile_,"ZSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*ZeFakeTau*"+weight_),luminosity_*leg1Corr*tauID,prefix);
-
-	  std::pair<float,float> wFactor = extractWFactor(wShape_,categorySelection+"&&"+preSelection+"&&"+trigSelection_,prefix,osWSelection_,osSignalSelection_);
-  
-
-	  std::pair<float,float> osWHigh = std::make_pair((dataYWSDB.first-topYieldSDB.first-vvYieldSDB.first-zYieldSDB.first),
-							  sqrt(dataYWSDB.second*dataYWSDB.second+topYieldSDB.second*topYieldSDB.second+vvYieldSDB.second*vvYieldSDB.second+zYieldSDB.second*zYieldSDB.second));	  
-
-	  printf("OS W in sideband  =%f -%f -%f -%f = %f +- %f \n",dataYWSDB.first,topYieldSDB.first,vvYieldSDB.first,zYieldSDB.first,osWHigh.first,osWHigh.second);
-  
-
-	  std::pair<float,float> wYield = std::make_pair(osWHigh.first*wFactor.first,
-							 sqrt(osWHigh.first*osWHigh.first*wFactor.second*wFactor.second+osWHigh.second*osWHigh.second*wFactor.first*wFactor.first));
-
-	  printf("W Yield = %f * %f = %f\n", osWHigh.first, wFactor.first, wYield.first);
+    
+    //////////////// Estimate ZLL  ////////////////
+    
+    std::pair<float,float> zlShape      = createHistogramAndShiftsFinal(zttFile_,"ZL",("("+preSelection+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zttScale_,prefix,false,false);
+    std::pair<float,float> zjShape      = createHistogramAndShiftsFinal(zttFile_,"ZJ",("("+preSelection+"&&"+osSignalSelection_+"&&"+categorySelection+"&&(!((genTaus==0&&abs(pdg2)==13&&genPt2>8)||(genTaus==0&&abs(pdg2)==11&&genPt2>8)||(genTaus>0&&genVisPt2>18))))*"+weight_),luminosity_*leg1Corr*zttScale_,prefix,false,false);
+    
+    std::pair<float,float> zlYield      = createHistogramAndShiftsFinal(zttFile_,"ZLTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_,prefix,false);
+    std::pair<float,float> zjYield      = createHistogramAndShiftsFinal(zttFile_,"ZJTMP",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&(!((genTaus==0&&abs(pdg2)==13&&genPt2>8)||(genTaus==0&&abs(pdg2)==11&&genPt2>8)||(genTaus>0&&genVisPt2>18))))*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_,prefix,false);
+    
+    std::pair<float,float> zllYield;
+    zllYield.first = zlYield.first+zjYield.first;
+    zllYield.second = sqrt(zlYield.second*zlYield.second+zjYield.second*zjYield.second);
+    renormalizeHistogram(channel_+prefix,"ZL",zlYield.first);
+    renormalizeHistogram(channel_+prefix,"ZJ",zjYield.first);
+    
+    if(channel_=="eleTau"){
+      std::pair<float,float> zlShiftUp      = createHistogramShifted(zllFile_,"ZL_CMS_htt_ZLScale_etau_"+energy_+"Up",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),"1.02",luminosity_*leg1Corr*zlftFactor_*zttScale_*zExtrap,prefix);
+      std::pair<float,float> zlShiftDown     = createHistogramShifted(zllFile_,"ZL_CMS_htt_ZLScale_etau_"+energy_+"Down",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),"0.98",luminosity_*leg1Corr*zlftFactor_*zttScale_*zExtrap,prefix);
+    }
+    else{
+      std::pair<float,float> zlShiftUp      = createHistogramShifted(zllFile_,"ZL_CMS_htt_ZLScale_mutau_"+energy_+"Up",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),"1.02",luminosity_*leg1Corr*zlftFactor_*zttScale_*zExtrap,prefix);
+      std::pair<float,float> zlShiftDown     = createHistogramShifted(zllFile_,"ZL_CMS_htt_ZLScale_mutau_"+energy_+"Down",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+"&&genTaus==0&& ((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))*ZeFakeTau*"+weight_),"0.98",luminosity_*leg1Corr*zlftFactor_*zttScale_*zExtrap,prefix);	
+    }
+    
+    std::pair<float,float> zllSSYield    = createHistogramAndShifts(zttFile_,"ZL_SS",("("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+ssSignalSelection_+"&&genTaus==0)*ZeFakeTau*"+weight_),luminosity_*leg1Corr*zExtrap*zttScale_,prefix,false);
+    
+    
+    ///////////////// W Background estimate ///////////////////
+    
+    std::pair<float,float> wShape;
+    if(channel_=="eleTau"){
+      wShape      = createHistogramAndShifts(wFile_,"W",("(diLeptons==0&&lPFIsoDB<0.1&&(tightElectrons+tightMuons)<=1&&tauEleMedium>0&&"+trigSelection_+"&&"+categorySelection+"&&"+signalSelection_+")*"+weight_),luminosity_*leg1Corr,prefix,false,false);
+    }
+    else{
+      wShape      = createHistogramAndShifts(wFile_,"W",("(diLeptons==0&&lPFIsoDB<0.1&&(tightElectrons+tightMuons)<=1&&"+trigSelection_+"&&"+categorySelection+"&&"+signalSelection_+")*"+weight_),luminosity_*leg1Corr,prefix,false,false);	
+    }
+    std::pair<float,float> dataYWSDB   = createHistogramAndShiftsFinal(dataFile_,"dataWSDB","("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")",scaleUp_,prefix);
+    std::pair<float,float> vvYieldSDB  = createHistogramAndShiftsFinal(vvFile_,"VVSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*"+weight_),luminosity_*leg1Corr*tauID,prefix,true,false);
+    std::pair<float,float> topYieldSDB = createHistogramAndShiftsFinal(topFile_,"TTSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*"+weight_),luminosity_*leg1Corr*tauID*topExtrap,prefix);
+    std::pair<float,float> zYieldSDB = createHistogramAndShiftsFinal(zttFile_,"ZSDB",("("+preSelection+"&&"+categorySelection+"&&"+osWSelection_+"&&"+trigSelection_+")*ZeFakeTau*"+weight_),luminosity_*leg1Corr*tauID,prefix);
+    
+    std::pair<float,float> wFactor = extractWFactor(wShape_,categorySelection+"&&"+preSelection+"&&"+trigSelection_,prefix,osWSelection_,osSignalSelection_);
+    
+    std::pair<float,float> osWHigh = std::make_pair((dataYWSDB.first-topYieldSDB.first-vvYieldSDB.first-zYieldSDB.first),
+						    sqrt(dataYWSDB.second*dataYWSDB.second+topYieldSDB.second*topYieldSDB.second+vvYieldSDB.second*vvYieldSDB.second+zYieldSDB.second*zYieldSDB.second));	  
+    
+    printf("OS W in sideband  =%f -%f -%f -%f = %f +- %f \n",dataYWSDB.first,topYieldSDB.first,vvYieldSDB.first,zYieldSDB.first,osWHigh.first,osWHigh.second);
+    
+    
+    std::pair<float,float> wYield = std::make_pair(osWHigh.first*wFactor.first,
+						   sqrt(osWHigh.first*osWHigh.first*wFactor.second*wFactor.second+osWHigh.second*osWHigh.second*wFactor.first*wFactor.first));
+    
+    printf("W Yield = %f * %f = %f\n", osWHigh.first, wFactor.first, wYield.first);
 		 
-	  renormalizeHistogram(channel_+prefix,"W",wYield.first);				     
+    renormalizeHistogram(channel_+prefix,"W",wYield.first);				     
 					 
 
     //Trick:For W_SS yield use the OS/SS ratio as measured in inclusive for W
@@ -3217,23 +1691,23 @@ class DataCardCreator {
  
     std::pair<float,float> dataSSY          = createHistogramAndShifts(dataFile_,"data_obs_ss","("+preSelection+"&&"+trigSelection_+"&&"+categorySelection+"&&"+ssSignalSelection_+")",scaleUp_,prefix);
     std::pair<float,float> dataSSYield      = convertToPoisson(dataSSY);
+    
+    
+    ////////// QCD Estimate ///////////////
+    
+    std::pair<float,float> dataQCDShape = createHistogramAndShifts(dataFile_,"QCD","charge!=0&&vertices>0&&diLeptons==0&&lPFIsoDB>0.2&&(tightElectrons+tightMuons)<1&&"+categorySelection+"&&"+trigSelection_+"&&"+relaxedSelection_,scaleUp_,prefix,false,false);
+    std::pair<float,float> dataQCDControl = createHistogramAndShifts(dataFile_,"QCDC1","charge!=0&&vertices>0&&diLeptons==0&&lPFIsoDB>0.2&&(tightElectrons+tightMuons)<1&&"+categorySelection+"&&"+relaxedSelection_,scaleUp_,prefix,false,false);
+    std::pair<float,float> dataQCDControlInc = createHistogramAndShifts(dataFile_,"QCDC2","charge!=0&&vertices>0&&diLeptons==0&&lPFIsoDB>0.2&&(tightElectrons+tightMuons)<1&&"+relaxedSelection_,scaleUp_,prefix,false,false);	
+    
+    float qcdFactor = dataQCDControl.first/dataQCDControlInc.first;
+    float qcdFactorErr = TEfficiency::ClopperPearson(dataQCDControlInc.first,dataQCDControl.first,0.68,true)-qcdFactor; 
 
-
-	////////// QCD Estimate ///////////////
-	
-	std::pair<float,float> dataQCDShape = createHistogramAndShifts(dataFile_,"QCD","charge!=0&&vertices>0&&diLeptons==0&&lPFIsoDB>0.2&&(tightElectrons+tightMuons)<1&&"+categorySelection+"&&"+trigSelection_+"&&"+relaxedSelection_,scaleUp_,prefix,false,false);
-	std::pair<float,float> dataQCDControl = createHistogramAndShifts(dataFile_,"QCDC1","charge!=0&&vertices>0&&diLeptons==0&&lPFIsoDB>0.2&&(tightElectrons+tightMuons)<1&&"+categorySelection+"&&"+relaxedSelection_,scaleUp_,prefix,false,false);
-	std::pair<float,float> dataQCDControlInc = createHistogramAndShifts(dataFile_,"QCDC2","charge!=0&&vertices>0&&diLeptons==0&&lPFIsoDB>0.2&&(tightElectrons+tightMuons)<1&&"+relaxedSelection_,scaleUp_,prefix,false,false);	
-
-	float qcdFactor = dataQCDControl.first/dataQCDControlInc.first;
-	float qcdFactorErr = TEfficiency::ClopperPearson(dataQCDControlInc.first,dataQCDControl.first,0.68,true)-qcdFactor; 
-
-	std::pair<float,float> osQCD = std::make_pair(inclusive.QCD*qcdFactor,sqrt(inclusive.QCD*inclusive.QCD*qcdFactorErr*qcdFactorErr+qcdFactor*qcdFactor*inclusive.dQCD*inclusive.dQCD));
-	
-	////////// Output ////////////////////
-	printf("qcdFactor = %f / %f = %f\n", dataQCDControl.first, dataQCDControlInc.first, qcdFactor);	
-	printf("osQCD = %f * %f = %f\n", inclusive.QCD, qcdFactor, osQCD.first);
-
+    std::pair<float,float> osQCD = std::make_pair(inclusive.QCD*qcdFactor,sqrt(inclusive.QCD*inclusive.QCD*qcdFactorErr*qcdFactorErr+qcdFactor*qcdFactor*inclusive.dQCD*inclusive.dQCD));
+    
+    ////////// Output ////////////////////
+    printf("qcdFactor = %f / %f = %f\n", dataQCDControl.first, dataQCDControlInc.first, qcdFactor);	
+    printf("osQCD = %f * %f = %f\n", inclusive.QCD, qcdFactor, osQCD.first);
+    
     //Inflate the errors
     std::pair<float,float> topInflYield  = inflateError(topYield,topErr_);
     printf("TTbar events in signal region = %f + %f \n",topInflYield.first,topInflYield.second);
@@ -3256,86 +1730,84 @@ class DataCardCreator {
     std::pair<float,float> wInflSSYield  = inflateError(wSSYield,inclusive.dWSSCORR,wExtrapErr);
     printf("W in SS region = %f + %f \n",wInflSSYield.first,wInflSSYield.second);
 
-
-	  printf("OS QCD in  core  =%f *%f = %f +- %f \n",inclusive.QCD,qcdFactor,osQCD.first,osQCD.second);
-	   
-	  float background    = osQCD.first+wInflYield.first+topInflYield.first+vvInflYield.first+zllInflYield.first+zttYield.first;
-	  float backgroundErr = sqrt(osQCD.second*osQCD.second+wInflYield.second*wInflYield.second+topInflYield.second*topInflYield.second+vvInflYield.second*vvInflYield.second+zllInflYield.second*zllInflYield.second+zttYield.second*zttYield.second);
-	  printf("BACKGROUND=%f +-%f \n",background,backgroundErr);
-
-
-	  ///LATEX
-	  printf("LATEX ------------------------------------\n");
-
-	  printf("Total & %.2f  \\\\ \n", dataYield.first);
-	  printf("Di-Boson & %.2f $\\pm$ %.2f  \\\\ \n", vvInflYield.first, quadrature(vvInflYield.first,vvInflYield.second,muIDErr_,eleIDErr_,zttScaleErr_,tauIDErr_));
-	  printf("$t\\bar{t}$ & %.2f $\\pm$ %.2f \\\\ \n", topInflYield.first,quadrature(topInflYield.first,topInflYield.second,muIDErr_,eleIDErr_,tauIDErr_,topExtrapErr));
-      printf("$Z^{l+jet}$ & %.2f $\\pm$ %.2f & - & - $\\pm$ - & - \\\\ \n", zjYield.first, quadrature(zjYield.first,zjYield.second,muIDErr_,eleIDErr_,zttScaleErr_,zExtrapErr));
-      printf("$Z^{ll}$ & %.2f $\\pm$ %.2f & - & - $\\pm$ - & - \\\\ \n", zlYield.first, quadrature(zlYield.first,zlYield.second,muIDErr_,eleIDErr_,zttScaleErr_,zExtrapErr));
-	  printf("$W+jets$ & %.2f $\\pm$ %.2f   \\\\ \n", wInflYield.first, quadrature(wInflYield.first,wInflYield.second,wExtrapErr));
-	  printf("QCD & %.2f $\\pm$ %.2f \\\\ \n", osQCD.first, osQCD.second);
-	  printf("$Z\\rightarrow\\tau\\tau$ & %.2f $\\pm$ %.2f & - & - & - \\\\ \n", zttYield.first,quadrature(zttYield.first,zttYield.second,muIDErr_,eleIDErr_,zttScaleErr_,tauIDErr_,zExtrapErr));
-	  float fullBackgroundErr = sqrt(pow(quadrature(vvInflYield.first,vvInflYield.second,muIDErr_,eleIDErr_,zttScaleErr_,tauIDErr_),2)+
-											   pow(quadrature(topInflYield.first,topInflYield.second,muIDErr_,eleIDErr_,tauIDErr_),2)+
-											   pow(quadrature(zllInflYield.first,zllInflYield.second,muIDErr_,eleIDErr_,zttScaleErr_,zExtrapErr),2)+
-											   pow(osQCD.second,2)+
-											   pow(quadrature(wInflYield.first,wInflYield.second,wExtrapErr),2)+
-																	   pow(quadrature(zttYield.first,zttYield.second,muIDErr_,eleIDErr_,zttScaleErr_,tauIDErr_,zExtrapErr),2));
-	  printf("Total Background & %.2f $\\pm$ %.2f & - & - & - \\\\ \n",background,fullBackgroundErr);
-
-
-
-	  //create a histogram with the error for plotting reasons and only
-	  TH1F *err = new TH1F("BKGErr","",1,0,1);
-	  err->SetBinContent(1,fullBackgroundErr/background);
-	  fout_->cd((channel_+prefix).c_str());
-	  err->Write();
-
-	  output.DATA = dataYield.first;
-	  output.W = wInflYield.first;
-	  output.dW = wInflYield.second;
+    
+    printf("OS QCD in  core  =%f *%f = %f +- %f \n",inclusive.QCD,qcdFactor,osQCD.first,osQCD.second);
+    
+    float background    = osQCD.first+wInflYield.first+topInflYield.first+vvInflYield.first+zllInflYield.first+zttYield.first;
+    float backgroundErr = sqrt(osQCD.second*osQCD.second+wInflYield.second*wInflYield.second+topInflYield.second*topInflYield.second+vvInflYield.second*vvInflYield.second+zllInflYield.second*zllInflYield.second+zttYield.second*zttYield.second);
+    printf("BACKGROUND=%f +-%f \n",background,backgroundErr);
+    
+    
+    ///LATEX
+    printf("LATEX ------------------------------------\n");
+    
+    printf("Total & %.2f  \\\\ \n", dataYield.first);
+    printf("Di-Boson & %.2f $\\pm$ %.2f  \\\\ \n", vvInflYield.first, quadrature(vvInflYield.first,vvInflYield.second,muIDErr_,eleIDErr_,zttScaleErr_,tauIDErr_));
+    printf("$t\\bar{t}$ & %.2f $\\pm$ %.2f \\\\ \n", topInflYield.first,quadrature(topInflYield.first,topInflYield.second,muIDErr_,eleIDErr_,tauIDErr_,topExtrapErr));
+    printf("$Z^{l+jet}$ & %.2f $\\pm$ %.2f & - & - $\\pm$ - & - \\\\ \n", zjYield.first, quadrature(zjYield.first,zjYield.second,muIDErr_,eleIDErr_,zttScaleErr_,zExtrapErr));
+    printf("$Z^{ll}$ & %.2f $\\pm$ %.2f & - & - $\\pm$ - & - \\\\ \n", zlYield.first, quadrature(zlYield.first,zlYield.second,muIDErr_,eleIDErr_,zttScaleErr_,zExtrapErr));
+    printf("$W+jets$ & %.2f $\\pm$ %.2f   \\\\ \n", wInflYield.first, quadrature(wInflYield.first,wInflYield.second,wExtrapErr));
+    printf("QCD & %.2f $\\pm$ %.2f \\\\ \n", osQCD.first, osQCD.second);
+    printf("$Z\\rightarrow\\tau\\tau$ & %.2f $\\pm$ %.2f & - & - & - \\\\ \n", zttYield.first,quadrature(zttYield.first,zttYield.second,muIDErr_,eleIDErr_,zttScaleErr_,tauIDErr_,zExtrapErr));
+    float fullBackgroundErr = sqrt(pow(quadrature(vvInflYield.first,vvInflYield.second,muIDErr_,eleIDErr_,zttScaleErr_,tauIDErr_),2)+
+				   pow(quadrature(topInflYield.first,topInflYield.second,muIDErr_,eleIDErr_,tauIDErr_),2)+
+				   pow(quadrature(zllInflYield.first,zllInflYield.second,muIDErr_,eleIDErr_,zttScaleErr_,zExtrapErr),2)+
+				   pow(osQCD.second,2)+
+				   pow(quadrature(wInflYield.first,wInflYield.second,wExtrapErr),2)+
+				   pow(quadrature(zttYield.first,zttYield.second,muIDErr_,eleIDErr_,zttScaleErr_,tauIDErr_,zExtrapErr),2));
+    printf("Total Background & %.2f $\\pm$ %.2f & - & - & - \\\\ \n",background,fullBackgroundErr);
+    
+    
+    
+    //create a histogram with the error for plotting reasons and only
+    TH1F *err = new TH1F("BKGErr","",1,0,1);
+    err->SetBinContent(1,fullBackgroundErr/background);
+    fout_->cd((channel_+prefix).c_str());
+    err->Write();
+    
+    output.DATA = dataYield.first;
+    output.W = wInflYield.first;
+    output.dW = wInflYield.second;
+    
+    output.WSS = wInflSSYield.first;
+    output.dWSS =wInflYield.second;
   
-	  output.WSS = wInflSSYield.first;
-	  output.dWSS =wInflYield.second;
-  
-	  output.QCD = osQCD.first;
-	  output.dQCD = osQCD.second;
-
-	  output.ZLFT = zllInflYield.first;
-	  output.dZLFT =zllInflYield.second;
-	  output.ZLFTSS = zllInflSSYield.first;
-	  output.dZLFTSS =zllInflSSYield.second;
-
-	  output.TOP = topInflYield.first;
-	  output.dTOP = topInflYield.second;
-	  output.VV = vvInflYield.first;
-	  output.dVV = vvInflYield.second;
-	  output.ZTT = zttYield.first;
-	  output.dZTT = zttYield.second;
-  
-	  output.WCORR = inclusive.WCORR;
-	  output.dWCORR = inclusive.dWCORR;
-  
-  
-	  /////////////// post processing fixes ////////////////
-  
-	  //now renormalize the data driven histograms
-	  FixEmptyBins(channel_+prefix,"QCD",true);
-	  FixEmptyBinsMC(channel_+prefix,"W",false);
-	  FixEmptyBinsMC(channel_+prefix,"ZTT",false);
-	  if(channel_=="eleTau"){
-		FixEmptyBinsMC(channel_+prefix,"ZL",false);
-		FixEmptyBinsMC(channel_+prefix,"ZJ",false);      	
-	  }
-
-	  renormalizeHistogram(channel_+prefix,"QCD",osQCD.first);
-      qcdSyst(channel_, prefix, "QCD", 1.0, 0.1);
-
-
-	  return output;
-
+    output.QCD = osQCD.first;
+    output.dQCD = osQCD.second;
+    
+    output.ZLFT = zllInflYield.first;
+    output.dZLFT =zllInflYield.second;
+    output.ZLFTSS = zllInflSSYield.first;
+    output.dZLFTSS =zllInflSSYield.second;
+    
+    output.TOP = topInflYield.first;
+    output.dTOP = topInflYield.second;
+    output.VV = vvInflYield.first;
+    output.dVV = vvInflYield.second;
+    output.ZTT = zttYield.first;
+    output.dZTT = zttYield.second;
+    
+    output.WCORR = inclusive.WCORR;
+    output.dWCORR = inclusive.dWCORR;
+    
+    
+    /////////////// post processing fixes ////////////////
+    
+    //now renormalize the data driven histograms
+    FixEmptyBins(channel_+prefix,"QCD",true);
+    FixEmptyBinsMC(channel_+prefix,"W",false);
+    FixEmptyBinsMC(channel_+prefix,"ZTT",false);
+    if(channel_=="eleTau"){
+      FixEmptyBinsMC(channel_+prefix,"ZL",false);
+      FixEmptyBinsMC(channel_+prefix,"ZJ",false);      	
+    }
+    
+    renormalizeHistogram(channel_+prefix,"QCD",osQCD.first);
+    qcdSyst(channel_, prefix, "QCD", 1.0, 0.1);
+    return output;
+    
   }
-
+  
 
   BkgOutput runVBFLoose(std::string preSelection,std::string categorySelection, std::string prefix, BkgOutput inclusive,float zExtrap,float zExtrapErr,float wExtrap,float wExtrapErr,float topExtrap,float topExtrapErr,std::string zShape_="",std::string wShape_="") {
 
@@ -3853,7 +2325,6 @@ class DataCardCreator {
 	  return output;
 
   }
-  
   
   
   void convertToCutAndCount(std::string dir,std::string histogram) {
@@ -5002,19 +3473,6 @@ class DataCardCreator {
     printf("B  BBH%s = %f\n",mssmMasses_[i].c_str(),(getYield("BBH"+mssmMasses_[i],"_B")+getYield("BBH"+mssmMasses_[i],"_B"))/((mssmBBFraction_[i])*luminosity_));
 
   }
-
-    //    printf("Standard Model-----------------------------\n");
-    //  for(unsigned int i=0;i<smMasses_.size();++i) {
-    //    printf("Inclusive GGH%s = %f\n",smMasses_[i].c_str(),getYield("SM"+smMasses_[i],"_X")/((smSigma_[i])*luminosity_));
-    //    printf("Inclusive qqH%s = %f\n",smMasses_[i].c_str(),getYield("qqH"+smMasses_[i],"_X")/((qqHSigma_[i])*luminosity_));
-
-
-    //    printf("No VBF GGH%s = %f\n",smMasses_[i].c_str(),getYield("SM"+smMasses_[i],"_SM0")/((smSigma_[i])*luminosity_));
-    //    printf("No VBF VBF%s = %f\n",smMasses_[i].c_str(),getYield("qqH"+smMasses_[i],"_SM0")/((vbfSigma_[i])*luminosity_));
-    //
-    //    printf("VBF GGH%s = %f\n",smMasses_[i].c_str(),getYield("SM"+smMasses_[i],"_SM2")/((smSigma_[i])*luminosity_));
-    //    printf(" VBF VBF%s = %f\n",smMasses_[i].c_str(),getYield("VBF"+smMasses_[i],"_SM2")/((vbfSigma_[i])*luminosity_));
-    //  }
 }
 
 

@@ -125,7 +125,7 @@
 
 
 
- makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString units = "GeV",bool left=false,TString channel = "",TString year = "2012",bool log = false,bool dndm=false,bool doRatio = false)
+ makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString units = "GeV",bool left=false,TString channel = "",TString year = "2015",bool log = false,bool dndm=false,bool doRatio = false)
  {
    setStyle();
 
@@ -180,7 +180,7 @@
    TH1F * data = (TH1F*)(f->Get(dir+"/data_obs"));
    if (dndm) convertToDNDM(data);
 
-   applyDATAStyle(data);
+   //applyDATAStyle(data);
 
    TH1F * QCD = (TH1F*)(f->Get(dir+"/QCD"));
    if (dndm) convertToDNDM(QCD);
@@ -199,7 +199,7 @@
 	   applyStyle(EWK,kRed+2,1,1001);
 
 	   if(f->Get(dir+"/ZLL")!=0)
-		 TH1F * ZEE = (TH1F*)(f->Get(dir+"/ZLL")));	  	
+		 TH1F * ZEE = (TH1F*)(f->Get(dir+"/ZLL"));	  	
 	   if(f->Get(dir+"/ZL")!=0&&f->Get(dir+"/ZLL")==0)
 		 TH1F * ZEE = (TH1F*)(f->Get(dir+"/ZL"));
 	   if(f->Get(dir+"/ZJ")!=0&&f->Get(dir+"/ZLL")==0)
@@ -264,15 +264,11 @@
    else if(s==3) {
      TH1F * SM = (TH1F*)(f->Get(dir+"/ggH125"));
      TH1F *sm = SM;
-     sm->Scale(1.23);
+     sm->Scale(1);//FIXME
      TH1F * SM2 = (TH1F*)(f->Get(dir+"/qqH125"));
      TH1F *sm2 = SM2;
-     sm2->Scale(0.0986);
-     TH1F * SM3 = (TH1F*)(f->Get(dir+"/VH125"));
-     TH1F *sm3 = SM3;
-     sm3->Scale(0.0772);
+     sm2->Scale(1);//FIXME
      sm->Add(sm2);
-     sm->Add(sm3);
      sm->SetLineStyle(11);
      signal=sm;
 
@@ -295,7 +291,7 @@
    THStack *hs = new THStack("hs","");
    TLegend *l = new TLegend(xR,0.6,xR+0.5,0.9);
 
-   l->AddEntry(data,"Observed","P");
+   //l->AddEntry(data,"Observed","P");
 
    l->AddEntry(ZTT,"Z#rightarrow #tau #tau","F");
    l->AddEntry(EWK,"Electroweak","F");
@@ -346,23 +342,24 @@
 
 
    hs->Draw("HIST");
-   if(data->GetMaximum()*1.2+sqrt(data->GetMaximum())>hs->GetMaximum()) {
-     float max=0.0;
-     if(data->GetMaximum()>hs->GetMaximum())
-       max=data->GetMaximum();
-     else
-       max=hs->GetMaximum();
-
-     if(log) {
-       max*=10;
-       hs->SetMinimum(0.5);
-     }
-     hs->SetMaximum(max*1.5+sqrt(data->GetMaximum()));
-
-   }
-   else{
      hs->SetMaximum(hs->GetMaximum()*1.8);
-   }
+   //if(data->GetMaximum()*1.2+sqrt(data->GetMaximum())>hs->GetMaximum()) {
+    // float max=0.0;
+    // if(data->GetMaximum()>hs->GetMaximum())
+    //   max=data->GetMaximum();
+   //  else
+   //    max=hs->GetMaximum();
+
+     //if(log) {
+      // max*=10;
+      // hs->SetMinimum(0.5);
+    // }
+    // hs->SetMaximum(max*1.5+sqrt(data->GetMaximum()));
+
+  // }
+   //else{
+    // hs->SetMaximum(hs->GetMaximum()*1.8);
+   //}
    if(dndm)       hs->SetMinimum(0.001);
 
 
@@ -385,7 +382,7 @@
    if(s>0)
      signal->Draw("HIST,SAME");
 
-   data->Draw("e,SAME");
+   //data->Draw("e,SAME");
 
 
    c->cd();
