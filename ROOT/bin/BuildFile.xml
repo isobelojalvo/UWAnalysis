@@ -25,15 +25,11 @@
 </bin>
 <bin   name="PrintSelectionTableFromTree" file="PrintSelectionTableFromTree.cc">
 </bin>
-<bin   name="EventWeights" file="EventWeights.cc">
-</bin>
 <bin   name="EventWeightsIterative" file="EventWeightsIterative.cc">
 </bin>
 <bin   name="EventWeightsIterativeWJets" file="EventWeightsIterativeWJets.cc">
 </bin>
 <bin   name="EventWeightsIterativeZJets" file="EventWeightsIterativeZJets.cc">
-</bin>
-<bin   name="EventWeightsKFactors" file="EventWeightsKFactors.cc">
 </bin>
 
 <bin   name="EventWeightsKFactorsHRes" file="EventWeightsKFactorsHRes.cc">
@@ -57,49 +53,43 @@
 <bin   name="EventWeightsForEfficiencyFastHZ" file="EventWeightsForEfficiencyFastHZ.cc">
 </bin>
 
-<bin   name="EventWeightsForEfficiencyBTag" file="EventWeightsForEfficiencyBTag.cc">
-</bin>
-
-<bin   name="EventWeightsForEfficiencyZEE" file="EventWeightsForEfficiencyZEE.cc">
-</bin>
-
-<bin   name="EventWeightsForEfficiencyFastEM" file="EventWeightsForEfficiencyFastEM.cc">
-</bin>
-
 <bin   name="EventWeightsEmbeddedUnfolding" file="EventWeightsEmbeddedUnfolding.cc">
 </bin>
 
-<bin   name="EventWeightsForEfficiencyHisto" file="EventWeightsForEfficiencyHisto.cc">
-</bin>
-
-
 <bin   name="OSLSMTMethodLikelihood" file="OSLSMTMethodLikelihood.cc">
 </bin>
+
 <bin   name="OSLSMTMethodLikelihoodShapes" file="OSLSMTMethodLikelihoodShapes.cc">
 </bin>
+
 <bin   name="OptimizeCuts" file="OptimizeCuts.cc">
   <use   name="UWAnalysis/ROOT"/>
 </bin>
+
 <bin   name="CrossSectionCalculation" file="CrossSectionCalculation.cc">
 </bin>
+
 <bin   name="OSLSMTMethodAll" file="OSLSMTMethodAll.cc">
 </bin>
+
 <bin   name="OSLSMTMethodFull" file="OSLSMTMethodFull.cc">
 </bin>
 
 <bin   name="ABCDMethod" file="ABCDMethod.cc">
 </bin>
 
-<bin   name="OSLSMTMethodAllElectrons" file="OSLSMTMethodAllElectrons.cc">
-</bin>
 <bin   name="OSLSMTMethodAllElectronsZ" file="OSLSMTMethodAllElectronsZ.cc">
 </bin>
+
 <bin   name="MatrixMethod" file="MatrixMethod.cc">
 </bin>
+
 <bin   name="TagAndProbePlotsUnbinned" file="TagAndProbePlotsUnbinned.cc">
 </bin>
+
 <bin   name="DiTauEnergyScale" file="DiTauEnergyScale.cc">
 </bin>
+
 <bin   name="GetExperimentalSystematics" file="GetExperimentalSystematics.cc">
 </bin>
 

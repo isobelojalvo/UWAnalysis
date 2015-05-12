@@ -50,36 +50,10 @@ double efficiency(double m, double m0, double sigma, double alpha, double n, dou
    else{
      return norm * (leftArea +  a * (1/TMath::Power(t-b,n-1) - 1/TMath::Power(absAlpha - b,n-1)) / (1 - n)) / area ;
    }
-  
  }
 
 
 void readdir(TDirectory *dir,optutl::CommandLineParser parser,char TreeToUse[]); 
-
-
-float weightEMu(float pt1,float pt2) {
-  float m0 =14.4751; float sigma = 0.120967; float alpha = 0.0226; float n = 4.3709; float norm=0.874294;
-
-
-  m0=2.90901; sigma=22.4641;alpha=74.3622;n=3.72143;norm=0.976318;
-  float dataMUID = efficiency(pt2,m0,sigma,alpha,n,norm);
-
-  m0=1.74118; sigma=22.5399;alpha=52.1416;n=6.59594;norm=0.980176;
-  float mcMUID = efficiency(pt2,m0,sigma,alpha,n,norm);
-  
-
-  m0=2.67899; sigma=21.9374;alpha=35.4;n=155.359;norm=0.977301;
-  float eleid = efficiency(pt1,m0,sigma,alpha,n,norm);
-
-  m0=-3.1459; sigma=27.0568;alpha=81.9479;n=2.21511;norm=0.974106;
-  float mceleid = efficiency(pt1,m0,sigma,alpha,n,norm);
-
-
-
-  return dataMUID*0.997841*eleid/(mcMUID*mceleid);
- 
-
-}
 
 
 float weightMuTau(float pt1,float pt2,float eta1,float eta2, float decayMode) {
@@ -98,8 +72,6 @@ float weightMuTau(float pt1,float pt2,float eta1,float eta2, float decayMode) {
 
   m0 = 18.393366; sigma = 1.526254; alpha = 2.021678; n = 124.741631; norm = 0.894280;  
   float mcTauE = efficiency(pt2,m0,sigma,alpha,n,norm);
-
-
 
 
   m0 = 17.313; sigma = 0.662731; alpha = 1.3412; n = 1.05778; norm = 1.26624;
