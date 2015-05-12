@@ -35,6 +35,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   #MiniAODJetIDEmbedder(process,"slimmedJets")  
 
   MiniAODEleMVAEmbedder(process,"slimmedElectrons")  
+  MiniAODMuonIDEmbedder(process,"slimmedMuons")  
   #Add trigger Matching
   muonTriggerMatchMiniAOD(process,triggerProcess,HLT)#NEW
   electronTriggerMatchMiniAOD(process,triggerProcess,HLT)#NEW
@@ -97,6 +98,17 @@ def PATJetMVAEmbedder(process,jets):
 #  process.miniAODElectronMVAID.src = cms.InputTag(jets)
 #  process.embedElecMVAIDs = cms.Sequence(process.miniAODElectronMVAID)
 #  process.analysisSequence*=process.embedElecMVAIDs
+
+
+def MiniAODMuonIDEmbedder(process,muons):
+  process.miniAODMuonID = cms.EDProducer(
+      "MiniAODMuonIDEmbedder",
+      src=cms.InputTag(muons),
+      vertices=cms.InputTag("offlineSlimmedPrimaryVertices")
+      )
+
+  process.embedMuonIDs = cms.Sequence(process.miniAODMuonID)
+  process.analysisSequence*=process.embedMuonIDs
 
 
 
@@ -304,7 +316,7 @@ def tauTriggerMatchMiniAOD(process,triggerProcess,HLT):
 def muonTriggerMatchMiniAOD(process,triggerProcess,HLT):
 
    process.triggeredPatMuons = cms.EDProducer("MuonTriggerMatcherMiniAOD",
-                                            src = cms.InputTag("slimmedMuons"),
+                                            src = cms.InputTag("miniAODMuonID"),
                                             trigEvent = cms.InputTag(HLT),
                                             filters = cms.vstring(
                                                 'hltL1Mu12EG7L3IsoMuFiltered23',#emu filters

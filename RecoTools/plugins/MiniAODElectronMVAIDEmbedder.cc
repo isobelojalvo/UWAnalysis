@@ -48,6 +48,7 @@ private:
   std::vector<std::string> nonTrigWeights_;
   std::string trigLabel_; // labels for the userFloats holding results
   std::string nonTrigLabel_;
+  std::string eleIsoLabel_;
   std::auto_ptr<std::vector<pat::Electron> > out; // Collection we'll output at the end
   EGammaMvaEleEstimatorCSA14 trigMVA;
   EGammaMvaEleEstimatorCSA14 nonTrigMVA;
@@ -71,7 +72,10 @@ MiniAODElectronMVAIDEmbedder::MiniAODElectronMVAIDEmbedder(const edm::ParameterS
 	     std::string("BDTIDTrig")),
   nonTrigLabel_(iConfig.exists("nonTrigLabel") ?
 		iConfig.getParameter<std::string>("nonTrigLabel") :
-		std::string("BDTIDNonTrig"))
+		std::string("BDTIDNonTrig")),
+  eleIsoLabel_(iConfig.exists("eleIsoLabel") ?
+		iConfig.getParameter<std::string>("eleIsoLabel") :
+		std::string("dBRelIso"))
 {
   std::vector<std::string> trigWeightPaths;
   std::vector<std::string> nonTrigWeightPaths;
@@ -113,8 +117,10 @@ void MiniAODElectronMVAIDEmbedder::produce(edm::Event& iEvent, const edm::EventS
 	    out->push_back(*ei); // copy electron to save correctly in event
 	    float trigMVAVal = trigMVA.mvaValue(*ei, false);
 	    float nonTrigMVAVal = nonTrigMVA.mvaValue(*ei, false);
+	    float eleIso = (ei->chargedHadronIso()+max(ei->photonIso()+ei->neutralHadronIso()-(0.5*(ei->puChargedHadronIso())),0.0))/(ei->pt());
 	    out->back().addUserFloat(trigLabel_, trigMVAVal);
 	    out->back().addUserFloat(nonTrigLabel_, nonTrigMVAVal);
+	    out->back().addUserFloat(eleIsoLabel_, eleIso);
     }
     iEvent.put(out);
 }
