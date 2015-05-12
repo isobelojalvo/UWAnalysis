@@ -36,11 +36,6 @@ createGeneratedParticles(process,
                            "keep pdgId = {mu-}",
                            "keep pdgId = 11",
                            "keep pdgId = -11",
-                           "keep pdgId = 6",
-                           "keep pdgId = -6",
-                           "keep pdgId = 25",
-                           "keep pdgId = 35",
-                           "keep abs(pdgId) = 36"
                           ]
 )
 
@@ -53,28 +48,12 @@ createGeneratedParticles(process,
                           ]
 )
 
+
 from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
-addMuTauEventTree(process,'muTauEventTreeFinal','diTausOS','diMuonsSorted')
-
 
 from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addEleTauEventTree
 addEleTauEventTree(process,'eleTauEventTree')
-addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','osDiElectrons')
-
-#Systematic Shifts 1sigma
-process.eventSelectionMTTauUp    = createSystematics(process,process.selectionSequenceMT,'TauUp',1.0,1.0,1.03,0,1.0)
-process.eventSelectionMTTauDown  = createSystematics(process,process.selectionSequenceMT,'TauDown',1.0,1.0,0.97,0,1.0)
-process.eventSelectionMTJetUp    = createSystematics(process,process.selectionSequenceMT,'JetUp',1.0,1.0,1.0,1,1.0)
-process.eventSelectionMTJetDown  = createSystematics(process,process.selectionSequenceMT,'JetDown',1.0,1.0,1.0,-1,1.0)
-
-process.eventSelectionETTauUp    = createSystematics(process,process.selectionSequenceET,'TauUp',1.00,1.0,1.03,0,1.0)
-process.eventSelectionETTauDown  = createSystematics(process,process.selectionSequenceET,'TauDown',1.0,1.0,0.97,0,1.0)
-process.eventSelectionMTJetUp    = createSystematics(process,process.selectionSequenceMT,'JetUp',1.0,1.0,1.0,1,1.0)
-process.eventSelectionMTJetDown  = createSystematics(process,process.selectionSequenceMT,'JetDown',1.0,1.0,1.0,-1,1.0)
-
-
-
 
 addEventSummary(process,True,'MT','eventSelectionMT')
 addEventSummary(process,True,'ET','eventSelectionET')
@@ -82,20 +61,20 @@ addEventSummary(process,True,'ET','eventSelectionET')
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-       $inputFileNames
+       "/store/mc/Phys14DR/TTJets_MSDecaysCKM_central_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU4bx50_PHYS14_25_V1-v1/00000/02131EBA-627E-E411-B166-0025905A605E.root"
 		),
 		inputCommands=cms.untracked.vstring(
 						'keep *',
-		)
+		),
+                skipEvents=cms.untracked.uint32(10700)
 )
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(-1)
 )
 
-#process.TFileService.fileName=cms.string("$outputFileName")
+#process.TFileService.fileName=cms.string("SUB-MC-02131EBA-627E-E411-B166-0025905A605E.root")
 process.TFileService = cms.Service(
     "TFileService",
-    fileName = cms.string("$outputFileName")
+    fileName = cms.string("SUB-MC-02131EBA-627E-E411-B166-0025905A605E.root")
 )
-

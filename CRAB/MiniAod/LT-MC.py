@@ -9,15 +9,15 @@ process.GlobalTag.globaltag = 'PHYS14_25_V1'
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1000)
+    input = cms.untracked.int32(2000)
 )
 
 
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-'file:/hdfs/store/mc/Phys14DR/GluGluToHToTauTau_M-125_13TeV-powheg-pythia6/MINIAODSIM/PU20bx25_tsg_PHYS14_25_V1-v1/10000/86CFA7C5-B96F-E411-B077-00266CF25490.root'
-#'file:/hdfs/store/mc/Phys14DR/TT_Tune4C_13TeV-pythia8-tauola/MINIAODSIM/PU20bx25_tsg_PHYS14_25_V1-v1/10000/F842EB7D-B470-E411-B141-0025905A60CE.root'
+#'file:/hdfs/store/mc/Phys14DR/GluGluToHToTauTau_M-125_13TeV-powheg-pythia6/MINIAODSIM/PU20bx25_tsg_PHYS14_25_V1-v1/10000/86CFA7C5-B96F-E411-B077-00266CF25490.root'
+'file:/hdfs/store/mc/Phys14DR/TT_Tune4C_13TeV-pythia8-tauola/MINIAODSIM/PU20bx25_tsg_PHYS14_25_V1-v1/10000/F842EB7D-B470-E411-B141-0025905A60CE.root'
 		),
 		inputCommands=cms.untracked.vstring(
 						'keep *',
@@ -54,6 +54,8 @@ createGeneratedParticles(process,
                            "keep pdgId = {tau-}",
                            "keep pdgId = {mu+}",
                            "keep pdgId = {mu-}",
+                           "keep pdgId = 6",
+                           "keep pdgId = -6",
                            "keep pdgId = 11",
                            "keep pdgId = -11",
                            "keep pdgId = 25",
@@ -66,19 +68,35 @@ createGeneratedParticles(process,
 createGeneratedParticles(process,
                          'genTauCands',
                           [
-                           "keep pdgId = {tau+} & mother.pdgId()= {Z0}",
-                           "keep pdgId = {tau-} & mother.pdgId() = {Z0}"
+                           "keep pdgId = {tau+} & mother.pdgId()= 25",#{Z0}
+                           "keep pdgId = {tau-} & mother.pdgId() = 25"
                           ]
 )
 
 
 from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
+addMuTauEventTree(process,'muTauEventTreeFinal','diTausOS','diMuonsSorted')
 
 from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addEleTauEventTree
 addEleTauEventTree(process,'eleTauEventTree')
+addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','osDiElectrons')
+
 
 addEventSummary(process,True,'MT','eventSelectionMT')
 addEventSummary(process,True,'ET','eventSelectionET')
 
 
+#Systematic Shifts 1sigma
+process.eventSelectionMTTauUp    = createSystematics(process,process.selectionSequenceMT,'TauUp',1.0,1.0,1.03,0,1.0)
+process.eventSelectionMTTauDown  = createSystematics(process,process.selectionSequenceMT,'TauDown',1.0,1.0,0.97,0,1.0)
+process.eventSelectionMTJetUp    = createSystematics(process,process.selectionSequenceMT,'JetUp',1.0,1.0,1.0,1,1.0)
+process.eventSelectionMTJetDown  = createSystematics(process,process.selectionSequenceMT,'JetDown',1.0,1.0,1.0,-1,1.0)
+
+process.eventSelectionETTauUp    = createSystematics(process,process.selectionSequenceET,'TauUp',1.00,1.0,1.03,0,1.0)
+process.eventSelectionETTauDown  = createSystematics(process,process.selectionSequenceET,'TauDown',1.0,1.0,0.97,0,1.0)
+process.eventSelectionMTJetUp    = createSystematics(process,process.selectionSequenceMT,'JetUp',1.0,1.0,1.0,1,1.0)
+process.eventSelectionMTJetDown  = createSystematics(process,process.selectionSequenceMT,'JetDown',1.0,1.0,1.0,-1,1.0)
+
+
+#
