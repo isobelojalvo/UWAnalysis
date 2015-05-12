@@ -1,10 +1,13 @@
 #!/bin/sh
 
-mkdir /nfs_scratch/$USER/ztautau
-cd /nfs_scratch/$USER/ztautau
+mkdir /nfs_scratch/$USER/ztt_shifts
+cd /nfs_scratch/$USER/ztt_shifts
 
-merge=1;
+
+#only run merge or weight. Do not set both to 1.
+merge=0;
 weight=0;
+
 
 if [ $merge -eq 1 ]
     then
@@ -12,6 +15,7 @@ if [ $merge -eq 1 ]
     /cms/sw/farmout/mergeFiles --reuse-cache-files vbfH.root /hdfs/store/user/$USER/vbfHtautau-SUB-MCH &
     /cms/sw/farmout/mergeFiles --reuse-cache-files QCD.root /hdfs/store/user/$USER/QCD_15to3000Flat-SUB-MC &
     /cms/sw/farmout/mergeFiles --reuse-cache-files ZTT.root /hdfs/store/user/$USER/dyJetsLL-SUB-MC &
+    /cms/sw/farmout/mergeFiles --reuse-cache-files WW.root /hdfs/store/user/$USER/WW-SUB-MC 
     nohup /cms/sw/farmout/mergeFiles --reuse-cache-files TTJets.root /hdfs/store/user/$USER/TT_MSCKM-SUB-MC &
     nohup /cms/sw/farmout/mergeFiles --reuse-cache-files TT.root /hdfs/store/user/$USER/TT_Tune4C-SUB-MC &
     nohup /cms/sw/farmout/mergeFiles --reuse-cache-files WJets.root /hdfs/store/user/$USER/WJets-SUB-MC &
@@ -22,17 +26,18 @@ fi
 
 if [ $weight -eq 1 ]
     then
-#    EventWeightsForEfficiencyFast $1 outputFile='ggH.root'
-    EventWeightsIterative outputFile='ggH.root'      doOneD=1   weight=43.9 type=6 histoName='MT/results'
-    EventWeightsIterative outputFile='vbfH.root'      doOneD=1   weight=3.7 type=6 histoName='MT/results'
-    EventWeightsIterative outputFile='QCD.root'      doOneD=1   weight=1 type=6 histoName='MT/results'
-    EventWeightsIterative outputFile='ZTT.root'      doOneD=1   weight=6025 type=6 histoName='MT/results'
-    EventWeightsIterative outputFile='TTJets.root'      doOneD=1   weight=832 type=6 histoName='MT/results'
-    EventWeightsIterative outputFile='TT.root'      doOneD=1   weight=832 type=6 histoName='MT/results'
-    EventWeightsIterative outputFile='WJets.root'      doOneD=1   weight=20509 type=6 histoName='MT/results'
-    EventWeightsIterative outputFile='WZ.root'      doOneD=1   weight=1.634 type=6 histoName='MT/results'
-    EventWeightsIterative outputFile='t.root'      doOneD=1   weight=35.6 type=6 histoName='MT/results'
-    EventWeightsIterative outputFile='tBar.root'      doOneD=1   weight=35.6 type=6 histoName='MT/results'
+    EventWeightsIterative outputFile='ggH.root'     weight=43.9    histoName='MT/results'
+    EventWeightsIterative outputFile='vbfH.root'    weight=3.7     histoName='MT/results'
+    EventWeightsIterative outputFile='QCD.root'     weight=125000000000   histoName='MT/results'
+    EventWeightsIterative outputFile='ZTT.root'     weight=6025    histoName='MT/results'
+    EventWeightsIterative outputFile='TTJets.root'  weight=832     histoName='MT/results'
+    EventWeightsIterative outputFile='TT.root'      weight=832     histoName='MT/results'
+    EventWeightsIterative outputFile='WJets.root'   weight=20509   histoName='MT/results'
+    EventWeightsIterative outputFile='WZ.root'      weight=1.634   histoName='MT/results'
+    EventWeightsIterative outputFile='t.root'       weight=35.6    histoName='MT/results'
+    EventWeightsIterative outputFile='tBar.root'    weight=35.6    histoName='MT/results'
+    EventWeightsIterative outputFile='WW.root'     weight=110.8    histoName='MT/results'
+    hadd VV.root WZ.root t.root tBar.root
 fi
 
 
