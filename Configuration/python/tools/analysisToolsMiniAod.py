@@ -32,10 +32,9 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   #Apply Tau Energy Scale Changes
   EScaledTaus(process,True)
 
-  #MiniAODJetIDEmbedder(process,"slimmedJets")  
-
   MiniAODEleMVAEmbedder(process,"slimmedElectrons")  
   MiniAODMuonIDEmbedder(process,"slimmedMuons")  
+
   #Add trigger Matching
   muonTriggerMatchMiniAOD(process,triggerProcess,HLT)#NEW
   electronTriggerMatchMiniAOD(process,triggerProcess,HLT)#NEW
@@ -43,7 +42,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   
   #Build good vertex collection
   goodVertexFilter(process)  
-  tauOverloading(process,'triggeredPatTaus','primaryVertexFilter')
+  tauOverloading(process,'triggeredPatTaus','miniAODMuonID','primaryVertexFilter')
   
   triLeptons(process)
   jetOverloading(process,"slimmedJets")#"NewSelectedPatJets" 
@@ -78,7 +77,6 @@ def jetOverloading(process,jets):
   )                                        
 
   process.jetOverloading = cms.Sequence(process.patOverloadedJets)
-  #process.createOverloadedJets=cms.Path(process.jetOverloading)
   process.analysisSequence*=process.jetOverloading
 
 
@@ -92,12 +90,6 @@ def PATJetMVAEmbedder(process,jets):
 
   process.jetMVAEmbedding = cms.Sequence(process.patMVAEmbeddedJets)
   process.analysisSequence*=process.jetMVAEmbedding
-
-
-#def MiniAODJetIDEmbedder(process,jets):
-#  process.miniAODElectronMVAID.src = cms.InputTag(jets)
-#  process.embedElecMVAIDs = cms.Sequence(process.miniAODElectronMVAID)
-#  process.analysisSequence*=process.embedElecMVAIDs
 
 
 def MiniAODMuonIDEmbedder(process,muons):
@@ -179,17 +171,9 @@ def mvaMetMC(process):
   process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
 
   process.puJetIdForPFMVAMEt.jec =  cms.string('AK4PF')
-  #process.puJetIdForPFMVAMEt.jets = cms.InputTag("ak4PFJets")
   process.puJetIdForPFMVAMEt.vertexes = cms.InputTag("offlineSlimmedPrimaryVertices")
   process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
 
-
-  #process.calibratedAK4PFJetsForPFMVAMEt = cms.EDProducer('PFJetCorrectionProducer',
-  #  src = cms.InputTag('ak4PFJets'),
-  #  correctors = cms.vstring("ak4PFL1FastL2L3") # NOTE: use "ak5PFL1FastL2L3" for MC / "ak5PFL1FastL2L3Residual" for Data
-  #)
-
-  
   process.patMVAMet = process.patMETs.clone(
   	metSource = cms.InputTag('pfMVAMEt'),
   	addMuonCorrections = cms.bool(False),
@@ -211,13 +195,13 @@ def triLeptons(process):
 
   process.TightElectrons = cms.EDFilter("PATElectronSelector",
   							src = cms.InputTag("miniAODElectronMVAID"),
-  							cut = cms.string('pt>10&&abs(eta)<2.5&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045'),
+  							cut = cms.string('pt>10&&abs(eta)<2.5&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045&&userFloat("dBRelIso")<0.3'),#ADD CUTPASEDID
   							filter = cms.bool(False)
   						)
   						
   process.TightMuons = cms.EDFilter("PATMuonSelector",
-  							src = cms.InputTag("slimmedMuons"),
-  							cut = cms.string('pt>10&&abs(eta)<2.4&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045&&isLooseMuon&&(((isGlobalMuon&&globalTrack().normalizedChi2()<3&&combinedQuality().chi2LocalPosition<12&&combinedQuality().trkKink<20)&&(innerTrack().validFraction()>=0.8&&segmentCompatibility()>=0.303))||(!(isGlobalMuon&&globalTrack().normalizedChi2()<3&&combinedQuality().chi2LocalPosition<12&&combinedQuality().trkKink<20)&&(innerTrack().validFraction()>=0.8&&segmentCompatibility()>=0.451)))'),
+  							src = cms.InputTag("miniAODMuonID"),
+  							cut = cms.string('pt>10&&abs(eta)<2.4&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045&&userInt("mediumID")&&userFloat("dBRelIso")<0.3'),
   							filter = cms.bool(False)
   						)
 
@@ -243,7 +227,7 @@ def kineWeightsEmbMT(process):
   						
 
   						
-def applyDefaultSelectionsPT(process):
+def applyDefaultSelectionsPT(process):#FIXME
   #DONT CHANGE THOSE HERE:: THEY ARE NOT USED FOR YOUR SELECTIONS!!!
   #ONLY FOR SYSTEMATICS . PLEASE CHANGE THEM in YOUR CFG FILE IF REALLY NEEDED
   process.selectedPatTaus = cms.EDFilter("PATTauSelector",
@@ -352,12 +336,12 @@ def electronTriggerMatchMiniAOD(process,triggerProcess,HLT):
    process.analysisSequence*= process.triggeredPatElectrons
 
 
-def tauOverloading(process,src,vtxSrc):
+def tauOverloading(process,src, muons, vtxSrc):
 
 
   process.patOverloadedTaus = cms.EDProducer('PATTauOverloader',
                                         src = cms.InputTag(src),
-                                        muons = cms.InputTag('slimmedMuons'),
+                                        muons = cms.InputTag(muons),
                                         vtxSrc = cms.InputTag(vtxSrc)
   )                                        
 
