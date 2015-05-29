@@ -214,7 +214,13 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               muTauHadMass = makeMuTauPair(src,"tauMass",'leg2.mass()'),
 
                               muTauPFID = makeMuTauPair(src,"lPFId",'leg1.pfCandidateRef().isNonnull()'),#FIXME
+
+			      #tauIDs
                               muTauByCombIsoDBRaw3 = makeMuTauPair(src,"tauIso",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
+                              muTauByCombIsoLoose = makeMuTauPair(src,"tauIsoLoose",'leg2.tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits")'),
+                              muTauByCombIsoMedium = makeMuTauPair(src,"tauIsoMedium",'leg2.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits")'),
+                              muTauByCombIsoTight = makeMuTauPair(src,"tauIsoTight",'leg2.tauID("byTightCombinedIsolationDeltaBetaCorr3Hits")'),
+                              muTauByCharged = makeMuTauPair(src,"tauIsoCharged",'leg2.tauID("chargedIsoPtSum")'),
                               muTauAgainstMuonTight3 = makeMuTauPair(src,"againstMuonTight3",'leg2.tauID("againstMuonTight3")'),
                               muTauAgainstMuonTightFixed = makeMuTauPair(src,"againstMuTightFixed",'leg2.userInt("againstMuTightFixed")'),
                               muTauAgainstEleVLooseMVA5 = makeMuTauPair(src,"againstElectronVLooseMVA5",'leg2.tauID("againstElectronVLooseMVA5")'),
@@ -485,10 +491,18 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauHadMass = makeEleTauPair(src,"tauMass",'leg2.mass()'),
                               eleTauPFID = makeEleTauPair(src,"lPFId",'leg1.pfCandidateRef().isNonnull()'),#FIXME
                               eleTauByCombIsoDBRaw3 = makeEleTauPair(src,"tauIso",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
-
+                              eleTauByCombIsoLoose = makeEleTauPair(src,"tauIsoLoose",'leg2.tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits")'),
+                              eleTauByCombIsoMedium = makeEleTauPair(src,"tauIsoMedium",'leg2.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits")'),
+                              eleTauByCombIsoTight = makeEleTauPair(src,"tauIsoTight",'leg2.tauID("byTightCombinedIsolationDeltaBetaCorr3Hits")'),
+                              eleTauByCharged = makeEleTauPair(src,"tauIsoCharged",'leg2.tauID("chargedIsoPtSum")'),
+ 
                               eleTauAgainstMuonLoose3 = makeEleTauPair(src,"againstMuonLoose3",'leg2.tauID("againstMuonLoose3")'),
-                              eleTauMVATrig = makeEleTauPair(src,"BDTIDTrig",'leg1.userFloat("BDTIDTrig")'),#CHECKME
-                              eleTauMVANonTrig = makeEleTauPair(src,"BDTIDNonTrig",'leg1.userFloat("BDTIDNonTrig")'),#CHECKME
+                              eleTauMVATrig = makeEleTauPair(src,"BDTIDTrig",'leg1.userFloat("BDTIDTrig")'),#CHECKME #rename
+                              eleTauMVANonTrig = makeEleTauPair(src,"BDTIDNonTrig",'leg1.userFloat("BDTIDNonTrig")'),#CHECKME #rename
+                              eleTauCBIDVeto = makeEleTauPair(src,"CBIDVeto",'leg1.userFloat("CBIDVeto")'),#CHECKME #rename
+                              eleTauCBIDLoose = makeEleTauPair(src,"CBIDLoose",'leg1.userFloat("CBIDLoose")'),#CHECKME #rename
+                              eleTauCBIDMedium = makeEleTauPair(src,"CBIDMedium",'leg1.userFloat("CBIDMedium")'),#CHECKME #rename
+                              eleTauCBIDTight = makeEleTauPair(src,"CBIDTight",'leg1.userFloat("CBIDTight")'),#CHECKME #rename
 
                               eleTauConversion = makeEleTauPair(src,"eMatchedConversion",'leg1.userInt("hasMatchedConversion")'),#FIXME
                               eleTauPassConversion = makeEleTauPair(src,"ePassConversion",'leg1.passConversionVeto()'),#FIXME

@@ -32,7 +32,9 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   #Apply Tau Energy Scale Changes
   EScaledTaus(process,True)
 
-  MiniAODEleMVAEmbedder(process,"slimmedElectrons")  
+  MiniAODEleCBIDEmbedder(process,"slimmedElectrons")  
+  MiniAODEleMVAIDEmbedder(process,"miniAODElectronCutBasedID")  
+  #MiniAODEleMVAIDEmbedder(process,"slimmedElectrons")  
   MiniAODMuonIDEmbedder(process,"slimmedMuons")  
 
   #Add trigger Matching
@@ -45,7 +47,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   tauOverloading(process,'triggeredPatTaus','miniAODMuonID','primaryVertexFilter')
   
   triLeptons(process)
-  jetOverloading(process,"slimmedJets")#"NewSelectedPatJets" 
+  jetOverloading(process,"slimmedJets")
   #turned off BDT
   #PATJetMVAEmbedder(process,"patOverloadedJets")  
 
@@ -103,8 +105,38 @@ def MiniAODMuonIDEmbedder(process,muons):
   process.analysisSequence*=process.embedMuonIDs
 
 
+def MiniAODEleCBIDEmbedder(process, eles):
+  #Turn on versioned cut-based ID
+  from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
+  process.load("RecoEgamma.ElectronIdentification.egmGsfElectronIDs_cfi")
+  process.egmGsfElectronIDs.physicsObjectSrc = cms.InputTag(eles)
+  from PhysicsTools.SelectorUtils.centralIDRegistry import central_id_registry
+  process.egmGsfElectronIDSequence = cms.Sequence(process.egmGsfElectronIDs)
+  cb_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_PHYS14_PU20bx25_V1_miniAOD_cff']
+  for idmod in cb_id_modules:
+      setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
+  
+  CBIDLabels = ["CBIDVeto", "CBIDLoose", "CBIDMedium", "CBIDTight"] # keys of cut based id user floats
+  CBIDTags = [
+          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V1-miniAOD-standalone-veto'),
+          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V1-miniAOD-standalone-loose'),
+          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V1-miniAOD-standalone-medium'),
+          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V1-miniAOD-standalone-tight'),
+  ]
+  # Embed cut-based VIDs
+  process.miniAODElectronCutBasedID = cms.EDProducer(
+      "MiniAODElectronCutBasedIDEmbedder",
+      src=cms.InputTag(eles),
+      idLabels = cms.vstring(*CBIDLabels),
+      ids = cms.VInputTag(*CBIDTags)
+  )
+   
+  process.embedEleIDs = cms.Sequence(process.egmGsfElectronIDSequence+process.miniAODElectronCutBasedID)
+  process.analysisSequence*=process.embedEleIDs
 
-def MiniAODEleMVAEmbedder(process,eles):
+
+
+def MiniAODEleMVAIDEmbedder(process, eles):
   trigMVAWeights = [
       'EgammaAnalysis/ElectronTools/data/CSA14/TrigIDMVA_25ns_EB_BDT.weights.xml',
       'EgammaAnalysis/ElectronTools/data/CSA14/TrigIDMVA_25ns_EE_BDT.weights.xml',
@@ -195,7 +227,7 @@ def triLeptons(process):
 
   process.TightElectrons = cms.EDFilter("PATElectronSelector",
   							src = cms.InputTag("miniAODElectronMVAID"),
-  							cut = cms.string('pt>10&&abs(eta)<2.5&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045&&userFloat("dBRelIso")<0.3'),#ADD CUTPASEDID
+  							cut = cms.string('pt>10&&abs(eta)<2.5&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045&&userFloat("dBRelIso")<0.3&&userFloat("CBIDVeto")>0'),
   							filter = cms.bool(False)
   						)
   						
@@ -227,28 +259,27 @@ def kineWeightsEmbMT(process):
   						
 
   						
-def applyDefaultSelectionsPT(process):#FIXME
+def applyDefaultSelectionsPT(process):#FIXME THISWILL HVAE TO CHANGE
   #DONT CHANGE THOSE HERE:: THEY ARE NOT USED FOR YOUR SELECTIONS!!!
   #ONLY FOR SYSTEMATICS . PLEASE CHANGE THEM in YOUR CFG FILE IF REALLY NEEDED
   process.selectedPatTaus = cms.EDFilter("PATTauSelector",
                                            src = cms.InputTag("ESTausID"),
-                                           cut = cms.string('pt>15&&tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<3&&tauID("againstElectronLoose")&&tauID("againstMuonLoose2")'),
+                                           cut = cms.string('pt>15&&tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<3&&tauID("againstElectronLoose")&&tauID("againstMuonLoose3")'),
                                            filter = cms.bool(False)
   										)  
   process.selectedPatElectrons = cms.EDFilter("PATElectronSelector",
                                            src = cms.InputTag("slimmedElectrons"),
-                                           cut = cms.string('pt>10&&userFloat("wp95")>0&&(userIso(0)+max(photonIso+neutralHadronIso()-0.5*userIso(2),0.0))/pt()<0.3'),
+                                           cut = cms.string('pt>10&&userFloat("CBIDVeto")>0&&userFloat("dBRelIso")<0.3'),
                                            filter = cms.bool(False)
   										)
   process.selectedPatMuons = cms.EDFilter("PATMuonSelector",
                                            src = cms.InputTag("slimmedMuons"),
-                                           cut = cms.string('pt>10&&userInt("tightID")&&(userIso(0)+max(photonIso+neutralHadronIso()-0.5*puChargedHadronIso,0.0))/pt()<0.3'),
+                                           cut = cms.string('pt>10&&userInt("mediumID")&&userFloat("dBRelIso")<0.3'),
                                            filter = cms.bool(False)
   										) 
   process.cleanPatJets = cms.EDProducer("PATJetCleaner",
                                            src = cms.InputTag("patOverloadedJets"),#"patMVAEmbeddedJets"
-                                           #preselection = cms.string('abs(eta)<4.7&&userFloat("idLoose")>0&&pt>10&&userInt("fullIdLoose")>0'),
-                                           preselection = cms.string('abs(eta)<4.7&&pt>10'),
+                                           preselection = cms.string('abs(eta)<4.7&&pt>10&&userFloat("idLoose")'),
                                            checkOverlaps = cms.PSet(),
                                            finalCut = cms.string('')
   										)								 									  
@@ -520,44 +551,4 @@ def pfMetWithSignficance(process):
         process.metWithSig
     )
  
-#def pfMetWithSignficance(process):
-
-    # Get PFMET w/ significance
-    # 
-#    process.load("UWAnalysis.Configuration.tools.pfMetCovariance_cfi")
-#    process.load("TauAnalysis.CandidateTools.PFMETSignCovMatrixEmbedder_cfi")
-#
-#
-#    process.metWithSig = process.patMETSignEmbedder.clone(
-#        src = cms.InputTag("systematicsMET"),
-#        srcCov = cms.InputTag("pfMEtSignCovMatrix")
-#    )
-
-
-#    process.analysisSequence = cms.Sequence(
-#        process.analysisSequence *
-#        process.metSignficanceSequence *
-#        process.metWithSig
-#    )
-   
-
-# stephane's addition
-def addTagAndProbePlotter(process,type,name,src,ref,selections,methods,triggers,triggersProbe):
-
-  process.TFileService = cms.Service("TFileService", fileName = cms.string("analysis.root") )
-  muonAnalysis = cms.EDAnalyzer(type,
-                                src=cms.InputTag(src),
-                                vertices=cms.InputTag("primaryVertexFilter"),
-                                ref=cms.InputTag(ref),
-                                patTrigger = cms.InputTag("patTrigger"),
-                                id= cms.vstring(selections),
-                                methods= cms.vstring(methods),
-                                triggers = cms.vstring(triggers),
-                                triggersProbe = cms.vstring(triggersProbe),
-  )                                
-  
-  setattr(process,'tagAndProbe'+name,muonAnalysis)
-  p = cms.EndPath(getattr(process,'tagAndProbe'+name))
-  setattr(process,'tagAndProbePath'+name,p)   
-
 
