@@ -1,15 +1,4 @@
-//////////////////////////////////////////////////////////////////////////////
-//									    //
-//   MiniAODElectronMVAIDEmbedder.cc    				    //
-//									    //
-//   Takes MVA ID values from the common ID framework                       //
-//       and embeds them as user floats in the electron                     //
-//									    //
-//   Author: Nate Woods, U. Wisconsin					    //
-//									    //
-//////////////////////////////////////////////////////////////////////////////
-
-
+/*
 // system includes
 #include <memory>
 #include <vector>
@@ -25,7 +14,7 @@
 #include "DataFormats/Common/interface/View.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
-#include "EgammaAnalysis/ElectronTools/interface/EGammaMvaEleEstimatorCSA14.h"
+i//#include "EgammaAnalysis/ElectronTools/interface/EGammaMvaEleEstimatorCSA14.h"
 
 
 class MiniAODElectronMVAIDEmbedder : public edm::EDProducer
@@ -144,4 +133,4 @@ MiniAODElectronMVAIDEmbedder::fillDescriptions(edm::ConfigurationDescriptions& d
 }
 //define this as a plug-in
 DEFINE_FWK_MODULE(MiniAODElectronMVAIDEmbedder);
-
+*/
