@@ -31,4 +31,8 @@ cp /cms/ojalvo/mssm8TeV/CMSSW_5_3_7/src/UWAnalysis/Configuration/data/factoryJet
 git cms-merge-topic ikrav:egm_id_74X_v0
 
 
+#MVA MET
+git cms-addpkg RecoMET/METPUSubtraction
+
+
 pushd $CMSSW_BASE/src
