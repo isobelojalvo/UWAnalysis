@@ -202,6 +202,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
 
                               #Muon IDs and Isolation
                               muTauRelPFIsoDB = makeMuTauPair(src,"lPFIsoDB",'leg1.userFloat("dBRelIso")'),
+                              muTauLooseID = makeMuTauPair(src,"muLooseId",'leg1.isLooseMuon()'),
                               muTauMediumID = makeMuTauPair(src,"muMediumId",'leg1.userInt("mediumID")'),
                               muTauDecayMode = makeMuTauPair(src,"tauDecayMode",'leg2.decayMode()'),
                               muTauDecayFound = makeMuTauPair(src,"tauDecayFound",'leg2.tauID("decayModeFinding")'),
