@@ -1,6 +1,6 @@
 <library   name="UWAnalysisRecoTools_plugins" file="*.cc">
   <flags   EDM_PLUGIN="1"/>
-  <use   name="UWAnalysis/RecoTools"/>
+<!--  <use   name="UWAnalysis/RecoTools"/>-->
   <use   name="FWCore/Framework"/>
   <use   name="FWCore/MessageLogger"/>
   <use   name="FWCore/PluginManager"/>
@@ -24,7 +24,7 @@
   <use   name="DataFormats/HepMCCandidate"/>
   <use   name="UWAnalysis/RecoTools"/>
   <use   name="UWAnalysis/DataFormats"/>
-  <use   name="TauAnalysis/SVfitStandalone"/>
+<!--  <use   name="TauAnalysis/SVfitStandalone"/> -->
   <use   name="CommonTools/UtilAlgos"/>
   <use   name="Geometry/CommonDetUnit"/>
   <use   name="Geometry/TrackerGeometryBuilder"/>

@@ -27,13 +27,13 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   TriggerPaths= triggerPaths
   process.analysisSequence = cms.Sequence()
 
-  mvaMetMC(process)
+  #mvaMetMC(process)
 
   #Apply Tau Energy Scale Changes
   EScaledTaus(process,True)
 
   MiniAODEleCBIDEmbedder(process,"slimmedElectrons")  
-  MiniAODEleMVAIDEmbedder(process,"miniAODElectronCutBasedID")  
+  #MiniAODEleMVAIDEmbedder(process,"miniAODElectronCutBasedID")  
   #MiniAODEleMVAIDEmbedder(process,"slimmedElectrons")  
   MiniAODMuonIDEmbedder(process,"slimmedMuons")  
 
@@ -107,21 +107,24 @@ def MiniAODMuonIDEmbedder(process,muons):
 
 def MiniAODEleCBIDEmbedder(process, eles):
   #Turn on versioned cut-based ID
-  from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
+  from PhysicsTools.SelectorUtils.tools.vid_id_tools import  setupAllVIDIdsInModule, setupVIDElectronSelection, switchOnVIDElectronIdProducer, DataFormat
+  switchOnVIDElectronIdProducer(process, DataFormat.MiniAOD)
   process.load("RecoEgamma.ElectronIdentification.egmGsfElectronIDs_cfi")
   process.egmGsfElectronIDs.physicsObjectSrc = cms.InputTag(eles)
   from PhysicsTools.SelectorUtils.centralIDRegistry import central_id_registry
   process.egmGsfElectronIDSequence = cms.Sequence(process.egmGsfElectronIDs)
-  cb_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_PHYS14_PU20bx25_V1_miniAOD_cff']
+  cb_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_PHYS14_PU20bx25_V2_cff',
+      'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV51_cff']
   for idmod in cb_id_modules:
       setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
   
   CBIDLabels = ["CBIDVeto", "CBIDLoose", "CBIDMedium", "CBIDTight"] # keys of cut based id user floats
   CBIDTags = [
-          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V1-miniAOD-standalone-veto'),
-          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V1-miniAOD-standalone-loose'),
-          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V1-miniAOD-standalone-medium'),
-          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V1-miniAOD-standalone-tight'),
+          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-veto'),
+          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-loose'),
+          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-medium'),
+          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-tight'),
+          cms.InputTag('egmGsfElectronIDs:heepElectronID-HEEPV51'),
   ]
   # Embed cut-based VIDs
   process.miniAODElectronCutBasedID = cms.EDProducer(
@@ -226,7 +229,7 @@ def LHEFilter(process):
 def triLeptons(process):
 
   process.TightElectrons = cms.EDFilter("PATElectronSelector",
-  							src = cms.InputTag("miniAODElectronMVAID"),
+  							src = cms.InputTag("miniAODElectronCutBasedID"),
   							cut = cms.string('pt>10&&abs(eta)<2.5&&abs(userFloat("dz"))<0.2&&abs(userFloat("ipDXY"))<0.045&&userFloat("dBRelIso")<0.3&&userFloat("CBIDVeto")>0'),
   							filter = cms.bool(False)
   						)
@@ -350,7 +353,7 @@ def muonTriggerMatchMiniAOD(process,triggerProcess,HLT):
 def electronTriggerMatchMiniAOD(process,triggerProcess,HLT):
 
    process.triggeredPatElectrons = cms.EDProducer("ElectronTriggerMatcherMiniAOD",
-                                            src = cms.InputTag("miniAODElectronMVAID"),
+                                            src = cms.InputTag("miniAODElectronCutBasedID"),
                                             trigEvent = cms.InputTag(HLT),
                                             filters = cms.vstring(
                                                 'hltMu23Ele12GsfTrackIsoLegEle12GsfCaloIdTrackIdIsoMediumWPFilter',#emu filters

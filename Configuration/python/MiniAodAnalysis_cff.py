@@ -11,7 +11,8 @@ ETanalysisConfigurator = CutSequenceProducer(initialCounter  = 'initialEventsET'
 
 #ESTausID
 #ETanalysisConfigurator.addSmearing('patOverloadedTaus','slimmedMuons','slimmedElectrons','cleanPatJets','patMVAMet','ET')
-ETanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','cleanPatJets','patMVAMet','ET')
+#ETanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','cleanPatJets','patMVAMet','ET')
+ETanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','cleanPatJets','slimmedMETs','ET')
 
 #create dielectrons
 ETanalysisConfigurator.addDiCandidateModule('diElectrons','PATElePairProducer','smearedElectronsET','smearedElectronsET','smearedMETET','','smearedJetsET',0,9999,text = '',leadingObjectsOnly = False,dR = 0.15,recoMode = "")
@@ -19,9 +20,11 @@ ETanalysisConfigurator.addDiCandidateModule('diElectrons','PATElePairProducer','
 ETanalysisConfigurator.addSelector('osDiElectrons','PATElePairSelector','abs(leg1.eta())<2.5&&abs(leg2.eta())<2.5&&abs(leg1.userFloat("ipDXY"))<0.045&&abs(leg2.userFloat("ipDXY"))<0.045&&abs(leg1.userFloat("dz"))<0.2&&abs(leg2.userFloat("dz"))<0.2&&leg1.pt()>15&&leg2.pt()>15&&charge==0&&leg2.userFloat("CBIDVeto")>0&&leg1.userFloat("CBIDVeto")>0&&leg1.userFloat("dBRelIso")<0.3&&leg2.userFloat("dBRelIso")<0.3','ZEEVEto',0,100)
 
 #Make DiTaus
-ETanalysisConfigurator.addDiCandidateModule('eleTaus','PATEleTauPairProducer','smearedElectronsET','smearedTausET','patMVAMet','smearedTausET','smearedJetsET',1,9999,text = 'AtLeastOneEleTau',leadingObjectsOnly = False,dR = 0.5,recoMode = "",genParticles='genDaughters')
+#ETanalysisConfigurator.addDiCandidateModule('eleTaus','PATEleTauPairProducer','smearedElectronsET','smearedTausET','patMVAMet','smearedTausET','smearedJetsET',1,9999,text = 'AtLeastOneEleTau',leadingObjectsOnly = False,dR = 0.5,recoMode = "",genParticles='genDaughters')
+ETanalysisConfigurator.addDiCandidateModule('eleTaus','PATEleTauPairProducer','smearedElectronsET','smearedTausET','slimmedMETs','smearedTausET','smearedJetsET',1,9999,text = 'AtLeastOneEleTau',leadingObjectsOnly = False,dR = 0.5,recoMode = "",genParticles='genDaughters')
 
-ETanalysisConfigurator.addSelector('eleTausEleID','PATEleTauPairSelector','leg1.userFloat("BDTIDNonTrig")>0','ElectronID',1)
+#ETanalysisConfigurator.addSelector('eleTausEleID','PATEleTauPairSelector','leg1.userFloat("BDTIDNonTrig")>0','ElectronID',1)
+ETanalysisConfigurator.addSelector('eleTausEleID','PATEleTauPairSelector','leg1.userFloat("CBIDVeto")>0','ElectronID',1)
 ETanalysisConfigurator.addSelector('eleTausEleConvRej','PATEleTauPairSelector','leg1.userInt("missingHits")==0&&!(leg1.userInt("HasMatchedConversion")>0)','electronConvRej',1)
 ETanalysisConfigurator.addSelector('eleTausElePtEta','PATEleTauPairSelector','leg1.pt()>23&&abs(leg1.eta())<2.1&&abs(leg1.userFloat("dz"))<0.2&&abs(leg1.userFloat("ipDXY"))<0.045','electronPtEta',1)
 ETanalysisConfigurator.addSelector('eleTausEleIsolationLoose','PATEleTauPairSelector','leg1.userFloat("dBRelIso")<0.5','electronIsolationLoose',1)
@@ -30,7 +33,7 @@ ETanalysisConfigurator.addSelector('eleTausDecayFound','PATEleTauPairSelector','
 #ETanalysisConfigurator.addSelector('eleTausVLooseIsolation','PATEleTauPairSelector','leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<10','ETTauVLooseMVAIso',1)
 ETanalysisConfigurator.addSelector('eleTausTauMuonVeto','PATEleTauPairSelector','leg2.tauID("againstMuonLoose3")','ETAgainstMuon',1)
 ETanalysisConfigurator.addSelector('eleTausTauElectronVeto','PATEleTauPairSelector','leg2.tauID("againstElectronTightMVA5")>0&&(!(leg2.userFloat("zIP")>-1.5&&leg2.userFloat("zIP")<0.5))','ETAgainstElectron',1)
-ETanalysisConfigurator.addEleTauSVFitSA('eleTausSVFit')
+#ETanalysisConfigurator.addEleTauSVFitSA('eleTausSVFit')
 ETanalysisConfigurator.addSorter('eleTausSorted','PATEleTauPairSorter')
 ETanalysisConfigurator.addSelector('eleTausEleIsolation','PATEleTauPairSelector','leg1.userFloat("dBRelIso")<0.1','electronIsolation',1)
 #ETanalysisConfigurator.addSelector('eleTausTauIsolation','PATEleTauPairSelector','leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<1.5','ETTauLooseIso',1)
@@ -48,7 +51,8 @@ MTanalysisConfigurator = CutSequenceProducer(initialCounter  = 'initialEventsMT'
                                   pyNameSpace  = locals())
 
 #Add smearing
-MTanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','cleanPatJets','patMVAMet','MT')
+#MTanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','cleanPatJets','patMVAMet','MT')
+MTanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','cleanPatJets','slimmedMETs','MT')
 
 #Create di muon pairs for veto purposes
 MTanalysisConfigurator.addDiCandidateModule('diMuons','PATMuPairProducer','smearedMuonsMT','smearedMuonsMT','smearedMETMT','','smearedJetsMT',0,9999,text = '',leadingObjectsOnly = False,dR = 0.15,recoMode = "")
@@ -68,7 +72,7 @@ MTanalysisConfigurator.addSelector('diTausDecayFound','PATMuTauPairSelector','ab
 #MTanalysisConfigurator.addSelector('diTausVLooseTauIsolation','PATMuTauPairSelector','leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<10','MTTauVLooseMVAIso',1)
 MTanalysisConfigurator.addSelector('diTausTauElectronVeto','PATMuTauPairSelector','leg2.tauID("againstElectronVLooseMVA5")','MTAgainstElectron',1)
 MTanalysisConfigurator.addSelector('diTausTauMuonVeto','PATMuTauPairSelector','leg2.tauID("againstMuonTight3")>0','MTAgainstMuon',1)
-MTanalysisConfigurator.addMuTauSVFitSA('muTausSVFit')
+#MTanalysisConfigurator.addMuTauSVFitSA('muTausSVFit')
 MTanalysisConfigurator.addSorter('diTausSorted','PATMuTauPairSorter')
 MTanalysisConfigurator.addSelector('diTausMuonIsolation','PATMuTauPairSelector','leg2.userFloat("dBRelIso")<0.1','MuonIsolation',1)
 #MTanalysisConfigurator.addSelector('diTausLooseTauIsolation','PATMuTauPairSelector','leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<1.5','MTTauLooseIso',1)

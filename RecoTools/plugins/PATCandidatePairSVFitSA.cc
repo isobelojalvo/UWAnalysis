@@ -1,3 +1,4 @@
+/*
 #include "UWAnalysis/RecoTools/plugins/PATCandidatePairSVFitSA.h"
 
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -19,3 +20,4 @@ DEFINE_FWK_MODULE(PATMuTauSVFitSA);
 DEFINE_FWK_MODULE(PATElecTauSVFitSA);
 //DEFINE_FWK_MODULE(PATElecMuSVFitSA);
 //DEFINE_FWK_MODULE(PATMuMuSVFitSA);
+*/

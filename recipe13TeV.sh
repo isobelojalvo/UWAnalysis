@@ -26,7 +26,6 @@ cp /cms/ojalvo/mssm8TeV/CMSSW_5_3_7/src/UWAnalysis/Configuration/data/factoryJet
 #git apply UWAnalysis/recipeFSA/patches/DataFormats_PatCandidates_TriggerEvent.cc.patch
 #set -o errexit
 
-
 #cutbased ID
 #git cms-merge-topic 9003 #this is the version that is in CMSSW_7_4_X
 #rm -rf RecoEgamma/ElectronIdentification/data
