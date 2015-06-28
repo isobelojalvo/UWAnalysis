@@ -306,7 +306,7 @@ def tauTriggerMatchMiniAOD(process,triggerProcess,HLT):
                                                 'hltL1sMu16erTauJet20er',
                                                 'hltOverlapFilterIsoMu17LooseIsoPFTau20',
                                                 'hltL1sL1IsoEG20erTauJet20er',
-                                                'hltOverlapFilterIsoEle22WP85GsfLooseIsoPFTau20'
+                                                'hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20'
                                             ),
                                             bits = cms.InputTag("TriggerResults","","HLT"),
                                             prescales = cms.InputTag("patTrigger"),
@@ -321,7 +321,7 @@ def tauTriggerMatchMiniAOD(process,triggerProcess,HLT):
                                                 'hltL1sMu16erTauJet20er',
                                                 'hltOverlapFilterIsoMu17LooseIsoPFTau20',
                                                 'hltL1sL1IsoEG20erTauJet20er',
-                                                'hltOverlapFilterIsoEle22WP85GsfLooseIsoPFTau20'
+                                                'hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20'
                                             ),
                                             bits = cms.InputTag("TriggerResults","","HLT"),
                                             prescales = cms.InputTag("patTrigger"),
@@ -358,8 +358,8 @@ def electronTriggerMatchMiniAOD(process,triggerProcess,HLT):
                                             filters = cms.vstring(
                                                 'hltMu23Ele12GsfTrackIsoLegEle12GsfCaloIdTrackIdIsoMediumWPFilter',#emu filters
                                                 'hltMu8Ele23GsfTrackIsoLegEle23GsfCaloIdTrackIdIsoMediumWPFilter',#emu filters
-                                                'hltOverlapFilterIsoEle22WP85GsfLooseIsoPFTau20',#etau filter
-                                                'hltEle27WP85GsfTrackIsoFilter',#etaufilter
+                                                'hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20',#etau filter
+                                                'hltEle27WP75GsfTrackIsoFilter',#etaufilter
                                             ),
                                             bits = cms.InputTag("TriggerResults","","HLT"),
                                             prescales = cms.InputTag("patTrigger"),

@@ -17,7 +17,7 @@ ETanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','trig
 #create dielectrons
 ETanalysisConfigurator.addDiCandidateModule('diElectrons','PATElePairProducer','smearedElectronsET','smearedElectronsET','smearedMETET','','smearedJetsET',0,9999,text = '',leadingObjectsOnly = False,dR = 0.15,recoMode = "")
 #replace wp95V
-ETanalysisConfigurator.addSelector('osDiElectrons','PATElePairSelector','abs(leg1.eta())<2.5&&abs(leg2.eta())<2.5&&abs(leg1.userFloat("ipDXY"))<0.045&&abs(leg2.userFloat("ipDXY"))<0.045&&abs(leg1.userFloat("dz"))<0.2&&abs(leg2.userFloat("dz"))<0.2&&leg1.pt()>15&&leg2.pt()>15&&charge==0&&leg2.userFloat("CBIDVeto")>0&&leg1.userFloat("CBIDVeto")>0&&leg1.userFloat("dBRelIso")<0.3&&leg2.userFloat("dBRelIso")<0.3','ZEEVEto',0,100)
+ETanalysisConfigurator.addSelector('osDiElectrons','PATElePairSelector','abs(leg1.eta())<2.5&&abs(leg2.eta())<2.5&&abs(leg1.userFloat("ipDXY"))<0.045&&abs(leg2.userFloat("ipDXY"))<0.045&&abs(leg1.userFloat("dz"))<0.2&&abs(leg2.userFloat("dz"))<0.2&&leg1.pt()>15&&leg2.pt()>15&&charge==0&&leg2.userFloat("CBIDMedium")>0&&leg1.userFloat("CBIDMedium")>0&&leg1.userFloat("dBRelIso")<0.3&&leg2.userFloat("dBRelIso")<0.3','ZEEVEto',0,100)
 
 #Make DiTaus
 #ETanalysisConfigurator.addDiCandidateModule('eleTaus','PATEleTauPairProducer','smearedElectronsET','smearedTausET','patMVAMet','smearedTausET','smearedJetsET',1,9999,text = 'AtLeastOneEleTau',leadingObjectsOnly = False,dR = 0.5,recoMode = "",genParticles='genDaughters')
@@ -37,8 +37,8 @@ ETanalysisConfigurator.addSelector('eleTausTauElectronVeto','PATEleTauPairSelect
 ETanalysisConfigurator.addSorter('eleTausSorted','PATEleTauPairSorter')
 ETanalysisConfigurator.addSelector('eleTausEleIsolation','PATEleTauPairSelector','leg1.userFloat("dBRelIso")<0.1','electronIsolation',1)
 #ETanalysisConfigurator.addSelector('eleTausTauIsolation','PATEleTauPairSelector','leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<1.5','ETTauLooseIso',1)
-ETanalysisConfigurator.addSelector('eleTausEleTrigMatch','PATEleTauPairSelector','leg1.userFloat("hltOverlapFilterIsoEle22WP85GsfLooseIsoPFTau20")>0','ETEleTrigMatch',1)
-ETanalysisConfigurator.addSelector('eleTausTauTrigMatch','PATEleTauPairSelector','leg2.userFloat("hltOverlapFilterIsoEle22WP85GsfLooseIsoPFTau20")>0','ETTauTrigMatch',1)
+ETanalysisConfigurator.addSelector('eleTausEleTrigMatch','PATEleTauPairSelector','leg1.userFloat("hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20")>0','ETEleTrigMatch',1)
+ETanalysisConfigurator.addSelector('eleTausTauTrigMatch','PATEleTauPairSelector','leg2.userFloat("hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20")>0','ETTauTrigMatch',1)
 ETanalysisConfigurator.addSelector('eleTausOS','PATEleTauPairSelector','charge==0','ETOS',1)
 
 #create the sequence

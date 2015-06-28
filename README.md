@@ -7,20 +7,20 @@ H->tautau (+ many other) Final States! : )
 #Set Up instructions:
 
 ```
-cmsrel CMSSW_7_2_3_patch1
-cd CMSSW_7_2_3_patch1/src/
+cmsrel CMSSW_7_4_5
+cd CMSSW_7_4_5/src/
 cmsenv
 git cms-init 
-git clone --recursive -b sl6_dev https://github.com/lmdodd/UWAnalysis.git   
+git clone --recursive -b 74X_dev https://github.com/lmdodd/UWAnalysis.git   
 cd UWAnalysis
-source recipeSL6.sh
+source recipe13TeV.sh
 export USER_CXXFLAGS="-Wno-delete-non-virtual-dtor -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=reorder"
 scram b -j 8
 ```
 to run
 
 ```
-cd CRAB/MiniAod
+cd CRAB/HTT
 cmsRun LT-MC.py
 ```
 
