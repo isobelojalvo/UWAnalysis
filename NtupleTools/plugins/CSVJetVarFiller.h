@@ -92,7 +92,7 @@ class CSVJetVarFiller : public NtupleFillerBase {
 
     /*for(int i = 0; i<sorted.size(); ++i)
       printf("%i th pt: %f CSV: %f\n", i , sorted.at(i)->pt(),
-	     sorted.at(i)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")); */
+	     sorted.at(i)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")); */
 
       vec = sorted;
 
@@ -114,7 +114,7 @@ class CSVJetVarFiller : public NtupleFillerBase {
       {}
 
     bool operator()(size_t a , size_t b) {
-      return (vec_.at(a)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags") > vec_.at(b)->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags"));
+      return (vec_.at(a)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") > vec_.at(b)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
     }
 
   private:

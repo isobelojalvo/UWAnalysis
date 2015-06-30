@@ -101,8 +101,8 @@ class PATJetMVAEmbedder : public edm::EDProducer {
 	jetVtx3deL=0;
 
 	if(jet.pt()>20){
-	  if(jet.bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")>0)
-	    jetBtag   =jet.bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags");
+	  if(jet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0)
+	    jetBtag   =jet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
 
 	  jetPt     =jet.pt();
 	  jetGenPt     =jet.userFloat("genJetPt");
