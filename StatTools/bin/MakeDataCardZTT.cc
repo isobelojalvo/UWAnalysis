@@ -35,6 +35,7 @@ int main (int argc, char* argv[])
 //breaks without this currently
    parser.addOption("btagRelaxedSelection",optutl::CommandLineParser::kString,"bTag Relaxed Selection","");
    parser.addOption("btagRelaxedSelection2",optutl::CommandLineParser::kString,"2 bTag Relaxed Selection","");
+   //parser.addOption("trigSelection",optutl::CommandLineParser::kString,"Trigger Selection","pt1>0");
    parser.addOption("trigSelection",optutl::CommandLineParser::kString,"Trigger Selection","lTrigger>0&&tauTrigger>0");
    parser.addOption("blinding",optutl::CommandLineParser::kString,"Blinding","(svMass>0)");
    parser.addOption("charge",optutl::CommandLineParser::kString,"charge","charge==0");
@@ -57,6 +58,7 @@ int main (int argc, char* argv[])
    //Input Scale Factors
    parser.addOption("topSF",optutl::CommandLineParser::kDouble,"TTBar Scale Factor",1.0);
    parser.addOption("topErr",optutl::CommandLineParser::kDouble,"TTBar Relative Error",0.075);
+   parser.addOption("qcdErr",optutl::CommandLineParser::kDouble,"QCD ERROR",0.15);
    parser.addOption("vvErr",optutl::CommandLineParser::kDouble,"DiBoson RelativeError",0.3);   
    parser.addOption("zLFTErr",optutl::CommandLineParser::kDouble,"Z Muon fakes tau error",0.25);
    parser.addOption("zLFTFactor",optutl::CommandLineParser::kDouble,"Z Muon fakes tau error",1.0);
@@ -81,7 +83,7 @@ int main (int argc, char* argv[])
    parser.addOption("bFactorW",optutl::CommandLineParser::kDouble,"B Factor W",1.0);
    parser.addOption("bFactorZErr",optutl::CommandLineParser::kDouble,"Probability of Z +1 b Error",0.011);
    parser.addOption("bFactorWErr",optutl::CommandLineParser::kDouble,"Probability of W+ 1 b Error",0.05);
-   parser.addOption("energy",optutl::CommandLineParser::kString,"Center of Mass Energy","8TeV");
+   parser.addOption("energy",optutl::CommandLineParser::kString,"Center of Mass Energy","13TeV");
 
    parser.addOption("dir",optutl::CommandLineParser::kString,"dir","../inputs/mutau");
    parser.addOption("bitmask",optutl::CommandLineParser::kIntegerVector,"Choose what to run");

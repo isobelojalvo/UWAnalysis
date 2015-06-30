@@ -1,95 +1,4 @@
 
- setStyle()
- {
-   TStyle *tdrStyle = new TStyle("tdrStyle", "Style for P-TDR");
-
-   // Canvas
-   tdrStyle->SetCanvasColor     (0);
-   tdrStyle->SetCanvasBorderSize(10);
-   tdrStyle->SetCanvasBorderMode(0);
-   tdrStyle->SetCanvasDefH      (700);
-   tdrStyle->SetCanvasDefW      (700);
-   tdrStyle->SetCanvasDefX      (100);
-   tdrStyle->SetCanvasDefY      (100);
-
-   // color palette for 2D temperature plots
-   tdrStyle->SetPalette(1,0);
-
-   // Pads
-   tdrStyle->SetPadColor       (0);
-   tdrStyle->SetPadBorderSize  (10);
-   tdrStyle->SetPadBorderMode  (0);
-   tdrStyle->SetPadBottomMargin(0.15);
-   tdrStyle->SetPadTopMargin   (0.05);
-   tdrStyle->SetPadLeftMargin  (0.18);
-   tdrStyle->SetPadRightMargin (0.07);
-   tdrStyle->SetPadGridX       (0);
-   tdrStyle->SetPadGridY       (0);
-   tdrStyle->SetPadTickX       (1);
-   tdrStyle->SetPadTickY       (1);
-
-   // Frames
-   tdrStyle->SetLineWidth(3);
-   tdrStyle->SetFrameFillStyle ( 0);
-   tdrStyle->SetFrameFillColor ( 0);
-   tdrStyle->SetFrameLineColor ( 1);
-   tdrStyle->SetFrameLineStyle ( 0);
-   tdrStyle->SetFrameLineWidth ( 2);
-   tdrStyle->SetFrameBorderSize(10);
-   tdrStyle->SetFrameBorderMode( 0);
-
-   // Histograms
-   tdrStyle->SetHistFillColor(2);
-   tdrStyle->SetHistFillStyle(0);
-   tdrStyle->SetHistLineColor(1);
-   tdrStyle->SetHistLineStyle(0);
-   tdrStyle->SetHistLineWidth(3);
-   tdrStyle->SetNdivisions(505);
-
-   // Functions
-   tdrStyle->SetFuncColor(1);
-   tdrStyle->SetFuncStyle(0);
-   tdrStyle->SetFuncWidth(2);
-
-   // Various
-   tdrStyle->SetMarkerStyle(20);
-   tdrStyle->SetMarkerColor(kBlack);
-   tdrStyle->SetMarkerSize (1.4);
-
-   tdrStyle->SetTitleBorderSize(0);
-   tdrStyle->SetTitleFillColor (0);
-   tdrStyle->SetTitleX         (0.2);
-
-   tdrStyle->SetTitleSize  (0.055,"X");
-   tdrStyle->SetTitleOffset(1.200,"X");
-   tdrStyle->SetLabelOffset(0.005,"X");
-   tdrStyle->SetLabelSize  (0.050,"X");
-   tdrStyle->SetLabelFont  (42   ,"X");
-
-   tdrStyle->SetStripDecimals(kFALSE);
-
-   tdrStyle->SetTitleSize  (0.055,"Y");
-   tdrStyle->SetTitleOffset(1.600,"Y");
-   tdrStyle->SetLabelOffset(0.010,"Y");
-   tdrStyle->SetLabelSize  (0.050,"Y");
-   tdrStyle->SetLabelFont  (42   ,"Y");
-
-   tdrStyle->SetTextSize   (0.055);
-   tdrStyle->SetTextFont   (42);
-
-   tdrStyle->SetStatFont   (42);
-   tdrStyle->SetTitleFont  (42);
-   tdrStyle->SetTitleFont  (42,"X");
-   tdrStyle->SetTitleFont  (42,"Y");
-
-   tdrStyle->SetOptStat    (0);
-   tdrStyle->SetLineStyleString(11,"20 10");
-
-
-   tdrStyle->cd();
- }
-
-
  void applyStyle(TH1F* h, Color_t fill, Color_t line,int fillStyle)
  {
    h->SetFillColor(fill);
@@ -104,7 +13,7 @@
    h->SetFillStyle(0);
    h->SetLineWidth(3);
    h->SetLineColor(kBlue+3);
-   h->SetLineStyle(11);
+   h->SetLineStyle(7);
  }
 
 
@@ -127,7 +36,18 @@
 
  makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString units = "GeV",bool left=false,TString channel = "",TString year = "2015",bool log = false,bool dndm=false,bool doRatio = false)
  {
-   setStyle();
+  gROOT->LoadMacro("tdrstyle.C");
+  setTDRStyle();
+
+//  gROOT->LoadMacro("CMS_lumi.C");
+
+//  writeExtraText = true;       // if extra text
+//  extraText  = "Preliminary";  // default extra text is "Preliminary"
+//  lumi_8TeV  = "19.1 fb^{-1}"; // default is "19.7 fb^{-1}"
+ // lumi_7TeV  = "4.9 fb^{-1}";  // default is "5.1 fb^{-1}"
+
+//  int iPeriod = 4;    // 1=7TeV, 2=8TeV, 3=7+8TeV, 7=7+8+13TeV 
+
 
    float xR=0.45;
    if(left)
@@ -278,7 +198,7 @@
    }
    else if(s==4) {
      TH1F * MSSM = (TH1F*)(f->Get(dir+"/ggHTohhTo2Tau2B300"));
-     MSSM->Scale(10);
+     MSSM->Scale(1);
      MSSM->SetLineStyle(11);
 
      signal=MSSM;
@@ -484,7 +404,7 @@
 
   latex.SetTextFont(42);
 	if(year == "2015")
-  		latex.DrawLatex(0.20,0.94,"CMS Preliminary, 10 fb^{-1}, #sqrt{s} = 13 TeV      "+channel);
+  		latex.DrawLatex(0.20,0.94,"CMS Preliminary, 1 fb^{-1}, #sqrt{s} = 13 TeV      "+channel);
   	else
   		latex.DrawLatex(0.20,0.94,"CMS Preliminary 2012, 19.7 fb^{-1}, #sqrt{s} = 8 TeV      "+channel);
 
@@ -903,7 +823,7 @@ makeEMuStack(TString name,TString file,TString dir,int s,TString labelX,TString 
     SM->SetLineStyle(11);
 
     signal=SM;
-    signal->Scale(5.0);
+    signal->Scale(1.0);
     applySignalStyle(signal);
   }
 
