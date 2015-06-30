@@ -42,7 +42,7 @@ if [ $weight -eq 1 ]
     EventWeightsIterative outputFile='em2030QCD.root'     weight=557600000   histoName='MT/results'
     EventWeightsIterative outputFile='em3050QCD.root'     weight=136000000   histoName='MT/results'
     EventWeightsIterative outputFile='em5080QCD.root'     weight=19800000   histoName='MT/results'
-    EventWeightsIterative outputFile='em80120QCD.root'     weight=000000   histoName='MT/results'
+    EventWeightsIterative outputFile='em80120QCD.root'     weight=2800000   histoName='MT/results'
     EventWeightsIterative outputFile='em120170QCD.root'     weight=477000   histoName='MT/results'
     EventWeightsIterative outputFile='em170300QCD.root'     weight=114000   histoName='MT/results'
     EventWeightsIterative outputFile='em300infQCD.root'     weight=9000   histoName='MT/results'
