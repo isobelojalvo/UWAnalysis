@@ -1,7 +1,7 @@
 #!/bin/sh
 
-mkdir /nfs_scratch/$USER/ztt_74X
-cd /nfs_scratch/$USER/ztt_74X
+mkdir /nfs_scratch/$USER/ztt_74X_0630
+cd /nfs_scratch/$USER/ztt_74X_0630
 
 
 #only run merge or weight. Do not set both to 1.
@@ -47,14 +47,16 @@ if [ $weight -eq 1 ]
     EventWeightsIterative outputFile='em170300QCD.root'     weight=114000   histoName='MT/results'
     EventWeightsIterative outputFile='em300infQCD.root'     weight=9000   histoName='MT/results'
     EventWeightsIterative outputFile='ZJets.root'     weight=6025    histoName='MT/results'
-    EventWeightsIterative outputFile='TTJets.root'  weight=832     histoName='MT/results'
-    #EventWeightsIterative outputFile='TT.root'      weight=832     histoName='MT/results'
+    EventWeightsIterative outputFile='TT.root'      weight=832     histoName='MT/results'
     EventWeightsIterative outputFile='WJets.root'   weight=20509   histoName='MT/results'
-    EventWeightsIterative outputFile='WZ.root'      weight=1.634   histoName='MT/results'
-    EventWeightsIterative outputFile='ZZ.root'      weight=15.4   histoName='MT/results'
+    EventWeightsIterative outputFile='WZ.root'      weight=22.82   histoName='MT/results'
+    #EventWeightsIterative outputFile='WZ.root'      weight=66.1   histoName='MT/results'
+    EventWeightsIterative outputFile='ZZ.root'      weight=10.32   histoName='MT/results'
+    #EventWeightsIterative outputFile='ZZ.root'      weight=31.8   histoName='MT/results'
     EventWeightsIterative outputFile='t.root'       weight=35.6    histoName='MT/results'
     EventWeightsIterative outputFile='tBar.root'    weight=35.6    histoName='MT/results'
-    EventWeightsIterative outputFile='WW.root'     weight=110.8    histoName='MT/results'
+    EventWeightsIterative outputFile='WW.root'     weight=63.21    histoName='MT/results'
+    #EventWeightsIterative outputFile='WW.root'     weight=110.8    histoName='MT/results'
     hadd VV.root WZ.root WW.root ZZ.root t.root tBar.root
 fi
 
