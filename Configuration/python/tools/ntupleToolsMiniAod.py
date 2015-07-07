@@ -498,8 +498,9 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauByCharged = makeEleTauPair(src,"tauIsoCharged",'leg2.tauID("chargedIsoPtSum")'),
  
                               eleTauAgainstMuonLoose3 = makeEleTauPair(src,"againstMuonLoose3",'leg2.tauID("againstMuonLoose3")'),
-                              eleTauMVATrig = makeEleTauPair(src,"BDTIDTrig",'leg1.userFloat("BDTIDTrig")'),#CHECKME #rename
-                              eleTauMVANonTrig = makeEleTauPair(src,"BDTIDNonTrig",'leg1.userFloat("BDTIDNonTrig")'),#CHECKME #rename
+                              #eleTauMVATrig = makeEleTauPair(src,"BDTIDTrig",'leg1.userFloat("mvaIDTrig80")'),#CHECKME #rename
+                              eleTauMVANonTrig80 = makeEleTauPair(src,"mvaIDNonTrig80",'leg1.userFloat("mvaIDNonTrig80")'),#CHECKME #rename
+                              eleTauMVANonTrig90 = makeEleTauPair(src,"mvaIDNonTrig90",'leg1.userFloat("mvaIDNonTrig90")'),#CHECKME #rename
                               eleTauCBIDVeto = makeEleTauPair(src,"CBIDVeto",'leg1.userFloat("CBIDVeto")'),#CHECKME #rename
                               eleTauCBIDLoose = makeEleTauPair(src,"CBIDLoose",'leg1.userFloat("CBIDLoose")'),#CHECKME #rename
                               eleTauCBIDMedium = makeEleTauPair(src,"CBIDMedium",'leg1.userFloat("CBIDMedium")'),#CHECKME #rename
