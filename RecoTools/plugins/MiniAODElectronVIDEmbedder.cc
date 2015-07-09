@@ -42,6 +42,7 @@ private:
   edm::EDGetTokenT<edm::View<pat::Electron> > electronCollectionToken_;
   std::vector<edm::EDGetTokenT<edm::ValueMap<bool> > > idMapTokens_; // store all ID tokens
   std::vector<std::string> idLabels_; // labels for the userInts holding results
+  std::string eleIsoLabel_; //label for the dBRelIso UserFloat
   std::auto_ptr<std::vector<pat::Electron> > out; // Collection we'll output at the end
 };
 
@@ -54,7 +55,10 @@ MiniAODElectronVIDEmbedder::MiniAODElectronVIDEmbedder(const edm::ParameterSet& 
 							       edm::InputTag("slimmedElectrons"))),
   idLabels_(iConfig.exists("idLabels") ?
 	    iConfig.getParameter<std::vector<std::string> >("idLabels") :
-	    std::vector<std::string>())
+	    std::vector<std::string>()),
+  eleIsoLabel_(iConfig.exists("eleIsoLabel") ?
+		iConfig.getParameter<std::string>("eleIsoLabel") :
+		std::string("dBRelIso"))
 {
   std::vector<edm::InputTag> idTags = iConfig.getParameter<std::vector<edm::InputTag> >("ids");
 
@@ -92,6 +96,11 @@ void MiniAODElectronVIDEmbedder::produce(edm::Event& iEvent, const edm::EventSet
 
       out->push_back(*ei); // copy electron to save correctly in event
 
+      //Add electron isolaiton to the tree
+      float eleIso = (ei->chargedHadronIso()+std::max(ei->photonIso()+ei->neutralHadronIso()-(0.5*(ei->puChargedHadronIso())),0.0))/(ei->pt());
+      out->back().addUserFloat(eleIsoLabel_, eleIso);
+
+      //loop throught the 1:1 VIDs and their labels
       for(unsigned int i = 0; // Loop over ID working points
 	  i < ids.size(); ++i)
 	{

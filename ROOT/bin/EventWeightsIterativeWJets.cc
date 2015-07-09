@@ -32,7 +32,6 @@ int main (int argc, char* argv[])
    
    TH1F *rhoWeight=0;
    bool doRho=false;
-   TFile *fRho = new TFile("../rhoInfo.root");
    TFile *fPU2 = new TFile("../puInfo3D.root");
    //read PU info
    TH1F *puWeight=0;

@@ -140,36 +140,41 @@ def MiniAODMuonIDEmbedder(process,muons):
 #
 
 def MiniAODEleVIDEmbedder(process, eles):
-#Turn on versioned cut-based ID
+  #Turn on versioned cut-based ID
   from PhysicsTools.SelectorUtils.tools.vid_id_tools import  setupAllVIDIdsInModule, setupVIDElectronSelection, switchOnVIDElectronIdProducer, DataFormat
   switchOnVIDElectronIdProducer(process, DataFormat.MiniAOD)
   process.load("RecoEgamma.ElectronIdentification.egmGsfElectronIDs_cfi")
   process.egmGsfElectronIDs.physicsObjectSrc = cms.InputTag(eles)
   from PhysicsTools.SelectorUtils.centralIDRegistry import central_id_registry
-  process.egmGsfElectronIDSequence = cms.Sequence(process.egmGsfElectronIDs)
-  id_modules = [#'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_PHYS14_PU20bx25_nonTrig_V1_cff',
+  #egmGsfElectronIDSequence should already be defined in egmGsfElectronIDs_cfi 
+  #process.egmGsfElectronIDSequence = cms.Sequence(process.egmGsfElectronIDs)
+  process.egmGsfElectronIDSequence = cms.Sequence(process.electronMVAValueMapProducer+process.egmGsfElectronIDs)
+  id_modules = [
       'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_PHYS14_PU20bx25_V2_cff',
-      'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV51_cff']
+      'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV51_cff',
+      'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
+      'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_PHYS14_PU20bx25_nonTrig_V1_cff']
   for idmod in id_modules:
       setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
   
-  #IDLabels = ["eleMVAIDnonTrig80", "eleMVAIDnonTrig90","CBIDVeto", "CBIDLoose", "CBIDMedium", "CBIDTight","eleHEEPid"] # keys of based id user floats
-  IDLabels = ["CBIDVeto", "CBIDLoose", "CBIDMedium", "CBIDTight","eleHEEPid"] # keys of mvabased id user floats
+  IDLabels = ["eleMVAIDnonTrig80", "eleMVAIDnonTrig90","CBIDVeto", "CBIDLoose", "CBIDMedium", "CBIDTight","eleHEEPid"] # keys of based id user floats
   IDTags = [
-          #cms.InputTag('egmGsfElectronIDs:mvaEleID-PHYS14-PU20bx25-nonTrig-V1-wp80'),
-          #cms.InputTag('egmGsfElectronIDs:mvaEleID-PHYS14-PU20bx25-nonTrig-V1-wp90'),
+          cms.InputTag('egmGsfElectronIDs:mvaEleID-PHYS14-PU20bx25-nonTrig-V1-wp80'),
+          cms.InputTag('egmGsfElectronIDs:mvaEleID-PHYS14-PU20bx25-nonTrig-V1-wp90'),
 	  cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-veto'),
           cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-loose'),
           cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-medium'),
           cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-tight'),
-          cms.InputTag('egmGsfElectronIDs:heepElectronID-HEEPV51')
+          cms.InputTag('egmGsfElectronIDs:heepElectronID-HEEPV51'),
+          cms.InputTag('egmGsfElectronIDs:heepElectronID-HEEPV60')
   ]
   # Embed cut-based VIDs
   process.miniAODElectronVID = cms.EDProducer(
       "MiniAODElectronVIDEmbedder",
       src=cms.InputTag(eles),
       idLabels = cms.vstring(*IDLabels),
-      ids = cms.VInputTag(*IDTags)
+      ids = cms.VInputTag(*IDTags),
+      eleIsoLabel = cms.string("dBRelIso")
   )
    
   process.embedEleIDs = cms.Sequence(process.egmGsfElectronIDSequence+process.miniAODElectronVID)

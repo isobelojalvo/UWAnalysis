@@ -3,7 +3,7 @@
 
 // user include files
 #include <TTree.h>
-#include "SimDataFormats/GeneratorProducts/interface/GenFilterInfo.h"
+#include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 
 #include "UWAnalysis/NtupleTools/interface/NtupleFillerBase.h"
 
@@ -34,10 +34,12 @@ class GenFilterInfoWeightFiller : public NtupleFillerBase {
 
     void fill(const edm::Event& iEvent, const edm::EventSetup& iSetup)
     {
-      edm::Handle<GenFilterInfo> handle;
+      //edm::Handle<GenFilterInfo> handle;
+      edm::Handle<GenEventInfoProduct> genEvt;
       value=0;
-      if(iEvent.getByLabel(src_,handle)) {
-        value = handle->filterEfficiency();
+      if(iEvent.getByLabel(src_,genEvt)) {
+        //value = handle->filterEfficiency();
+        value = genEvt->weight();
       }
     }
 
@@ -49,10 +51,5 @@ class GenFilterInfoWeightFiller : public NtupleFillerBase {
 
 
 };
-
-
-
-
-
 
 

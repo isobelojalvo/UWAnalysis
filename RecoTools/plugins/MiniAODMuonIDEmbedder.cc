@@ -62,6 +62,12 @@ void MiniAODMuonIDEmbedder::produce(edm::Event& evt, const edm::EventSetup& es) 
 	for(unsigned i = 0 ; i < nbMuon; i++){
 		pat::Muon muon(muons->at(i));
 		float muIso = (muon.chargedHadronIso()+std::max(muon.photonIso()+muon.neutralHadronIso()-(0.5*(muon.puChargedHadronIso())),0.0))/(muon.pt());
+                //std::cout<<"muIso: "<<muIso<<std::endl;
+		//float muIso = (muon.pfIsolationR03().sumChargedHadronPt + max(
+                //muon.pfIsolationR03().sumNeutralHadronPt +
+                //muon.pfIsolationR03().sumPhotonEt - 
+                //0.5 * muon.pfIsolationR03().sumPUPt, 0.0)) / muon.pt();
+ 
 		int muId = 0; 
 		if (muon.isLooseMuon()&&(((muon.isGlobalMuon()&&muon.globalTrack()->normalizedChi2()<3&&muon.combinedQuality().chi2LocalPosition<12&&muon.combinedQuality().trkKink<20)&&(muon.innerTrack()->validFraction()>=0.8&&muon.segmentCompatibility()>=0.303))||(!(muon.isGlobalMuon()&&muon.globalTrack()->normalizedChi2()<3&&muon.combinedQuality().chi2LocalPosition<12&&muon.combinedQuality().trkKink<20)&&(muon.innerTrack()->validFraction()>=0.8&&muon.segmentCompatibility()>=0.451))))
 		{
