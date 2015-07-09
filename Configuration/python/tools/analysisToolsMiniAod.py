@@ -27,7 +27,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   TriggerPaths= triggerPaths
   process.analysisSequence = cms.Sequence()
 
-  #mvaMetMC(process)
+  mvaMet(process)
 
   #Apply Tau Energy Scale Changes
   EScaledTaus(process,True)
@@ -75,7 +75,7 @@ def jetOverloading(process,jets):
 
   process.patOverloadedJets = cms.EDProducer('PATJetOverloader',
                                         src = cms.InputTag(jets),
-                                        genJets = cms.InputTag("ak4GenJets")
+                                        genJets = cms.InputTag("slimmedGenJets")#One collections of gen jets is saved, slimmedGenJets, made from ak4GenJets
   )                                        
 
   process.jetOverloading = cms.Sequence(process.patOverloadedJets)
@@ -201,36 +201,56 @@ def EScaledTaus(process,smearing):  #second arg is bool
   process.analysisSequence*=process.EScaledTaus
 
 
-def mvaMetMC(process):
-
+def mvaMet(process):
+      
   process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")
   process.load("RecoJets.JetProducers.ak4PFJets_cfi")
   process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
-  process.load("RecoJets.Configuration.RecoPFJets_cff")
-  process.ak4PFJets.doAreaFastjet = True
-
+  process.ak4PFJets.doAreaFastjet = cms.bool(True)
+  
   from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFJetsL1FastL2L3
- 
-  process.load("JetMETCorrections.Configuration.JetCorrectionServicesAllAlgos_cff")
-  process.prefer("ak4PFL1FastL2L3") 
-
+  
   process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
   #process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
   process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
   process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
-
+  
   process.puJetIdForPFMVAMEt.jec =  cms.string('AK4PF')
+  #process.puJetIdForPFMVAMEt.jets = cms.InputTag("ak4PFJets")
   process.puJetIdForPFMVAMEt.vertexes = cms.InputTag("offlineSlimmedPrimaryVertices")
   process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
 
   process.patMVAMet = process.patMETs.clone(
-  	metSource = cms.InputTag('pfMVAMEt'),
-  	addMuonCorrections = cms.bool(False),
-  	addGenMET = cms.bool(False)
+ 	metSource = cms.InputTag('pfMVAMEt'),
+ 	addMuonCorrections = cms.bool(False),
+ 	addGenMET = cms.bool(False)
   )
   
   #calibrated ak4jets should be in pfMVAMetSequence
   process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.pfMVAMEtSequence*process.patMVAMet)
+
+  
+  
+#  process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")
+#  process.load("RecoJets.JetProducers.ak4PFJets_cfi")
+#  process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
+#  process.load("RecoJets.Configuration.RecoPFJets_cff")
+#  process.ak4PFJets.doAreaFastjet = True
+#
+#  from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFJetsL1FastL2L3
+# 
+#  process.load("JetMETCorrections.Configuration.JetCorrectionServicesAllAlgos_cff")
+#  process.prefer("ak4PFL1FastL2L3") 
+#
+#  process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
+#  #process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
+#  process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
+#  process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
+#
+#  process.puJetIdForPFMVAMEt.jec =  cms.string('AK4PF')
+#  process.puJetIdForPFMVAMEt.vertexes = cms.InputTag("offlineSlimmedPrimaryVertices")
+#  process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
+#
 
 def LHEFilter(process):
 

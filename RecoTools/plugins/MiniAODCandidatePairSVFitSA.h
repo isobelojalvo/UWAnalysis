@@ -1,4 +1,4 @@
-/*#ifndef UWAnalysis_RecoTools_PATCandSVFitSA_h
+#ifndef UWAnalysis_RecoTools_PATCandSVFitSA_h
 #define UWAnalysis_RecoTools_PATCandSVFitSA_h
 
 #include "FWCore/Framework/interface/Frameworkfwd.h"
@@ -27,7 +27,7 @@
 #include "UWAnalysis/RecoTools/interface/generalAuxFunctions.h"
 
 template<typename T1, typename T2>
-class PATCandidatePairSVFitSA : public edm::EDProducer
+class MiniAODCandidatePairSVFitSA : public edm::EDProducer
 {
   typedef edm::Ptr<T1> T1Ptr;
   typedef edm::Ptr<T2> T2Ptr;
@@ -36,16 +36,15 @@ class PATCandidatePairSVFitSA : public edm::EDProducer
 
  public:
 
-  explicit PATCandidatePairSVFitSA(const edm::ParameterSet& cfg)
+  explicit MiniAODCandidatePairSVFitSA(const edm::ParameterSet& cfg)
   {
     src_     = cfg.getParameter<edm::InputTag>("src");
-    srcPV_       =  cfg.getParameter<edm::InputTag>("srcPrimaryVertex") ;
 
 
     produces<CompositePtrCandidateCollection>();
   }
 
-  ~PATCandidatePairSVFitSA(){}
+  ~MiniAODCandidatePairSVFitSA(){}
 
   void beginJob()
   {
@@ -97,7 +96,6 @@ class PATCandidatePairSVFitSA : public edm::EDProducer
 
  private:
   edm::InputTag src_;
-  edm::InputTag srcPV_;
   std::string label_;
   typedef std::vector<int> vint;
 
@@ -105,4 +103,4 @@ class PATCandidatePairSVFitSA : public edm::EDProducer
 
 
 #endif
-*/
+

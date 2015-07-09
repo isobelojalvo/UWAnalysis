@@ -317,7 +317,6 @@ class CutSequenceProducer(cms._ParameterTypeBase):
     def addMuTauSVFitSA(self,moduleName):
 			dicand  = cms.EDProducer('PATMuTauSVFitSA')
 			dicand.src = cms.InputTag(self.input)
-			dicand.srcPrimaryVertex = cms.InputTag("offlinePrimaryVerticesWithBS")                  
 			
 			pyModule = sys.modules[self.pyModuleName[0]]
 			if pyModule is None:
@@ -330,7 +329,6 @@ class CutSequenceProducer(cms._ParameterTypeBase):
     def addEleTauSVFitSA(self,moduleName):
 			dicand  = cms.EDProducer('PATElecTauSVFitSA')
 			dicand.src = cms.InputTag(self.input)
-			dicand.srcPrimaryVertex = cms.InputTag("offlinePrimaryVerticesWithBS")                  
 			
 			pyModule = sys.modules[self.pyModuleName[0]]
 			if pyModule is None:
@@ -340,78 +338,6 @@ class CutSequenceProducer(cms._ParameterTypeBase):
 			self.input=moduleName
                
                   
-
-#NOT USED
-################################################################################
-#####     NSV fit configuration                                            #####
-################################################################################
-#NOT USED
-    def addDiCandNSVFit(self,moduleName,finalState=("Mu", "Tau"),algo="fit"):
-               # Do import here so python only crashes (at run time)
-               # if TauAna packages aren't checked out.
-               import TauAnalysis.CandidateTools.nSVfitAlgorithmDiTau_cfi as nsv
-               # Define which NSVfit plugins map to different final states
-               nsvFinalStates = {
-                   'Mu' : {
-                       'builder' : nsv.nSVfitTauToMuBuilder,
-                       'phase_space' : nsv.nSVfitMuonLikelihoodPhaseSpace,
-                   },
-                   'Elec' : {
-                       'builder' : nsv.nSVfitTauToElecBuilder,
-                       'phase_space' : nsv.nSVfitElectronLikelihoodPhaseSpace,
-                   },
-                   'Tau' : {
-                       'builder' : nsv.nSVfitTauToHadBuilder,
-                       'phase_space' : nsv.nSVfitTauLikelihoodPhaseSpace,
-                   },
-               }
-
-               leg1, leg2 = finalState
-               dicand  = cms.EDProducer("PAT"+leg1+leg2+"NSVFitter")
-               dicand.src = cms.InputTag(self.input)
-               dicand.srcPrimaryVertex = cms.InputTag("offlineSlimmedPrimaryVertices")
-               dicand.config = nsv.nSVfitConfig_template.clone()
-               # Setup final state specific plugins
-               dicand.config.event.resonances.A.daughters.leg1.likelihoodFunctions = \
-                       cms.VPSet(nsvFinalStates[leg1]['phase_space'].clone())
-               dicand.config.event.resonances.A.daughters.leg1.builder = \
-                       nsvFinalStates[leg1]['builder'].clone()
-               dicand.config.event.resonances.A.daughters.leg2.likelihoodFunctions = \
-                       cms.VPSet(nsvFinalStates[leg2]['phase_space'].clone())
-               dicand.config.event.resonances.A.daughters.leg2.builder = \
-                       nsvFinalStates[leg2]['builder'].clone()
-               if algo == "fit":
-                   dicand.algorithm = nsv.nSVfitProducerByLikelihoodMaximization.algorithm.clone()
-               elif algo == "int":
-                   dicand.algorithm = nsv.nSVfitProducerByIntegration.algorithm.clone()
-               else:
-                   raise ValueError("Unknown NSVfit algo type: %s" % algo)
-
-               dicand.resultLabel = cms.string("PsMETLogM_" + algo)
-
-               pyModule = sys.modules[self.pyModuleName[0]]
-               if pyModule is None:
-                 raise ValueError("'pyModuleName' Parameter invalid")
-               setattr(pyModule,moduleName,dicand)
-               self.sequence*=dicand
-               self.input=moduleName
-
-    def addMuTauNSVFit(self,moduleName, algo="fit"):
-               self.addDiCandNSVFit(moduleName,("Mu","Tau"), algo)
-
-    def addEleTauNSVFit(self,moduleName, algo="fit"):
-               self.addDiCandNSVFit(moduleName,("Elec","Tau"), algo)
-
-    def addEleMuNSVFit(self,moduleName, algo="fit"):
-               self.addDiCandNSVFit(moduleName,("Elec","Mu"), algo)
-
-    def addMuMuNSVFit(self,moduleName, algo="fit"):
-               self.addDiCandNSVFit(moduleName,("Mu","Mu"), algo)
-
-########################################################
-#           END NSVFIT
-#######################################################
-
 
 
     def setSRC(self,src):

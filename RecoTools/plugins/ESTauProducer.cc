@@ -48,8 +48,7 @@ ESTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 	}
 
 	if(iEvent.getByLabel(src_,srcH)) 
-		unsigned int i = 0 ;
-	for(unsigned int i=0;i<srcH->size();++i) {
+	  for(unsigned int i=0;i<srcH->size();++i) {
 
 		pat::Tau object = srcH->at(i);
 		//std::cout << " original object(" << i << "): Pt = " << object.pt()<< " eta = " << object.eta() << ", phi = " << object.phi() << std::endl;
