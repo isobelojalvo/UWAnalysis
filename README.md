@@ -38,7 +38,7 @@ after jobs done
 ```
 cd CRAB/ZTT
 nohup ./mergeonly.sh >merge.log & # the file should be checked before running. but is updated. scratch area should be clean
-source ./weightonly.sh 
+source weightonly.sh 
 ```
 
 To plot please use https://github.com/lmdodd/UWAnalysis/tree/stattools and look at that readme
