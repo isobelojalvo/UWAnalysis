@@ -6,6 +6,24 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 
 process.GlobalTag.globaltag = 'GR_P_V56'
 
+process.source = cms.Source("PoolSource",
+    fileNames = cms.untracked.vstring(
+		$inputFileNames
+		),
+		inputCommands=cms.untracked.vstring(
+						'keep *',
+		)
+)
+
+import FWCore.PythonUtilities.LumiList as LumiList
+process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/DCSOnly/json_DCSONLY_Run2015B.txt').getVLuminosityBlockRange()
+
+
+process.maxEvents = cms.untracked.PSet(
+    input = cms.untracked.int32(-1)
+)
+
+
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsMiniAod import *
 defaultReconstructionMC(process,'HLT',
@@ -40,26 +58,10 @@ addEventSummary(process,True,'MT','eventSelectionMT')
 addEventSummary(process,True,'ET','eventSelectionET')
 
 
+process.TFileService.fileName=cms.string("$outputFileName")
+#process.TFileService = cms.Service(
+#    "TFileService",
+#    fileName = cms.string("$outputFileName")
+#)
 
-import FWCore.PythonUtilities.LumiList as LumiList
-process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/DCSOnly/json_DCSONLY_Run2015B.txt').getVLuminosityBlockRange()
 
-
-process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring(
-       $inputFileNames
-		),
-		inputCommands=cms.untracked.vstring(
-						'keep *',
-		)
-)
-
-process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
-)
-
-#process.TFileService.fileName=cms.string("$outputFileName")
-process.TFileService = cms.Service(
-    "TFileService",
-    fileName = cms.string("$outputFileName")
-)
