@@ -29,7 +29,7 @@ or
 ```
 cd CRAB/ZTT/
 source submitMC.sh
-source submitData.sh
+source submitDATA.sh
 ```
 
 
