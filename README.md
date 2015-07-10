@@ -17,10 +17,10 @@ source recipe13TeV.sh
 export USER_CXXFLAGS="-Wno-delete-non-virtual-dtor -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=reorder"
 scram b -j 8
 ```
-to run
+to run test
 
 ```
-cd CRAB/HTT
+cd CRAB/ZTT
 cmsRun LT-MC.py
 ```
 
@@ -29,8 +29,20 @@ or
 ```
 cd CRAB/ZTT/
 source submitMC.sh
+source submitQCD.sh #submits QCD files
 source submitDATA.sh
 ```
+
+after jobs done
+
+```
+cd CRAB/ZTT
+nohup ./mergeonly.sh >merge.log & # the file should be checked before running. but is updated. scratch area should be clean
+source ./weightonly.sh 
+```
+
+To plot please use https://github.com/lmdodd/UWAnalysis/tree/stattools and look at that readme
+
 
 
 
