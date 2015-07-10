@@ -4,7 +4,7 @@ process = cms.Process("ANALYSIS")
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-process.GlobalTag.globaltag = 'PHYS14_25_V1'
+process.GlobalTag.globaltag ='RUN2_74_V9'
 
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsMiniAod import *

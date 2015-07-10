@@ -18,7 +18,6 @@
 <use   name="EgammaAnalysis/ElectronTools"/>
 <use   name="PhysicsTools/IsolationAlgos"/>
 <use   name="PhysicsTools/PatUtils"/>
-<use   name="PhysicsTools/UtilAlgos"/>
 <use   name="PhysicsTools/Utilities"/>
 <use   name="PhysicsTools/CandUtils"/>
 <use   name="PhysicsTools/UtilAlgos"/>
@@ -37,7 +36,6 @@
 <use   name="RecoEcal/EgammaCoreTools"/>
 <use   name="RecoEgamma/EgammaTools"/>
 <use   name="RecoTracker/Record"/>
-<use   name="RecoTracker/MeasurementDet"/>
 <use   name="RecoTracker/TkDetLayers"/>
 <use   name="RecoTauTag/RecoTau"/>
 <use   name="RecoTauTag/TauTagTools"/>
