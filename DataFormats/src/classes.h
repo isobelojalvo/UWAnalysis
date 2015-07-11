@@ -40,8 +40,9 @@ namespace {
     ///  o edm::Ptr<reco::CaloJet>
     ///  o edm::Ptr<reco::PFJet>
     /// as these dictionaries are not yet created in DataFormats/JetReco/src/classes.h
-    edm::Ptr<reco::CaloJet> dummyCaloJetPtr;
-    edm::Ptr<reco::PFJet> dummyPFJetPtr;
+    //UNCOMMENT ADDED BELOW
+    //edm::Ptr<reco::CaloJet> dummyCaloJetPtr;
+    //edm::Ptr<reco::PFJet> dummyPFJetPtr;
 
     /// create dictionaries for
     ///  o edm::Ptr<reco::GenParticle>
@@ -52,7 +53,10 @@ namespace {
     ///  o edm::Ptr<reco::Track>
     ///  o edm::Ptr<reco::GsfTrack>
     /// as these dictionaries are not yet created in DataFormats/TrackReco/src/classes.h (DataFormats/GsfTrackReco/src/classes.h)
-    edm::Ptr<reco::Track> dummyTrackPtr;
+    //
+    //COMMENT ADDED BELOW
+    //edm::Ptr<reco::Track> dummyTrackPtr;
+
     edm::Ptr<reco::GsfTrack> dummyGsfTrackPtr;
 
     /// create dictionaries for PATJetPair objects

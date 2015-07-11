@@ -26,12 +26,13 @@ process.maxEvents = cms.untracked.PSet(
 
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsMiniAod import *
-defaultReconstructionMC(process,'HLT',
+defaultReconstruction(process,'HLT',
                       [
-						'HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1', #etau
-                                                'HLT_Ele27_eta2p1_WP85_Gsf_v1', #etau
-						'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v1', #mutau
-                                                'HLT_IsoMu24_eta2p1_IterTrk02_v1' #mutau
+						'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v1',#etau
+						#'HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1', #etau
+						'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v2'#muTau
+						#'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v1', #mutau
+                                                #'HLT_IsoMu24_eta2p1_IterTrk02_v1' #mutau
                       ])
 
                       
@@ -54,8 +55,8 @@ from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addEleTauEventTree
 addEleTauEventTree(process,'eleTauEventTree')
 addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','osDiElectrons')
 
-addEventSummary(process,True,'MT','eventSelectionMT')
-addEventSummary(process,True,'ET','eventSelectionET')
+addEventSummary(process,False,'MT','eventSelectionMT')
+addEventSummary(process,False,'ET','eventSelectionET')
 
 
 process.TFileService.fileName=cms.string("$outputFileName")

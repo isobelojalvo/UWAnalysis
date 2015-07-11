@@ -36,6 +36,6 @@
   <use   name="RecoEcal/EgammaCoreTools"/>
   <use   name="TrackingTools/IPTools"/>
   <use   name="root"/>
-  <use   name="roottmva"/>
+<!--  <use   name="roottmva"/> -->
   <use   name="lhapdf"/>
 </library>

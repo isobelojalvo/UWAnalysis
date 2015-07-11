@@ -20,8 +20,8 @@
 
   <!-- create dictionaries for edm::Ptr<reco::CaloJet> and edm::Ptr<reco::PFJet>
        as these dictionaries are not yet created in DataFormats/JetReco/src/classes.h -->
-  <class name="edm::Ptr<reco::CaloJet>"/>
-  <class name="edm::Ptr<reco::PFJet>"/>
+  <!-- <class name="edm::Ptr<reco::CaloJet>"/>-->
+  <!--<class name="edm::Ptr<reco::PFJet>"/>-->
 
   <!-- create dictionaries for edm::Ptr<reco::GenParticle>
        as these dictionaries are not yet created in DataFormats/HepMCCandidate/src/classes.h -->
@@ -29,7 +29,7 @@
 
   <!-- create dictionaries for edm::Ptr<reco::Track> and edm::Ptr<reco::GsfTrack>
        as these dictionaries are not yet created in DataFormats/TrackReco/src/classes.h (DataFormats/GsfTrackReco/src/classes.h) -->
-  <class name="edm::Ptr<reco::Track>"/>
+  <!--<class name="edm::Ptr<reco::Track>"/-->
   <class name="edm::Ptr<reco::GsfTrack>"/>
 
   <!-- create dictionaries for PATJetPair objects -->

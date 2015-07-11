@@ -48,6 +48,11 @@ void readdir(TDirectory *dir,optutl::CommandLineParser parser,float ev)
   TKey *key;
   while ((key = (TKey*)next())) {
     printf("Found key=%s \n",key->GetName());
+    TString keyname = key->GetName();
+    if (keyname=="CircJetID_puv2"){
+        printf("Skipping key %s . Not weighting. \n",key->GetName());
+        continue;
+    }
     TObject *obj = key->ReadObj();
 
     if (obj->IsA()->InheritsFrom(TDirectory::Class())) {
