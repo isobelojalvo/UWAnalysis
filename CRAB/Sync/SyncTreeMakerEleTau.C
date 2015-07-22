@@ -5,9 +5,11 @@
 TString Cuts = "pt1>23&&pt2>20&& abs(eta1)< 2.1 && abs(eta2) <2.3";
 
 //Input Your Sample Here!!
-TFile f("/nfs_scratch/laura/HTTSYNC.root","UPDATE");
+//TFile f("/nfs_scratch/laura/HTTSYNC.root","UPDATE");
+TFile f("/nfs_scratch/ojalvo/ztt_weighted/muDATA.root","UPDATE");
 
-TString OutputFile = "/nfs_scratch/laura/eleTauSync_Wisc";
+//TString OutputFile = "/nfs_scratch/laura/eleTauSync_Wisc";
+TString OutputFile = "/nfs_scratch/laura/eleTauSync_Wisc_data";
 TString Dir = "eleTauEventTree/eventTree";
 
 ///// Do Not Change //////
