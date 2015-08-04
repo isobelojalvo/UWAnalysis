@@ -75,6 +75,8 @@ class CutSequenceProducer(cms._ParameterTypeBase):
                setattr(pyModule,counterName,counter)
                self.sequence*=counter
 
+
+
     def returnSequence(self):
         return cms.Sequence(self.sequence)
     

@@ -146,8 +146,8 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               phi2initial = makeMuTauPair(src,"phi2preES","leg2.userFloat('preESphi')"),#FILLED
 
                               muTauCharge = makeMuTauPair(src,"charge","charge"),#FILLED
-                              charge1 = makeMuTauPair(src,"charge1","leg1.charge"),#FILLED
-                              charge2 = makeMuTauPair(src,"charge2","leg2.charge"),#FILLED
+                              q_1 = makeMuTauPair(src,"q_1","leg1.charge"),#FILLED
+                              q_2 = makeMuTauPair(src,"q_2","leg2.charge"),#FILLED
 
                               muTauPt = makeMuTauPair(src,"pt","pt"),#FILLED
                               muTauHT = makeMuTauPair(src,"ht","ht"),#FILLED
@@ -160,12 +160,12 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               muTauPhi = makeMuTauPair(src,"fullPhi","fullPhi"),#FILLED
                               muTauE = makeMuTauPair(src,"fullEnergy","fullEnergy"),#FILLED
 
-                              muTauPt1 =  makeMuTauPair(src,"pt1","leg1.pt"), #FILLED
-                              muTauPt2 =  makeMuTauPair(src,"pt2","leg2.pt"), #FILLED
-                              muTauEta1 = makeMuTauPair(src,"eta1","leg1.eta"),#FILLED
-                              muTauEta2 = makeMuTauPair(src,"eta2","leg2.eta"),#FILLED
-                              muTauPhi1 = makeMuTauPair(src,"phi1","leg1.phi"),#FILLED
-                              muTauPhi2 = makeMuTauPair(src,"phi2","leg2.phi"),#FILLED
+                              muTauPt1 =  makeMuTauPair(src,"pt_1","leg1.pt"), #FILLED
+                              muTauPt2 =  makeMuTauPair(src,"pt_2","leg2.pt"), #FILLED
+                              muTauEta1 = makeMuTauPair(src,"eta_1","leg1.eta"),#FILLED
+                              muTauEta2 = makeMuTauPair(src,"eta_2","leg2.eta"),#FILLED
+                              muTauPhi1 = makeMuTauPair(src,"phi_1","leg1.phi"),#FILLED
+                              muTauPhi2 = makeMuTauPair(src,"phi_2","leg2.phi"),#FILLED
 
                               muTauMETUnc = makeMuTauPair(src,"metUnc","met.pt()"),#FILLED
                               muTauMET = makeMuTauPair(src,"met","calibratedMET.pt()"),#FILLED
@@ -176,15 +176,15 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               CovMat11 = makeMuTauPair(src,"covMatrix11","covMatrix11"),#FIXME
 
                               muTauMT = makeMuTauPair(src,"mt","mt12MET"),#FILLED
-                              muTauMT1 = makeMuTauPair(src,"mt1","mt1MET"),#FILLED
-                              muTauMT2 = makeMuTauPair(src,"mt2","mt2MET"),#FILLED
+                              muTauMT1 = makeMuTauPair(src,"mt_1","mt1MET"),#FILLED
+                              muTauMT2 = makeMuTauPair(src,"mt_2","mt2MET"),#FILLED
                               
 		              muTauTopGenPt = makeMuTauPair(src,"topGenPt","topGenPt"),#FIXME
 		              muTauAntiTopGenPt = makeMuTauPair(src,"antiTopGenPt","antiTopGenPt"),#FIXME
 
                               #BTAGS AND JETS
                               muTauMJJReg = makeMuTauPair(src,"mJJReg","mJJReg"),#FIXME
-                              muTauMJJ = makeMuTauPair(src,"mJJ","mJJ"),#FILLED
+                              muTauMJJ = makeMuTauPair(src,"mjj","mJJ"),#FILLED
                               muTauJJPt = makeMuTauPair(src,"ptJJ","ptJJ"),
                               muTauJJEta = makeMuTauPair(src,"etaJJ","etaJJ"),
                               muTauJJPhi = makeMuTauPair(src,"phiJJ","phiJJ"),
@@ -201,12 +201,15 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               muMuVBFJets30 = makeMuTauPair(src,"vbfNJetsGap30","vbfNJetsGap30"),
 
                               #Muon IDs and Isolation
-                              muTauRelPFIsoDB = makeMuTauPair(src,"lPFIsoDB",'leg1.userFloat("dBRelIso")'),
-                              muTauRelPFIsoDB2 = makeMuTauPair(src,"lPFIsoDB2",'leg1.userFloat("dBRelIso2")'),
+                              muTauRelPFIsoDB03 = makeMuTauPair(src,"iso_1",'leg1.userFloat("dBRelIso03")'),
+                              muTauRelPFIsoDB04 = makeMuTauPair(src,"lPFIsoDB04",'leg1.userFloat("dBRelIso")'),
+
+                              muTauRelPFIsoDB2 = makeMuTauPair(src,"lPFIsoDB2",'leg2.userFloat("dBRelIso2")'),
                               muTauLooseID = makeMuTauPair(src,"muLooseId",'leg1.isLooseMuon()'),
                               muTauMediumID = makeMuTauPair(src,"muMediumId",'leg1.userInt("mediumID")'),
                               muTauDecayMode = makeMuTauPair(src,"tauDecayMode",'leg2.decayMode()'),
                               muTauDecayFound = makeMuTauPair(src,"tauDecayFound",'leg2.tauID("decayModeFinding")'),
+                              muTauDecayFoundsyncname = makeMuTauPair(src,"decayModeFindingOldDMs_2",'leg2.tauID("decayModeFinding")'),
                               muTauMuTriggerMatch = makeMuTauPair(src,"lTrigger",'leg1.userFloat("hltOverlapFilterIsoMu17LooseIsoPFTau20")'),
                               muTauTauTriggerMatch = makeMuTauPair(src,"tauTrigger",'leg2.userFloat("hltOverlapFilterIsoMu17LooseIsoPFTau20")'),
                               muTauPzeta = makeMuTauPair(src,"pZeta",'pZeta-1.5*pZetaVis'),
@@ -225,7 +228,8 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               muTauByCombIsoLoose = makeMuTauPair(src,"tauIsoLoose",'leg2.tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits")'),
                               muTauByCombIsoMedium = makeMuTauPair(src,"tauIsoMedium",'leg2.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits")'),
                               muTauByCombIsoTight = makeMuTauPair(src,"tauIsoTight",'leg2.tauID("byTightCombinedIsolationDeltaBetaCorr3Hits")'),
-                              muTauByCharged = makeMuTauPair(src,"tauIsoCharged",'leg2.tauID("chargedIsoPtSum")'),
+                              muTauByCharged = makeMuTauPair(src,"chargedIsoPtSum_2",'leg2.tauID("chargedIsoPtSum")'),
+                              muTauByNeutral = makeMuTauPair(src,"neutralIsoPtSum_2",'leg2.tauID("neutralIsoPtSum")'),
                               muTauAgainstMuonTight3 = makeMuTauPair(src,"againstMuonTight3",'leg2.tauID("againstMuonTight3")'),
                               muTauAgainstMuonTightFixed = makeMuTauPair(src,"againstMuTightFixed",'leg2.userInt("againstMuTightFixed")'),
                               muTauAgainstEleVLooseMVA5 = makeMuTauPair(src,"againstElectronVLooseMVA5",'leg2.tauID("againstElectronVLooseMVA5")'),
@@ -273,16 +277,16 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               muTauJet1CSVCSVSort = makeMuTauCSVPair(src,"J1CSVbtagCSVSort",'abs(eta())<2.4','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',0),
                               muTauJet2CSVCSVSort = makeMuTauCSVPair(src,"J2CSVbtagCSVSort",'abs(eta())<2.4','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',1),
 
-                              muTauJet1PtPtSort = makeMuTauPtPair(src,"J1Pt",'abs(eta())<4.7','pt()',0),
-                              muTauJet2PtPtSort = makeMuTauPtPair(src,"J2Pt",'abs(eta())<4.7','pt()',1),
-                              muTauJet1EtaPtSort = makeMuTauPtPair(src,"J1Eta",'abs(eta())<4.7','eta()',0),
-                              muTauJet2EtaPtSort = makeMuTauPtPair(src,"J2Eta",'abs(eta())<4.7','eta()',1),
-                              muTauJet1PhiPtSort = makeMuTauPtPair(src,"J1Phi",'abs(eta())<4.7','phi()',0),
-                              muTauJet2PhiPtSort = makeMuTauPtPair(src,"J2Phi",'abs(eta())<4.7','phi()',1),
-                              muTauJet1FlavourPtSort = makeMuTauPtPair(src,"J1Flavour",'abs(eta())<4.7','partonFlavour()',0),
-                              muTauJet2FlavourPtSort = makeMuTauPtPair(src,"J2Flavour",'abs(eta())<4.7','partonFlavour()',1),
-                              muTauJet1CSVPtSort = makeMuTauPtPair(src,"J1CSVbtag",'abs(eta())<4.7','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',0),
-                              muTauJet2CSVPtSort = makeMuTauPtPair(src,"J2CSVbtag",'abs(eta())<4.7','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',1),
+                              muTauJet1PtPtSort = makeMuTauPtPair(src,"jpt_1",'abs(eta())<2.4&&pt()>0','pt()',0),
+                              muTauJet2PtPtSort = makeMuTauPtPair(src,"Jpt_2",'abs(eta())<2.4&&pt()>0','pt()',1),
+                              muTauJet1EtaPtSort = makeMuTauPtPair(src,"jeta_1",'abs(eta())<2.4&&pt()>0','eta()',0),
+                              muTauJet2EtaPtSort = makeMuTauPtPair(src,"jeta_2",'abs(eta())<2.4&&pt()>0','eta()',1),
+                              muTauJet1PhiPtSort = makeMuTauPtPair(src,"jphi_1",'abs(eta())<2.4&&pt()>0','phi()',0),
+                              muTauJet2PhiPtSort = makeMuTauPtPair(src,"jphi_2",'abs(eta())<2.4&&pt()>0','phi()',1),
+                              muTauJet1FlavourPtSort = makeMuTauPtPair(src,"J1Flavour",'abs(eta())<2.4&&pt()>0','partonFlavour()',0),
+                              muTauJet2FlavourPtSort = makeMuTauPtPair(src,"J2Flavour",'abs(eta())<2.4&&pt()>0','partonFlavour()',1),
+                              muTauJet1CSVPtSort = makeMuTauPtPair(src,"J1CSVbtag",'abs(eta())<2.4&&pt()>0','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',0),
+                              muTauJet2CSVPtSort = makeMuTauPtPair(src,"J2CSVbtag",'abs(eta())<2.4&&pt()>0','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',1),
                               #muTauJet1MVASfPtSort = makeMuTauPtPair(src,"J1MVASf",'','userFloat("mvaSF")',0),
                               #muTauJet2MVASfPtSort = makeMuTauPtPair(src,"J2MVASf",'','userFloat("mvaSF")',1),
                               muTauJet1LooseIdPtSort = makeMuTauPtPair(src,"J1LooseId",'','userFloat("idLoose")',0),
@@ -298,13 +302,20 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               muTauJet1GenPhiPtSort = makeMuTauPtPair(src,"J1GenPhi",'','userFloat("genJetPhi")',0),#FIXME
                               muTauJet2GenPhiPtSort = makeMuTauPtPair(src,"J2GenPhi",'','userFloat("genJetPhi")',1),#FIXME
 
+
+                              muTauJetsPt20nbtag = makeMuTauJetCountPair(src,"nbjets",'pt()>30&&abs(eta)<2.4'),
+                              muTauJetsPt30njets = makeMuTauJetCountPair(src,"njets",'pt()>30&&abs(eta)<4.7'),
+                              muTauJetsPt20njets = makeMuTauJetCountPair(src,"njetspt20",'pt()>20&&abs(eta)<4.7'),
+
+
+
                               muTauJetsBTagCSVLPt20 = makeMuTauJetCountPair(src,"nJetsBTagCSVLPt20",'bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>=0.423&&pt()>20&&abs(eta)<2.4'),
                               muTauJetsBTagCSVLPt25 = makeMuTauJetCountPair(src,"nJetsBTagCSVLPt25",'bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>=0.423&&pt()>25&&abs(eta)<2.4'),
                               muTauJetsBTagCSVMPt20 = makeMuTauJetCountPair(src,"nJetsBTagCSVMPt20",'bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>=0.814&&pt()>20&&abs(eta)<2.4'),
                               muTauJetsBTagCSVMPt25 = makeMuTauJetCountPair(src,"nJetsBTagCSVMPt25",'bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>=0.814&&pt()>25&&abs(eta)<2.4'),
                               muTauJetsBTagCSVTPt20 = makeMuTauJetCountPair(src,"nJetsBTagCSVTPt20",'bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>=0.941&&pt()>20&&abs(eta)<2.4'),
                               muTauJetsBTagCSVTPt25 = makeMuTauJetCountPair(src,"nJetsBTagCSVTPt25",'bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>=0.941&&pt()>25&&abs(eta)<2.4'),
-                              muTauJetsPt20 = makeMuTauJetCountPair(src,"nJetsPt20",'pt()>20&&abs(eta)<4.7'),
+                              muTauJetsPt20 = makeMuTauJetCountPair(src,"nJetsPt20",'pt()>20'),
                               muTauJetsPt20Loose = makeMuTauJetCountPair(src,"nJetsPt20Loose",'pt()>20&&userFloat("idLoose")'),
                               muTauJetsPt20Medium = makeMuTauJetCountPair(src,"nJetsPt20Medium",'pt()>20&&userFloat("idMedium")'),
                               muTauJetsPt20Tight = makeMuTauJetCountPair(src,"nJetsPt20Tight",'pt()>20&&userFloat("idTight")'),
@@ -314,7 +325,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               muTauJetsPt20TagNoMatch = makeMuTauJetCountPair(src,"nTaggableJetsPt20NotMatched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
                               muTauJetsPt20TagNoMatchTag = makeMuTauJetCountPair(src,"nTaggableJetsPt20NotMatchedTagM",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),
                               muTauJetsPt30 = makeMuTauJetCountPair(src,"nJetsPt30",'pt()>30'),
-                              muTauJetsPt30Tag = makeMuTauJetCountPair(src,"nTaggableJetsPt30",'pt()>30&&abs(eta)<2.4'),
+                              muTauJetsPt30Tag = makeMuTauJetCountPair(src,"nbjets",'pt()>30&&abs(eta)<2.4'),
                               muTauJetsPt30TagMatch = makeMuTauJetCountPair(src,"nTaggableJetsPt30Matched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5'),
                               muTauJetsPt30TagMatchTag = makeMuTauJetCountPair(src,"nTaggableJetsPt30MatchedTagM",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),
                               muTauJetsPt30TagNoMatch = makeMuTauJetCountPair(src,"nTaggableJetsPt30NotMatched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
@@ -352,7 +363,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                                   pluginType = cms.string("GenFilterInfoWeightFiller"),
                                   src        = cms.InputTag("generator"),
                                   #src        = cms.InputTag("generator","EmbWeight"),
-                                  tag        = cms.string("aMCNLO_weight"),
+                                  tag        = cms.string("EmbWeight"),
                               ),#FIXME #CHECKME
                               muTauEmbedPt = cms.PSet(
                                   pluginType = cms.string("PATGenParticleFiller"),
@@ -420,8 +431,8 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
 
 
                               eleTauCharge = makeEleTauPair(src,"charge","charge"),
-                              eleTauCharge1 = makeEleTauPair(src,"charge1","leg1.charge"),
-                              eleTauCharge2 = makeEleTauPair(src,"charge2","leg2.charge"),
+                              eleTauCharge1 = makeEleTauPair(src,"q_1","leg1.charge"),
+                              eleTauCharge2 = makeEleTauPair(src,"q_2","leg2.charge"),
 
                               eleTauPt = makeEleTauPair(src,"pt","pt"),
                               eleTauHT = makeEleTauPair(src,"ht","ht"),
@@ -434,13 +445,13 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauPhi = makeEleTauPair(src,"fullPhi","fullPhi"),
                               eleTauE = makeEleTauPair(src,"fullEnergy","fullEnergy"),
 
-                              eleTauPt1 =  makeEleTauPair(src,"pt1","leg1.pt"), #FILLED
-                              eleTauPt2 =  makeEleTauPair(src,"pt2","leg2.pt"), #FILLED
-                              eleTauEta1 = makeEleTauPair(src,"eta1","leg1.eta"),
-                              eleTauSCEta1 = makeEleTauPair(src,"eta1","leg1.superCluster().eta()"),
-                              eleTauEta2 = makeEleTauPair(src,"eta2","leg2.eta"),
-                              eleTauPhi1 = makeEleTauPair(src,"phi1","leg1.phi"),
-                              eleTauPhi2 = makeEleTauPair(src,"phi2","leg2.phi"),
+                              eleTauPt1 =  makeEleTauPair(src,"pt_1","leg1.pt"), #FILLED
+                              eleTauPt2 =  makeEleTauPair(src,"pt_2","leg2.pt"), #FILLED
+                              eleTauEta1 = makeEleTauPair(src,"eta_1","leg1.eta"),
+                              eleTauSCEta1 = makeEleTauPair(src,"eta_1","leg1.superCluster().eta()"),
+                              eleTauEta2 = makeEleTauPair(src,"eta_2","leg2.eta"),
+                              eleTauPhi1 = makeEleTauPair(src,"phi_1","leg1.phi"),
+                              eleTauPhi2 = makeEleTauPair(src,"phi_2","leg2.phi"),
 
                               eleTauMETUnc = makeEleTauPair(src,"metUnc","met.pt()"),#curretnly identical
                               eleTauMET = makeEleTauPair(src,"met","calibratedMET.pt()"),#currently identical
@@ -451,15 +462,15 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauCovMat11 = makeEleTauPair(src,"covMatrix11","covMatrix11"),
 
                               eleTauMT = makeEleTauPair(src,"mt","mt12MET"),
-                              eleTauMT1 = makeEleTauPair(src,"mt1","mt1MET"),
-                              eleTauMT2 = makeEleTauPair(src,"mt2","mt2MET"),
+                              eleTauMT1 = makeEleTauPair(src,"mt_1","mt1MET"),
+                              eleTauMT2 = makeEleTauPair(src,"mt_2","mt2MET"),
 
                               eleTauTopGenPt = makeEleTauPair(src,"topGenPt","topGenPt"),
                               eleTauAntiTopGenPt = makeEleTauPair(src,"antiTopGenPt","antiTopGenPt"),
 
                               #BTAGS AND JETS
                               eleTauMJJReg = makeEleTauPair(src,"mJJReg","mJJReg"),
-                              eleTauMJJ = makeEleTauPair(src,"mJJ","mJJ"),
+                              eleTauMJJ = makeEleTauPair(src,"mjj","mJJ"),
                               eleTauJJPt = makeEleTauPair(src,"ptJJ","ptJJ"),
                               eleTauJJEta = makeEleTauPair(src,"etaJJ","etaJJ"),
                               eleTauJJPhi = makeEleTauPair(src,"phiJJ","phiJJ"),
@@ -489,7 +500,8 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauPZV = makeEleTauPair(src,"pZV",'pZetaVis'),#EO
 
                               #Ele IDs and Isolation
-                              eleTauRelPFIsoDB = makeEleTauPair(src,"lPFIsoDB",'leg1.userFloat("dBRelIso")'),
+                              eleTauRelPFIsoDB03 = makeEleTauPair(src,"iso_1",'leg1.userFloat("dBRelIso03")'),
+                              eleTauRelPFIsoDB04 = makeEleTauPair(src,"lPFIsoDB04",'leg1.userFloat("dBRelIso")'),
                               eleTauRelPFIsoDB2 = makeEleTauPair(src,"lPFIsoDB2",'leg2.userFloat("dBRelIso")'),
                               eleTauDecayMode = makeEleTauPair(src,"tauDecayMode",'leg2.decayMode()'),
                               eleTauDecayFound = makeEleTauPair(src,"tauDecayFound",'leg2.tauID("decayModeFinding")'),
@@ -502,7 +514,9 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauByCombIsoLoose = makeEleTauPair(src,"tauIsoLoose",'leg2.tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits")'),
                               eleTauByCombIsoMedium = makeEleTauPair(src,"tauIsoMedium",'leg2.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits")'),
                               eleTauByCombIsoTight = makeEleTauPair(src,"tauIsoTight",'leg2.tauID("byTightCombinedIsolationDeltaBetaCorr3Hits")'),
-                              eleTauByCharged = makeEleTauPair(src,"tauIsoCharged",'leg2.tauID("chargedIsoPtSum")'),
+                              eleTauByCharged = makeEleTauPair(src,"chargedIsoPtSum_2",'leg2.tauID("chargedIsoPtSum")'),
+                              eleTauByNeutral = makeEleTauPair(src,"neutralIsoPtSum_2",'leg2.tauID("neutralIsoPtSum")'),
+ 
  
                               eleTauAgainstMuonLoose3 = makeEleTauPair(src,"againstMuonLoose3",'leg2.tauID("againstMuonLoose3")'),
                               #eleTauMVATrig = makeEleTauPair(src,"BDTIDTrig",'leg1.userFloat("mvaIDTrig80")'),#CHECKME #rename
@@ -571,16 +585,24 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauJet1CSVCSVSort = makeEleTauCSVPair(src,"J1CSVbtagCSVSort",'abs(eta())<2.4','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',0),
                               eleTauJet2CSVCSVSort = makeEleTauCSVPair(src,"J2CSVbtagCSVSort",'abs(eta())<2.4','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',1),
 
-                              eleTauJet1PtPtSort = makeEleTauPtPair(src,"J1Pt",'abs(eta())<4.7','pt()',0),
-                              eleTauJet2PtPtSort = makeEleTauPtPair(src,"J2Pt",'abs(eta())<4.7','pt()',1),
-                              eleTauJet1EtaPtSort = makeEleTauPtPair(src,"J1Eta",'abs(eta())<4.7','eta()',0),
-                              eleTauJet2EtaPtSort = makeEleTauPtPair(src,"J2Eta",'abs(eta())<4.7','eta()',1),
-                              eleTauJet1PhiPtSort = makeEleTauPtPair(src,"J1Phi",'abs(eta())<4.7','phi()',0),
-                              eleTauJet2PhiPtSort = makeEleTauPtPair(src,"J2Phi",'abs(eta())<4.7','phi()',1),
-                              eleTauJet1FlavourPtSort = makeEleTauPtPair(src,"J1Flavour",'abs(eta())<4.7','partonFlavour()',0),
-                              eleTauJet2FlavourPtSort = makeEleTauPtPair(src,"J2Flavour",'abs(eta())<4.7','partonFlavour()',1),
-                              eleTauJet1CSVPtSort = makeEleTauPtPair(src,"J1CSVbtag",'abs(eta())<4.7','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',0),
-                              eleTauJet2CSVPtSort = makeEleTauPtPair(src,"J2CSVbtag",'abs(eta())<4.7','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',1),
+
+
+                              eleTauJetsPt20nbtag = makeEleTauJetCountPair(src,"nbjets",'pt()>30&&abs(eta)<2.4'),
+                              eleTauJetsPt30njets = makeEleTauJetCountPair(src,"njets",'pt()>30&&abs(eta)<4.7'),
+                              eleTauJetsPt20njets = makeEleTauJetCountPair(src,"njetspt20",'pt()>20&&abs(eta)<4.7'),
+
+
+
+                              eleTauJet1PtPtSort = makeEleTauPtPair(src,"jpt_1",'abs(eta())<2.4&&pt()>0','pt()',0),
+                              eleTauJet2PtPtSort = makeEleTauPtPair(src,"jpt_2",'abs(eta())<2.4&&pt()>0','pt()',1),
+                              eleTauJet1EtaPtSort = makeEleTauPtPair(src,"jeta_1",'abs(eta())<2.4&&pt>0','eta()',0),
+                              eleTauJet2EtaPtSort = makeEleTauPtPair(src,"jeta_2",'abs(eta())<2.4&&pt>0','eta()',1),
+                              eleTauJet1PhiPtSort = makeEleTauPtPair(src,"jphi_1",'abs(eta())<2.4&&pt>0','phi()',0),
+                              eleTauJet2PhiPtSort = makeEleTauPtPair(src,"jphi_2",'abs(eta())<2.4&&pt>0','phi()',1),
+                              eleTauJet1FlavourPtSort = makeEleTauPtPair(src,"J1Flavour",'abs(eta())<2.4&&pt>0','partonFlavour()',0),
+                              eleTauJet2FlavourPtSort = makeEleTauPtPair(src,"J2Flavour",'abs(eta())<2.4&&pt>0','partonFlavour()',1),
+                              eleTauJet1CSVPtSort = makeEleTauPtPair(src,"J1CSVbtag",'abs(eta())<2.4','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',0),
+                              eleTauJet2CSVPtSort = makeEleTauPtPair(src,"J2CSVbtag",'abs(eta())<2.4','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',1),
                               #eleTauJet1MVASfPtSort = makeEleTauPtPair(src,"J1MVASf",'','userFloat("mvaSF")',0),
                               #eleTauJet2MVASfPtSort = makeEleTauPtPair(src,"J2MVASf",'','userFloat("mvaSF")',1),
                               eleTauJet1LooseIdPtSort = makeEleTauPtPair(src,"J1LooseId",'','userFloat("idLoose")',0),
@@ -614,7 +636,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauJetsPt20TagNoMatch = makeEleTauJetCountPair(src,"nTaggableJetsPt20NotMatched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
                               eleTauJetsPt20TagNoMatchTag = makeEleTauJetCountPair(src,"nTaggableJetsPt20NotMatchedTagM",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)!=5&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),
                               eleTauJetsPt30 = makeEleTauJetCountPair(src,"nJetsPt30",'pt()>30'),
-                              eleTauJetsPt30Tag = makeEleTauJetCountPair(src,"nTaggableJetsPt30",'pt()>30&&abs(eta)<2.4'),
+                              eleTauJetsPt30Tag = makeEleTauJetCountPair(src,"nbjets",'pt()>30&&abs(eta)<2.4'),
                               eleTauJetsPt30TagMatch = makeEleTauJetCountPair(src,"nTaggableJetsPt30Matched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5'),
                               eleTauJetsPt30TagMatchTag = makeEleTauJetCountPair(src,"nTaggableJetsPt30MatchedTagM",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)==5&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),
                               eleTauJetsPt30TagNoMatch = makeEleTauJetCountPair(src,"nTaggableJetsPt30NotMatched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
@@ -644,7 +666,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                                   pluginType = cms.string("GenFilterInfoWeightFiller"),
                                   src        = cms.InputTag("generator"),
                                   #src        = cms.InputTag("generator","minVisPtFilter"),
-                                  tag        = cms.string("aMCNLO_weight"),
+                                  tag        = cms.string("EmbWeight"),
                               ),
                               higgsPt = cms.PSet(
                                   pluginType = cms.string("PATGenParticleFiller"),

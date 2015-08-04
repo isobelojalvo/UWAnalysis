@@ -31,6 +31,7 @@ int main (int argc, char* argv[])
    TH1F* evC  = (TH1F*)g->Get(parser.stringValue("histoName").c_str());
    float ev = evC->GetBinContent(1);
    
+
    g->Close();
    
    printf("Found  %f Events Counted\n",ev);
@@ -88,7 +89,6 @@ void readdir(TDirectory *dir,optutl::CommandLineParser parser,float ev,TH1F* puW
       TTree *t = (TTree*)obj;
       TBranch *newBranch = t->Branch(parser.stringValue("branch").c_str(),&weight,(parser.stringValue("branch")+"/F").c_str());
       t->SetBranchAddress("vertices",&vertices);
-
 
       printf("Found tree -> weighting\n");
       for(Int_t i=0;i<t->GetEntries();++i)

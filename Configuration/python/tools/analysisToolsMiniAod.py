@@ -375,6 +375,7 @@ def tauTriggerMatchMiniAOD(process,triggerProcess,HLT):
                                             trigEvent = cms.InputTag(HLT),
                                             filters = cms.vstring(
                                                 'hltOverlapFilterIsoMu17LooseIsoPFTau20',
+                                                'hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20',
                                                 'hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20'
                                             ),
                                             bits = cms.InputTag("TriggerResults","","HLT"),
@@ -388,6 +389,7 @@ def tauTriggerMatchMiniAOD(process,triggerProcess,HLT):
                                             trigEvent = cms.InputTag(HLT),
                                             filters = cms.vstring(
                                                 'hltOverlapFilterIsoMu17LooseIsoPFTau20',
+                                                'hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20',
                                                 'hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20'
                                             ),
                                             bits = cms.InputTag("TriggerResults","","HLT"),
@@ -420,7 +422,8 @@ def electronTriggerMatchMiniAOD(process,triggerProcess,HLT):
                                             src = cms.InputTag("miniAODElectronVID"),
                                             trigEvent = cms.InputTag(HLT),
                                             filters = cms.vstring(
-                                                'hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20'#etau filter
+                                                'hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20',#etau filter
+                                                'hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20'#etau filter
                                             ),
                                             bits = cms.InputTag("TriggerResults","","HLT"),
                                             prescales = cms.InputTag("patTrigger"),

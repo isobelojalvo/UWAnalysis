@@ -1,12 +1,6 @@
 // -*- C++ -*-
 //
 //
-// Original Author:  Michail Bachtis
-//         Created:  Sun Jan 31 15:04:57 CST 2010
-// $Id: PATTauOverloader.h,v 1.6 2013/09/13 16:59:06 ojalvo Exp $
-//
-//
-//#include "PhysicsTools/JetMCUtils/interface/JetMCTag.h"
 
 // system include files
 #include <memory>
@@ -74,7 +68,7 @@ class PATTauOverloader : public edm::EDProducer {
       for(unsigned int  i=0;i!=cands->size();++i){
 	pat::Tau tau = cands->at(i);
 
-        float dZ=-999;
+        float dZ=999;
         float z_2=-999;
  
         if(vertices->size()){
@@ -84,7 +78,9 @@ class PATTauOverloader : public edm::EDProducer {
         }
         else std::cout<<"VERTICES NULL"<<std::endl;
 
-	tau.addUserFloat("dZ",dZ);
+ 	//tau.addUserFloat("dZ",dZ);
+        //std::cout<<"Original Tau dZ is "<<dZ<<std::endl; 
+	//tau.addUserFloat("dXY",dZ);
 	tau.addUserFloat("zIP",z_2);
 
         //Against Electron 
@@ -97,13 +93,18 @@ class PATTauOverloader : public edm::EDProducer {
 
 
         float nMatchedSegments = -1;
+        float dZ_sync = 999;
         float muonMatched = 0;
         float leadChargedHadrTrackPt = -1;
         float nIsoTracks=-1;
         nIsoTracks = tau.isolationChargedHadrCands().size();
 
+        pat::PackedCandidate const* packedLeadTauCand = dynamic_cast<pat::PackedCandidate const*>(tau.leadChargedHadrCand().get());
+
         if(tau.leadChargedHadrCand().isNonnull()){
 	        leadChargedHadrTrackPt = tau.leadChargedHadrCand()->pt();
+	        dZ_sync = fabs(packedLeadTauCand->dz());
+                //std::cout<<"Sync Tau dZ is "<<dZ_sync<<std::endl; 
 	        if(iEvent.getByLabel(muons_,muons)){
 		    for(unsigned int k =0; k!=muons->size();k++){
 			    if(ROOT::Math::VectorUtil::DeltaR(muons->at(k).p4(),tau.leadChargedHadrCand()->p4())<0.15){
@@ -120,6 +121,7 @@ class PATTauOverloader : public edm::EDProducer {
 
         tau.addUserFloat("nIsoTracks",nIsoTracks);
         tau.addUserFloat("leadChargedHadrTrackPt",leadChargedHadrTrackPt);
+	tau.addUserFloat("dZ",dZ_sync);
         tau.addUserFloat("muonNMatchedSeg",nMatchedSegments);
         tau.addUserFloat("muonTauHadMatched",muonMatched);
 
