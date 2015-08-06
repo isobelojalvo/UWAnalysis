@@ -203,7 +203,7 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
 
                               #Muon IDs and Isolation
                               muTauRelPFIsoDB = makeMuTauPair(src,"lPFIsoDB",'leg1.userFloat("dBRelIso")'),
-                              muTauRelPFIsoDB2 = makeMuTauPair(src,"lPFIsoDB2",'leg1.userFloat("dBRelIso2")'),
+                              muTauRelPFIsoDB2 = makeMuTauPair(src,"lPFIsoDB03",'leg1.userFloat("dBRelIso03")'),
                               muTauLooseID = makeMuTauPair(src,"muLooseId",'leg1.isLooseMuon()'),
                               muTauMediumID = makeMuTauPair(src,"muMediumId",'leg1.userInt("mediumID")'),
                               muTauDecayMode = makeMuTauPair(src,"tauDecayMode",'leg2.decayMode()'),
@@ -216,10 +216,10 @@ def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'diMuonsSorted'
                               muTauTauZIP = makeMuTauPair(src,"tauZIP",'leg2.userFloat("zIP")'),
                               muTauHadMass = makeMuTauPair(src,"tauMass",'leg2.mass()'),
 
-                              muTauMuDZ = makeMuTauPair(src,"lDZ","leg1.userInt('dZ')"),
-                              muTauTauDZ = makeMuTauPair(src,"tauDZ","leg2.userInt('dZ')"),
-                              muTauMuDXY = makeMuTauPair(src,"lDXY","leg1.userInt('dXY')"),
-                              muTauTauDXY = makeMuTauPair(src,"tauDXY","leg2.userInt('dXY')"),
+                              muTauMuDZ = makeMuTauPair(src,"lDZ","leg1.userFloat('dZ')"),
+                              muTauTauDZ = makeMuTauPair(src,"tauDZ","leg2.userFloat('dZ')"),
+                              muTauMuDXY = makeMuTauPair(src,"lDXY","leg1.userFloat('dXY')"),
+                              muTauTauDXY = makeMuTauPair(src,"tauDXY","leg2.userFloat('dXY')"),
 
 			      #tauIDs
                               muTauByCombIsoDBRaw3 = makeMuTauPair(src,"tauIso",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
@@ -515,10 +515,10 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauCBIDMedium = makeEleTauPair(src,"CBIDMedium",'leg1.userFloat("CBIDMedium")'),#CHECKME #rename
                               eleTauCBIDTight = makeEleTauPair(src,"CBIDTight",'leg1.userFloat("CBIDTight")'),#CHECKME #rename
 
-                              eleTauEleDZ = makeEleTauPair(src,"lDZ","leg1.userInt('dZ')"),
-                              eleTauTauDZ = makeEleTauPair(src,"tauDZ","leg2.userInt('dZ')"),
-                              eleTauEleDXY = makeEleTauPair(src,"lDXY","leg1.userInt('dXY')"),
-                              eleTauTauDXY = makeEleTauPair(src,"tauDXY","leg2.userInt('dXY')"),
+                              eleTauEleDZ = makeEleTauPair(src,"lDZ","leg1.userFloat('dZ')"),
+                              eleTauTauDZ = makeEleTauPair(src,"tauDZ","leg2.userFloat('dZ')"),
+                              eleTauEleDXY = makeEleTauPair(src,"lDXY","leg1.userFloat('dXY')"),
+                              eleTauTauDXY = makeEleTauPair(src,"tauDXY","leg2.userFloat('dXY')"),
                               eleTauConversion = makeEleTauPair(src,"eleConversion","leg1.userInt('eleConversion')"),
                               eleTauPassConversion = makeEleTauPair(src,"ePassConversion",'leg1.passConversionVeto()'),
                               eleTauAgainstEleMVA5raw = makeEleTauPair(src,"againstElectronMVA5raw",'leg2.tauID("againstElectronMVA5raw")'),

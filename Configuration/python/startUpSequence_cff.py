@@ -15,11 +15,7 @@ initialCounter = cms.EDProducer('EventCounter',
                          name = cms.string("initialEvents")
 )
 
-initialCounterGenWeights = cms.EDProducer('GenEventSum',
-                         name = cms.string("GenWeightSum")
-)
-
-startupSequence = cms.Sequence(initialCounter+initialCounterGenWeights)
+startupSequence = cms.Sequence(initialCounter)
 
 
 startupSequenceFromSkim = cms.Sequence(loadHistos)
