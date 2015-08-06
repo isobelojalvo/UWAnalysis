@@ -64,8 +64,8 @@ void MiniAODMuonIDEmbedder::produce(edm::Event& evt, const edm::EventSetup& es) 
 
 
 		if(muon.muonBestTrack().isNonnull()) {
-                        float xy = fabs(muon.muonBestTrack()->dxy(vertices->at(0).position()));
-                        float z = fabs(muon.muonBestTrack()->dz(vertices->at(0).position()));
+                        float xy = muon.muonBestTrack()->dxy(vertices->at(0).position());
+                        float z = muon.muonBestTrack()->dz(vertices->at(0).position());
 			muon.addUserFloat("dXY",xy); //bestTrack
 			muon.addUserFloat("dZ",z); //bestTrack
 

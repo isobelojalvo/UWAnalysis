@@ -2,7 +2,7 @@ import FWCore.ParameterSet.Config as cms
 
 process = cms.Process("ANALYSIS")
 #process.load('Configuration.StandardSequences.Services_cff')
-process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
+#process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
 process.GlobalTag.globaltag = 'MCRUN2_74_V9'
@@ -73,13 +73,11 @@ createGeneratedParticles(process,
 )
 
 
-from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addMuTauEventTree
+from UWAnalysis.Configuration.tools.ntupleToolsSync import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
-#addMuTauEventTree(process,'muTauEventTreeFinal','diTausOS','diMuonsSorted')
 
-from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addEleTauEventTree
+from UWAnalysis.Configuration.tools.ntupleToolsSync import addEleTauEventTree
 addEleTauEventTree(process,'eleTauEventTree')
-#addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','osDiElectrons')
 
 addEventSummary(process,True,'MT','eventSelectionMT')
 addEventSummary(process,True,'ET','eventSelectionET')
