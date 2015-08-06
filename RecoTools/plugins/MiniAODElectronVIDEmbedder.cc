@@ -127,8 +127,8 @@ void MiniAODElectronVIDEmbedder::produce(edm::Event& iEvent, const edm::EventSet
 		else{out->back().addUserInt(eleConvLabel_, 1);}
 
 		//embed dxy and dz for electron
-		out->back().addUserFloat("dZ",fabs(ei->gsfTrack()->dz(vertices->at(0).position()))); 
-		out->back().addUserFloat("dXY",fabs(ei->gsfTrack()->dxy(vertices->at(0).position()))); 
+		out->back().addUserFloat("dZ",ei->gsfTrack()->dz(vertices->at(0).position())); 
+		out->back().addUserFloat("dXY",ei->gsfTrack()->dxy(vertices->at(0).position())); 
 
 		//loop throught the 1:1 VIDs and their labels
 		for(unsigned int i = 0; // Loop over ID working points
