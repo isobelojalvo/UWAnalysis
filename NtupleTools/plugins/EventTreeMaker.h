@@ -19,6 +19,8 @@
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 #include "UWAnalysis/NtupleTools/interface/NtupleFillerBase.h"
 
+#include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
+
 
 #include <TTree.h>
 
@@ -34,11 +36,17 @@ class EventTreeMaker : public edm::EDAnalyzer {
 
 			edm::Service<TFileService> fs;
 			t = fs->make<TTree>( "eventTree"  , "");
+                        genWeights = fs->make<TH1F>( "genWeights", "genWeights", 200, -100, 100 );
 
 			//Add event and RUN BRANCHING	 
 			t->Branch("EVENT",&EVENT,"EVENT/i");
+			t->Branch("evt",&EVENT,"evt/i");
 			t->Branch("RUN",&RUN,"RUN/i");
+			t->Branch("run",&RUN,"run/i");
 			t->Branch("LUMI",&LUMI,"LUMI/i");
+			t->Branch("lumi",&LUMI,"lumi/i");
+			t->Branch("GENWEIGHT",&GENWEIGHT,"GENWEIGHT/F"); 
+ 			src_ = iConfig.getParameter<edm::InputTag>("genEvent");
 			coreColl = iConfig.getParameter<std::vector<edm::InputTag> >("coreCollections");
 
 			std::vector<std::string> branchNames = iConfig.getParameterNamesForType<edm::ParameterSet>();
@@ -91,7 +99,13 @@ class EventTreeMaker : public edm::EDAnalyzer {
 			EVENT  = iEvent.id().event();
 			RUN    = iEvent.id().run();
 			LUMI   = iEvent.luminosityBlock();
-
+			edm::Handle<GenEventInfoProduct> genEvt;
+ 			GENWEIGHT = 0;
+ 			if(iEvent.getByLabel(src_,genEvt)) {
+ 			  //value = handle->filterEfficiency();
+ 			  GENWEIGHT = genEvt->weight();
+ 			  genWeights->Fill(1, GENWEIGHT);
+ 			}
 
 			bool doFill=false;
 			for(unsigned int i=0;i<coreColl.size();++i) {
@@ -112,12 +126,14 @@ class EventTreeMaker : public edm::EDAnalyzer {
 		// ----------member data ---------------------------
 
 		TTree *t;
-
+		TH1F * genWeights;
 		//add run event data
 		unsigned int EVENT;
 		unsigned int RUN;
 		unsigned int LUMI;
+		float GENWEIGHT;
 
+		edm::InputTag src_;
 		std::vector<edm::InputTag> coreColl;
 		std::vector<NtupleFillerBase*> fillers;
 

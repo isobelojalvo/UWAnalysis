@@ -66,7 +66,7 @@ class PtJetVarFiller : public NtupleFillerBase {
      //printf("first\n");
     if(iEvent.getByLabel(src_,handle)) {
       //if(rank__== "first"){
-      singleValue = 0;
+      singleValue = -999;
       if(handle->size()>0){
 	if(handle->at(0).jets().size()>rank_){
 	  //printf("nJets: %i\n",(int)handle->at(0).jets().size());
