@@ -52,7 +52,7 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   
   triLeptons(process)
   jetOverloading(process,"slimmedJets")
-  jetFilter(process,"patOverloadedJets")
+  #jetFilter(process,"patOverloadedJets")
 
   #Default selections for systematics
   applyDefaultSelectionsPT(process)
@@ -101,7 +101,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   
   triLeptons(process)
   jetOverloading(process,"slimmedJets")
-  jetFilter(process,"patOverloadedJets")
+  #jetFilter(process,"patOverloadedJets")
 
   #Default selections for systematics
   applyDefaultSelectionsPT(process)
