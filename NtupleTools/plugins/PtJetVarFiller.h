@@ -63,14 +63,17 @@ class PtJetVarFiller : public NtupleFillerBase {
     float secondeta = 0.0;
     float secondphi = 0.0;
     */ 
-     //printf("first\n");
+    printf("Get Jets\n");
     if(iEvent.getByLabel(src_,handle)) {
       if(handle->size()>0){
 	if(handle->at(0).jets().size()>rank_){
-	  //printf("nJets: %i\n",(int)handle->at(0).jets().size());
-	  //printf("%i th pt: %f\n",(int)rank_,handle->at(0).jets().at((int)rank_)->pt());
+	  printf("nJets: %i\n",(int)handle->at(0).jets().size());
+	  printf("%i th pt: %f\n",(int)rank_,handle->at(0).jets().at((int)rank_)->pt());
+	  printf("%i th eta: %f\n",(int)rank_,handle->at(0).jets().at((int)rank_)->eta());
+	  printf("%i th phi: %f\n",(int)rank_,handle->at(0).jets().at((int)rank_)->phi());
 	  if((*cut)(*(handle->at(0).jets().at((int) rank_ ))))
 	    singleValue = (*function)(*(handle->at(0).jets().at((int) rank_)));
+	  else printf("Jet Failed Cut Selection\n");
 	}
       }
     }

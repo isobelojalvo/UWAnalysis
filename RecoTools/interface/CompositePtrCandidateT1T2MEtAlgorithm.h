@@ -670,21 +670,21 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 			   				const reco::Candidate::LorentzVector& leg2,
 							const JetPtrVector& jets,
 							const reco::Candidate::LorentzVector& METP4) {
-    double deta=-1.0;
-    double mass=-1.0;
-    double dphi=-10.0;
+    double deta=-999.0;
+    double mass=-999.0;
+    double dphi=-999.0;
     int jets20=0;
     int jets30=0;
 
-    float pt1=-1.0;
-    float pt2=-1.0;
-    float dijetpt=-1.0;
-    float eta1=-10.;
-    float eta2=-10.;
-    float ditaupt=-1.0;
-    float dphihj=-10.;
-    float c1=-1.0;
-    float c2=-1.0;
+    float pt1=-999.0;
+    float pt2=-999.0;
+    float dijetpt=-999.0;
+    float eta1=-999.;
+    float eta2=-999.;
+    float ditaupt=-999.0;
+    float dphihj=-999.;
+    float c1=-999.0;
+    float c2=-999.0;
 	reco::Candidate::LorentzVector diTau = leg1+leg2+METP4;
 	reco::Candidate::LorentzVector diTauVis = leg1+leg2;
 	reco::Candidate::LorentzVector diJet;
