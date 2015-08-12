@@ -169,7 +169,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 
 
     ///set old met quantities
-
+    /*
     //define dp_x = Corrected Tau  - Uncorrected Tau  p_x  (same for dp_y)
     if(foundTau==true){
       float metpt_ = met->pt();
@@ -181,6 +181,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
       math::XYZTLorentzVector scaledmetP4 = unscaledmetP4 - deltaTauP4;
       correctedMET = scaledmetP4;
     }
+    */
     ////////////////
     compositePtrCandidate.setMETold(correctedMET);            
 
@@ -688,7 +689,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 	reco::Candidate::LorentzVector diTauVis = leg1+leg2;
 	reco::Candidate::LorentzVector diJet;
 	
-      if(jets.size()>1) {
+      if(jets.size()>1&&jets.at(0)->pt()>20&&jets.at(1)->pt()>20 ) {
 		  diJet = jets.at(0)->p4()+jets.at(1)->p4() ;
 		  deta =fabs(jets.at(0)->eta()-jets.at(1)->eta()); 
 		  dphi = fabs(deltaPhi(jets.at(0)->phi(), jets.at(1)->phi()));

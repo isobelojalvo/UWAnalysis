@@ -53,7 +53,7 @@ class PtJetVarFiller : public NtupleFillerBase {
     edm::Handle<std::vector<T> > handle;
 
     //edm::Handle<std::vector<T> > handleT;
-    singleValue=-1;
+    singleValue=-999;
     /*
     float minPt=0.0;
     float secondPt=0.0;
@@ -65,8 +65,6 @@ class PtJetVarFiller : public NtupleFillerBase {
     */ 
      //printf("first\n");
     if(iEvent.getByLabel(src_,handle)) {
-      //if(rank__== "first"){
-      singleValue = -999;
       if(handle->size()>0){
 	if(handle->at(0).jets().size()>rank_){
 	  //printf("nJets: %i\n",(int)handle->at(0).jets().size());

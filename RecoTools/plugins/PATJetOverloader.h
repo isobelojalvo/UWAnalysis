@@ -102,7 +102,7 @@ class PATJetOverloader : public edm::EDProducer {
 		loose = false;
 	if (jet.neutralEmEnergyFraction() >= 0.95)
 		medium = false;
-	if (jet.neutralEmEnergyFraction() >= 0.90)
+	if (jet.neutralEmEnergyFraction() >= 0.90 && jet.muonEnergyFraction()>=0.8)
 		tight = false;
 
 	if (jet.numberOfDaughters() <= 1) { //getPFConstitutents broken in miniAOD
@@ -111,7 +111,7 @@ class PATJetOverloader : public edm::EDProducer {
 		tight = false;
 	}
 
-	if (std::abs(jet.eta()) < 2.4) {
+	if (std::abs(jet.eta()) <= 2.4) {
 		if (jet.chargedHadronEnergyFraction() == 0) {
 			loose = false;
 			medium = false;

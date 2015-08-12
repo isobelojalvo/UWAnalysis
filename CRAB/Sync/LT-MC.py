@@ -16,8 +16,9 @@ process.maxEvents = cms.untracked.PSet(
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-'file:/hdfs/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/203F4221-8D14-E511-9526-002590E39C46.root'
+'file:/hdfs/store/mc/RunIISpring15DR74/SUSYGluGluToHToTauTau_M-160_TuneCUETP8M1_13TeV-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/10000/2A3929AE-5303-E511-9EFE-0025905A48C0.root'
 		),
+firstEvent = cms.untracked.uint32(1),
 		inputCommands=cms.untracked.vstring(
 						'keep *',
 						'keep *_l1extraParticles_*_*',
@@ -81,4 +82,8 @@ addEleTauEventTree(process,'eleTauEventTree')
 
 addEventSummary(process,True,'MT','eventSelectionMT')
 addEventSummary(process,True,'ET','eventSelectionET')
+
+# Make the framework shut up.
+process.load("FWCore.MessageLogger.MessageLogger_cfi")
+process.MessageLogger.cerr.FwkReport.reportEvery = 100
 

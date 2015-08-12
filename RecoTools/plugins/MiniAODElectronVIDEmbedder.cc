@@ -110,12 +110,14 @@ void MiniAODElectronVIDEmbedder::produce(edm::Event& iEvent, const edm::EventSet
 		out->push_back(*ei); // copy electron to save correctly in event
 
 		//Add electron isolation to the tree
-		float eleIso04 = (ei->chargedHadronIso()+std::max(ei->photonIso()+ei->neutralHadronIso()-(0.5*(ei->puChargedHadronIso())),0.0))/(ei->pt());
+		float eleIso04 = 999;
+		//if ( ei->pt().isNonnull())
+		eleIso04 = (ei->chargedHadronIso()+std::max(ei->photonIso()+ei->neutralHadronIso()-(0.5*(ei->puChargedHadronIso())),0.0))/(ei->pt());
                 //std::cout<<"electron Isolation04: "<<eleIso04<<std::endl;
-		float eleIso03 = (eptr->pfIsolationVariables().sumChargedHadronPt + 
-			std::max(eptr->pfIsolationVariables().sumNeutralHadronEt +
-			eptr->pfIsolationVariables().sumPhotonEt - 
-			0.5 * eptr->pfIsolationVariables().sumPUPt, 0.0)) / ei->pt(); 
+		float eleIso03 = 999;
+		//if(eptr->pfIsolationVariables().isNonnull()) 
+		eleIso03 = (eptr->pfIsolationVariables().sumChargedHadronPt + std::max(eptr->pfIsolationVariables().sumNeutralHadronEt +
+					eptr->pfIsolationVariables().sumPhotonEt - 0.5 * eptr->pfIsolationVariables().sumPUPt, 0.0)) / ei->pt(); 
                 //std::cout<<"electron Isolation03: "<<eleIso03<<std::endl;
 		out->back().addUserFloat(eleIsoLabel_, eleIso04);
 		out->back().addUserFloat("dBRelIso03", eleIso03);
