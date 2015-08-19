@@ -14,7 +14,7 @@
 #include "CommonTools/UtilAlgos/interface/StringCutObjectSelector.h"
 
 //
-// class decleration
+// class declaration
 //
 template<typename T>
 class PtJetVarFiller : public NtupleFillerBase {
@@ -30,14 +30,12 @@ class PtJetVarFiller : public NtupleFillerBase {
       tag_(iConfig.getParameter<std::string>("tag")),
       cut_(iConfig.getParameter<std::string>("cut")),
       rank_(iConfig.getUntrackedParameter<double>("rank",1.))
-      // matchDR_(iConfig.getUntrackedParameter<double>("MatchDR",0.15))
 	{
 
 	  singleValue=-999.;
 	  function = new StringObjectFunction<pat::Jet>(var_);
 	  cut = new StringCutObjectSelector<pat::Jet>(cut_,true);
 	  vbranch = t->Branch(tag_.c_str(),&singleValue,(tag_+"/F").c_str());
-	  //bool rank_;
 	}
 
 
@@ -52,28 +50,18 @@ class PtJetVarFiller : public NtupleFillerBase {
   {
     edm::Handle<std::vector<T> > handle;
 
-    //edm::Handle<std::vector<T> > handleT;
     singleValue=-999;
-    /*
-    float minPt=0.0;
-    float secondPt=0.0;
-    float thirdPt = 0.0;
-    float firsteta = 0.0;
-    float firstphi = 0.0;
-    float secondeta = 0.0;
-    float secondphi = 0.0;
-    */ 
-    printf("Get Jets\n");
+
     if(iEvent.getByLabel(src_,handle)) {
       if(handle->size()>0){
 	if(handle->at(0).jets().size()>rank_){
-	  printf("nJets: %i\n",(int)handle->at(0).jets().size());
-	  printf("%i th pt: %f\n",(int)rank_,handle->at(0).jets().at((int)rank_)->pt());
-	  printf("%i th eta: %f\n",(int)rank_,handle->at(0).jets().at((int)rank_)->eta());
-	  printf("%i th phi: %f\n",(int)rank_,handle->at(0).jets().at((int)rank_)->phi());
+	  //printf("nJets: %i\n",(int)handle->at(0).jets().size());
+	  //printf("%i th pt: %f\n",(int)rank_,handle->at(0).jets().at((int)rank_)->pt());
+	  //printf("%i th eta: %f\n",(int)rank_,handle->at(0).jets().at((int)rank_)->eta());
+	  //printf("%i th phi: %f\n",(int)rank_,handle->at(0).jets().at((int)rank_)->phi());
 	  if((*cut)(*(handle->at(0).jets().at((int) rank_ ))))
 	    singleValue = (*function)(*(handle->at(0).jets().at((int) rank_)));
-	  else printf("Jet Failed Cut Selection\n");
+	  //else printf("Jet Failed Cut Selection\n");
 	}
       }
     }
