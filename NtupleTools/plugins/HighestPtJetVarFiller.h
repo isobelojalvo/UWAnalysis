@@ -57,9 +57,8 @@ class HighestPtJetVarFiller : public NtupleFillerBase {
     }
     else
       {
-	printf("Obj not found \n");
+	printf("HighestPtJetVarFiller: Obj not found \n");
       }
-    //    vbranch->Fill();
   }
   
 

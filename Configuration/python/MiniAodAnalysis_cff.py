@@ -5,14 +5,6 @@ import FWCore.ParameterSet.Config as cms
 from UWAnalysis.Configuration.tools.CutSequenceProducer import *
 
 
-########## Gen weight Sum
-#GENanalysisConfigurator = CutSequenceProducer(initialCounter  = 'GenWeightSum',
-#                                  pyModuleName = __name__,
-#                                  pyNameSpace  = locals())
-#
-#selectionSequenceGEN =GENanalysisConfigurator.returnSequence()
-
-
 ###############################			Ele-Tau 		###################################
 ETanalysisConfigurator = CutSequenceProducer(initialCounter  = 'initialEventsET',
                                   pyModuleName = __name__,

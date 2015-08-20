@@ -1,10 +1,10 @@
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process("ANALYSIS")
-process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-process.GlobalTag.globaltag = 'PHYS14_25_V1'
+
+process.GlobalTag.globaltag = 'MCRUN2_74_V9'
 
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsMiniAod import *
@@ -19,11 +19,11 @@ defaultReconstructionMC(process,'HLT',
                       
 
 #EventSelection
-process.load("UWAnalysis.Configuration.MiniAodAnalysis_cff")
+process.load("UWAnalysis.Configuration.HiggsTauTauSync_cff")
 
 process.metCalibration.applyCalibration = cms.bool(False)
 
-process.eventSelectionMT = cms.Path(process.selectionSequenceMT)
+#process.eventSelectionMT = cms.Path(process.selectionSequenceMT)
 process.eventSelectionET = cms.Path(process.selectionSequenceET)
 
 createGeneratedParticles(process,
@@ -36,6 +36,11 @@ createGeneratedParticles(process,
                            "keep pdgId = {mu-}",
                            "keep pdgId = 11",
                            "keep pdgId = -11",
+                           "keep pdgId = 6",
+                           "keep pdgId = -6",
+                           "keep pdgId = 25",
+                           "keep pdgId = 35",
+                           "keep abs(pdgId) = 36"
                           ]
 )
 
@@ -49,32 +54,29 @@ createGeneratedParticles(process,
 )
 
 
-from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addMuTauEventTree
-addMuTauEventTree(process,'muTauEventTree')
-
-from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addEleTauEventTree
+from UWAnalysis.Configuration.tools.ntupleToolsSync import addEleTauEventTree
 addEleTauEventTree(process,'eleTauEventTree')
+#addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','osDiElectrons')
 
-addEventSummary(process,True,'MT','eventSelectionMT')
 addEventSummary(process,True,'ET','eventSelectionET')
 
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-       "/store/mc/Phys14DR/TTJets_MSDecaysCKM_central_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU4bx50_PHYS14_25_V1-v1/00000/02131EBA-627E-E411-B166-0025905A605E.root"
+       $inputFileNames
 		),
 		inputCommands=cms.untracked.vstring(
 						'keep *',
-		),
-                skipEvents=cms.untracked.uint32(10700)
+		)
 )
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(-1)
 )
 
-#process.TFileService.fileName=cms.string("SUB-MC-02131EBA-627E-E411-B166-0025905A605E.root")
+#process.TFileService.fileName=cms.string("$outputFileName")
 process.TFileService = cms.Service(
     "TFileService",
-    fileName = cms.string("SUB-MC-02131EBA-627E-E411-B166-0025905A605E.root")
+    fileName = cms.string("$outputFileName")
 )
+

@@ -122,7 +122,7 @@ class VertexFiller : public NtupleFillerBase {
 							visValid = 1729;
 					}
 				}
-			} else printf("Obj not found \n");
+			} else printf("StringBasedNtupleFiller: Obj not found \n");
 		}
 
 

@@ -30,14 +30,12 @@ class PtJetPairVarFiller : public NtupleFillerBase {
 			tag_(iConfig.getParameter<std::string>("tag")),
 			cut_(iConfig.getParameter<std::string>("cut")),
 			rank_(iConfig.getUntrackedParameter<double>("rank",1.))
-			// matchDR_(iConfig.getUntrackedParameter<double>("MatchDR",0.15))
 	{
 
 		singleValue=-999.;
 		function = new StringObjectFunction<pat::Jet>(var_);
 		cut = new StringCutObjectSelector<pat::Jet>(cut_,true);
 		vbranch = t->Branch(tag_.c_str(),&singleValue,(tag_+"/F").c_str());
-		//bool rank_;
 	}
 
 
@@ -52,7 +50,6 @@ class PtJetPairVarFiller : public NtupleFillerBase {
 		{
 			edm::Handle<std::vector<T> > handle;
 
-			//edm::Handle<std::vector<T> > handleT;
 			singleValue=-999;
 
 			//rank is 1 or 2
@@ -60,7 +57,7 @@ class PtJetPairVarFiller : public NtupleFillerBase {
 			int rnk2=-1;
 			unsigned int i=0;
 			unsigned int j=0;
-			printf("Get Jets\n");
+			//printf("Get Jets\n");
 			if(iEvent.getByLabel(src_,handle)) {
 				if(handle->size()>0){
 					if(handle->at(0).jets().size()>rank_){

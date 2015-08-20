@@ -52,7 +52,7 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   
   triLeptons(process)
   jetOverloading(process,"slimmedJets")
-  #jetFilter(process,"patOverloadedJets")
+  jetFilter(process,"patOverloadedJets")
 
   #Default selections for systematics
   applyDefaultSelectionsPT(process)
@@ -101,7 +101,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   
   triLeptons(process)
   jetOverloading(process,"slimmedJets")
-  #jetFilter(process,"patOverloadedJets")
+  jetFilter(process,"patOverloadedJets")
 
   #Default selections for systematics
   applyDefaultSelectionsPT(process)
@@ -165,7 +165,8 @@ def MiniAODEleVIDEmbedder(process, eles):
   process.egmGsfElectronIDSequence = cms.Sequence(process.electronMVAValueMapProducer+process.egmGsfElectronIDs)
   id_modules = [
       'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_PHYS14_PU20bx25_V2_cff',
-      'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV51_cff',
+      'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_50ns_V1_cff',
+      'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_25ns_V1_cff',
       'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
       'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_PHYS14_PU20bx25_nonTrig_V1_cff']
   for idmod in id_modules:
@@ -179,7 +180,6 @@ def MiniAODEleVIDEmbedder(process, eles):
           cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-loose'),
           cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-medium'),
           cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-tight'),
-          cms.InputTag('egmGsfElectronIDs:heepElectronID-HEEPV51'),
           cms.InputTag('egmGsfElectronIDs:heepElectronID-HEEPV60')
   ]
   # Embed cut-based VIDs
@@ -354,26 +354,6 @@ def tauTriggerMatchMiniAOD(process,triggerProcess,HLT,srcTau):
     else:  
       strTrig+='|| path(\"'+i+'\")'
 
-
-   #Match With The triggers
-   #process.preTriggeredPatTaus = cms.EDProducer("TauTriggerMatcherMiniAOD",
-   #                                         src = cms.InputTag(srcTau),#ESTausID
-   #                                         trigEvent = cms.InputTag(HLT),
-   #                                         filters = cms.vstring(
-   #                                             'hltOverlapFilterIsoMu17LooseIsoPFTau20',
-   #                                             'hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20',
-   #                                             'hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20',
-   #                                         ),
-   #                                         filtersAND = cms.vstring(
-   #                                             'hltPFTau20TrackLooseIsoAgainstMuon ',
-   #                                             'hltPFTau20TrackLooseIso',
-   #                                             'hltPFTau20TrackLooseIso',
-   #                                         ),
-   #                                         bits = cms.InputTag("TriggerResults","","HLT"),
-   #                                         prescales = cms.InputTag("patTrigger"),
-   #                                         objects = cms.InputTag("selectedPatTrigger"),
-   #                                         pdgId = cms.int32(0)
-   #)
 
    process.triggeredPatTaus = cms.EDProducer("TauTriggerMatcherMiniAOD",
                                             src = cms.InputTag(srcTau),
