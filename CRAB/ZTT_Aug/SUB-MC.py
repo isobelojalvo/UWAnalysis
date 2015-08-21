@@ -3,43 +3,25 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-process.GlobalTag.globaltag = 'MCRUN2_74_V9'
-
-
-process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(20000)
-)
-
-
-
-process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring(
-#'file:/hdfs/store/mc/Phys14DR/GluGluToHToTauTau_M-125_13TeV-powheg-pythia6/MINIAODSIM/PU20bx25_tsg_PHYS14_25_V1-v1/10000/86CFA7C5-B96F-E411-B077-00266CF25490.root'
-'file:/hdfs/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/203F4221-8D14-E511-9526-002590E39C46.root'
-		)
-)
-
+process.GlobalTag.globaltag = 'MCRUN2_74_V9A'
 
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsMiniAod import *
 defaultReconstructionMC(process,'HLT',
                       [
-						'HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v1', #etau
-                                                'HLT_Ele27_eta2p1_WP75_Gsf_v1', #etau
-						'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v1', #mutau
-                                                'HLT_IsoMu24_eta2p1_IterTrk02_v1' #mutau
+			'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v1',#etau
+			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v2'#muTau
                       ])
 
                       
 
 #EventSelection
-process.load("UWAnalysis.Configuration.hTauTauSync_cff")
+process.load("UWAnalysis.Configuration.zTauTauXSec_cff")
 
 process.metCalibration.applyCalibration = cms.bool(False)
 
 process.eventSelectionMT = cms.Path(process.selectionSequenceMT)
 process.eventSelectionET = cms.Path(process.selectionSequenceET)
-
 #Systematic Shifts 1sigma
 process.eventSelectionMTTauUp    = createSystematics(process,process.selectionSequenceMT,'TauUp',1.0,1.0,1.03,0,1.0)
 process.eventSelectionMTTauDown  = createSystematics(process,process.selectionSequenceMT,'TauDown',1.0,1.0,0.97,0,1.0)
@@ -50,6 +32,7 @@ process.eventSelectionETTauUp    = createSystematics(process,process.selectionSe
 process.eventSelectionETTauDown  = createSystematics(process,process.selectionSequenceET,'TauDown',1.0,1.0,0.97,0,1.0)
 process.eventSelectionETJetUp    = createSystematics(process,process.selectionSequenceMT,'JetUp',1.0,1.0,1.0,1,1.0)
 process.eventSelectionETJetDown  = createSystematics(process,process.selectionSequenceMT,'JetDown',1.0,1.0,1.0,-1,1.0)
+
 
 
 createGeneratedParticles(process,
@@ -64,9 +47,6 @@ createGeneratedParticles(process,
                            "keep pdgId = -6",
                            "keep pdgId = 11",
                            "keep pdgId = -11",
-                           "keep pdgId = 25",
-                           "keep pdgId = 35",
-                           "keep abs(pdgId) = 36"
                           ]
 )
 
@@ -80,17 +60,17 @@ createGeneratedParticles(process,
 )
 
 
-from UWAnalysis.Configuration.tools.ntupleToolsSync import addMuTauEventTree
+from UWAnalysis.Configuration.tools.ntupleToolsZTauTauXSec import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
 addMuTauEventTree(process,'muTauEventTreeFinal','muTausOS','osDiMuons')
 
-from UWAnalysis.Configuration.tools.ntupleToolsSync import addEleTauEventTree
+
+from UWAnalysis.Configuration.tools.ntupleToolsZTauTauXSec import addEleTauEventTree
 addEleTauEventTree(process,'eleTauEventTree')
 addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','osDiElectrons')
 
 addEventSummary(process,True,'MT','eventSelectionMT')
 addEventSummary(process,True,'ET','eventSelectionET')
-
 
 
 #Final trees afor shapes after shifts
@@ -112,4 +92,23 @@ addEleTauEventTree(process,'eleTauEventTreeJetDown','eleTausSortedJetDown','osDi
 addEleTauEventTree(process,'eleTauEventTreeFinalJetUp','eleTausOSJetUp','osDiElectronsJetUp')
 addEleTauEventTree(process,'eleTauEventTreeFinalJetDown','eleTausOSJetDown','osDiElectronsJetDown')
 
-#
+
+
+process.source = cms.Source("PoolSource",
+    fileNames = cms.untracked.vstring(
+       $inputFileNames
+		),
+		inputCommands=cms.untracked.vstring(
+						'keep *',
+		)
+)
+
+process.maxEvents = cms.untracked.PSet(
+    input = cms.untracked.int32(-1)
+)
+
+#process.TFileService.fileName=cms.string("$outputFileName")
+process.TFileService = cms.Service(
+    "TFileService",
+    fileName = cms.string("$outputFileName")
+)

@@ -3,7 +3,7 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-process.GlobalTag.globaltag = 'MCRUN2_74_V9'
+process.GlobalTag.globaltag = 'MCRUN2_74_V9A'
 
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsMiniAod import *
@@ -16,12 +16,11 @@ defaultReconstructionMC(process,'HLT',
                       
 
 #EventSelection
-process.load("UWAnalysis.Configuration.hTauTauSync_cff")
+process.load("UWAnalysis.Configuration.zTauTauXSec_cff")
 
 process.metCalibration.applyCalibration = cms.bool(False)
 
-process.eventSelectionET = cms.Path(process.selectionSequenceET)
-
+process.eventSelectionMT = cms.Path(process.selectionSequenceMT)
 
 createGeneratedParticles(process,
                          'genDaughters',
@@ -48,11 +47,12 @@ createGeneratedParticles(process,
 )
 
 
+from UWAnalysis.Configuration.tools.ntupleToolsZTauTauXSec import addMuTauEventTree
+addMuTauEventTree(process,'muTauEventTree')
 
-from UWAnalysis.Configuration.tools.ntupleToolsSync import addEleTauEventTree
-addEleTauEventTree(process,'eleTauEventTree')
 
-addEventSummary(process,True,'ET','eventSelectionET')
+addEventSummary(process,True,'MT','eventSelectionMT')
+
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(

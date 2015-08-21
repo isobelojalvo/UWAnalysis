@@ -3,7 +3,7 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-process.GlobalTag.globaltag = 'MCRUN2_74_V9A'
+process.GlobalTag.globaltag = 'MCRUN2_74_V9'
 
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsMiniAod import *
@@ -47,7 +47,7 @@ createGeneratedParticles(process,
 )
 
 
-from UWAnalysis.Configuration.tools.ntupleToolsZTauTauXSec import addMuTauEventTree
+from UWAnalysis.Configuration.tools.ntupleToolsSync import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
 
 

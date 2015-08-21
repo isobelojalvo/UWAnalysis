@@ -38,10 +38,10 @@ int main (int argc, char* argv[])
    
    TFile *f = new TFile(parser.stringValue("outputFile").c_str(),"UPDATE");   
    
-   TFile *fPileUp    = new TFile("vertices.root","UPDATE");
+   TFile *fPileUp    = new TFile("npv.root","UPDATE");
    TH1F* puWeight = 0;
    if(fPileUp!=0 && fPileUp->IsOpen()) {
-     puWeight = (TH1F*)fPileUp->Get("vertices");;
+     puWeight = (TH1F*)fPileUp->Get("npv");;
      printf("ENABLING PU WEIGHTING USING VERTICES\n");
    }  
    else{
@@ -49,7 +49,7 @@ int main (int argc, char* argv[])
      return 0;
    }
      
-   cout<<"Bin content of bin with 12 vertices "<<puWeight->GetBinContent(puWeight->FindBin(9))<<endl;
+   cout<<"Bin content of bin with 12 npv "<<puWeight->GetBinContent(puWeight->FindBin(9))<<endl;
 
    readdir(f,parser,ev,puWeight);
 
@@ -83,26 +83,26 @@ void readdir(TDirectory *dir,optutl::CommandLineParser parser,float ev,TH1F* puW
       dirsav->cd();
     }
     else if(obj->IsA()->InheritsFrom(TTree::Class())) {
-      int vertices;
+      int npv;
       float weight = parser.doubleValue("weight")/(ev);
 
       TTree *t = (TTree*)obj;
       TBranch *newBranch = t->Branch(parser.stringValue("branch").c_str(),&weight,(parser.stringValue("branch")+"/F").c_str());
-      t->SetBranchAddress("vertices",&vertices);
+      t->SetBranchAddress("npv",&npv);
 
       printf("Found tree -> weighting\n");
       for(Int_t i=0;i<t->GetEntries();++i)
 	{
 	  t->GetEntry(i);
-	  //cout<<"nVertices "<<vertices<<endl;
-	  //cout<< "i "<< i <<" bin "<<puWeight->FindBin(vertices)<<endl;
-	  int bin=puWeight->FindBin(vertices);
+	  //cout<<"nVertices "<<npv<<endl;
+	  //cout<< "i "<< i <<" bin "<<puWeight->FindBin(npv)<<endl;
+	  int bin=puWeight->FindBin(npv);
 
 	  weight = parser.doubleValue("weight")/(ev);
 	  weight*=puWeight->GetBinContent(bin);
 
 	    if(i==1)
-	      printf("PU WEIGHT = %f\n",puWeight->GetBinContent(puWeight->FindBin(vertices)));
+	      printf("PU WEIGHT = %f\n",puWeight->GetBinContent(puWeight->FindBin(npv)));
 
 	  newBranch->Fill();
 	}

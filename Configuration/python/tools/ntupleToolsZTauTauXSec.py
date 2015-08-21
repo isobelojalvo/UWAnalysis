@@ -162,6 +162,12 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'osDiMuons', sr
                                   #src        = cms.InputTag("primaryVertexFilter"),
                                   tag        = cms.string("npv")
                               ),#FILLED
+                                PVs = cms.PSet(
+                                  pluginType = cms.string("VertexSizeFiller"),
+                                  src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
+                                  #src        = cms.InputTag("primaryVertexFilter"),
+                                  tag        = cms.string("vertices")
+                              ),#FILLED
  
                               muTauSize = makeCollSize(src,"nCands"),#FILLED
                               genTaus = makeCollSize("genTauCands","genTaus"), #FIXME
@@ -187,7 +193,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'osDiMuons', sr
                               q_1 = makeMuTauPair(src,"q_1","leg1.charge"),#FILLED
                               q_2 = makeMuTauPair(src,"q_2","leg2.charge"),#FILLED
 
-                              muTauPt = makeMuTauPair(src,"pth","pt"),#FILLED
+                              muTauPt = makeMuTauPair(src,"pt","pt"),#FILLED
                               muTauHT = makeMuTauPair(src,"ht","ht"),#FILLED
                               muTauMass = makeMuTauPair(src,"m_vis","mass"),#FILLED
                               muTauSVPt = makeMuTauPair(src,"pt_sv","svPt"),#FIXME
@@ -383,6 +389,14 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                                   #src        = cms.InputTag("primaryVertexFilter"),
                                   tag        = cms.string("npv")
                               ),
+                              PVsrename = cms.PSet(
+                                  pluginType = cms.string("VertexSizeFiller"),
+                                  src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
+                                  #src        = cms.InputTag("primaryVertexFilter"),
+                                  tag        = cms.string("vertices")
+                              ),
+
+
 
                               muonsSizeET = makeCollSize(srcU,"tightMuons"),
                               muonsSizeETVeto = makeCollSizeVeto(srcU,0,"extramuon_veto"),

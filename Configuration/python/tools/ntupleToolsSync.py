@@ -139,7 +139,7 @@ def makeEleTauJetCountPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
    return PSet
 
 
-def addMuTauEventTree(process,name,src = 'diTausSorted', srcLL = 'osDiMuons', srcU='TightMuons', srcE='TightElectrons'):
+def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'osDiMuons', srcU='TightMuons', srcE='TightElectrons'):
    process.TFileService = cms.Service("TFileService", fileName = cms.string("analysis.root") )
    eventTree = cms.EDAnalyzer('EventTreeMaker',
                               genEvent = cms.InputTag('generator'),
