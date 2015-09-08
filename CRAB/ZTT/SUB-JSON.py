@@ -24,7 +24,7 @@ process.maxEvents = cms.untracked.PSet(
 
 
 #added in etau and mutau triggers
-from UWAnalysis.Configuration.tools.analysisToolsMiniAod import *
+from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
 defaultReconstruction(process,'HLT',
                       [
 						'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v1',#etau
@@ -37,7 +37,7 @@ defaultReconstruction(process,'HLT',
                       
 
 #EventSelection
-process.load("UWAnalysis.Configuration.zTauTauXSec_cff")
+process.load("UWAnalysis.Configuration.zTauTauXSec_data_cff")
 
 process.metCalibration.applyCalibration = cms.bool(False)
 

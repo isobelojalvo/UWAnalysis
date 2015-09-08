@@ -111,7 +111,7 @@ void MiniAODElectronVIDEmbedder::produce(edm::Event& iEvent, const edm::EventSet
 
 		//Add electron isolation to the tree
 		float eleIso04 = 999;
-		//if ( ei->pt().isNonnull())
+		//std::cout<<"ElectronPt: "<<ei->pt()<<std::endl;
 		eleIso04 = (ei->chargedHadronIso()+std::max(ei->photonIso()+ei->neutralHadronIso()-(0.5*(ei->puChargedHadronIso())),0.0))/(ei->pt());
                 //std::cout<<"electron Isolation04: "<<eleIso04<<std::endl;
 		float eleIso03 = 999;

@@ -33,28 +33,29 @@ using namespace std;
 
 
 void createVertexDistribution(){
-  TString selection1="pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<2&&crossTrigger==1&&tightMuons<=1";
+  TString selectionMC="pt_1>18&&pt_2>20&&vertices>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2>2&&tightMuons<=1&&tightElectrons==0&&(crossTrigger>0||(lTrigger>0&&pt_1>25))";
+  TString selectionData="pt_1>18&&pt_2>20&&vertices>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2>2&&tightMuons<=1&&tightElectrons==0&&(crossTrigger_50ns>0||(lTrigger_50ns>0&&pt_1>25))";
 
-  TFile *f    = new TFile("/nfs_scratch/laura/ztt_unweighted5/muDATA.root");
+  TFile *f    = new TFile("/nfs_scratch/laura/ztt_unweighted7/muDATA.root");
   TTree* tree = (TTree*)f->Get("muTauEventTree/eventTree");
 
 
   TH1F* Shape = new TH1F("Nominal","Nominal",25,0,50);
-  tree->Draw("npv>>+Nominal","("+selection1+")");
+  tree->Draw("vertices>>+Nominal","("+selectionData+")");
   Shape->Scale(1/Shape->Integral());
 
-  TFile *f1    = new TFile("/nfs_scratch/laura/ztt_unweighted5/ZJets.root");
+  TFile *f1    = new TFile("/nfs_scratch/laura/ztt_unweighted7/ZJets.root");
   TTree* tree1 = (TTree*)f1->Get("muTauEventTree/eventTree");
   TH1F* Shape1 = new TH1F("Nominal1","Nominal1",25,0,50);
-  tree1->Draw("npv>>+Nominal1","("+selection1+")");
+  tree1->Draw("vertices>>+Nominal1","("+selectionMC+")");
   Shape1->Scale(1/Shape1->Integral());
 
-  TFile f2("/nfs_scratch/laura/ztt_unweighted5/npv.root","RECREATE");
+  TFile f2("/nfs_scratch/laura/ztt_unweighted7/vertices.root","RECREATE");
   TH1F* Shape2 = new TH1F("Nominal2","Nominal2",25,0,50);
   Shape2->Divide(Shape,Shape1);
-  std::cout<<"Bin content of bin with 12 npv "<<Shape2->GetBinContent(Shape2->FindBin(20))<<std::endl;
+  std::cout<<"Bin content of bin with 12 vertices "<<Shape2->GetBinContent(Shape2->FindBin(20))<<std::endl;
   std::cout<<"Shape integral "<< Shape2->Integral()<<std::endl;
   //f2->cd();
-  Shape2->Write("npv",TObject::kOverwrite);//"npv",TObject::kOverwrite);
+  Shape2->Write("vertices",TObject::kOverwrite);//"vertices",TObject::kOverwrite);
 
 }

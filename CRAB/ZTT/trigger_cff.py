@@ -19,7 +19,7 @@ triggerObjects, triggerObjectLabel  = Handle("std::vector<pat::TriggerObjectStan
 triggerPrescales, triggerPrescaleLabel  = Handle("pat::PackedTriggerPrescales"), "patTrigger"
 
 # open file (you can use 'edmFileUtil -d /store/whatever.root' to get the physical file name)
-events = Events("file:/hdfs/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/F24EA11C-8D14-E511-8224-0CC47A13CC7E.root")
+events = Events("root://eoscms//eos/cms/store/cmst3/user/gpetrucc/miniAOD/v1/TT_Tune4C_13TeV-pythia8-tauola_PU_S14_PAT.root")
 
 for iev,event in enumerate(events):
     event.getByLabel(triggerBitLabel, triggerBits)
@@ -40,5 +40,5 @@ for iev,event in enumerate(events):
         print "         type ids: ", ", ".join([str(f) for f in to.filterIds()])
         print "         filters: ", ", ".join([str(f) for f in to.filterLabels()])
         pathslast = set(to.pathNames(True))
-        print "         paths:   ", ", ".join([("%s*" if f in pathslast else "%s")%f for f in to.filterLabels()]) 
-    if iev > 100: break
+        print "         paths:   ", ", ".join([("%s*" if f in pathslast else "%s")%f for f in to.pathNames()]) 
+    if iev > 10: break

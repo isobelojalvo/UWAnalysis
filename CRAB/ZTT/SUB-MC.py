@@ -6,7 +6,7 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 process.GlobalTag.globaltag = 'MCRUN2_74_V9A'
 
 #added in etau and mutau triggers
-from UWAnalysis.Configuration.tools.analysisToolsMiniAod import *
+from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
 defaultReconstructionMC(process,'HLT',
                       [
 			'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v1',#etau
@@ -72,6 +72,7 @@ addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','osDiElectrons')
 addEventSummary(process,True,'MT','eventSelectionMT')
 addEventSummary(process,True,'ET','eventSelectionET')
 
+addMuTauEventTree(process,'muTauEventTreeNoMuonDisc','muTauTauElectronVeto','osDiMuonsSorted')
 
 #Final trees afor shapes after shifts
 addMuTauEventTree(process,'muTauEventTreeTauUp','muTausSortedTauUp','osDiMuonsTauUp')
