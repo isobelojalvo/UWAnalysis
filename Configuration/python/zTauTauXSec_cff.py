@@ -27,13 +27,13 @@ ETanalysisConfigurator.addSelector('eleTausEleVertices','PATEleTauPairSelector',
 ETanalysisConfigurator.addSelector('eleTausVLooseIsolation','PATEleTauPairSelector','leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<10','ETTauVLooseMVAIso',1)
 ETanalysisConfigurator.addSelector('eleTausDecayFound','PATEleTauPairSelector','abs(leg2.userFloat("taudZ"))<0.2&&leg2.tauID("decayModeFindingNewDMs")>0.5','ETTauDecayFound',1)
 ETanalysisConfigurator.addSelector('eleTausChargeNot2','PATEleTauPairSelector','abs(leg2.charge())==1','ETChargeIsABS1',1)
-ETanalysisConfigurator.addSelector('eleTausEleTrigMatch','PATEleTauPairSelector','(leg1.pt()>33&&leg1.userFloat("hltEle32WP75GsfTrackIsoFilter")>0)||(leg2.userFloat("hltPFTau20TrackLooseIso")>0&&leg1.userFloat("hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter")>0)  ','ETEleTrigMatch',1)
+#ETanalysisConfigurator.addSelector('eleTausEleTrigMatch','PATEleTauPairSelector','(leg1.pt()>33&&leg1.userFloat("hltEle32WP75GsfTrackIsoFilter")>0)||(leg2.userFloat("hltPFTau20TrackLooseIso")>0&&leg1.userFloat("hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter")>0)','ETEleTrigMatch',1)
 #ETanalysisConfigurator.addEleTauSVFitSA('eleTausSVFit')
 ETanalysisConfigurator.addSorter('eleTausSorted','PATEleTauPairSorter')
-ETanalysisConfigurator.addSelector('eleTausTauIsolation','PATEleTauPairSelector','leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<1.5','ETTauLooseIso',1)
-ETanalysisConfigurator.addSelector('eleTausTauMuonVeto','PATEleTauPairSelector','leg2.tauID("againstMuonLoose3")','ETAgainstMuon',1)
-ETanalysisConfigurator.addSelector('eleTausTauElectronVeto','PATEleTauPairSelector','leg2.tauID("againstElectronTightMVA5")>0','ETAgainstElectron',1)
-ETanalysisConfigurator.addSelector('eleTausEleIsolation','PATEleTauPairSelector','leg1.userFloat("dBRelIso03")<0.1','electronIsolation',1)
+#ETanalysisConfigurator.addSelector('eleTausTauIsolation','PATEleTauPairSelector','leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<1.5','ETTauLooseIso',1)
+#ETanalysisConfigurator.addSelector('eleTausTauMuonVeto','PATEleTauPairSelector','leg2.tauID("againstMuonLoose3")','ETAgainstMuon',1)
+#ETanalysisConfigurator.addSelector('eleTausTauElectronVeto','PATEleTauPairSelector','leg2.tauID("againstElectronTightMVA5")>0','ETAgainstElectron',1)
+#ETanalysisConfigurator.addSelector('eleTausEleIsolation','PATEleTauPairSelector','leg1.userFloat("dBRelIso03")<0.1','electronIsolation',1)
 ETanalysisConfigurator.addSelector('eleTausOS','PATEleTauPairSelector','charge==0','ETOS',1)
 
 #create the sequence

@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-from UWAnalysis.Configuration.tools.analysisToolsMiniAod import TriggerPaths
+from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import TriggerPaths
 
 
 
@@ -156,13 +156,13 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'osDiMuons', sr
                                   src        = cms.InputTag("addPileupInfo"),
                                   tag        = cms.string("pu"),
                               ),
-                               PVs = cms.PSet(
+                              PVsSync = cms.PSet(
                                   pluginType = cms.string("VertexSizeFiller"),
                                   src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
                                   #src        = cms.InputTag("primaryVertexFilter"),
                                   tag        = cms.string("npv")
                               ),#FILLED
-                                PVs = cms.PSet(
+                              PVs = cms.PSet(
                                   pluginType = cms.string("VertexSizeFiller"),
                                   src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
                                   #src        = cms.InputTag("primaryVertexFilter"),
@@ -242,7 +242,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'osDiMuons', sr
                               #Muon IDs and Isolation
                               muTauRelPFIsoDB03 = makeMuTauPair(src,"iso_1",'leg1.userFloat("dBRelIso03")'),
                               muTauRel2PFIsoDB03 = makeMuTauPair(src,"iso_2",'leg2.userFloat("dBRelIso03")'),
-                              muTauRelPFIsoDB04 = makeMuTauPair(src,"lPFIsoDB04",'leg1.userFloat("dBRelIso")'),
+                              muTauRelPFIsoDB04 = makeMuTauPair(src,"iso04_1",'leg1.userFloat("dBRelIso")'),
 
                               muTauLooseID = makeMuTauPair(src,"id_m_loose_1",'leg1.isLooseMuon()'),
                               muTauMediumID = makeMuTauPair(src,"id_m_medium_1",'leg1.isMediumMuon()'),
@@ -253,7 +253,9 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'osDiMuons', sr
                               muTauDecayFoundNew = makeMuTauPair(src,"decayModeFindingNewDMs_2",'leg2.tauID("decayModeFindingNewDMs")'),
                               #muTauTriggerMatch = makeMuTauPair(src,"triggered",'(leg1.userFloat("hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09")>0&&leg2.userFloat("hltPFTau20TrackLooseIsoAgainstMuon")>0)||(leg1.userFloat("hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09")>0&&leg1.pt()>25)'),
                               muTauCrossTriggerMatch = makeMuTauPair(src,"crossTrigger",'leg1.userFloat("hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09")+leg2.userFloat("hltPFTau20TrackLooseIsoAgainstMuon")'),
+                              muTauCrossTriggerMatchData = makeMuTauPair(src,"crossTrigger_50ns",'leg1.userFloat("hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09")+leg2.userFloat("hltPFTau20TrackLooseIsoAgainstMuon")'),
                               muTauMuTriggerMatch = makeMuTauPair(src,"lTrigger",'leg1.userFloat("hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09")'),
+                              muTauMuTriggerMatchData = makeMuTauPair(src,"lTrigger_50ns",'leg1.userFloat("hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09")'),
                               #muTauMuTriggerMatch = makeMuTauPair(src,"lTrigger",'leg1.userFloat("hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09")>0&&leg1.pt>25'),
                               muTauPzeta = makeMuTauPair(src,"pZeta",'pZeta-1.5*pZetaVis'),
                               muTauPZ = makeMuTauPair(src,"pZ",'pZeta'),
@@ -268,6 +270,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'osDiMuons', sr
 
 			      #tauIDs
                               muTauByCombIsoDBRaw3 = makeMuTauPair(src,"byCombinedIsolationDeltaBetaCorrRaw3Hits_2",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
+                              muTauByCombIsoDBRaw3Name = makeMuTauPair(src,"tauIso",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
                               muTauByCombIsoLoose = makeMuTauPair(src,"tauIsoLoose",'leg2.tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits")'),
                               muTauByCombIsoMedium = makeMuTauPair(src,"tauIsoMedium",'leg2.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits")'),
                               muTauByCombIsoTight = makeMuTauPair(src,"tauIsoTight",'leg2.tauID("byTightCombinedIsolationDeltaBetaCorr3Hits")'),
@@ -383,13 +386,13 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                                   src        = cms.InputTag("addPileupInfo"),
                                   tag        = cms.string("pu"),
                               ),#FIXME
-                              PVs = cms.PSet(
+                              PVsSync = cms.PSet(
                                   pluginType = cms.string("VertexSizeFiller"),
                                   src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
                                   #src        = cms.InputTag("primaryVertexFilter"),
                                   tag        = cms.string("npv")
                               ),
-                              PVsrename = cms.PSet(
+                              PVs = cms.PSet(
                                   pluginType = cms.string("VertexSizeFiller"),
                                   src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
                                   #src        = cms.InputTag("primaryVertexFilter"),
@@ -484,7 +487,9 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
 			      #Trigger
                               #eleTauTriggerMatch = makeEleTauPair(src,"triggered",'(leg1.pt()>33&&leg1.userFloat("hltEle32WP75GsfTrackIsoFilter")>0)||(leg2.userFloat("hltPFTau20TrackLooseIso")>0&&leg1.userFloat("hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter")>0)'),
                               eleTauCrossTriggerMatch = makeEleTauPair(src,"crossTrigger",'leg2.userFloat("hltPFTau20TrackLooseIso")+leg1.userFloat("hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter")'),
+                              eleTauCrossTriggerMatchData = makeEleTauPair(src,"crossTrigger_50ns",'leg2.userFloat("hltPFTau20TrackLooseIso")+leg1.userFloat("hltSingleEle22WPLooseGsfTrackIsoFilter")'),
                               eleTauEleTriggerMatch = makeEleTauPair(src,"lTrigger",'leg1.userFloat("hltEle32WP75GsfTrackIsoFilter")'),
+                              eleTauEleTriggerMatchData = makeEleTauPair(src,"lTrigger_50ns",'leg1.userFloat("hltEle32WPTightGsfTrackIsoFilter")'),
                               #eleTauEleTriggerMatch = makeEleTauPair(src,"lTrigger",'leg1.pt()>33&&leg1.userFloat("hltEle32WP75GsfTrackIsoFilter")>0'),
 
 
@@ -492,21 +497,23 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               #Ele IDs and Isolation
                               eleTauRelPFIsoDB03 = makeEleTauPair(src,"iso_1",'leg1.userFloat("dBRelIso03")'),
                               eleTauRel2PFIsoDB03 = makeEleTauPair(src,"iso_2",'leg2.userFloat("dBRelIso03")'),
-                              eleTauRelPFIsoDB04 = makeEleTauPair(src,"lPFIsoDB04",'leg1.userFloat("dBRelIso")'),
+                              eleTauRelPFIsoDB04 = makeEleTauPair(src,"iso04_1",'leg1.userFloat("dBRelIso")'),
                               eleTauDecayMode = makeEleTauPair(src,"tauDecayMode",'leg2.decayMode()'),
                               eleTauDecayFound = makeEleTauPair(src,"decayModeFinding_2",'leg2.tauID("decayModeFinding")'),
                               eleTauDecayFoundOld = makeEleTauPair(src,"decayModeFindingOldDMs_2",'leg2.tauID("decayModeFinding")'),
                               eleTauDecayFoundNew = makeEleTauPair(src,"decayModeFindingNewDMs_2",'leg2.tauID("decayModeFindingNewDMs")'),
                               eleTauProngs = makeEleTauPair(src,"tauProngs",'leg2.signalChargedHadrCands.size()'),#see Decay Modes
                               eleTauHadMass = makeEleTauPair(src,"m_2",'leg2.mass()'),
+
                               eleTauByCombIsoDBRaw3 = makeEleTauPair(src,"byCombinedIsolationDeltaBetaCorrRaw3Hits_2",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
+                              eleTauByCombIsoDBRaw3Iso = makeEleTauPair(src,"tauIso",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
                               eleTauByCharged = makeEleTauPair(src,"chargedIsoPtSum_2",'leg2.tauID("chargedIsoPtSum")'),
                               eleTauByNeutral = makeEleTauPair(src,"neutralIsoPtSum_2",'leg2.tauID("neutralIsoPtSum")'),
                               eleTauByPU = makeEleTauPair(src,"puCorrPtSum_2",'leg2.tauID("puCorrPtSum")'), 
                               eleTauAgainstMuonLoose3 = makeEleTauPair(src,"againstMuonLoose3_2",'leg2.tauID("againstMuonLoose3")'),
                               eleTauAgainstMuonTight3 = makeEleTauPair(src,"againstMuonTight3_2",'leg2.tauID("againstMuonTight3")'),
-                              eleTauMVANonTrig80 = makeEleTauPair(src,"id_e_mva_nt_loose_1",'leg1.userFloat("eleMVAIDnonTrig80")'),#CHECKME #rename
-                              eleTauMVANonTrig90 = makeEleTauPair(src,"id_e_mva_nt_tight_1",'leg1.userFloat("eleMVAIDnonTrig90")'),#CHECKME #rename
+                              eleTauMVANonTrig80 = makeEleTauPair(src,"id_e_mva_nt_80_1",'leg1.userFloat("eleMVAIDnonTrig80")'),#CHECKME #rename
+                              eleTauMVANonTrig90 = makeEleTauPair(src,"id_e_mva_nt_90_1",'leg1.userFloat("eleMVAIDnonTrig90")'),#CHECKME #rename
                               eleTauCBIDVeto = makeEleTauPair(src,"id_e_cut_veto_1",'leg1.userFloat("CBIDVeto")'),#CHECKME #rename
                               eleTauCBIDLoose = makeEleTauPair(src,"id_e_cut_loose_1",'leg1.userFloat("CBIDLoose")'),#CHECKME #rename
                               eleTauCBIDMedium = makeEleTauPair(src,"id_e_cut_medium_1",'leg1.userFloat("CBIDMedium")'),#CHECKME #rename

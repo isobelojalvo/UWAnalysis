@@ -27,7 +27,7 @@ ETanalysisConfigurator.addSelector('eleTausEleVertices','PATEleTauPairSelector',
 ETanalysisConfigurator.addSelector('eleTausDecayFound','PATEleTauPairSelector','abs(leg2.userFloat("taudZ"))<0.2&&leg2.tauID("decayModeFindingNewDMs")>0.5','ETTauDecayFound',1)
 ETanalysisConfigurator.addSelector('eleTausChargeNot2','PATEleTauPairSelector','abs(leg2.charge())==1','ETChargeIsABS1',1)
 #ETanalysisConfigurator.addEleTauSVFitSA('eleTausSVFit')
-ETanalysisConfigurator.addSelector('eleTausEleTrigMatch','PATEleTauPairSelector','(leg1.pt()>33&&leg1.userFloat("hltEle32WP75GsfTrackIsoFilter")>0)||(leg2.userFloat("hltPFTau20TrackLooseIso")>0&&leg1.userFloat("hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter")>0)  ','ETEleTrigMatch',1)
+ETanalysisConfigurator.addSelector('eleTausEleTrigMatch','PATEleTauPairSelector','(leg1.pt()>33&&leg1.userFloat("hltEle32WP75GsfTrackIsoFilter")>0)||(leg2.userFloat("hltPFTau20TrackLooseIso")>0&&leg1.userFloat("hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter")>0)','ETEleTrigMatch',1)
 ETanalysisConfigurator.addSorter('eleTausSorted','PATEleTauPairSorterByIso')
 
 #create the sequence

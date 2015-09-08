@@ -36,7 +36,6 @@ class EventTreeMaker : public edm::EDAnalyzer {
 
 			edm::Service<TFileService> fs;
 			t = fs->make<TTree>( "eventTree"  , "");
-                        genWeights = fs->make<TH1F>( "genWeights", "genWeights", 200, -100, 100 );
 
 			//Add event and RUN BRANCHING	 
 			t->Branch("EVENT",&EVENT,"EVENT/i");
@@ -100,11 +99,10 @@ class EventTreeMaker : public edm::EDAnalyzer {
 			RUN    = iEvent.id().run();
 			LUMI   = iEvent.luminosityBlock();
 			edm::Handle<GenEventInfoProduct> genEvt;
- 			GENWEIGHT = 0;
+ 			GENWEIGHT = 1;
  			if(iEvent.getByLabel(src_,genEvt)) {
  			  //value = handle->filterEfficiency();
- 			  GENWEIGHT = genEvt->weight();
- 			  genWeights->Fill(1, GENWEIGHT);
+ 			  if (genEvt->weight()<0) GENWEIGHT=-1;
  			}
 
 			bool doFill=false;
@@ -126,7 +124,6 @@ class EventTreeMaker : public edm::EDAnalyzer {
 		// ----------member data ---------------------------
 
 		TTree *t;
-		TH1F * genWeights;
 		//add run event data
 		unsigned int EVENT;
 		unsigned int RUN;

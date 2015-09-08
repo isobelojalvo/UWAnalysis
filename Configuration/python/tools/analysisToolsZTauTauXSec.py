@@ -54,6 +54,7 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   jetOverloading(process,"slimmedJets")
   jetFilter(process,"patOverloadedJets")
 
+
   #Default selections for systematics
   applyDefaultSelectionsPT(process)
 
@@ -103,6 +104,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   jetOverloading(process,"slimmedJets")
   jetFilter(process,"patOverloadedJets")
 
+  GenSumWeights(process)
   #Default selections for systematics
   applyDefaultSelectionsPT(process)
 
@@ -272,13 +274,11 @@ def mvaMet(process):
    process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMVAMEtSequence)
 
 
-def LHEFilter(process):
+def GenSumWeights(process):
 
-  process.LHEFilter = cms.EDFilter("GenFilterLHE",
-       PartonMultiplicity=cms.untracked.int32(5),
-  )
+  process.sumweights = cms.EDFilter("GenWeightSum")
   
-  process.analysisSequence*= process.LHEFilter
+  process.analysisSequence*= process.sumweights
 
 def triLeptons(process):
 
