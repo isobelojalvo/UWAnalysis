@@ -62,36 +62,37 @@ createGeneratedParticles(process,
 
 from UWAnalysis.Configuration.tools.ntupleToolsZTauTauXSec import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
-addMuTauEventTree(process,'muTauEventTreeFinal','muTausOS','osDiMuons')
+addMuTauEventTree(process,'muTauEventTreeFinal','muTausOS','diMuonsOSSorted')
 
 
 from UWAnalysis.Configuration.tools.ntupleToolsZTauTauXSec import addEleTauEventTree
 addEleTauEventTree(process,'eleTauEventTree')
-addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','osDiElectrons')
+addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','diElectronsOS')
 
 addEventSummary(process,True,'MT','eventSelectionMT')
 addEventSummary(process,True,'ET','eventSelectionET')
 
-addMuTauEventTree(process,'muTauEventTreeNoMuonDisc','muTauTauElectronVeto','osDiMuonsSorted')
+addMuTauEventTree(process,'muTauEventTreeNoMuonDisc','muTausTauElectronVeto','diMuonsOSSorted')
+addEleTauEventTree(process,'eleTauEventTreeNoEleDisc','eleTausTauMuonVeto','diElectronsOS')
 
 #Final trees afor shapes after shifts
-addMuTauEventTree(process,'muTauEventTreeTauUp','muTausSortedTauUp','osDiMuonsTauUp')
-addMuTauEventTree(process,'muTauEventTreeTauDown','muTausSortedTauDown','osDiMuonsTauDown')
-addMuTauEventTree(process,'muTauEventTreeFinalTauUp','muTausOSTauUp','osDiMuonsTauUp')
-addMuTauEventTree(process,'muTauEventTreeFinalTauDown','muTausOSTauDown','osDiMuonsTauDown')
-addMuTauEventTree(process,'muTauEventTreeJetUp','muTausSortedJetUp','osDiMuonsJetUp')
-addMuTauEventTree(process,'muTauEventTreeJetDown','muTausSortedJetDown','osDiMuonsJetDown')
-addMuTauEventTree(process,'muTauEventTreeFinalJetUp','muTausOSJetUp','osDiMuonsJetUp')
-addMuTauEventTree(process,'muTauEventTreeFinalJetDown','muTausOSJetDown','osDiMuonsJetDown')
+addMuTauEventTree(process,'muTauEventTreeTauUp','muTausSortedTauUp','diMuonsOSSortedTauUp')
+addMuTauEventTree(process,'muTauEventTreeTauDown','muTausSortedTauDown','diMuonsOSSortedTauDown')
+addMuTauEventTree(process,'muTauEventTreeFinalTauUp','muTausOSTauUp','diMuonsOSSortedTauUp')
+addMuTauEventTree(process,'muTauEventTreeFinalTauDown','muTausOSTauDown','diMuonsOSSortedTauDown')
+addMuTauEventTree(process,'muTauEventTreeJetUp','muTausSortedJetUp','diMuonsOSSortedJetUp')
+addMuTauEventTree(process,'muTauEventTreeJetDown','muTausSortedJetDown','diMuonsOSSortedJetDown')
+addMuTauEventTree(process,'muTauEventTreeFinalJetUp','muTausOSJetUp','diMuonsOSSortedJetUp')
+addMuTauEventTree(process,'muTauEventTreeFinalJetDown','muTausOSJetDown','diMuonsOSSortedJetDown')
 
-addEleTauEventTree(process,'eleTauEventTreeTauUp','eleTausSortedTauUp','osDiElectronsTauUp')
-addEleTauEventTree(process,'eleTauEventTreeTauDown','eleTausSortedTauDown','osDiElectronsTauDown')
-addEleTauEventTree(process,'eleTauEventTreeFinalTauUp','eleTausOSTauUp','osDiElectronsTauUp')
-addEleTauEventTree(process,'eleTauEventTreeFinalTauDown','eleTausOSTauDown','osDiElectronsTauDown')
-addEleTauEventTree(process,'eleTauEventTreeJetUp','eleTausSortedJetUp','osDiElectronsJetUp')
-addEleTauEventTree(process,'eleTauEventTreeJetDown','eleTausSortedJetDown','osDiElectronsJetDown')
-addEleTauEventTree(process,'eleTauEventTreeFinalJetUp','eleTausOSJetUp','osDiElectronsJetUp')
-addEleTauEventTree(process,'eleTauEventTreeFinalJetDown','eleTausOSJetDown','osDiElectronsJetDown')
+addEleTauEventTree(process,'eleTauEventTreeTauUp','eleTausSortedTauUp','diElectronsOSTauUp')
+addEleTauEventTree(process,'eleTauEventTreeTauDown','eleTausSortedTauDown','diElectronsOSTauDown')
+addEleTauEventTree(process,'eleTauEventTreeFinalTauUp','eleTausOSTauUp','diElectronsOSTauUp')
+addEleTauEventTree(process,'eleTauEventTreeFinalTauDown','eleTausOSTauDown','diElectronsOSTauDown')
+addEleTauEventTree(process,'eleTauEventTreeJetUp','eleTausSortedJetUp','diElectronsOSJetUp')
+addEleTauEventTree(process,'eleTauEventTreeJetDown','eleTausSortedJetDown','diElectronsOSJetDown')
+addEleTauEventTree(process,'eleTauEventTreeFinalJetUp','eleTausOSJetUp','diElectronsOSJetUp')
+addEleTauEventTree(process,'eleTauEventTreeFinalJetDown','eleTausOSJetDown','diElectronsOSJetDown')
 
 
 

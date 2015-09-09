@@ -16,6 +16,7 @@ process.maxEvents = cms.untracked.PSet(
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
+		#'/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/60000/BEAC3F94-9D37-E511-B202-0025905C3D96.root'
                 'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt50ns_MCRUN2_74_V9A-v2/00000/1680EE4B-5408-E511-B421-B8CA3A70A520.root'
 		),
 		inputCommands=cms.untracked.vstring(
@@ -87,34 +88,16 @@ createGeneratedParticles(process,
 
 from UWAnalysis.Configuration.tools.ntupleToolsZTauTauXSec import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
-addMuTauEventTree(process,'muTauEventTreeFinal','muTausOS','osDiMuons')
+addMuTauEventTree(process,'muTauEventTreeFinal','muTausOS','diMuonsOSSorted')
 
 from UWAnalysis.Configuration.tools.ntupleToolsZTauTauXSec import addEleTauEventTree
 addEleTauEventTree(process,'eleTauEventTree')
-addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','osDiElectrons')
+addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','diElectronsOS')
 
 addEventSummary(process,True,'MT','eventSelectionMT')
 addEventSummary(process,True,'ET','eventSelectionET')
 
 
+addMuTauEventTree(process,'muTauEventTreeNoMuonDisc','muTausTauElectronVeto','diMuonsOSSorted')
+addEleTauEventTree(process,'eleTauEventTreeNoEleDisc','eleTausTauMuonVeto','diElectronsOS')
 
-#Final trees afor shapes after shifts
-#addMuTauEventTree(process,'muTauEventTreeTauUp','muTausSortedTauUp','osDiMuonsTauUp')
-#addMuTauEventTree(process,'muTauEventTreeTauDown','muTausSortedTauDown','osDiMuonsTauDown')
-#addMuTauEventTree(process,'muTauEventTreeFinalTauUp','muTausOSTauUp','osDiMuonsTauUp')
-#addMuTauEventTree(process,'muTauEventTreeFinalTauDown','muTausOSTauDown','osDiMuonsTauDown')
-#addMuTauEventTree(process,'muTauEventTreeJetUp','muTausSortedJetUp','osDiMuonsJetUp')
-#addMuTauEventTree(process,'muTauEventTreeJetDown','muTausSortedJetDown','osDiMuonsJetDown')
-#addMuTauEventTree(process,'muTauEventTreeFinalJetUp','muTausOSJetUp','osDiMuonsJetUp')
-#addMuTauEventTree(process,'muTauEventTreeFinalJetDown','muTausOSJetDown','osDiMuonsJetDown')
-
-#addEleTauEventTree(process,'eleTauEventTreeTauUp','eleTausSortedTauUp','osDiElectronsTauUp')
-#addEleTauEventTree(process,'eleTauEventTreeTauDown','eleTausSortedTauDown','osDiElectronsTauDown')
-#addEleTauEventTree(process,'eleTauEventTreeFinalTauUp','eleTausOSTauUp','osDiElectronsTauUp')
-#addEleTauEventTree(process,'eleTauEventTreeFinalTauDown','eleTausOSTauDown','osDiElectronsTauDown')
-#addEleTauEventTree(process,'eleTauEventTreeJetUp','eleTausSortedJetUp','osDiElectronsJetUp')
-#addEleTauEventTree(process,'eleTauEventTreeJetDown','eleTausSortedJetDown','osDiElectronsJetDown')
-#addEleTauEventTree(process,'eleTauEventTreeFinalJetUp','eleTausOSJetUp','osDiElectronsJetUp')
-#addEleTauEventTree(process,'eleTauEventTreeFinalJetDown','eleTausOSJetDown','osDiElectronsJetDown')
-
-#

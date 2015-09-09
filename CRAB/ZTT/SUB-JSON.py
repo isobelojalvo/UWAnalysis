@@ -44,18 +44,21 @@ process.metCalibration.applyCalibration = cms.bool(False)
 process.eventSelectionMT = cms.Path(process.selectionSequenceMT)
 process.eventSelectionET = cms.Path(process.selectionSequenceET)
 
-
 from UWAnalysis.Configuration.tools.ntupleToolsZTauTauXSec import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
-addMuTauEventTree(process,'muTauEventTreeFinal','muTausOS','osDiMuons')
+addMuTauEventTree(process,'muTauEventTreeFinal','muTausOS','diMuonsOSSorted')
 
 
 from UWAnalysis.Configuration.tools.ntupleToolsZTauTauXSec import addEleTauEventTree
 addEleTauEventTree(process,'eleTauEventTree')
-addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','osDiElectrons')
+addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','diElectronsOS')
 
 addEventSummary(process,False,'MT','eventSelectionMT')
 addEventSummary(process,False,'ET','eventSelectionET')
+
+addMuTauEventTree(process,'muTauEventTreeNoMuonDisc','muTausTauElectronVeto','diMuonsOSSorted')
+addEleTauEventTree(process,'eleTauEventTreeNoEleDisc','eleTausTauMuonVeto','diElectronsOS')
+
 
 
 process.TFileService.fileName=cms.string("$outputFileName")

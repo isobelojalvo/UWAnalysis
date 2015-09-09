@@ -139,7 +139,7 @@ def makeEleTauJetCountPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
    return PSet
 
 
-def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'osDiMuons', srcU='TightMuons', srcE='TightElectrons'):
+def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorted', srcU='TightMuons', srcE='TightElectrons'):
    process.TFileService = cms.Service("TFileService", fileName = cms.string("analysis.root") )
    eventTree = cms.EDAnalyzer('EventTreeMaker',
                               genEvent = cms.InputTag('generator'),
@@ -210,6 +210,14 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'osDiMuons', sr
                               muTauEta2 = makeMuTauPair(src,"eta_2","leg2.eta"),#FILLED
                               muTauPhi1 = makeMuTauPair(src,"phi_1","leg1.phi"),#FILLED
                               muTauPhi2 = makeMuTauPair(src,"phi_2","leg2.phi"),#FILLED
+
+			      muTauMassLL = makeLTauGeneric("PATMuPairFiller",srcLL,"LLmass","mass"),
+                              muTauPt1LL =  makeLTauGeneric("PATMuPairFiller",srcLL,"LLpt_1","leg1.pt"), #FILLED
+                              muTauPt2LL =  makeLTauGeneric("PATMuPairFiller",srcLL,"LLpt_2","leg2.pt"), #FILLED
+                              muTauEta1LL = makeLTauGeneric("PATMuPairFiller",srcLL,"LLeta_1","leg1.eta"),#FILLED
+                              muTauEta2LL = makeLTauGeneric("PATMuPairFiller",srcLL,"LLeta_2","leg2.eta"),#FILLED
+                              muTauPhi1LL = makeLTauGeneric("PATMuPairFiller",srcLL,"LLphi_1","leg1.phi"),#FILLED
+                              muTauPhi2LL = makeLTauGeneric("PATMuPairFiller",srcLL,"LLphi_2","leg2.phi"),#FILLED
 
                               muTauMET = makeMuTauPair(src,"met","met.pt()"),#FILLED
                               muTauMETCal = makeMuTauPair(src,"metCal","calibratedMET.pt()"),#FILLED
@@ -343,7 +351,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'osDiMuons', sr
                                   pluginType = cms.string("GenFilterInfoWeightFiller"),
                                   src        = cms.InputTag("generator"),
                                   #src        = cms.InputTag("generator","EmbWeight"),
-                                  tag        = cms.string("EmbWeight"),
+                                  tag        = cms.string("aMCNLO_weight"),
                               ),#FIXME #CHECKME
                               muTauEmbedPt = cms.PSet(
                                   pluginType = cms.string("PATGenParticleFiller"),
@@ -369,7 +377,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'osDiMuons', sr
 
 
 #Tree for e+tau + MET final state
-def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', srcU='TightMuons', srcE='TightElectrons'):
+def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', srcU='TightMuons', srcE='TightElectrons'):
    process.TFileService = cms.Service("TFileService", fileName = cms.string("analysis.root") )
    eventTree = cms.EDAnalyzer('EventTreeMaker',
                               genEvent = cms.InputTag('generator'),
@@ -445,6 +453,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauEta2 = makeEleTauPair(src,"eta_2","leg2.eta"),
                               eleTauPhi1 = makeEleTauPair(src,"phi_1","leg1.phi"),
                               eleTauPhi2 = makeEleTauPair(src,"phi_2","leg2.phi"),
+
 
                               #eleTauMETUnc = makeEleTauPair(src,"metUnc","met.pt()"),#curretnly identical
                               #eleTauMET = makeEleTauPair(src,"met","calibratedMET.pt()"),#currently identical
@@ -569,6 +578,16 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauFirstJetCSV = makeLTauGeneric("PATEleTauPairHighestPtJetVarFiller",src,"highestJetBTagCSV",'bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")'),
 
                               eeDR = makeLTauGeneric("PATElePairFiller",srcLL,"diLeptonDR","dR12"),#FIXME
+
+                              eleTauMassLL =  makeLTauGeneric("PATElePairFiller",srcLL,"LLmass","mass"), #FILLED
+                              eleTauPt1LL =  makeLTauGeneric("PATElePairFiller",srcLL,"LLpt_1","leg1.pt()"), #FILLED
+                              eleTauPt2LL =  makeLTauGeneric("PATElePairFiller",srcLL,"LLpt_2","leg2.pt()"), #FILLED
+                              eleTauEta1LL = makeLTauGeneric("PATElePairFiller",srcLL,"LLeta_1","leg1.eta()"),
+                              eleTauEta2LL = makeLTauGeneric("PATElePairFiller",srcLL,"LLeta_2","leg2.eta()"),
+                              eleTauPhi1LL = makeLTauGeneric("PATElePairFiller",srcLL,"LLphi_1","leg1.phi()"),
+                              eleTauPhi2LL = makeLTauGeneric("PATElePairFiller",srcLL,"LLphi_2","leg2.phi()"),
+
+
 
                               eleTauLHEProduct = cms.PSet(
                                   pluginType = cms.string("LHEProductFiller"),
