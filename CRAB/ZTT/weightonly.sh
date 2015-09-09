@@ -5,9 +5,9 @@ cd /nfs_scratch/$USER/ztt_weighted/
 
 
 weight=1;
-weightQCD=1;
+weightEMStitchQCD=1;
 
-if [ $weightQCD -eq 1 ]
+if [ $weightEMStitchQCD -eq 1 ]
     then
     #1273000000*0.0002
     EventWeightsIterative outputFile='em1520QCD.root'     weight=254600   histoName='MT/results' #1273000000.0002
@@ -27,6 +27,7 @@ if [ $weight -eq 1 ]
     #EventWeightsIterative outputFile='vbfH.root'    weight=3.7     histoName='MT/results'
     #This Includes the filter efficiency-> 0.00042*720648000
     EventWeightsIterative outputFile='muQCD.root'   weight=302672   histoName='MT/results'
+    EventWeightsIterative outputFile='emQCD.root'   weight=259296   histoName='MT/results' #162060000*0.0016 = 259296
     EventWeightsIterative outputFile='ZJets.root'     weight=6025    histoName='MT/results'
     EventWeightsIterative outputFile='ZJets1050.root'     weight=18610    histoName='MT/results'
     EventWeightsIterative outputFile='TTJets.root'  weight=832     histoName='MT/results'
