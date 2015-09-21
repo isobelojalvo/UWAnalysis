@@ -7,8 +7,8 @@ H->tautau (+ many other) Final States! : )
 #Set Up instructions:
 
 ```
-cmsrel CMSSW_7_4_12
-cd CMSSW_7_4_12/src/
+cmsrel CMSSW_7_4_12_patch4 #for 2015D
+cd CMSSW_7_4_12_patch4/src/
 cmsenv
 git cms-init 
 git clone --recursive -b 7412_dev https://github.com/lmdodd/UWAnalysis.git   
