@@ -7,11 +7,11 @@ H->tautau (+ many other) Final States! : )
 #Set Up instructions:
 
 ```
-cmsrel CMSSW_7_4_9_patch1
-cd CMSSW_7_4_9_patch1/src/
+cmsrel CMSSW_7_4_12
+cd CMSSW_7_4_12/src/
 cmsenv
 git cms-init 
-git clone --recursive -b 749_dev https://github.com/lmdodd/UWAnalysis.git   
+git clone --recursive -b 7412_dev https://github.com/lmdodd/UWAnalysis.git   
 cd UWAnalysis
 source recipe13TeV.sh
 export USER_CXXFLAGS="-Wno-delete-non-virtual-dtor -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=reorder"
