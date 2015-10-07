@@ -6,7 +6,7 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 process.GlobalTag.globaltag = 'MCRUN2_74_V9'
 
 #added in etau and mutau triggers
-from UWAnalysis.Configuration.tools.analysisToolsMiniAod import *
+from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
 defaultReconstructionMC(process,'HLT',
                       [
 			'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v1',#etau
@@ -54,8 +54,8 @@ createGeneratedParticles(process,
 createGeneratedParticles(process,
                          'genTauCands',
                           [
-                           "keep pdgId = {tau+} & mother.pdgId()= {Z0}",
-                           "keep pdgId = {tau-} & mother.pdgId() = {Z0}"
+                           "keep pdgId = {tau+}",
+                           "keep pdgId = {tau-}"
                           ]
 )
 

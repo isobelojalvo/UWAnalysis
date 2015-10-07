@@ -259,11 +259,14 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauDecayFound = makeMuTauPair(src,"decayModeFinding_2",'leg2.tauID("decayModeFinding")'),
                               muTauDecayFoundOld = makeMuTauPair(src,"decayModeFindingOldDMs_2",'leg2.tauID("decayModeFinding")'),
                               muTauDecayFoundNew = makeMuTauPair(src,"decayModeFindingNewDMs_2",'leg2.tauID("decayModeFindingNewDMs")'),
+                              muTauProngs = makeMuTauPair(src,"tauProngs",'leg2.signalChargedHadrCands.size()'),#see Decay Modes
                               #muTauTriggerMatch = makeMuTauPair(src,"triggered",'(leg1.userFloat("hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09")>0&&leg2.userFloat("hltPFTau20TrackLooseIsoAgainstMuon")>0)||(leg1.userFloat("hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09")>0&&leg1.pt()>25)'),
                               muTauCrossTriggerMatch = makeMuTauPair(src,"crossTrigger",'leg1.userFloat("hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09")+leg2.userFloat("hltPFTau20TrackLooseIsoAgainstMuon")'),
-                              muTauCrossTriggerMatchData = makeMuTauPair(src,"crossTrigger_50ns",'leg1.userFloat("hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09")+leg2.userFloat("hltPFTau20TrackLooseIsoAgainstMuon")'),
+                              muTauCrossTriggerMatch2015B = makeMuTauPair(src,"crossTrigger_50ns",'leg1.userFloat("hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09")+leg2.userFloat("hltPFTau20TrackLooseIsoAgainstMuon")'),
+                              muTauCrossTriggerMatch2015D = makeMuTauPair(src,"crossTrigger_25ns",'leg1.userFloat("hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09")+leg2.userFloat("hltPFTau20TrackLooseIsoAgainstMuon")'),
                               muTauMuTriggerMatch = makeMuTauPair(src,"lTrigger",'leg1.userFloat("hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09")'),
-                              muTauMuTriggerMatchData = makeMuTauPair(src,"lTrigger_50ns",'leg1.userFloat("hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09")'),
+                              muTauMuTriggerMatch2015B = makeMuTauPair(src,"lTrigger_50ns",'leg1.userFloat("hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09")'),
+                              muTauMuTriggerMatch2015D = makeMuTauPair(src,"lTrigger_25ns",'leg1.userFloat("hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09")'),
                               #muTauMuTriggerMatch = makeMuTauPair(src,"lTrigger",'leg1.userFloat("hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09")>0&&leg1.pt>25'),
                               muTauPzeta = makeMuTauPair(src,"pZeta",'pZeta-1.5*pZetaVis'),
                               muTauPZ = makeMuTauPair(src,"pZ",'pZeta'),
@@ -495,12 +498,12 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               eleTauPZV = makeEleTauPair(src,"pzetavis",'pZetaVis'),#EO
 
 			      #Trigger
-                              #eleTauTriggerMatch = makeEleTauPair(src,"triggered",'(leg1.pt()>33&&leg1.userFloat("hltEle32WP75GsfTrackIsoFilter")>0)||(leg2.userFloat("hltPFTau20TrackLooseIso")>0&&leg1.userFloat("hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter")>0)'),
                               eleTauCrossTriggerMatch = makeEleTauPair(src,"crossTrigger",'leg2.userFloat("hltPFTau20TrackLooseIso")+leg1.userFloat("hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter")'),
-                              eleTauCrossTriggerMatchData = makeEleTauPair(src,"crossTrigger_50ns",'leg2.userFloat("hltPFTau20TrackLooseIso")+leg1.userFloat("hltSingleEle22WPLooseGsfTrackIsoFilter")'),
+                              eleTauCrossTriggerMatch2015B = makeEleTauPair(src,"crossTrigger_50ns",'leg2.userFloat("hltPFTau20TrackLooseIso")+leg1.userFloat("hltSingleEle22WPLooseGsfTrackIsoFilter")'),
+                              eleTauCrossTriggerMatch2015D = makeEleTauPair(src,"crossTrigger_25ns",'leg2.userFloat("hltPFTau20TrackLooseIso")+leg1.userFloat("hltEle22WPLooseL1IsoEG20erTau20erGsfTrackIsoFilter")'),
                               eleTauEleTriggerMatch = makeEleTauPair(src,"lTrigger",'leg1.userFloat("hltEle32WP75GsfTrackIsoFilter")'),
-                              eleTauEleTriggerMatchData = makeEleTauPair(src,"lTrigger_50ns",'leg1.userFloat("hltEle32WPTightGsfTrackIsoFilter")'),
-                              #eleTauEleTriggerMatch = makeEleTauPair(src,"lTrigger",'leg1.pt()>33&&leg1.userFloat("hltEle32WP75GsfTrackIsoFilter")>0'),
+                              eleTauEleTriggerMatch2015B = makeEleTauPair(src,"lTrigger_50ns",'leg1.userFloat("hltEle32WPTightGsfTrackIsoFilter")'),
+                              eleTauEleTriggerMatch2015C = makeEleTauPair(src,"lTrigger_25ns",'leg1.userFloat("hltEle32WPTightGsfTrackIsoFilter")'),
 
 
 

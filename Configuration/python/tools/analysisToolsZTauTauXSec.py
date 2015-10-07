@@ -64,8 +64,6 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
 
 def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu9','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v2','HLT_Mu15_v1','HLT_Mu15_v2'],HLT = 'TriggerResults'):
   process.load("UWAnalysis.Configuration.startUpSequence_cff")
-  #process.load("Configuration.Geometry.GeometryIdeal_cff")
-  #process.load("Configuration.StandardSequences.MagneticField_cff")
   process.load("Configuration.StandardSequences.Services_cff")
   process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
   process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
@@ -382,11 +380,13 @@ def muonTriggerMatchMiniAOD(process,triggerProcess,HLT,srcMuon):
                                             trigEvent = cms.InputTag(HLT),
                                             filters = cms.vstring(
 						'hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09',
-						'hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09'
+						'hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09',
+						'hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09' #2015D
                                             ),
 					    filtersAND = cms.vstring(
 					    	'hltOverlapFilterIsoMu17LooseIsoPFTau20',
-						'hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09'
+						'hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09', 
+						'hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09' #2015D
 					    ),
                                             bits = cms.InputTag("TriggerResults","","HLT"),
                                             prescales = cms.InputTag("patTrigger"),
@@ -402,16 +402,18 @@ def electronTriggerMatchMiniAOD(process,triggerProcess,HLT,srcEle):
                                             src = cms.InputTag(srcEle),#"miniAODElectronVID"
                                             trigEvent = cms.InputTag(HLT),
                                             filters = cms.vstring(
-						'hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter',
-					        'hltSingleEle22WPLooseGsfTrackIsoFilter',
-						'hltEle32WP75GsfTrackIsoFilter',
-						'hltEle32WPTightGsfTrackIsoFilter'
+						'hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter', #spring15 ETau
+						'hltEle22WPLooseL1IsoEG20erTau20erGsfTrackIsoFilter', #2015D ETau
+					        'hltSingleEle22WPLooseGsfTrackIsoFilter', #2015B ETau
+						'hltEle32WP75GsfTrackIsoFilter', #Spring15 E
+						'hltEle32WPTightGsfTrackIsoFilter' #2015B, 2015D single E
                                             ),
 					    filtersAND = cms.vstring(
-						'hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20',
-						'hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20',
- 						'hltEle32WP75GsfTrackIsoFilter',
- 						'hltEle32WPTightGsfTrackIsoFilter'
+						'hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20', #spring15 ETau 
+						'hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20', #2015D ETau
+						'hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20', #2015B ETau
+ 						'hltEle32WP75GsfTrackIsoFilter', #spring15 E
+ 						'hltEle32WPTightGsfTrackIsoFilter' #2015B, 2015D single E 
 					    ),
                                             bits = cms.InputTag("TriggerResults","","HLT"),
                                             prescales = cms.InputTag("patTrigger"),
