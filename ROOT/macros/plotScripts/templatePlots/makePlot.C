@@ -39,10 +39,10 @@
   gROOT->LoadMacro("tdrstyle.C");
   setTDRStyle();
 
-//  gROOT->LoadMacro("CMS_lumi.C");
+  //gROOT->LoadMacro("CMS_lumi.C");
 
-//  writeExtraText = true;       // if extra text
-//  extraText  = "Preliminary";  // default extra text is "Preliminary"
+  //writeExtraText = true;       // if extra text
+ // extraText  = "Preliminary";  // default extra text is "Preliminary"
 //  lumi_8TeV  = "19.1 fb^{-1}"; // default is "19.7 fb^{-1}"
  // lumi_7TeV  = "4.9 fb^{-1}";  // default is "5.1 fb^{-1}"
 
@@ -100,7 +100,7 @@
    TH1F * data = (TH1F*)(f->Get(dir+"/data_obs"));
    if (dndm) convertToDNDM(data);
 
-   //applyDATAStyle(data);
+   applyDATAStyle(data);
 
    TH1F * QCD = (TH1F*)(f->Get(dir+"/QCD"));
    if (dndm) convertToDNDM(QCD);
@@ -211,7 +211,7 @@
    THStack *hs = new THStack("hs","");
    TLegend *l = new TLegend(xR,0.6,xR+0.5,0.9);
 
-   //l->AddEntry(data,"Observed","P");
+   l->AddEntry(data,"Observed","P");
 
    l->AddEntry(ZTT,"Z#rightarrow #tau #tau","F");
    l->AddEntry(EWK,"Electroweak","F");
@@ -302,7 +302,7 @@
    if(s>0)
      signal->Draw("HIST,SAME");
 
-   //data->Draw("e,SAME");
+   data->Draw("e,SAME");
 
 
    c->cd();
@@ -341,7 +341,7 @@
     data2->GetYaxis()->SetTitleFont(42);
     data2->GetYaxis()->CenterTitle(kTRUE);
     data2->GetXaxis()->SetTitleFont(42);
-    data2->GetYaxis()->SetRangeUser(0.8,1.2);
+    data2->GetYaxis()->SetRangeUser(0.5,2);
     data2->GetYaxis()->SetNdivisions(305);
     data2->GetYaxis()->SetTitle("Data/MC");
     data2->SetMarkerSize(1);
@@ -403,10 +403,8 @@
   latex.SetTextAlign(11);
 
   latex.SetTextFont(42);
-	if(year == "2015")
-  		latex.DrawLatex(0.20,0.94,"CMS Preliminary, 1 fb^{-1}, #sqrt{s} = 13 TeV      "+channel);
-  	else
-  		latex.DrawLatex(0.20,0.94,"CMS Preliminary 2012, 19.7 fb^{-1}, #sqrt{s} = 8 TeV      "+channel);
+ // latex.DrawLatex(0.20,0.94,"CMS Preliminary 2015, 40 pb^{-1}, #sqrt{s} = 13 TeV      "+channel);
+  latex.DrawLatex(0.20,0.94,"CMS Preliminary 2015D, ~130 pb^{-1}, #sqrt{s} = 13 TeV      "+channel);
 
  if(log)
    plotPad->SetLogy();

@@ -1,0 +1,1953 @@
+mkdir: cannot create directory `muTauPlots': File exists
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 79.608780 + 6.313665 
+Create VV
+      Diboson events before inflation = 13.768274 + 0.428020 
+      Diboson events in signal region = 13.768274 + 4.152600 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.022503 + 13.842759 
+Create ZJFT
+      Z (j->tau) in signal region = 116.057526 + 14.239271 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1211.201782 + 13.683798 
+      Full Gen Selection ZTT events in signal region = 1211.201782 + 13.683798 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1457.000000 +- 38.170670 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 121.179      OS W Mt Low: 64.387
+      Extract WFactor Second      OS W Mt>70: 2.08459      OS W Mt Low: 1.51439
+      WFactor Stat Error       factor: 0.53134      StatError: 2.5766
+      WFactor Syst Error       factor*wFactorErr_: 0.53134*0.06 = 0.0318804
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.5768
+          dataWSdb = 1457.000000 +- 38.170670
+          topWSdb = 182.015152 +- 3.085862
+          vvWSdb = 30.161043 +- 0.645948
+          zSdb = 58.097294 +- 3.274209
+          W extrapolation factor as measured in corrected MC = 0.531340 +- 2.576799
+          OS W  in core  =1187.000000 *0.531340  = 630.700500 +- 3058.729004 
+          OS W  in MC = 64.387039 
+Create QCD
+      QCDShape yield = 6540.000000 + 80.870270 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 632    wShapeSSYield: 17.5558    zShapeSSYield: 63.2076      topShapeSSYield: 9.38725    ssQCD: 541.849
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2301
+
+BKGD Yields 
+QCD: 541.849
+W: 630.701
+TOP: 79.6088
+VV: 13.7683
+ZLFT: 56.0225
+ZJFT: 116.058
+ZTT: 1211.2
+BACKGROUND=2649.208496 +-36.423996 
+Total Background & 2649.21 $\pm$ 91.63 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<500&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 366.621765 + 27.840994 
+Create VV
+      Diboson events before inflation = 61.954422 + 0.922916 
+      Diboson events in signal region = 61.954422 + 18.609226 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 96.353905 + 23.482878 
+Create ZJFT
+      Z (j->tau) in signal region = 192.060120 + 21.375973 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<500&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1491.691406 + 15.054109 
+      Full Gen Selection ZTT events in signal region = 1491.691406 + 15.054109 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1500.000000 +- 38.729832 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 129.803      OS W Mt Low: 298.831
+      Extract WFactor Second      OS W Mt>70: 2.15441      OS W Mt Low: 3.27926
+      WFactor Stat Error       factor: 2.30219      StatError: 3.92365
+      WFactor Syst Error       factor*wFactorErr_: 2.30219*0.06 = 0.138131
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 3.92608
+          dataWSdb = 1500.000000 +- 38.729832
+          topWSdb = 185.700455 +- 3.094771
+          vvWSdb = 30.607943 +- 0.648685
+          zSdb = 59.593327 +- 3.328865
+          W extrapolation factor as measured in corrected MC = 2.302186 +- 3.926080
+          OS W  in core  =1224.000000 *2.302186  = 2817.875977 +- 4806.360840 
+          OS W  in MC = 298.831238 
+Create QCD
+      QCDShape yield = 10998.000000 + 104.871353 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<500&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<500&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 1507    wShapeSSYield: 86.7623    zShapeSSYield: 139.178      topShapeSSYield: 39.6126    ssQCD: 1241.45
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 5373
+
+BKGD Yields 
+QCD: 1241.45
+W: 2817.88
+TOP: 366.622
+VV: 61.9544
+ZLFT: 96.3539
+ZJFT: 192.06
+ZTT: 1491.69
+BACKGROUND=6268.004395 +-62.935555 
+Total Background & 6268.00 $\pm$ 123.24 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 83.098953 + 6.575781 
+Create VV
+      Diboson events before inflation = 14.659244 + 0.442856 
+      Diboson events in signal region = 14.659244 + 4.420015 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205540 + 13.886135 
+Create ZJFT
+      Z (j->tau) in signal region = 118.140656 + 14.425056 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.832642 + 13.686679 
+      Full Gen Selection ZTT events in signal region = 1210.832642 + 13.686679 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1512.000000 +- 38.884445 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 129.826      OS W Mt Low: 68.8194
+      Extract WFactor Second      OS W Mt>70: 2.15454      OS W Mt Low: 1.55542
+      WFactor Stat Error       factor: 0.53009      StatError: 2.65732
+      WFactor Syst Error       factor*wFactorErr_: 0.53009*0.06 = 0.0318054
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65751
+          dataWSdb = 1512.000000 +- 38.884445
+          topWSdb = 194.706421 +- 3.199606
+          vvWSdb = 32.827419 +- 0.673265
+          zSdb = 59.710339 +- 3.331936
+          W extrapolation factor as measured in corrected MC = 0.530090 +- 2.657514
+          OS W  in core  =1225.000000 *0.530090  = 649.359863 +- 3255.520508 
+          OS W  in MC = 68.819382 
+Create QCD
+      QCDShape yield = 6654.000000 + 81.572052 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3486    zShapeSSYield: 63.4377      topShapeSSYield: 9.99396    ssQCD: 554.22
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2330
+
+BKGD Yields 
+QCD: 554.22
+W: 649.36
+TOP: 83.099
+VV: 14.6592
+ZLFT: 56.2055
+ZJFT: 118.141
+ZTT: 1210.83
+BACKGROUND=2686.516602 +-36.799992 
+Total Background & 2686.52 $\pm$ 91.77 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 78.283562 + 6.205623 
+Create VV
+      Diboson events before inflation = 12.557847 + 0.402840 
+      Diboson events in signal region = 12.557847 + 3.788831 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 21.696556 + 5.754865 
+Create ZJFT
+      Z (j->tau) in signal region = 65.661072 + 8.980901 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 540.910767 + 10.040523 
+      Full Gen Selection ZTT events in signal region = 540.910767 + 10.040523 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 821.000000 +- 28.653097 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 120.474      OS W Mt Low: 62.3075
+      Extract WFactor Second      OS W Mt>70: 2.07768      OS W Mt Low: 1.48327
+      WFactor Stat Error       factor: 0.517187      StatError: 2.55281
+      WFactor Syst Error       factor*wFactorErr_: 0.517187*0.06 = 0.0310312
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.553
+          dataWSdb = 821.000000 +- 28.653097
+          topWSdb = 184.251923 +- 3.083033
+          vvWSdb = 27.042953 +- 0.595057
+          zSdb = 33.013229 +- 2.720815
+          W extrapolation factor as measured in corrected MC = 0.517187 +- 2.553002
+          OS W  in core  =577.000000 *0.517187  = 298.417023 +- 1473.158203 
+          OS W  in MC = 62.307507 
+Create QCD
+      QCDShape yield = 3186.000000 + 56.444664 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 314    wShapeSSYield: 17.5945    zShapeSSYield: 29.3752      topShapeSSYield: 9.84065    ssQCD: 257.19
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 1075
+
+BKGD Yields 
+QCD: 257.19
+W: 298.417
+TOP: 78.2836
+VV: 12.5578
+ZLFT: 21.6966
+ZJFT: 65.6611
+ZTT: 540.911
+BACKGROUND=1274.716553 +-24.918303 
+Total Background & 1274.72 $\pm$ 45.29 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 79.106186 + 6.282333 
+Create VV
+      Diboson events before inflation = 9.386856 + 0.332127 
+      Diboson events in signal region = 9.386856 + 2.835575 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 8.708510 + 2.830882 
+Create ZJFT
+      Z (j->tau) in signal region = 32.158047 + 5.604539 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 232.667786 + 7.148012 
+      Full Gen Selection ZTT events in signal region = 232.667786 + 7.148012 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 448.000000 +- 21.166010 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 76.5172      OS W Mt Low: 40.769
+      Extract WFactor Second      OS W Mt>70: 1.57937      OS W Mt Low: 1.14369
+      WFactor Stat Error       factor: 0.532808      StatError: 1.94999
+      WFactor Syst Error       factor*wFactorErr_: 0.532808*0.06 = 0.0319685
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 1.95025
+          dataWSdb = 448.000000 +- 21.166010
+          topWSdb = 182.646713 +- 3.136395
+          vvWSdb = 19.178356 +- 0.483721
+          zSdb = 14.455450 +- 2.104038
+          W extrapolation factor as measured in corrected MC = 0.532808 +- 1.950250
+          OS W  in core  =232.000000 *0.532808  = 123.611443 +- 452.603058 
+          OS W  in MC = 40.768993 
+Create QCD
+      QCDShape yield = 1352.000000 + 36.769554 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 129    wShapeSSYield: 11.195    zShapeSSYield: 14.595      topShapeSSYield: 9.55047    ssQCD: 93.6595
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 470
+
+BKGD Yields 
+QCD: 93.6595
+W: 123.611
+TOP: 79.1062
+VV: 9.38686
+ZLFT: 8.70851
+ZJFT: 32.158
+ZTT: 232.668
+BACKGROUND=579.298340 +-16.768038 
+Total Background & 579.30 $\pm$ 23.78 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 83.033112 + 6.571530 
+Create VV
+      Diboson events before inflation = 13.080221 + 0.409749 
+      Diboson events in signal region = 13.080221 + 3.945401 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 21.778923 + 5.775573 
+Create ZJFT
+      Z (j->tau) in signal region = 67.136551 + 9.110332 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 550.766235 + 10.177836 
+      Full Gen Selection ZTT events in signal region = 550.766235 + 10.177836 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 839.000000 +- 28.965496 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 122.612      OS W Mt Low: 64.2638
+      Extract WFactor Second      OS W Mt>70: 2.08276      OS W Mt Low: 1.49183
+      WFactor Stat Error       factor: 0.524123      StatError: 2.56192
+      WFactor Syst Error       factor*wFactorErr_: 0.524123*0.06 = 0.0314474
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.56212
+          dataWSdb = 839.000000 +- 28.965496
+          topWSdb = 194.321808 +- 3.197617
+          vvWSdb = 28.250980 +- 0.607211
+          zSdb = 33.674671 +- 2.756407
+          W extrapolation factor as measured in corrected MC = 0.524123 +- 2.562115
+          OS W  in core  =583.000000 *0.524123  = 305.563599 +- 1493.792114 
+          OS W  in MC = 64.263847 
+Create QCD
+      QCDShape yield = 3200.000000 + 56.568542 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 316    wShapeSSYield: 17.7822    zShapeSSYield: 29.4916      topShapeSSYield: 10.0337    ssQCD: 258.693
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 1097
+
+BKGD Yields 
+QCD: 258.693
+W: 305.564
+TOP: 83.0331
+VV: 13.0802
+ZLFT: 21.7789
+ZJFT: 67.1366
+ZTT: 550.766
+BACKGROUND=1300.051270 +-25.183094 
+Total Background & 1300.05 $\pm$ 46.03 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 79.857155 + 6.338892 
+Create VV
+      Diboson events before inflation = 9.418976 + 0.332487 
+      Diboson events in signal region = 9.418976 + 2.845187 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 8.708511 + 2.830882 
+Create ZJFT
+      Z (j->tau) in signal region = 32.278473 + 5.612103 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 234.228821 + 7.164686 
+      Full Gen Selection ZTT events in signal region = 234.228821 + 7.164686 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 448.000000 +- 21.166010 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 76.812      OS W Mt Low: 40.9366
+      Extract WFactor Second      OS W Mt>70: 1.57994      OS W Mt Low: 1.14413
+      WFactor Stat Error       factor: 0.532945      StatError: 1.95071
+      WFactor Syst Error       factor*wFactorErr_: 0.532945*0.06 = 0.0319767
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 1.95097
+          dataWSdb = 448.000000 +- 21.166010
+          topWSdb = 184.321106 +- 3.150740
+          vvWSdb = 19.359110 +- 0.485949
+          zSdb = 14.353696 +- 2.108225
+          W extrapolation factor as measured in corrected MC = 0.532945 +- 1.950970
+          OS W  in core  =230.000000 *0.532945  = 122.577454 +- 448.869446 
+          OS W  in MC = 40.936607 
+Create QCD
+      QCDShape yield = 1353.000000 + 36.783150 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 129    wShapeSSYield: 11.195    zShapeSSYield: 14.595      topShapeSSYield: 9.54647    ssQCD: 93.6635
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 471
+
+BKGD Yields 
+QCD: 93.6635
+W: 122.577
+TOP: 79.8572
+VV: 9.41898
+ZLFT: 8.70851
+ZJFT: 32.2785
+ZTT: 234.229
+BACKGROUND=580.732910 +-16.800568 
+Total Background & 580.73 $\pm$ 23.88 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 79.608780 + 6.313665 
+Create VV
+      Diboson events before inflation = 13.768274 + 0.428020 
+      Diboson events in signal region = 13.768274 + 4.152600 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.022503 + 13.842759 
+Create ZJFT
+      Z (j->tau) in signal region = 116.057526 + 14.239271 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1211.201782 + 13.683798 
+      Full Gen Selection ZTT events in signal region = 1211.201782 + 13.683798 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1457.000000 +- 38.170670 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 121.179      OS W Mt Low: 64.387
+      Extract WFactor Second      OS W Mt>70: 2.08459      OS W Mt Low: 1.51439
+      WFactor Stat Error       factor: 0.53134      StatError: 2.5766
+      WFactor Syst Error       factor*wFactorErr_: 0.53134*0.06 = 0.0318804
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.5768
+          dataWSdb = 1457.000000 +- 38.170670
+          topWSdb = 182.015152 +- 3.085862
+          vvWSdb = 30.161043 +- 0.645948
+          zSdb = 58.097294 +- 3.274209
+          W extrapolation factor as measured in corrected MC = 0.531340 +- 2.576799
+          OS W  in core  =1187.000000 *0.531340  = 630.700500 +- 3058.729004 
+          OS W  in MC = 64.387039 
+Create QCD
+      QCDShape yield = 6540.000000 + 80.870270 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 632    wShapeSSYield: 17.5558    zShapeSSYield: 63.2076      topShapeSSYield: 9.38725    ssQCD: 541.849
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2301
+
+BKGD Yields 
+QCD: 541.849
+W: 630.701
+TOP: 79.6088
+VV: 13.7683
+ZLFT: 56.0225
+ZJFT: 116.058
+ZTT: 1211.2
+BACKGROUND=2649.208496 +-36.423996 
+Total Background & 2649.21 $\pm$ 91.63 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 83.162796 + 6.581069 
+Create VV
+      Diboson events before inflation = 14.659119 + 0.442856 
+      Diboson events in signal region = 14.659119 + 4.419977 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205528 + 13.886132 
+Create ZJFT
+      Z (j->tau) in signal region = 118.138062 + 14.424843 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.849854 + 13.686679 
+      Full Gen Selection ZTT events in signal region = 1210.849854 + 13.686679 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1512.000000 +- 38.884445 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 130.061      OS W Mt Low: 69.0631
+      Extract WFactor Second      OS W Mt>70: 2.15542      OS W Mt Low: 1.55667
+      WFactor Stat Error       factor: 0.531007      StatError: 2.65877
+      WFactor Syst Error       factor*wFactorErr_: 0.531007*0.06 = 0.0318604
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65896
+          dataWSdb = 1512.000000 +- 38.884445
+          topWSdb = 194.937881 +- 3.200821
+          vvWSdb = 32.828346 +- 0.673267
+          zSdb = 59.753929 +- 3.332221
+          W extrapolation factor as measured in corrected MC = 0.531007 +- 2.658962
+          OS W  in core  =1224.000000 *0.531007  = 649.952026 +- 3254.635254 
+          OS W  in MC = 69.063072 
+Create QCD
+      QCDShape yield = 6654.000000 + 81.572052 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3865    zShapeSSYield: 63.6284      topShapeSSYield: 10.0555    ssQCD: 553.93
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2330
+
+BKGD Yields 
+QCD: 553.93
+W: 649.952
+TOP: 83.1628
+VV: 14.6591
+ZLFT: 56.2055
+ZJFT: 118.138
+ZTT: 1210.85
+BACKGROUND=2686.896973 +-36.801247 
+Total Background & 2686.90 $\pm$ 91.78 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<500&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 366.621765 + 27.840994 
+Create VV
+      Diboson events before inflation = 61.954422 + 0.922916 
+      Diboson events in signal region = 61.954422 + 18.609226 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 96.353905 + 23.482878 
+Create ZJFT
+      Z (j->tau) in signal region = 192.060120 + 21.375973 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<500&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1491.691406 + 15.054109 
+      Full Gen Selection ZTT events in signal region = 1491.691406 + 15.054109 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1500.000000 +- 38.729832 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 129.803      OS W Mt Low: 298.831
+      Extract WFactor Second      OS W Mt>70: 2.15441      OS W Mt Low: 3.27926
+      WFactor Stat Error       factor: 2.30219      StatError: 3.92365
+      WFactor Syst Error       factor*wFactorErr_: 2.30219*0.06 = 0.138131
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 3.92608
+          dataWSdb = 1500.000000 +- 38.729832
+          topWSdb = 185.700455 +- 3.094771
+          vvWSdb = 30.607943 +- 0.648685
+          zSdb = 59.593327 +- 3.328865
+          W extrapolation factor as measured in corrected MC = 2.302186 +- 3.926080
+          OS W  in core  =1224.000000 *2.302186  = 2817.875977 +- 4806.360840 
+          OS W  in MC = 298.831238 
+Create QCD
+      QCDShape yield = 10998.000000 + 104.871353 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<500&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<500&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 1507    wShapeSSYield: 86.7623    zShapeSSYield: 139.178      topShapeSSYield: 39.6126    ssQCD: 1241.45
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 5373
+
+BKGD Yields 
+QCD: 1241.45
+W: 2817.88
+TOP: 366.622
+VV: 61.9544
+ZLFT: 96.3539
+ZJFT: 192.06
+ZTT: 1491.69
+BACKGROUND=6268.004395 +-62.935555 
+Total Background & 6268.00 $\pm$ 123.24 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 82.167801 + 6.504567 
+Create VV
+      Diboson events before inflation = 14.484204 + 0.440588 
+      Diboson events in signal region = 14.484204 + 4.367541 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205444 + 13.886113 
+Create ZJFT
+      Z (j->tau) in signal region = 117.493454 + 14.368251 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1209.912720 + 13.673787 
+      Full Gen Selection ZTT events in signal region = 1209.912720 + 13.673787 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1506.000000 +- 38.807217 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 129.575      OS W Mt Low: 68.6494
+      Extract WFactor Second      OS W Mt>70: 2.15246      OS W Mt Low: 1.55498
+      WFactor Stat Error       factor: 0.529803      StatError: 2.65538
+      WFactor Syst Error       factor*wFactorErr_: 0.529803*0.06 = 0.0317882
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65557
+          dataWSdb = 1506.000000 +- 38.807217
+          topWSdb = 191.383453 +- 3.163234
+          vvWSdb = 31.941496 +- 0.663900
+          zSdb = 59.590649 +- 3.327110
+          W extrapolation factor as measured in corrected MC = 0.529803 +- 2.655571
+          OS W  in core  =1223.000000 *0.529803  = 647.949158 +- 3247.829834 
+          OS W  in MC = 68.649391 
+Create QCD
+      QCDShape yield = 6652.000000 + 81.559792 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3683    zShapeSSYield: 63.4604      topShapeSSYield: 10.0416    ssQCD: 554.13
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2325
+
+BKGD Yields 
+QCD: 554.13
+W: 647.949
+TOP: 82.1678
+VV: 14.4842
+ZLFT: 56.2054
+ZJFT: 117.493
+ZTT: 1209.91
+BACKGROUND=2682.342529 +-36.754227 
+Total Background & 2682.34 $\pm$ 91.69 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 82.820328 + 6.554981 
+Create VV
+      Diboson events before inflation = 14.568769 + 0.441806 
+      Diboson events in signal region = 14.568769 + 4.392904 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205444 + 13.886113 
+Create ZJFT
+      Z (j->tau) in signal region = 117.953606 + 14.408768 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.561890 + 13.685421 
+      Full Gen Selection ZTT events in signal region = 1210.561890 + 13.685421 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1510.000000 +- 38.858719 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 129.213      OS W Mt Low: 68.6991
+      Extract WFactor Second      OS W Mt>70: 2.15192      OS W Mt Low: 1.55538
+      WFactor Stat Error       factor: 0.531674      StatError: 2.65517
+      WFactor Syst Error       factor*wFactorErr_: 0.531674*0.06 = 0.0319004
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65537
+          dataWSdb = 1510.000000 +- 38.858719
+          topWSdb = 193.468109 +- 3.178926
+          vvWSdb = 32.051895 +- 0.665687
+          zSdb = 59.318901 +- 3.317537
+          W extrapolation factor as measured in corrected MC = 0.531674 +- 2.655366
+          OS W  in core  =1225.000000 *0.531674  = 651.300232 +- 3252.889648 
+          OS W  in MC = 68.699097 
+Create QCD
+      QCDShape yield = 6653.000000 + 81.565926 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 646    wShapeSSYield: 19.3156    zShapeSSYield: 63.6283      topShapeSSYield: 10.1443    ssQCD: 552.912
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2327
+
+BKGD Yields 
+QCD: 552.912
+W: 651.3
+TOP: 82.8203
+VV: 14.5688
+ZLFT: 56.2054
+ZJFT: 117.954
+ZTT: 1210.56
+BACKGROUND=2686.321777 +-36.772930 
+Total Background & 2686.32 $\pm$ 91.74 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 82.910606 + 6.562517 
+Create VV
+      Diboson events before inflation = 14.603014 + 0.441766 
+      Diboson events in signal region = 14.603014 + 4.403121 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205444 + 13.886113 
+Create ZJFT
+      Z (j->tau) in signal region = 117.771805 + 14.391609 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.497559 + 13.682647 
+      Full Gen Selection ZTT events in signal region = 1210.497559 + 13.682647 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1512.000000 +- 38.884445 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 129.831      OS W Mt Low: 68.9178
+      Extract WFactor Second      OS W Mt>70: 2.15485      OS W Mt Low: 1.55612
+      WFactor Stat Error       factor: 0.530826      StatError: 2.65798
+      WFactor Syst Error       factor*wFactorErr_: 0.530826*0.06 = 0.0318495
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65818
+          dataWSdb = 1512.000000 +- 38.884445
+          topWSdb = 194.562775 +- 3.198275
+          vvWSdb = 32.677265 +- 0.671570
+          zSdb = 59.639744 +- 3.330264
+          W extrapolation factor as measured in corrected MC = 0.530826 +- 2.658175
+          OS W  in core  =1225.000000 *0.530826  = 650.261597 +- 3256.331299 
+          OS W  in MC = 68.917786 
+Create QCD
+      QCDShape yield = 6651.000000 + 81.553665 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3271    zShapeSSYield: 63.5482      topShapeSSYield: 10.0328    ssQCD: 554.092
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2328
+
+BKGD Yields 
+QCD: 554.092
+W: 650.262
+TOP: 82.9106
+VV: 14.603
+ZLFT: 56.2054
+ZJFT: 117.772
+ZTT: 1210.5
+BACKGROUND=2686.342041 +-36.781284 
+Total Background & 2686.34 $\pm$ 91.74 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 83.161667 + 6.580990 
+Create VV
+      Diboson events before inflation = 14.659225 + 0.442856 
+      Diboson events in signal region = 14.659225 + 4.420010 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205452 + 13.886115 
+Create ZJFT
+      Z (j->tau) in signal region = 118.138336 + 14.424865 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.819824 + 13.686679 
+      Full Gen Selection ZTT events in signal region = 1210.819824 + 13.686679 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1512.000000 +- 38.884445 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 130.06      OS W Mt Low: 69.0637
+      Extract WFactor Second      OS W Mt>70: 2.15542      OS W Mt Low: 1.55667
+      WFactor Stat Error       factor: 0.531015      StatError: 2.65877
+      WFactor Syst Error       factor*wFactorErr_: 0.531015*0.06 = 0.0318609
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65896
+          dataWSdb = 1512.000000 +- 38.884445
+          topWSdb = 194.925674 +- 3.200821
+          vvWSdb = 32.829693 +- 0.673267
+          zSdb = 59.753902 +- 3.332221
+          W extrapolation factor as measured in corrected MC = 0.531015 +- 2.658962
+          OS W  in core  =1224.000000 *0.531015  = 649.962891 +- 3254.635254 
+          OS W  in MC = 69.063698 
+Create QCD
+      QCDShape yield = 6654.000000 + 81.572052 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3865    zShapeSSYield: 63.6283      topShapeSSYield: 10.0555    ssQCD: 553.93
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2330
+
+BKGD Yields 
+QCD: 553.93
+W: 649.963
+TOP: 83.1617
+VV: 14.6592
+ZLFT: 56.2055
+ZJFT: 118.138
+ZTT: 1210.82
+BACKGROUND=2686.876953 +-36.801239 
+Total Background & 2686.88 $\pm$ 91.77 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 83.161667 + 6.580990 
+Create VV
+      Diboson events before inflation = 14.659225 + 0.442856 
+      Diboson events in signal region = 14.659225 + 4.420010 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205448 + 13.886114 
+Create ZJFT
+      Z (j->tau) in signal region = 118.138336 + 14.424865 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.819580 + 13.686679 
+      Full Gen Selection ZTT events in signal region = 1210.819580 + 13.686679 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1512.000000 +- 38.884445 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 130.06      OS W Mt Low: 69.0637
+      Extract WFactor Second      OS W Mt>70: 2.15542      OS W Mt Low: 1.55667
+      WFactor Stat Error       factor: 0.531016      StatError: 2.65877
+      WFactor Syst Error       factor*wFactorErr_: 0.531016*0.06 = 0.0318609
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65896
+          dataWSdb = 1512.000000 +- 38.884445
+          topWSdb = 194.925690 +- 3.200821
+          vvWSdb = 32.829697 +- 0.673267
+          zSdb = 59.753906 +- 3.332221
+          W extrapolation factor as measured in corrected MC = 0.531016 +- 2.658962
+          OS W  in core  =1224.000000 *0.531016  = 649.963013 +- 3254.635254 
+          OS W  in MC = 69.063705 
+Create QCD
+      QCDShape yield = 6654.000000 + 81.572052 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3865    zShapeSSYield: 63.6283      topShapeSSYield: 10.0555    ssQCD: 553.93
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2330
+
+BKGD Yields 
+QCD: 553.93
+W: 649.963
+TOP: 83.1617
+VV: 14.6592
+ZLFT: 56.2054
+ZJFT: 118.138
+ZTT: 1210.82
+BACKGROUND=2686.876709 +-36.801239 
+Total Background & 2686.88 $\pm$ 91.77 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 83.192879 + 6.583173 
+Create VV
+      Diboson events before inflation = 14.650576 + 0.442807 
+      Diboson events in signal region = 14.650576 + 4.417423 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205524 + 13.886131 
+Create ZJFT
+      Z (j->tau) in signal region = 117.953606 + 14.408768 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.541748 + 13.685407 
+      Full Gen Selection ZTT events in signal region = 1210.541748 + 13.685407 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1512.000000 +- 38.884445 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 130.051      OS W Mt Low: 69.046
+      Extract WFactor Second      OS W Mt>70: 2.1554      OS W Mt Low: 1.55661
+      WFactor Stat Error       factor: 0.530913      StatError: 2.65872
+      WFactor Syst Error       factor*wFactorErr_: 0.530913*0.06 = 0.0318548
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65891
+          dataWSdb = 1512.000000 +- 38.884445
+          topWSdb = 194.868546 +- 3.200416
+          vvWSdb = 32.827545 +- 0.673267
+          zSdb = 59.615219 +- 3.330202
+          W extrapolation factor as measured in corrected MC = 0.530913 +- 2.658914
+          OS W  in core  =1225.000000 *0.530913  = 650.368713 +- 3257.236084 
+          OS W  in MC = 69.045952 
+Create QCD
+      QCDShape yield = 6654.000000 + 81.572052 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3865    zShapeSSYield: 63.6284      topShapeSSYield: 10.0555    ssQCD: 553.93
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2330
+
+BKGD Yields 
+QCD: 553.93
+W: 650.369
+TOP: 83.1929
+VV: 14.6506
+ZLFT: 56.2055
+ZJFT: 117.954
+ZTT: 1210.54
+BACKGROUND=2686.842773 +-36.794544 
+Total Background & 2686.84 $\pm$ 91.75 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 83.162819 + 6.581071 
+Create VV
+      Diboson events before inflation = 14.658843 + 0.442856 
+      Diboson events in signal region = 14.658843 + 4.419895 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205524 + 13.886131 
+Create ZJFT
+      Z (j->tau) in signal region = 118.138153 + 14.424849 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.429688 + 13.683108 
+      Full Gen Selection ZTT events in signal region = 1210.429688 + 13.683108 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1512.000000 +- 38.884445 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 130.061      OS W Mt Low: 69.0631
+      Extract WFactor Second      OS W Mt>70: 2.15542      OS W Mt Low: 1.55667
+      WFactor Stat Error       factor: 0.531007      StatError: 2.65877
+      WFactor Syst Error       factor*wFactorErr_: 0.531007*0.06 = 0.0318604
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65896
+          dataWSdb = 1512.000000 +- 38.884445
+          topWSdb = 194.937515 +- 3.200821
+          vvWSdb = 32.828419 +- 0.673267
+          zSdb = 59.754009 +- 3.332221
+          W extrapolation factor as measured in corrected MC = 0.531007 +- 2.658962
+          OS W  in core  =1224.000000 *0.531007  = 649.952026 +- 3254.635254 
+          OS W  in MC = 69.063072 
+Create QCD
+      QCDShape yield = 6654.000000 + 81.572052 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3865    zShapeSSYield: 63.6284      topShapeSSYield: 10.0555    ssQCD: 553.93
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2330
+
+BKGD Yields 
+QCD: 553.93
+W: 649.952
+TOP: 83.1628
+VV: 14.6588
+ZLFT: 56.2055
+ZJFT: 118.138
+ZTT: 1210.43
+BACKGROUND=2686.476562 +-36.799911 
+Total Background & 2686.48 $\pm$ 91.75 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 79.608780 + 6.313665 
+Create VV
+      Diboson events before inflation = 13.768274 + 0.428020 
+      Diboson events in signal region = 13.768274 + 4.152600 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.022503 + 13.842759 
+Create ZJFT
+      Z (j->tau) in signal region = 116.057526 + 14.239271 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1211.201782 + 13.683798 
+      Full Gen Selection ZTT events in signal region = 1211.201782 + 13.683798 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1457.000000 +- 38.170670 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 121.179      OS W Mt Low: 64.387
+      Extract WFactor Second      OS W Mt>70: 2.08459      OS W Mt Low: 1.51439
+      WFactor Stat Error       factor: 0.53134      StatError: 2.5766
+      WFactor Syst Error       factor*wFactorErr_: 0.53134*0.06 = 0.0318804
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.5768
+          dataWSdb = 1457.000000 +- 38.170670
+          topWSdb = 182.015152 +- 3.085862
+          vvWSdb = 30.161043 +- 0.645948
+          zSdb = 58.097294 +- 3.274209
+          W extrapolation factor as measured in corrected MC = 0.531340 +- 2.576799
+          OS W  in core  =1187.000000 *0.531340  = 630.700500 +- 3058.729004 
+          OS W  in MC = 64.387039 
+Create QCD
+      QCDShape yield = 6540.000000 + 80.870270 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 632    wShapeSSYield: 17.5558    zShapeSSYield: 63.2076      topShapeSSYield: 9.38725    ssQCD: 541.849
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2301
+
+BKGD Yields 
+QCD: 541.849
+W: 630.701
+TOP: 79.6088
+VV: 13.7683
+ZLFT: 56.0225
+ZJFT: 116.058
+ZTT: 1211.2
+BACKGROUND=2649.208496 +-36.423996 
+Total Background & 2649.21 $\pm$ 91.63 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 83.117035 + 6.577620 
+Create VV
+      Diboson events before inflation = 14.645971 + 0.442783 
+      Diboson events in signal region = 14.645971 + 4.416046 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205448 + 13.886114 
+Create ZJFT
+      Z (j->tau) in signal region = 118.138336 + 14.424865 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.979248 + 13.685862 
+      Full Gen Selection ZTT events in signal region = 1210.979248 + 13.685862 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1512.000000 +- 38.884445 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 129.864      OS W Mt Low: 68.988
+      Extract WFactor Second      OS W Mt>70: 2.15499      OS W Mt Low: 1.55649
+      WFactor Stat Error       factor: 0.531233      StatError: 2.65831
+      WFactor Syst Error       factor*wFactorErr_: 0.531233*0.06 = 0.031874
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.6585
+          dataWSdb = 1512.000000 +- 38.884445
+          topWSdb = 194.826309 +- 3.198253
+          vvWSdb = 32.721111 +- 0.672441
+          zSdb = 59.751701 +- 3.332220
+          W extrapolation factor as measured in corrected MC = 0.531233 +- 2.658505
+          OS W  in core  =1225.000000 *0.531233  = 650.760864 +- 3256.734863 
+          OS W  in MC = 68.987961 
+Create QCD
+      QCDShape yield = 6654.000000 + 81.572052 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3786    zShapeSSYield: 63.6283      topShapeSSYield: 10.0983    ssQCD: 553.895
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2330
+
+BKGD Yields 
+QCD: 553.895
+W: 650.761
+TOP: 83.117
+VV: 14.646
+ZLFT: 56.2054
+ZJFT: 118.138
+ZTT: 1210.98
+BACKGROUND=2687.741699 +-36.799839 
+Total Background & 2687.74 $\pm$ 91.78 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 83.161842 + 6.581002 
+Create VV
+      Diboson events before inflation = 14.659212 + 0.442856 
+      Diboson events in signal region = 14.659212 + 4.420005 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205460 + 13.886117 
+Create ZJFT
+      Z (j->tau) in signal region = 118.138451 + 14.424874 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.812500 + 13.686679 
+      Full Gen Selection ZTT events in signal region = 1210.812500 + 13.686679 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1512.000000 +- 38.884445 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 130.06      OS W Mt Low: 69.0636
+      Extract WFactor Second      OS W Mt>70: 2.15542      OS W Mt Low: 1.55667
+      WFactor Stat Error       factor: 0.531013      StatError: 2.65877
+      WFactor Syst Error       factor*wFactorErr_: 0.531013*0.06 = 0.0318608
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65896
+          dataWSdb = 1512.000000 +- 38.884445
+          topWSdb = 194.924789 +- 3.200821
+          vvWSdb = 32.829666 +- 0.673267
+          zSdb = 59.753956 +- 3.332221
+          W extrapolation factor as measured in corrected MC = 0.531013 +- 2.658962
+          OS W  in core  =1224.000000 *0.531013  = 649.959351 +- 3254.635254 
+          OS W  in MC = 69.063614 
+Create QCD
+      QCDShape yield = 6654.000000 + 81.572052 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3865    zShapeSSYield: 63.6284      topShapeSSYield: 10.0555    ssQCD: 553.93
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2330
+
+BKGD Yields 
+QCD: 553.93
+W: 649.959
+TOP: 83.1618
+VV: 14.6592
+ZLFT: 56.2055
+ZJFT: 118.138
+ZTT: 1210.81
+BACKGROUND=2686.866211 +-36.801243 
+Total Background & 2686.87 $\pm$ 91.77 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 83.162567 + 6.581053 
+Create VV
+      Diboson events before inflation = 14.659246 + 0.442856 
+      Diboson events in signal region = 14.659246 + 4.420016 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205547 + 13.886137 
+Create ZJFT
+      Z (j->tau) in signal region = 118.138489 + 14.424877 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.824097 + 13.686679 
+      Full Gen Selection ZTT events in signal region = 1210.824097 + 13.686679 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1512.000000 +- 38.884445 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 130.059      OS W Mt Low: 69.0638
+      Extract WFactor Second      OS W Mt>70: 2.15542      OS W Mt Low: 1.55667
+      WFactor Stat Error       factor: 0.531021      StatError: 2.65877
+      WFactor Syst Error       factor*wFactorErr_: 0.531021*0.06 = 0.0318613
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65896
+          dataWSdb = 1512.000000 +- 38.884445
+          topWSdb = 194.926224 +- 3.200821
+          vvWSdb = 32.829475 +- 0.673267
+          zSdb = 59.754021 +- 3.332221
+          W extrapolation factor as measured in corrected MC = 0.531021 +- 2.658962
+          OS W  in core  =1224.000000 *0.531021  = 649.969727 +- 3254.635498 
+          OS W  in MC = 69.063797 
+Create QCD
+      QCDShape yield = 6654.000000 + 81.572052 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3865    zShapeSSYield: 63.6284      topShapeSSYield: 10.0555    ssQCD: 553.93
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2330
+
+BKGD Yields 
+QCD: 553.93
+W: 649.97
+TOP: 83.1626
+VV: 14.6592
+ZLFT: 56.2055
+ZJFT: 118.138
+ZTT: 1210.82
+BACKGROUND=2686.889648 +-36.801262 
+Total Background & 2686.89 $\pm$ 91.77 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 83.162567 + 6.581053 
+Create VV
+      Diboson events before inflation = 14.659246 + 0.442856 
+      Diboson events in signal region = 14.659246 + 4.420016 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205547 + 13.886137 
+Create ZJFT
+      Z (j->tau) in signal region = 118.138489 + 14.424877 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.824097 + 13.686679 
+      Full Gen Selection ZTT events in signal region = 1210.824097 + 13.686679 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1512.000000 +- 38.884445 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 130.059      OS W Mt Low: 69.0638
+      Extract WFactor Second      OS W Mt>70: 2.15542      OS W Mt Low: 1.55667
+      WFactor Stat Error       factor: 0.531021      StatError: 2.65877
+      WFactor Syst Error       factor*wFactorErr_: 0.531021*0.06 = 0.0318613
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65896
+          dataWSdb = 1512.000000 +- 38.884445
+          topWSdb = 194.926224 +- 3.200821
+          vvWSdb = 32.829475 +- 0.673267
+          zSdb = 59.754021 +- 3.332221
+          W extrapolation factor as measured in corrected MC = 0.531021 +- 2.658962
+          OS W  in core  =1224.000000 *0.531021  = 649.969727 +- 3254.635498 
+          OS W  in MC = 69.063797 
+Create QCD
+      QCDShape yield = 6654.000000 + 81.572052 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3865    zShapeSSYield: 63.6284      topShapeSSYield: 10.0555    ssQCD: 553.93
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2330
+
+BKGD Yields 
+QCD: 553.93
+W: 649.97
+TOP: 83.1626
+VV: 14.6592
+ZLFT: 56.2055
+ZJFT: 118.138
+ZTT: 1210.82
+BACKGROUND=2686.889648 +-36.801262 
+Total Background & 2686.89 $\pm$ 91.77 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 83.162308 + 6.581035 
+Create VV
+      Diboson events before inflation = 14.659251 + 0.442856 
+      Diboson events in signal region = 14.659251 + 4.420017 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205555 + 13.886139 
+Create ZJFT
+      Z (j->tau) in signal region = 118.138428 + 14.424872 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.828613 + 13.686679 
+      Full Gen Selection ZTT events in signal region = 1210.828613 + 13.686679 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1512.000000 +- 38.884445 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 130.059      OS W Mt Low: 69.0634
+      Extract WFactor Second      OS W Mt>70: 2.15542      OS W Mt Low: 1.55667
+      WFactor Stat Error       factor: 0.531017      StatError: 2.65877
+      WFactor Syst Error       factor*wFactorErr_: 0.531017*0.06 = 0.031861
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65896
+          dataWSdb = 1512.000000 +- 38.884445
+          topWSdb = 194.926132 +- 3.200821
+          vvWSdb = 32.829594 +- 0.673267
+          zSdb = 59.753990 +- 3.332221
+          W extrapolation factor as measured in corrected MC = 0.531017 +- 2.658962
+          OS W  in core  =1224.000000 *0.531017  = 649.964661 +- 3254.635254 
+          OS W  in MC = 69.063446 
+Create QCD
+      QCDShape yield = 6654.000000 + 81.572052 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3865    zShapeSSYield: 63.6284      topShapeSSYield: 10.0555    ssQCD: 553.93
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2330
+
+BKGD Yields 
+QCD: 553.93
+W: 649.965
+TOP: 83.1623
+VV: 14.6593
+ZLFT: 56.2056
+ZJFT: 118.138
+ZTT: 1210.83
+BACKGROUND=2686.888672 +-36.801258 
+Total Background & 2686.89 $\pm$ 91.77 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 83.044281 + 6.572451 
+Create VV
+      Diboson events before inflation = 14.659228 + 0.442856 
+      Diboson events in signal region = 14.659228 + 4.420010 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205551 + 13.886138 
+Create ZJFT
+      Z (j->tau) in signal region = 118.021645 + 14.414798 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.606567 + 13.685952 
+      Full Gen Selection ZTT events in signal region = 1210.606567 + 13.685952 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1450.000000 +- 38.078865 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 129.904      OS W Mt Low: 69.0053
+      Extract WFactor Second      OS W Mt>70: 2.15429      OS W Mt Low: 1.55623
+      WFactor Stat Error       factor: 0.531201      StatError: 2.6576
+      WFactor Syst Error       factor*wFactorErr_: 0.531201*0.06 = 0.0318721
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65779
+          dataWSdb = 1450.000000 +- 38.078865
+          topWSdb = 194.833160 +- 3.199615
+          vvWSdb = 32.806103 +- 0.673073
+          zSdb = 59.673748 +- 3.331257
+          W extrapolation factor as measured in corrected MC = 0.531201 +- 2.657792
+          OS W  in core  =1163.000000 *0.531201  = 617.786987 +- 3091.079590 
+          OS W  in MC = 69.005264 
+Create QCD
+      QCDShape yield = 6383.000000 + 79.893677 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 631    wShapeSSYield: 19.3865    zShapeSSYield: 64.4413      topShapeSSYield: 10.0054    ssQCD: 537.167
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2238
+
+BKGD Yields 
+QCD: 537.167
+W: 617.787
+TOP: 83.0443
+VV: 14.6592
+ZLFT: 56.2056
+ZJFT: 118.022
+ZTT: 1210.61
+BACKGROUND=2637.491211 +-36.568150 
+Total Background & 2637.49 $\pm$ 91.67 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 83.162086 + 6.581019 
+Create VV
+      Diboson events before inflation = 14.659242 + 0.442856 
+      Diboson events in signal region = 14.659242 + 4.420014 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205536 + 13.886134 
+Create ZJFT
+      Z (j->tau) in signal region = 118.138420 + 14.424871 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.828491 + 13.686679 
+      Full Gen Selection ZTT events in signal region = 1210.828491 + 13.686679 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1512.000000 +- 38.884445 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 130.059      OS W Mt Low: 69.0637
+      Extract WFactor Second      OS W Mt>70: 2.15542      OS W Mt Low: 1.55667
+      WFactor Stat Error       factor: 0.531017      StatError: 2.65877
+      WFactor Syst Error       factor*wFactorErr_: 0.531017*0.06 = 0.031861
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65896
+          dataWSdb = 1512.000000 +- 38.884445
+          topWSdb = 194.925888 +- 3.200821
+          vvWSdb = 32.829552 +- 0.673267
+          zSdb = 59.753971 +- 3.332221
+          W extrapolation factor as measured in corrected MC = 0.531017 +- 2.658962
+          OS W  in core  =1224.000000 *0.531017  = 649.964478 +- 3254.635254 
+          OS W  in MC = 69.063728 
+Create QCD
+      QCDShape yield = 2710.000000 + 52.057659 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3865    zShapeSSYield: 63.6284      topShapeSSYield: 10.0555    ssQCD: 553.93
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2330
+
+BKGD Yields 
+QCD: 553.93
+W: 649.964
+TOP: 83.1621
+VV: 14.6592
+ZLFT: 56.2055
+ZJFT: 118.138
+ZTT: 1210.83
+BACKGROUND=2686.887939 +-36.801254 
+Total Background & 2686.89 $\pm$ 91.77 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 83.161980 + 6.581012 
+Create VV
+      Diboson events before inflation = 14.659241 + 0.442856 
+      Diboson events in signal region = 14.659241 + 4.420014 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205509 + 13.886128 
+Create ZJFT
+      Z (j->tau) in signal region = 118.138382 + 14.424868 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.823975 + 13.686679 
+      Full Gen Selection ZTT events in signal region = 1210.823975 + 13.686679 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1512.000000 +- 38.884445 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 130.059      OS W Mt Low: 69.0638
+      Extract WFactor Second      OS W Mt>70: 2.15542      OS W Mt Low: 1.55667
+      WFactor Stat Error       factor: 0.531018      StatError: 2.65877
+      WFactor Syst Error       factor*wFactorErr_: 0.531018*0.06 = 0.0318611
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65896
+          dataWSdb = 1512.000000 +- 38.884445
+          topWSdb = 194.926331 +- 3.200821
+          vvWSdb = 32.829594 +- 0.673267
+          zSdb = 59.753983 +- 3.332221
+          W extrapolation factor as measured in corrected MC = 0.531018 +- 2.658962
+          OS W  in core  =1224.000000 *0.531018  = 649.966431 +- 3254.635498 
+          OS W  in MC = 69.063751 
+Create QCD
+      QCDShape yield = 3444.000000 + 58.685604 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3865    zShapeSSYield: 63.6284      topShapeSSYield: 10.0555    ssQCD: 553.93
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2330
+
+BKGD Yields 
+QCD: 553.93
+W: 649.966
+TOP: 83.162
+VV: 14.6592
+ZLFT: 56.2055
+ZJFT: 118.138
+ZTT: 1210.82
+BACKGROUND=2686.885254 +-36.801250 
+Total Background & 2686.89 $\pm$ 91.77 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 81.502014 + 6.451907 
+Create VV
+      Diboson events before inflation = 14.584782 + 0.442127 
+      Diboson events in signal region = 14.584782 + 4.397716 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205513 + 13.886128 
+Create ZJFT
+      Z (j->tau) in signal region = 117.926361 + 14.406024 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.983521 + 13.685250 
+      Full Gen Selection ZTT events in signal region = 1210.983521 + 13.685250 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1510.000000 +- 38.858719 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 129.935      OS W Mt Low: 68.94
+      Extract WFactor Second      OS W Mt>70: 2.15518      OS W Mt Low: 1.55623
+      WFactor Stat Error       factor: 0.530575      StatError: 2.65832
+      WFactor Syst Error       factor*wFactorErr_: 0.530575*0.06 = 0.0318345
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65851
+          dataWSdb = 1510.000000 +- 38.858719
+          topWSdb = 191.143295 +- 3.158389
+          vvWSdb = 32.719685 +- 0.672601
+          zSdb = 59.710159 +- 3.332098
+          W extrapolation factor as measured in corrected MC = 0.530575 +- 2.658509
+          OS W  in core  =1226.000000 *0.530575  = 650.484497 +- 3259.398682 
+          OS W  in MC = 68.939957 
+Create QCD
+      QCDShape yield = 6652.000000 + 81.559792 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3827    zShapeSSYield: 63.6195      topShapeSSYield: 9.81484    ssQCD: 554.183
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2327
+
+BKGD Yields 
+QCD: 554.183
+W: 650.484
+TOP: 81.502
+VV: 14.5848
+ZLFT: 56.2055
+ZJFT: 117.926
+ZTT: 1210.98
+BACKGROUND=2685.869629 +-36.767620 
+Total Background & 2685.87 $\pm$ 91.76 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 0.000000 + 0.000000 
+Create VV
+      Diboson events before inflation = 0.000000 + 0.000000 
+      Diboson events in signal region = 0.000000 + 0.000000 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 0.000000 + 0.000000 
+Create ZJFT
+      Z (j->tau) in signal region = 0.000000 + 0.000000 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 0.000000 + 0.000000 
+      Full Gen Selection ZTT events in signal region = 0.000000 + 0.000000 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 0.000000 +- 0.000000 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 0      OS W Mt Low: 0
+      Extract WFactor Second      OS W Mt>70: 0      OS W Mt Low: 0
+      WFactor Stat Error       factor: -nan      StatError: 0
+      WFactor Syst Error       factor*wFactorErr_: -nan*0.06 = -nan
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= -nan
+          dataWSdb = 0.000000 +- 0.000000
+          topWSdb = 0.000000 +- 0.000000
+          vvWSdb = 0.000000 +- 0.000000
+          zSdb = 0.000000 +- 0.000000
+          W extrapolation factor as measured in corrected MC = 0.000000 +- 0.000000
+          OS W  in core  =0.000000 *0.000000  = 0.000000 +- 0.000000 
+          OS W  in MC = 0.000000 
+Create QCD
+      QCDShape yield = 0.000000 + 0.000000 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 0    wShapeSSYield: 0    zShapeSSYield: 0      topShapeSSYield: 0    ssQCD: 0
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 0
+
+BKGD Yields 
+QCD: 0
+W: 0
+TOP: 0
+VV: 0
+ZLFT: 0
+ZJFT: 0
+ZTT: 0
+BACKGROUND=0.000000 +-0.000000 
+Total Background & 0.00 $\pm$ 0.00 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 53.469971 + 4.350924 
+Create VV
+      Diboson events before inflation = 8.325628 + 0.328344 
+      Diboson events in signal region = 8.325628 + 2.519178 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 13.427423 + 3.789316 
+Create ZJFT
+      Z (j->tau) in signal region = 42.872150 + 6.598389 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 325.270782 + 7.908486 
+      Full Gen Selection ZTT events in signal region = 325.270782 + 7.908486 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 498.000000 +- 22.315914 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 73.37      OS W Mt Low: 38.3718
+      Extract WFactor Second      OS W Mt>70: 1.60361      OS W Mt Low: 1.16723
+      WFactor Stat Error       factor: 0.522991      StatError: 1.98343
+      WFactor Syst Error       factor*wFactorErr_: 0.522991*0.06 = 0.0313795
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 1.98368
+          dataWSdb = 498.000000 +- 22.315914
+          topWSdb = 125.205284 +- 2.569232
+          vvWSdb = 18.065300 +- 0.484884
+          zSdb = 22.872171 +- 2.159053
+          W extrapolation factor as measured in corrected MC = 0.522991 +- 1.983677
+          OS W  in core  =332.000000 *0.522991  = 173.633011 +- 658.686707 
+          OS W  in MC = 38.371849 
+Create QCD
+      QCDShape yield = 1833.000000 + 42.813549 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 172    wShapeSSYield: 10.0885    zShapeSSYield: 17.0072      topShapeSSYield: 6.57139    ssQCD: 138.333
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 706
+
+BKGD Yields 
+QCD: 138.333
+W: 173.633
+TOP: 53.47
+VV: 8.32563
+ZLFT: 13.4274
+ZJFT: 42.8722
+ZTT: 325.271
+BACKGROUND=755.331909 +-18.389296 
+Total Background & 755.33 $\pm$ 29.29 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 51.132004 + 4.173025 
+Create VV
+      Diboson events before inflation = 5.900978 + 0.263170 
+      Diboson events in signal region = 5.900978 + 1.789748 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 4.852732 + 2.118353 
+Create ZJFT
+      Z (j->tau) in signal region = 20.800669 + 4.151574 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 133.104263 + 5.477213 
+      Full Gen Selection ZTT events in signal region = 133.104263 + 5.477213 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 277.000000 +- 16.643316 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 43.7686      OS W Mt Low: 23.5555
+      Extract WFactor Second      OS W Mt>70: 1.19182      OS W Mt Low: 0.868907
+      WFactor Stat Error       factor: 0.538183      StatError: 1.47494
+      WFactor Syst Error       factor*wFactorErr_: 0.538183*0.06 = 0.032291
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 1.47529
+          dataWSdb = 277.000000 +- 16.643316
+          topWSdb = 114.124443 +- 2.484763
+          vvWSdb = 11.442982 +- 0.374397
+          zSdb = 9.002384 +- 1.517262
+          W extrapolation factor as measured in corrected MC = 0.538183 +- 1.475291
+          OS W  in core  =142.000000 *0.538183  = 76.421982 +- 209.688751 
+          OS W  in MC = 23.555531 
+Create QCD
+      QCDShape yield = 838.000000 + 28.948229 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 76    wShapeSSYield: 6.07279    zShapeSSYield: 10.3832      topShapeSSYield: 6.07209    ssQCD: 53.4719
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 287
+
+BKGD Yields 
+QCD: 53.4719
+W: 76.422
+TOP: 51.132
+VV: 5.90098
+ZLFT: 4.85273
+ZJFT: 20.8007
+ZTT: 133.104
+BACKGROUND=345.684570 +-12.436706 
+Total Background & 345.68 $\pm$ 15.81 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 82.900116 + 6.560912 
+Create VV
+      Diboson events before inflation = 14.636038 + 0.442544 
+      Diboson events in signal region = 14.636038 + 4.413057 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205513 + 13.886128 
+Create ZJFT
+      Z (j->tau) in signal region = 118.138420 + 14.424871 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.834351 + 13.686679 
+      Full Gen Selection ZTT events in signal region = 1210.834351 + 13.686679 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1512.000000 +- 38.884445 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 130.059      OS W Mt Low: 69.055
+      Extract WFactor Second      OS W Mt>70: 2.15542      OS W Mt Low: 1.55664
+      WFactor Stat Error       factor: 0.530951      StatError: 2.65876
+      WFactor Syst Error       factor*wFactorErr_: 0.530951*0.06 = 0.0318571
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65895
+          dataWSdb = 1512.000000 +- 38.884445
+          topWSdb = 194.297821 +- 3.195285
+          vvWSdb = 32.824432 +- 0.673249
+          zSdb = 59.753960 +- 3.332221
+          W extrapolation factor as measured in corrected MC = 0.530951 +- 2.658947
+          OS W  in core  =1225.000000 *0.530951  = 650.415588 +- 3257.276855 
+          OS W  in MC = 69.054962 
+Create QCD
+      QCDShape yield = 6654.000000 + 81.572052 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3865    zShapeSSYield: 63.6284      topShapeSSYield: 10.0644    ssQCD: 553.921
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2330
+
+BKGD Yields 
+QCD: 553.921
+W: 650.416
+TOP: 82.9001
+VV: 14.636
+ZLFT: 56.2055
+ZJFT: 118.138
+ZTT: 1210.83
+BACKGROUND=2687.050781 +-36.796822 
+Total Background & 2687.05 $\pm$ 91.77 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
+HighStat has 0 entries ,LowStat has 0 entries
+ -------------------------------------
+ --------New Variable--------
+INCLUSIVE: preselection -------------------------------------
+runOSLSMT
+Tau ID Scale Factor is 1.000 
+Create Data
+      Data Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&charge==0
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+Create Top
+      TTbar events in signal region = 83.162407 + 6.581042 
+Create VV
+      Diboson events before inflation = 14.659229 + 0.442856 
+      Diboson events in signal region = 14.659229 + 4.420011 
+Create ZLFT
+      Factor ZLFT: 1
+      Z (l->tau) in signal region = 56.205524 + 13.886131 
+Create ZJFT
+      Z (j->tau) in signal region = 118.138130 + 14.424848 
+Create ZTT
+      ZTT Selection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&charge==0&&pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5
+      Reduced Selection ZTT events in signal region = 1210.847900 + 13.686679 
+      Full Gen Selection ZTT events in signal region = 1210.847900 + 13.686679 
+Create W
+WSelection: pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&pt_1>-100&&charge==0&&mt_1>70
+      1. Select W sideband in data: 1512.000000 +- 38.884445 
+      2. Subtract TTbar and diboson (and z) from sideband 
+      3. Extrapolate W in the low MT region
+      Cuts in extract WFactor       OS W Mt>70: 130.061      OS W Mt Low: 69.0632
+      Extract WFactor Second      OS W Mt>70: 2.15542      OS W Mt Low: 1.55667
+      WFactor Stat Error       factor: 0.531007      StatError: 2.65877
+      WFactor Syst Error       factor*wFactorErr_: 0.531007*0.06 = 0.0318604
+      WFactor Error       factorError = sqrt(Syst Error^2+Stat Error^2)= 2.65896
+          dataWSdb = 1512.000000 +- 38.884445
+          topWSdb = 194.927231 +- 3.200821
+          vvWSdb = 32.829563 +- 0.673267
+          zSdb = 59.753929 +- 3.332221
+          W extrapolation factor as measured in corrected MC = 0.531007 +- 2.658962
+          OS W  in core  =1224.000000 *0.531007  = 649.952820 +- 3254.635254 
+          OS W  in MC = 69.063171 
+Create QCD
+      QCDShape yield = 6654.000000 + 81.572052 
+      QCD Data SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<.5&&tauIso<5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&mt_1<40&&abs(charge)==2)
+      QCD MC SS Selection: (pt_1>18&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byCombinedIsolationDeltaBetaCorrRaw3Hits_2<1.5&&tightMuons<=1&&tightElectrons==0&&tauDecayMode!=6&&tauDecayMode!=5&&(crossTrigger>0||(lTrigger>0&&pt_1>25))&&mt_1<40&&abs(charge)==2&&pt_1>-100)*__WEIGHT__*GENWEIGHT
+      dataSS: 647    wShapeSSYield: 19.3865    zShapeSSYield: 63.6284      topShapeSSYield: 10.0555    ssQCD: 553.93
+      QCD FActor: 1
+=============Data Yields=============
+DATA: 2330
+
+BKGD Yields 
+QCD: 553.93
+W: 649.953
+TOP: 83.1624
+VV: 14.6592
+ZLFT: 56.2055
+ZJFT: 118.138
+ZTT: 1210.85
+BACKGROUND=2686.895508 +-36.801247 
+Total Background & 2686.90 $\pm$ 91.78 & - & - & - \\ 
+Make Higgs Shape
+Made Higgs Shape
