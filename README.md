@@ -20,14 +20,14 @@ scram b -j 8
 to run test
 
 ```
-cd CRAB/ZTT_Aug
+cd CRAB/ZTT/
 cmsRun LT-MC.py
 ```
 
 or
 
 ```
-cd CRAB/ZTT/
+cd CRAB/ZTT_25ns/
 source submitMC.sh
 source submitQCD.sh #submits QCD files
 source submitDATA.sh
@@ -36,8 +36,9 @@ source submitDATA.sh
 after jobs done
 
 ```
-cd CRAB/ZTT
-nohup ./mergeonly.sh >merge.log & # the file should be checked before running. but is updated. scratch area should be clean
+cd CRAB/ZTT_25ns
+nohup ./mergeonly_25ns.sh >merge.log & #turn on and off the samples you want to merge. scratch area should be clean
+#wait until all firles merges to weight
 source weightonly.sh 
 ```
 
