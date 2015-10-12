@@ -255,7 +255,7 @@ def mvaMet(process):
    from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFJetsL1FastL2L3
    
    process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
-   #process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
+   process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
    process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
    process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
    
@@ -269,7 +269,7 @@ def mvaMet(process):
          addGenMET = cms.bool(False)
     )
 
-   process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMVAMEtSequence)
+   process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMVAMEtSequence*process.patMVAMet)
 
 
 def GenSumWeights(process):

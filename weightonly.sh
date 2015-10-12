@@ -1,24 +1,24 @@
 #!/bin/sh
-#mkdir /nfs_scratch/$USER/ztt_weighted9
-#cp /nfs_scratch/$USER/ztt_unweighted9/* /nfs_scratch/$USER/ztt_weighted9/.
-cd /nfs_scratch/$USER/ztt_weighted9/
+mkdir /nfs_scratch/$USER/ztt_weighted10
+cp /nfs_scratch/$USER/ztt_unweighted10/* /nfs_scratch/$USER/ztt_weighted10/.
+cd /nfs_scratch/$USER/ztt_weighted10/
 
 
-weight=0;
-weightH=0;
+weight=1;
+weightH=1;
 weightW=0;
 weightEMStitchQCD=0;
-weightBCtoE=0;
+weightBCtoE=1;
 
 
 
 if [ $weightBCtoE -eq 1 ]
     then
-    EventWeightsIterativeGen outputFile='50ns_QCDBCtoE_30.root'  weight=40718.4     histoName='MT/results' sumHistoName='sumweights/genWeights' #159068000*.00255
-    EventWeightsIterativeGen outputFile='50ns_QCDBCtoE_80.root'  weight=38104.4     histoName='MT/results' sumHistoName='sumweights/genWeights' #3221000*.01183
-    EventWeightsIterativeGen outputFile='50ns_QCDBCtoE_170.root'  weight=2635.8     histoName='MT/results' sumHistoName='sumweights/genWeights' #105771*.02492
-    EventWeightsIterativeGen outputFile='50ns_QCDBCtoE_250.root'  weight=711.9     histoName='MT/results' sumHistoName='sumweights/genWeights' #21094*.03375
-    hadd BCtoE.root 50ns_QCDBCtoE_*root
+    EventWeightsIterativeGen outputFile='QCDBCtoE_30.root'  weight=40718.4     histoName='MT/results' sumHistoName='sumweights/genWeights' #159068000*.00255
+    EventWeightsIterativeGen outputFile='QCDBCtoE_80.root'  weight=38104.4     histoName='MT/results' sumHistoName='sumweights/genWeights' #3221000*.01183
+    EventWeightsIterativeGen outputFile='QCDBCtoE_170.root'  weight=2635.8     histoName='MT/results' sumHistoName='sumweights/genWeights' #105771*.02492
+    EventWeightsIterativeGen outputFile='QCDBCtoE_250.root'  weight=711.9     histoName='MT/results' sumHistoName='sumweights/genWeights' #21094*.03375
+    hadd BCtoE.root QCDBCtoE_*root
 fi
 
 
