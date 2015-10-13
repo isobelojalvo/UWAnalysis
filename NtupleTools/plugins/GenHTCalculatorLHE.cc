@@ -83,30 +83,28 @@ bool GenHTCalculatorLHE::filter (Event & ev, const EventSetup &) {
 	}
 	int nup = lheeventinfo->hepeup().NUP;
 	h1_["LHE_PARTONMULTIPLICITY"]->Fill(nup);
+
 	double ptPART=sqrt( lheeventinfo->hepeup().PUP.at(0)[0]*lheeventinfo->hepeup().PUP.at(0)[0] + lheeventinfo->hepeup().PUP.at(0)[1]*lheeventinfo->hepeup().PUP.at(0)[1] );
-	for (int i = 0; i < lheeventinfo->hepeup().PUP.size(); ++i) {
-		//if (lheeventinfo->hepeup().ISTUP[i] <0){
+        //Loop to calculate MAdgraph HT
+	for (int i = 0; i < nup ; ++i) {
 		if (lheeventinfo->hepeup().ISTUP[i] <0||((abs(lheeventinfo->hepeup().IDUP[i])>5&&lheeventinfo->hepeup().IDUP[i]!=21) )) {
-		        cout<<"only want final state parton, skipping for HT"<<endl;
+		        //cout<<"Only want final state parton, skipping for HT"<<endl;
 			continue;
 		}
-                cout<<"Parton number: "<<i<<" Out of "<<nup<<endl; 
-                cout<<"PUP size: "<<lheeventinfo->hepeup().PUP.size()<<endl; 
-                cout<<"ISTUP value: "<<lheeventinfo->hepeup().ISTUP[i]<<endl; 
-                cout<<"IDUP value: "<<lheeventinfo->hepeup().IDUP[i]<<endl; 
+                //cout<<"Parton number: "<<i<<" Out of "<<nup<<endl; 
+                //cout<<"PUP size: "<<lheeventinfo->hepeup().PUP.size()<<endl; 
+                //cout<<"ISTUP value: "<<lheeventinfo->hepeup().ISTUP[i]<<endl; 
+                //cout<<"IDUP value: "<<lheeventinfo->hepeup().IDUP[i]<<endl; 
 	        px=lheeventinfo->hepeup().PUP.at(i)[0];
                 //cout<<"PX component: "<<lheeventinfo->hepeup().PUP.at(i)[0]<<endl;
 	        py=lheeventinfo->hepeup().PUP.at(i)[1];
                 //cout<<"PY component: "<<lheeventinfo->hepeup().PUP.at(i)[1]<<endl;
                 double pt=sqrt(px*px+py*py);
-                cout<<"PT component: "<<pt<<endl;
+                //cout<<"PT component: "<<pt<<endl;
                 sumpt+=pt;
 	}
-        //sumpt=sqrt(px*px+py*py);
-	//sumpt+=sqrt( lheeventinfo->hepeup().PUP.at(i)[0]*lheeventinfo->hepeup().PUP.at(i)[0] + lheeventinfo->hepeup().PUP.at(i)[1]*lheeventinfo->hepeup().PUP.at(i)[1] );
 	cout<<"Sum of PUP: "<<sumpt<<endl;
-	//cout<<"Sum of PUPx: "<<px<<endl;
-	//cout<<"Sum of PUPy: "<<py<<endl;
+
 	h2_["LHE_LEADINGPARTON_PT"]  ->Fill(lheeventinfo->hepeup().NUP, ptPART);
 	h3_["LHE_PUPSUM"]->Fill(sumpt);
 
