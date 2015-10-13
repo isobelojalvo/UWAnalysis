@@ -13,3 +13,6 @@ pushd $CMSSW_BASE/src
 git cms-addpkg RecoMET/METPUSubtraction
 
 pushd $CMSSW_BASE/src
+
+git cms-merge-topic ikrav:egm_id_7.4.12_v1
+

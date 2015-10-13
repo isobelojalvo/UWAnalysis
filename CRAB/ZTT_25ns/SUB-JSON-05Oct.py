@@ -3,7 +3,7 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v4'
+process.GlobalTag.globaltag = '74X_dataRun2_reMiniAOD_v0'
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
@@ -15,7 +15,7 @@ process.source = cms.Source("PoolSource",
 )
 
 import FWCore.PythonUtilities.LumiList as LumiList
-process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-257599_13TeV_PromptReco_Collisions15_25ns_JSON.txt').getVLuminosityBlockRange()
+process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-258159_13TeV_PromptReco_Collisions15_25ns_JSON_v3.txt').getVLuminosityBlockRange()
 
 
 process.maxEvents = cms.untracked.PSet(
@@ -27,9 +27,8 @@ process.maxEvents = cms.untracked.PSet(
 from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
 defaultReconstruction(process,'HLT',
                       [
-						'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v1',#etau
-						#'HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1', #etau
-						'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v2'#muTau
+						'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v2',#etau
+						'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v3'#muTau
 						#'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v1', #mutau
                                                 #'HLT_IsoMu24_eta2p1_IterTrk02_v1' #mutau
                       ])

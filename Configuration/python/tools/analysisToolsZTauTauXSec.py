@@ -164,7 +164,7 @@ def MiniAODEleVIDEmbedder(process, eles):
   #process.egmGsfElectronIDSequence = cms.Sequence(process.egmGsfElectronIDs)
   process.egmGsfElectronIDSequence = cms.Sequence(process.electronMVAValueMapProducer+process.egmGsfElectronIDs)
   id_modules = [
-      'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_50ns_V1_cff',
+      'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_25ns_V1_cff',
       'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
       'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_nonTrig_V1_cff']
   for idmod in id_modules:
@@ -174,10 +174,10 @@ def MiniAODEleVIDEmbedder(process, eles):
   IDTags = [
           cms.InputTag('egmGsfElectronIDs:mvaEleID-Spring15-25ns-nonTrig-V1-wp80'),
           cms.InputTag('egmGsfElectronIDs:mvaEleID-Spring15-25ns-nonTrig-V1-wp90'),
-	  cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V1-standalone-veto'),
-          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V1-standalone-loose'),
-          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V1-standalone-medium'),
-          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V1-standalone-tight'),
+	  cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto'),
+          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose'),
+          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium'),
+          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight'),
           cms.InputTag('egmGsfElectronIDs:heepElectronID-HEEPV60')
   ]
   # Embed cut-based VIDs
@@ -381,12 +381,14 @@ def muonTriggerMatchMiniAOD(process,triggerProcess,HLT,srcMuon):
                                             filters = cms.vstring(
 						'hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09',
 						'hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09',
-						'hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09' #2015D
+						'hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09', #2015D
+						'hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09' #2015D IsoMu18
                                             ),
 					    filtersAND = cms.vstring(
 					    	'hltOverlapFilterIsoMu17LooseIsoPFTau20',
 						'hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09', 
-						'hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09' #2015D
+						'hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09', #2015D
+						'hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09' #2015D IsoMu18
 					    ),
                                             bits = cms.InputTag("TriggerResults","","HLT"),
                                             prescales = cms.InputTag("patTrigger"),
@@ -406,14 +408,18 @@ def electronTriggerMatchMiniAOD(process,triggerProcess,HLT,srcEle):
 						'hltEle22WPLooseL1IsoEG20erTau20erGsfTrackIsoFilter', #2015D ETau
 					        'hltSingleEle22WPLooseGsfTrackIsoFilter', #2015B ETau
 						'hltEle32WP75GsfTrackIsoFilter', #Spring15 E
-						'hltEle32WPTightGsfTrackIsoFilter' #2015B, 2015D single E
+						'hltEle32WPTightGsfTrackIsoFilter', #2015B, 2015D single E
+						'hltSingleEle22WPTightGsfTrackIsoFilter', #2015D single E
+						'hltEle23WPLooseGsfTrackIsoFilter' #2015D single E
                                             ),
 					    filtersAND = cms.vstring(
 						'hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20', #spring15 ETau 
 						'hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20', #2015D ETau
 						'hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20', #2015B ETau
  						'hltEle32WP75GsfTrackIsoFilter', #spring15 E
- 						'hltEle32WPTightGsfTrackIsoFilter' #2015B, 2015D single E 
+ 						'hltEle32WPTightGsfTrackIsoFilter', #2015B, 2015D single E 
+ 						'hltSingleEle22WPTightGsfTrackIsoFilter', #2015D single E 
+						'hltEle23WPLooseGsfTrackIsoFilter' #2015D single E
 					    ),
                                             bits = cms.InputTag("TriggerResults","","HLT"),
                                             prescales = cms.InputTag("patTrigger"),

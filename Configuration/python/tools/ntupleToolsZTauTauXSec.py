@@ -267,6 +267,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauMuTriggerMatch = makeMuTauPair(src,"lTrigger",'leg1.userFloat("hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09")'),
                               muTauMuTriggerMatch2015B = makeMuTauPair(src,"lTrigger_50ns",'leg1.userFloat("hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09")'),
                               muTauMuTriggerMatch2015D = makeMuTauPair(src,"lTrigger_25ns",'leg1.userFloat("hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09")'),
+                              muTauMuTriggerMatch2015D = makeMuTauPair(src,"lTrigger_25ns_v2",'leg1.userFloat("hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09")'),
                               #muTauMuTriggerMatch = makeMuTauPair(src,"lTrigger",'leg1.userFloat("hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09")>0&&leg1.pt>25'),
                               muTauPzeta = makeMuTauPair(src,"pZeta",'pZeta-1.5*pZetaVis'),
                               muTauPZ = makeMuTauPair(src,"pZ",'pZeta'),
@@ -504,7 +505,9 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               eleTauEleTriggerMatch = makeEleTauPair(src,"lTrigger",'leg1.userFloat("hltEle32WP75GsfTrackIsoFilter")'),
                               eleTauEleTriggerMatch2015B = makeEleTauPair(src,"lTrigger_50ns",'leg1.userFloat("hltEle32WPTightGsfTrackIsoFilter")'),
                               eleTauEleTriggerMatch2015C = makeEleTauPair(src,"lTrigger_25ns",'leg1.userFloat("hltEle32WPTightGsfTrackIsoFilter")'),
-
+                              eleTauEleTriggerMatch2015D = makeEleTauPair(src,"lTrigger_25ns_v2",'leg1.userFloat("hltEle23WPLooseGsfTrackIsoFilter")'),
+                              eleTauEleTriggerMatch2015D = makeEleTauPair(src,"lTrigger_25ns_v3",'leg1.userFloat("hltSingleEle22WPTightGsfTrackIsoFilter")'),
+                              eleTauEleTriggerMatch2015D = makeEleTauPair(src,"lTrigger_25ns_v4",'leg1.userFloat("hltSingleEle22WPLooseGsfTrackIsoFilter")'),
 
 
                               #Ele IDs and Isolation

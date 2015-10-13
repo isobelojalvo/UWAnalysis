@@ -3,7 +3,7 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-process.GlobalTag.globaltag = 'MCRUN2_74_V9'
+process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v2'
 
 
 process.maxEvents = cms.untracked.PSet(
@@ -14,7 +14,7 @@ process.maxEvents = cms.untracked.PSet(
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-'file:/hdfs/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/203F4221-8D14-E511-9526-002590E39C46.root'
+'/store/mc/RunIISpring15MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/50000/22784DA0-716F-E511-8B01-00266CFFB7D0.root'
 		),
 		inputCommands=cms.untracked.vstring(
 						'keep *',
@@ -27,11 +27,13 @@ process.source = cms.Source("PoolSource",
 from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
 defaultReconstructionMC(process,'HLT',
                       [
-						'HLT_Ele22_eta2p1_WP75_Gsf_LooseIsoPFTau20_v1', #etau
-                                                'HLT_Ele27_eta2p1_WP75_Gsf_v1', #etau
-						'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v1', #mutau
-                                                'HLT_IsoMu24_eta2p1_IterTrk02_v1' #mutau
+			'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v1',#etau
+			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v2',#muTau
+			'HLT_IsoMu18_v2',#singlemu
+			'HLT_Ele22_eta2p1_WPLoose_Gsf_v3',#singleE
+			'HLT_Ele23_WPLoose_Gsf_v2'#singleE
                       ])
+
 
                       
 

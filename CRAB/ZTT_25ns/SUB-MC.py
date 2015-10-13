@@ -3,14 +3,17 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-process.GlobalTag.globaltag = 'MCRUN2_74_V9'
+process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v2'
 
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
 defaultReconstructionMC(process,'HLT',
                       [
 			'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v1',#etau
-			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v2'#muTau
+			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v2',#muTau
+			'HLT_IsoMu18_v2',#singlemu
+			'HLT_Ele22_eta2p1_WPLoose_Gsf_v3',#singleE
+			'HLT_Ele23_WPLoose_Gsf_v2',#singleE
                       ])
 
                       
