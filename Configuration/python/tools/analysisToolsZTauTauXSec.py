@@ -103,6 +103,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   jetFilter(process,"patOverloadedJets")
 
   GenSumWeights(process)
+  GenHTCalculator(process)
   #Default selections for systematics
   applyDefaultSelectionsPT(process)
 
@@ -277,6 +278,15 @@ def GenSumWeights(process):
   process.sumweights = cms.EDFilter("GenWeightSum")
   
   process.analysisSequence*= process.sumweights
+
+def GenHTCalculator(process):
+
+  process.sumPUP = cms.EDFilter("GenHTCalculatorLHE",
+       PartonMultiplicity=cms.untracked.int32(5)
+  )
+
+  process.analysisSequence*= process.sumPUP
+
 
 def triLeptons(process):
 
