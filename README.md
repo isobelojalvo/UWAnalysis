@@ -28,8 +28,9 @@ or
 
 ```
 cd CRAB/ZTT_25ns/
-source submitMC.sh
-source submitQCD.sh #submits QCD files
+source submitMCv2.sh
+source submitWJets.sh
+#source submitQCD.sh #submits QCD files-not ready in v2 yet
 source submitDATA.sh
 ```
 
@@ -38,7 +39,7 @@ after jobs done
 ```
 cd CRAB/ZTT_25ns
 nohup ./mergeonly_25ns.sh >merge.log & #turn on and off the samples you want to merge. scratch area should be clean
-#wait until all firles merges to weight
+#wait until all files merges to weight
 source weightonly.sh 
 ```
 
