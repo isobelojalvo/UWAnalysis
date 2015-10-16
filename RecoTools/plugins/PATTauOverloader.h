@@ -29,7 +29,7 @@
 
 #include "Math/GenVector/VectorUtil.h"
 //
-// class decleration
+// class declaration
 #include <boost/foreach.hpp>
 #include "DataFormats/Math/interface/deltaR.h"
 #include "DataFormats/Math/interface/angle.h"

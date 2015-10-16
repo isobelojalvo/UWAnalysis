@@ -12,6 +12,10 @@
 
 #include "UWAnalysis/DataFormats/interface/CompositePtrCandidateT1T2MEt.h"
 
+#include "DataFormats/HepMCCandidate/interface/GenParticle.h"
+#include "HepPDT/ParticleID.hh"
+#include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
+#include "DataFormats/HepMCCandidate/interface/GenStatusFlags.h"
 #include <TVector2.h>
 
 #include <vector>

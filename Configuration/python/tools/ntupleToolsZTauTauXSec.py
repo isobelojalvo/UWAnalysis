@@ -301,6 +301,10 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauGenVisMass = makeMuTauPair(src,"genVisMass",'p4VisGen().M()'),
                               muTauGenMassMatched = makeMuTauPair(src,"genFullMassMatched",'p4gen().M()'),
                               muTauGenMass = makeMuTauPair(src,"fullGenMass",'genBosonMass()'),
+                              muTauGenIsPrompt = makeMuTauPair(src,"isPrompt",'isPrompt()'),
+                              muTauGenIsPromptFS = makeMuTauPair(src,"isPromptFS",'isPromptFS()'),
+                              muTauGenIsDirectTauDecay = makeMuTauPair(src,"isTauDecay",'isDirectPromptTauDecayProduct()'),
+                              muTauGenIsDirectTauDecayFS = makeMuTauPair(src,"isTauDecayFS",'isDirectPromptTauDecayProductFS()'),
 
 			      #Jets
                               muTauJetsPt20nbtag = makeMuTauJetCountPair(src,"nbtag",'pt()>20&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),
@@ -571,6 +575,11 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               eleTauGenVisMass = makeEleTauPair(src,"genVisMass",'p4VisGen().M()'),
                               eleTauGenMassMatched = makeEleTauPair(src,"genFullMassMatched",'p4gen().M()'),
                               eleTauGenMass = makeEleTauPair(src,"fullGenMass",'genBosonMass()'),
+                              eleTauGenIsPrompt = makeEleTauPair(src,"isPrompt",'isPrompt()'),
+                              eleTauGenIsPromptFS = makeEleTauPair(src,"isPromptFS",'isPromptFS()'),
+                              eleTauGenIsDirectTauDecay = makeEleTauPair(src,"isTauDecay",'isDirectPromptTauDecayProduct()'),
+                              eleTauGenIsDirectTauDecayFS = makeEleTauPair(src,"isTauDecayFS",'isDirectPromptTauDecayProductFS()'),
+
 
 			      #Jets
                               eleTauJetsPt20nbtag = makeEleTauJetCountPair(src,"nbtag",'pt()>20&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),

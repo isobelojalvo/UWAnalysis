@@ -68,7 +68,7 @@ class StringBasedNtupleFiller : public NtupleFillerBase {
     }
     else
       {
-	printf("StringBasedNtupleFiller: Obj not found \n");
+	//printf("StringBasedNtupleFiller: Obj not found \n");
       }
     //    vbranch->Fill();
   }

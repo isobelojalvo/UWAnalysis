@@ -1,14 +1,14 @@
 #!/bin/sh
-mkdir /nfs_scratch/$USER/ztt_weighted10
-cp /nfs_scratch/$USER/ztt_unweighted10/* /nfs_scratch/$USER/ztt_weighted10/.
-cd /nfs_scratch/$USER/ztt_weighted10/
+mkdir /nfs_scratch/$USER/ztt_weighted11
+cp /nfs_scratch/$USER/ztt_unweighted11/* /nfs_scratch/$USER/ztt_weighted11/.
+cd /nfs_scratch/$USER/ztt_weighted11/
 
 
-weight=1;
-weightH=1;
+weight=0;
+weightH=0;
 weightW=0;
 weightEMStitchQCD=0;
-weightBCtoE=1;
+weightBCtoE=0;
 
 
 
@@ -48,7 +48,7 @@ if [ $weightW -eq 1 ]
     EventWeightsIterativeGen outputFile='WJetsHT200.root'     weight=360    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='WJetsHT400.root'     weight=48.98    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='WJetsHT600.root'     weight=18.77    histoName='MT/results' sumHistoName='sumweights/genWeights'
-    hadd WJetsHTStiched.root WJetsHT*
+    hadd WJetsHTStitched.root WJetsHT*
 fi
 
 
@@ -62,12 +62,14 @@ if [ $weight -eq 1 ]
     EventWeightsIterativeGen outputFile='TTJets.root'  weight=832     histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='TT.root'  weight=832     histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='WJets.root'   weight=61526.7   histoName='MT/results' sumHistoName='sumweights/genWeights'
+    EventWeightsIterativeGen outputFile='WJetsMLM.root'   weight=61526.7   histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='WZ.root'      weight=22.82   histoName='MT/results' sumHistoName='sumweights/genWeights'
-    EventWeightsIterativeGen outputFile='ZZ.root'      weight=10.32  histoName='MT/results' sumHistoName='sumweights/genWeights'
-    EventWeightsIterativeGen outputFile='WW.root'     weight=63.21    histoName='MT/results' sumHistoName='sumweights/genWeights'
-    EventWeightsIterativeGen outputFile='t.root'       weight=35.6    histoName='MT/results' sumHistoName='sumweights/genWeights'
+    #EventWeightsIterativeGen outputFile='ZZ.root'      weight=10.32  histoName='MT/results' sumHistoName='sumweights/genWeights'
+    #EventWeightsIterativeGen outputFile='WW.root'     weight=63.21    histoName='MT/results' sumHistoName='sumweights/genWeights'
+    #EventWeightsIterativeGen outputFile='t.root'       weight=35.6    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='tBar.root'    weight=35.6    histoName='MT/results' sumHistoName='sumweights/genWeights'
-    hadd -f VV.root WZ.root WW.root ZZ.root t.root tBar.root
+    hadd -f VV.root WZ.root tBar.root
+    #hadd -f VV.root WZ.root WW.root ZZ.root t.root tBar.root
 fi
 
 

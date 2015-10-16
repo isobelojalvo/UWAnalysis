@@ -10,6 +10,7 @@ ETanalysisConfigurator = CutSequenceProducer(initialCounter  = 'initialEventsET'
                                   pyNameSpace  = locals())
 
 #ESTausID
+#ETanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','filteredJets','patMVAMet','ET')
 ETanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','filteredJets','slimmedMETs','ET')
 
 #create dielectrons
@@ -46,6 +47,7 @@ MTanalysisConfigurator = CutSequenceProducer(initialCounter  = 'initialEventsMT'
                                   pyNameSpace  = locals())
 
 #Add smearing
+#MTanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','filteredJets','patMVAMet','MT')
 MTanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','filteredJets','slimmedMETs','MT')
 
 #Create di muon pairs for veto purposes

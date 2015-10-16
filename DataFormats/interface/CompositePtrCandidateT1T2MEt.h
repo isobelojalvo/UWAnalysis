@@ -66,6 +66,14 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   const reco::Candidate::LorentzVector& p4VisLeg1gen() const { return p4VisLeg1gen_; }
   const reco::Candidate::LorentzVector& p4VisLeg2gen() const { return p4VisLeg2gen_; }
 
+
+  /// set decay statusFlag
+  const int isPrompt() const { return isPrompt_; } 
+  const int isPromptFS() const { return isPromptFS_; } 
+  const int isDirectPromptTauDecayProduct() const { return isTauDecayFlag_; }  
+  const int isDirectPromptTauDecayProductFS() const { return isTauDecayFlagFS_; } 
+
+
   /// energy ratio of visible gen. daughter/mother particles
   double x1gen() const { return ( p4Leg1gen_.energy() > 0. ) ? p4VisLeg1gen_.energy()/p4Leg1gen_.energy() : -1.; }
   double x2gen() const { return ( p4Leg2gen_.energy() > 0. ) ? p4VisLeg2gen_.energy()/p4Leg2gen_.energy() : -1.; }
@@ -335,6 +343,14 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   void setPdg2(int pdg) {pdg2_ = pdg;}
   void setGenBosonMass(float genBosonMass) { genBosonMass_ = genBosonMass; }
 
+  /// set decay statusFlag
+  void setIsPrompt(int isPrompt) { isPrompt_=isPrompt; } //genLeg1->statusFlags().isPrompt());
+  void setIsPromptFS(int isPromptFS) { isPromptFS_=isPromptFS; } //genLeg1->isPromptFinalState());
+  void setIsDirectPromptTauDecayProduct(int isTauDecayFlag) { isTauDecayFlag_=isTauDecayFlag; }  //genLeg1->statusFlags().isDirectPromptTauDecayProduct());
+  void setIsDirectPromptTauDecayProductFS(int isTauDecayFlagFS) { isTauDecayFlagFS_=isTauDecayFlagFS; } //genLeg1->isDirectPromptTauDecayProductFinalState());
+
+
+
   /// set four-momentum of visible decay products
   void setP4Vis(const reco::Candidate::LorentzVector& p4) { p4Vis_ = p4; }
   /// set four-momentum and scaling factors for momenta of visible decay products
@@ -451,6 +467,12 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   int pdg1_;
   int pdg2_;
   float genBosonMass_;
+
+  //genStatus Flag
+  int isPrompt_;
+  int isPromptFS_;
+  int isTauDecayFlag_;
+  int isTauDecayFlagFS_;
 
 
   //CSV SF variables

@@ -247,7 +247,7 @@ def EScaledTaus(process,smearing):  #second arg is bool
 
 def mvaMet(process):
    #I added
-   #process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")  
+   process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")  
 
    process.load("RecoJets.JetProducers.ak4PFJets_cfi")
    process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
@@ -256,7 +256,7 @@ def mvaMet(process):
    from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFJetsL1FastL2L3
    
    process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
-   process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
+   #process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
    process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
    process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
    
@@ -268,9 +268,10 @@ def mvaMet(process):
          metSource = cms.InputTag('pfMVAMEt'),
          addMuonCorrections = cms.bool(False),
          addGenMET = cms.bool(False)
-    )
+   )
 
-   process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMVAMEtSequence*process.patMVAMet)
+   #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMVAMEtSequence*process.patMVAMet)
+   process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.pfMVAMEtSequence*process.patMVAMet)
 
 
 def GenSumWeights(process):
