@@ -20,16 +20,18 @@ scram b -j 8
 to run test
 
 ```
-cd CRAB/ZTT/
+cd CRAB/ZTT_25/
 cmsRun LT-MC.py
 ```
 
-or
+or 
+
+Note currently METNoHF set up to run 
 
 ```
 cd CRAB/ZTT_25ns/
 source submitMCv2.sh
-source submitWJets.sh
+#source submitWJets.sh
 #source submitQCD.sh #submits QCD files-not ready in v2 yet
 source submitDATA.sh
 ```
@@ -38,9 +40,10 @@ after jobs done
 
 ```
 cd CRAB/ZTT_25ns
+#to merge may need to use a non root6 area (?) like CMSSW_7_1_5 
 nohup ./mergeonly_25ns.sh >merge.log & #turn on and off the samples you want to merge. scratch area should be clean
 #wait until all files merges to weight
-source weightonly.sh 
+source weightonly.sh #in UWAnalysis directory
 ```
 
 To plot please use https://github.com/lmdodd/UWAnalysis/tree/stattools and look at that readme
