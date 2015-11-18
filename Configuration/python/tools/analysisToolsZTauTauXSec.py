@@ -378,7 +378,7 @@ def tauTriggerMatchMiniAOD(process,triggerProcess,HLT,srcTau):
                                             bits = cms.InputTag("TriggerResults","","HLT"),
                                             prescales = cms.InputTag("patTrigger"),
                                             objects = cms.InputTag("selectedPatTrigger"),
-                                            pdgId = cms.int32(15)
+                                            ptCut = cms.int32(10) #too low to affect anything
    )
                                             
    #process.analysisSequence=cms.Sequence(process.analysisSequence*process.preTriggeredPatTaus*process.triggeredPatTaus)
@@ -406,7 +406,7 @@ def muonTriggerMatchMiniAOD(process,triggerProcess,HLT,srcMuon):
                                             bits = cms.InputTag("TriggerResults","","HLT"),
                                             prescales = cms.InputTag("patTrigger"),
                                             objects = cms.InputTag("selectedPatTrigger"),
-                                            pdgId = cms.int32(13)
+                                            ptCut = cms.int32(18) #too low to affect anything
    )
   
    process.analysisSequence*= process.triggeredPatMuons
@@ -439,7 +439,7 @@ def electronTriggerMatchMiniAOD(process,triggerProcess,HLT,srcEle):
                                             bits = cms.InputTag("TriggerResults","","HLT"),
                                             prescales = cms.InputTag("patTrigger"),
                                             objects = cms.InputTag("selectedPatTrigger"),
-                                            pdgId = cms.int32(11)
+                                            ptCut = cms.int32(23) #22was accidentally prescaled
    )
   
    process.analysisSequence*= process.triggeredPatElectrons

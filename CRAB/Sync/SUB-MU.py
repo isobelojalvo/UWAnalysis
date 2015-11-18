@@ -6,7 +6,7 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v2'
 
 #added in etau and mutau triggers
-from UWAnalysis.Configuration.tools.analysisToolsMiniAod import *
+from UWAnalysis.Configuration.tools.analysisToolsHTauTauSync import *
 defaultReconstructionMC(process,'HLT',
                       [
 			'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v1',#etau

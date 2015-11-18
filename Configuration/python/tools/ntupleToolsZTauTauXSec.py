@@ -308,7 +308,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauGenIsDirectTauDecayFS = makeMuTauPair(src,"isTauDecayFS",'isDirectPromptTauDecayProductFS()'),
 
 			      #Jets
-                              muTauJetsPt20nbtag = makeMuTauJetCountPair(src,"nbtag",'pt()>20&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),
+                              muTauJetsPt20nbtag = makeMuTauJetCountPair(src,"nbtag",'pt()>20&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>=0.890'),
                               muTauJetsPt30njets = makeMuTauJetCountPair(src,"njets",'pt()>30&&abs(eta)<4.7&&userFloat("idLoose")'),
                               muTauJetsPt20njets = makeMuTauJetCountPair(src,"njetspt20",'pt()>20&&abs(eta)<4.7&&userFloat("idLoose")'),
 
@@ -510,9 +510,9 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               eleTauEleTriggerMatch = makeEleTauPair(src,"lTrigger",'leg1.userFloat("hltEle32WP75GsfTrackIsoFilter")'),
                               eleTauEleTriggerMatch2015B = makeEleTauPair(src,"lTrigger_50ns",'leg1.userFloat("hltEle32WPTightGsfTrackIsoFilter")'),
                               eleTauEleTriggerMatch2015C = makeEleTauPair(src,"lTrigger_25ns",'leg1.userFloat("hltEle32WPTightGsfTrackIsoFilter")'),
-                              eleTauEleTriggerMatch2015D = makeEleTauPair(src,"lTrigger_25ns_32",'leg1.userFloat("hltEle23WPLooseGsfTrackIsoFilter")'),
-                              eleTauEleTriggerMatch2015D_v2 = makeEleTauPair(src,"lTrigger_25ns_22T",'leg1.userFloat("hltSingleEle22WPTightGsfTrackIsoFilter")'),
-                              eleTauEleTriggerMatch2015D_v3 = makeEleTauPair(src,"lTrigger_25ns_22L",'leg1.userFloat("hltSingleEle22WPLooseGsfTrackIsoFilter")'),
+                              eleTauEleTriggerMatch2015D = makeEleTauPair(src,"lTrigger_25ns_23",'leg1.userFloat("hltEle23WPLooseGsfTrackIsoFilter")'),
+                              eleTauEleTriggerMatch2015D_22T = makeEleTauPair(src,"lTrigger_25ns_22T",'leg1.userFloat("hltSingleEle22WPTightGsfTrackIsoFilter")'),
+                              eleTauEleTriggerMatch2015D_22L = makeEleTauPair(src,"lTrigger_25ns_22L",'leg1.userFloat("hltSingleEle22WPLooseGsfTrackIsoFilter")'),
                               eleTauEleTriggerMatch2015D_sync = makeEleTauPair(src,"lTrigger_25ns_sync",'leg1.userFloat("hltSingleEle22WP75GsfTrackIsoFilter")'),
 
 
@@ -584,7 +584,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
 
 
 			      #Jets
-                              eleTauJetsPt20nbtag = makeEleTauJetCountPair(src,"nbtag",'pt()>20&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>=0.814'),
+                              eleTauJetsPt20nbtag = makeEleTauJetCountPair(src,"nbtag",'pt()>20&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>=0.890'),
                               eleTauJetsPt30njets = makeEleTauJetCountPair(src,"njets",'pt()>30&&abs(eta)<4.7&&userFloat("idLoose")'),
                               eleTauJetsPt20njets = makeEleTauJetCountPair(src,"njetspt20",'pt()>20&&abs(eta)<4.7&&userFloat("idLoose")'),
 

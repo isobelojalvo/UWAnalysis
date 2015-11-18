@@ -1,7 +1,7 @@
 #!/bin/sh
-mkdir /nfs_scratch/$USER/ztt_weighted11
-cp /nfs_scratch/$USER/ztt_unweighted11/* /nfs_scratch/$USER/ztt_weighted11/.
-cd /nfs_scratch/$USER/ztt_weighted11/
+#mkdir /nfs_scratch/$USER/ztt_weighted12_NoHF
+#cp /nfs_scratch/$USER/ztt_unweighted12_NoHF/* /nfs_scratch/$USER/ztt_weighted12_NoHF/.
+cd /nfs_scratch/$USER/ztt_weighted12_NoHF/
 
 
 weight=0;
@@ -11,30 +11,6 @@ weightEMStitchQCD=0;
 weightBCtoE=0;
 
 
-
-if [ $weightBCtoE -eq 1 ]
-    then
-    EventWeightsIterativeGen outputFile='QCDBCtoE_30.root'  weight=40718.4     histoName='MT/results' sumHistoName='sumweights/genWeights' #159068000*.00255
-    EventWeightsIterativeGen outputFile='QCDBCtoE_80.root'  weight=38104.4     histoName='MT/results' sumHistoName='sumweights/genWeights' #3221000*.01183
-    EventWeightsIterativeGen outputFile='QCDBCtoE_170.root'  weight=2635.8     histoName='MT/results' sumHistoName='sumweights/genWeights' #105771*.02492
-    EventWeightsIterativeGen outputFile='QCDBCtoE_250.root'  weight=711.9     histoName='MT/results' sumHistoName='sumweights/genWeights' #21094*.03375
-    hadd BCtoE.root QCDBCtoE_*root
-fi
-
-
-if [ $weightEMStitchQCD -eq 1 ]
-    then
-    #1273000000*0.0002
-    EventWeightsIterative outputFile='em1520QCD.root'     weight=254600   histoName='MT/results' #1273000000.0002
-    EventWeightsIterative outputFile='em2030QCD.root'     weight=5352960   histoName='MT/results' #557600000*.0096
-    EventWeightsIterative outputFile='em3050QCD.root'     weight=9928000   histoName='MT/results' #0.073
-    EventWeightsIterative outputFile='em5080QCD.root'     weight=2890800   histoName='MT/results' #19800000*.146
-    EventWeightsIterative outputFile='em80120QCD.root'     weight=350000   histoName='MT/results' #2800000*.125
-    EventWeightsIterative outputFile='em120170QCD.root'     weight=62964   histoName='MT/results' #477000*.132
-    EventWeightsIterative outputFile='em170300QCD.root'     weight=18810   histoName='MT/results' #114000*.165
-    EventWeightsIterative outputFile='em300infQCD.root'     weight=1350   histoName='MT/results' #9000*.15        
-    hadd emQCD.root em*QCD.root
-fi
 
 if [ $weightH -eq 1 ]
     then
@@ -78,5 +54,32 @@ if [ $weight -eq 1 ]
     hadd -f VV.root WZ.root WWTo*.root ZZTo*.root t.root tBar.root t_s*.root 
     hadd -f ZJetsMerge.root ZJets.root ZJets1050.root
 fi
+
+
+
+if [ $weightBCtoE -eq 1 ]
+    then
+    EventWeightsIterativeGen outputFile='QCDBCtoE_30.root'  weight=40718.4     histoName='MT/results' sumHistoName='sumweights/genWeights' #159068000*.00255
+    EventWeightsIterativeGen outputFile='QCDBCtoE_80.root'  weight=38104.4     histoName='MT/results' sumHistoName='sumweights/genWeights' #3221000*.01183
+    EventWeightsIterativeGen outputFile='QCDBCtoE_170.root'  weight=2635.8     histoName='MT/results' sumHistoName='sumweights/genWeights' #105771*.02492
+    EventWeightsIterativeGen outputFile='QCDBCtoE_250.root'  weight=711.9     histoName='MT/results' sumHistoName='sumweights/genWeights' #21094*.03375
+    hadd BCtoE.root QCDBCtoE_*root
+fi
+
+
+if [ $weightEMStitchQCD -eq 1 ]
+    then
+    #1273000000*0.0002
+    EventWeightsIterative outputFile='em1520QCD.root'     weight=254600   histoName='MT/results' #1273000000.0002
+    EventWeightsIterative outputFile='em2030QCD.root'     weight=5352960   histoName='MT/results' #557600000*.0096
+    EventWeightsIterative outputFile='em3050QCD.root'     weight=9928000   histoName='MT/results' #0.073
+    EventWeightsIterative outputFile='em5080QCD.root'     weight=2890800   histoName='MT/results' #19800000*.146
+    EventWeightsIterative outputFile='em80120QCD.root'     weight=350000   histoName='MT/results' #2800000*.125
+    EventWeightsIterative outputFile='em120170QCD.root'     weight=62964   histoName='MT/results' #477000*.132
+    EventWeightsIterative outputFile='em170300QCD.root'     weight=18810   histoName='MT/results' #114000*.165
+    EventWeightsIterative outputFile='em300infQCD.root'     weight=1350   histoName='MT/results' #9000*.15        
+    hadd emQCD.root em*QCD.root
+fi
+
 
 

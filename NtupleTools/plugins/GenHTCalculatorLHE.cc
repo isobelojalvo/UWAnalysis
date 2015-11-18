@@ -103,7 +103,7 @@ bool GenHTCalculatorLHE::filter (Event & ev, const EventSetup &) {
                 //cout<<"PT component: "<<pt<<endl;
                 sumpt+=pt;
 	}
-	cout<<"Sum of PUP: "<<sumpt<<endl;
+	//cout<<"Sum of PUP: "<<sumpt<<endl;
 
 	h2_["LHE_LEADINGPARTON_PT"]  ->Fill(lheeventinfo->hepeup().NUP, ptPART);
 	h3_["LHE_PUPSUM"]->Fill(sumpt);
