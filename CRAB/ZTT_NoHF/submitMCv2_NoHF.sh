@@ -1,7 +1,8 @@
 #!/bin/sh
 voms-proxy-init --voms cms --valid 100:00
 
-
+farmoutAnalysisJobs $1 --vsize-limit=8000 --input-dir=root://cmsxrootd.fnal.gov/ --input-file-list=ZJets.txt --assume-input-files-exist 25ns_METNoHF_ZJets_LOOSEDiMuon $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/ZTT_NoHF/SUB-MC.py  
+exit;
 ######HIGGS SAMPLES #############
 farmoutAnalysisJobs  $1 --assume-input-files-exist --vsize-limit=8000 --input-dir=root://cmsxrootd.fnal.gov/ --input-file-list=GGHTT.txt  25ns_METNoHF_ggHtautau $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/ZTT_NoHF/SUB-MC.py
 

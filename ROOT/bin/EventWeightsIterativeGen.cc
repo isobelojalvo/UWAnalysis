@@ -58,7 +58,7 @@ int main (int argc, char* argv[])
      return 0;
    }
      
-   cout<<"Bin content of bin with 12 vertices "<<puWeight->GetBinContent(puWeight->FindBin(9))<<endl;
+   cout<<"Bin content of bin with 9/12 vertices "<<puWeight->GetBinContent(puWeight->FindBin(9))<<endl;
 
    readdir(f,parser,evGen,puWeight);
 
@@ -92,21 +92,24 @@ void readdir(TDirectory *dir,optutl::CommandLineParser parser,float ev,TH1F* puW
 	  }
 	  else if(obj->IsA()->InheritsFrom(TTree::Class())) {
 		  int vertices;
+		  //float bx=0;
 		  float weight = parser.doubleValue("weight")/(ev);
 
 		  TTree *t = (TTree*)obj;
 		  TBranch *newBranch = t->Branch(parser.stringValue("branch").c_str(),&weight,(parser.stringValue("branch")+"/F").c_str());
 		  t->SetBranchAddress("vertices",&vertices);
-
+        	  //t->SetBranchAddress("puTruth",&bx);
 		  printf("Found tree -> weighting\n");
 		  for(Int_t i=0;i<t->GetEntries();++i)
 		  {
 			  t->GetEntry(i);
+			  weight = parser.doubleValue("weight")/(ev);
 			  //cout<<"nVertices "<<vertices<<endl;
 			  //cout<< "i "<< i <<" bin "<<puWeight->FindBin(vertices)<<endl;
+			  //
 			  int bin=puWeight->FindBin(vertices);
+			  //int bin=puWeight->FindBin(bx);
 
-			  weight = parser.doubleValue("weight")/(ev);
 			  weight*=puWeight->GetBinContent(bin);
 
 			  if(i==1)

@@ -8,7 +8,6 @@ farmoutAnalysisJobs  $1 --vsize-limit=8000 --input-files-per-job=1 --input-dir=r
 
 farmoutAnalysisJobs  $1 --vsize-limit=8000 --input-files-per-job=1 --input-dir=root://cmsxrootd.fnal.gov/ --input-file-list=SingleMuon2015D-PRv4.txt --assume-input-files-exist  SINGLEMUON2015D-PRv4 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/ZTT_25ns/SUB-JSON-PRv4.py  
 
-
 farmoutAnalysisJobs  $1 --vsize-limit=8000 --input-files-per-job=1 --input-dir=root://cmsxrootd.fnal.gov/ --input-file-list=SingleElectron2015D-PRv4.txt --assume-input-files-exist  SINGLEELE2015D-PRv4 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/ZTT_25ns/SUB-JSON-PRv4.py  
 
 
