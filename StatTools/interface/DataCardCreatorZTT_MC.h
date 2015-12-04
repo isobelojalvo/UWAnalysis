@@ -87,13 +87,10 @@ class DataCardCreatorZTT_MC {
 			blinding_             = parser.stringValue("blinding");
 			charge_               = parser.stringValue("charge");
 
-			//ZTT_genTauSel_        = "(genVisPt1>18&&genTaus>1&&genVisPt2>18&&!((abs(pdg2)==13||abs(pdg2)==11)&&genPt2>8))"; //Zttyield
-			//ZTT_genTauSel_        = "pt_1>18"; //Zttyield
-			ZTT_genTauSel_        = "genTaus>0"; //Zttyield
-			ZTTLL_genTauReject_   = "(genVisPt1>18&&genTaus>1&&((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))"; /// zTT_LL
-			ZJFT_genLReject_      = "(!((genTaus==0&&abs(pdg2)==13&&genPt2>8)||(genTaus==0&&abs(pdg2)==11&&genPt2>8)||(genTaus>0&&genVisPt2>18)))"; //ZJ
-			ZLFT_genLSel_         = "(genTaus==0&&((abs(pdg2)==13&&genPt2>8)||(abs(pdg2)==11&&genPt2>8)))";///zl
-
+			ZTT_genTauSel_        = "isTauDecay>0"; //Zttyield
+			ZLFT_genLSel_         = "isTauDecay==0&&(abs(pdg2)==11||abs(pdg2)==13)"; //Zttyield
+			ZJFT_genLReject_        = "isTauDecay==0&&!(abs(pdg2)==11||abs(pdg2)==13)"; //Zttyield
+	
 			//
 			if(samesign_>0)
 			  osSignalSelection_    = signalSelection_+"&&abs(charge)==2";
@@ -565,17 +562,17 @@ class DataCardCreatorZTT_MC {
 			if(eleID_!=0) leg1Corr*=eleID_;
 			//New QCD Shape method
 			//std::pair<float,float> QCDShape = createHistogramAndShifts(dataFile_,"QCD","("+qcdSelection_+"&&"+trigSelection50ns_+"&&"+ssSignalSelection_+")",scaleUp_,prefix);//relaxed slection
-			std::pair<float,float> QCDShape = createHistogramAndShifts(dataFile_,"QCD","("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+")",scaleUp_,prefix);//relaxed slection
+			std::pair<float,float> QCDShape = createHistogramAndShifts(qcdFile_,"QCD","("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+")",scaleUp_,prefix);//relaxed slection?
 			printf("      QCDShape yield = %f + %f \n",QCDShape.first,QCDShape.second);
 			std::cout<<"      QCD Data SS Selection: "<<"("+qcdSelection_+"&&"+ssSignalSelection_+")"<<std::endl;
 
 
 			std::pair<float,float> qcdInflYield  = inflateError(QCDShape,1);
 
-                        renormalizeHistogram(channel_+prefix,"QCD",qcdInflYield.first);
+                        renormalizeHistogram(channel_+prefix,"QCD",qcdInflYield.first*qcdFactor_);
 
-			output.QCD  = qcdInflYield.first;    
-			output.dQCD = qcdInflYield.second;
+			output.QCD  = qcdInflYield.first*qcdFactor_;    
+			output.dQCD = qcdInflYield.second*qcdFactorErr_;
 
 			if(shifts_.size()>0){
 				qcdSyst(channel_, prefix, "QCD", 1.1, 0.1);

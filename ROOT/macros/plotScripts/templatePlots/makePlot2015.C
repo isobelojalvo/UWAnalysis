@@ -34,7 +34,7 @@ void convertToDNDM(TH1F* histo) {
 
 
 
-makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString units = "GeV",bool left=false,TString channel = "",TString year = "2015B",bool log = false,bool dndm=false,bool doRatio = false)
+makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString units = "GeV",bool left=false,TString channel = "",TString json = "Golden",bool log = false,bool dndm=false,bool doRatio = false)
 {
 	setTDRStyle();
 
@@ -43,8 +43,8 @@ makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString
 	lumi_8TeV  = "19.1 fb^{-1}"; // default is "19.7 fb^{-1}"
 	lumi_7TeV  = "4.9 fb^{-1}";  // default is "5.1 fb^{-1}"
 	lumi_sqrtS = "13 TeV";
-	if (year=="2015B") lumi_13TeV = "50ns 2015B, 40 pb^{-1}";
-	if (year=="2015D") lumi_13TeV = "25ns 2015D, 166 pb^{-1}";
+	if (json=="Golden") lumi_13TeV = "25ns, 2.11 fb^{-1}";
+	if (json=="Silver") lumi_13TeV = "25ns Silver JSON, 2.44 fb^{-1}";
 
 	int iPeriod = 4;    // 1=7TeV, 2=8TeV, 3=7+8TeV, 7=7+8+13TeV 
 
@@ -158,10 +158,10 @@ makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString
 	if(s==3) {
 		TH1F * SM = (TH1F*)(f->Get(dir+"/ggH125"));
 		TH1F *sm = SM;
-		sm->Scale(1);//FIXME
+		sm->Scale(100);//FIXME
 		TH1F * SM2 = (TH1F*)(f->Get(dir+"/qqH125"));
 		TH1F *sm2 = SM2;
-		sm2->Scale(1);//FIXME
+		sm2->Scale(100);//FIXME
 		sm->Add(sm2);
 		sm->SetLineStyle(11);
 		signal=sm;
@@ -266,7 +266,7 @@ makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString
 		data2->SetTitleSize  (0.12,"X");
 		data2->SetLabelSize  (0.10,"X");
 		data2->SetLabelSize  (0.08,"Y");
-		data2->GetYaxis()->SetRangeUser(0,2);
+		data2->GetYaxis()->SetRangeUser(0.8,1.2);
 		data2->GetYaxis()->SetNdivisions(305);
 		data2->GetYaxis()->SetTitle("Data/MC");
 
@@ -301,11 +301,11 @@ makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString
 
 	if(log){
 		if(s==3)
-			l->AddEntry(signal,"SM H(125) #rightarrow #tau #tau","L");
+			l->AddEntry(signal,"SM H(125) #rightarrow #tau #tau x100","L");
 	}
 	else{
 		if(s==3)
-			l->AddEntry(signal,"SM H(125) #rightarrow #tau #tau","F");
+			l->AddEntry(signal,"SM H(125) #rightarrow #tau #tau x100","F");
 	}
 
 	l->SetBorderSize(0);
