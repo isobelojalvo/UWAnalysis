@@ -216,6 +216,11 @@ class CompositePtrCandidateT1T2MEtAlgorithm
       compositePtrCandidate.setCovMat01( convert_matrix(metPtr->getSignificanceMatrix()) );
       compositePtrCandidate.setCovMat10( convert_matrix(metPtr->getSignificanceMatrix()) );
       compositePtrCandidate.setCovMat11( convert_matrix(metPtr->getSignificanceMatrix()) );
+      //compositePtrCandidate.setCovMatSig00(CovarianceMatrix00);
+      //compositePtrCandidate.setCovMatSig01(CovarianceMatrix01);
+      //compositePtrCandidate.setCovMatSig10(CovarianceMatrix10);
+      //compositePtrCandidate.setCovMatSig11(CovarianceMatrix11);
+
       compositePtrCandidate.setFullPt( (correctedMET + leg1->p4() + leg2->p4()).pt() );
       compositePtrCandidate.setFullEta( (correctedMET + leg1->p4() + leg2->p4()).eta() );
       compositePtrCandidate.setFullPhi( (correctedMET + leg1->p4() + leg2->p4()).phi() );
@@ -392,12 +397,20 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 		  //std::cout << "genLeg1: isDirectPromptTauDecayProduct = " << genLeg1->statusFlags().isDirectPromptTauDecayProduct()<<std::endl; 
 		  //std::cout << "genLeg1: isDirectPromptTauDecayProductFinalState = " << genLeg1->isDirectPromptTauDecayProductFinalState()<<std::endl; 
 		  //	  << " phi = " << genLeg1->phi()*180./TMath::Pi() << std::endl;
+
+
+		  //int genmatch;
+                  //if (genLeg1->pt()>8&&genLeg1->statusFlags().isPrompt()&&abs(genLeg1->pdgId())==11) {genmatch=1;}
+                  //else if (genLeg1->pt()>8&&genLeg1->statusFlags().isPrompt()&&abs(genLeg1->pdgId())==13) {genmatch=2;}
+                  //else if (genLeg1->pt()>8&&genLeg1->statusFlags().isDirectPromptTauDecayProduct()&&abs(genLeg1->pdgId())==13) {genmatch=3;}
+                  //else if (genLeg1->pt()>8&&genLeg1->statusFlags().isDirectPromptTauDecayProduct()&&abs(genLeg1->pdgId())==11) {genmatch=4;}
 		  compositePtrCandidate.setP4Leg1gen(genLeg1->p4());
 		  compositePtrCandidate.setPdg1(genLeg1->pdgId());
-		  compositePtrCandidate.setIsPrompt(genLeg1->statusFlags().isPrompt());
-		  compositePtrCandidate.setIsPromptFS(genLeg1->isPromptFinalState());
-		  compositePtrCandidate.setIsDirectPromptTauDecayProduct(genLeg1->statusFlags().isDirectPromptTauDecayProduct());
-		  compositePtrCandidate.setIsDirectPromptTauDecayProductFS(genLeg1->isDirectPromptTauDecayProductFinalState());
+		  compositePtrCandidate.setIsPrompt1(genLeg1->statusFlags().isPrompt());
+		  compositePtrCandidate.setIsPromptFS1(genLeg1->isPromptFinalState());
+		  compositePtrCandidate.setIsDirectPromptTauDecayProduct1(genLeg1->statusFlags().isDirectPromptTauDecayProduct());
+		  compositePtrCandidate.setIsDirectPromptTauDecayProductFS1(genLeg1->isDirectPromptTauDecayProductFinalState());
+		  //compositePtrCandidate.setGenMatch1(genmatch);
 	  }
 	  else{
 		  compositePtrCandidate.setPdg1( 0 );
@@ -413,10 +426,10 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 		  //	  << " phi = " << genLeg2->phi()*180./TMath::Pi() << std::endl;
 		  compositePtrCandidate.setP4Leg2gen(genLeg2->p4());
 		  compositePtrCandidate.setPdg2(genLeg2->pdgId());
-		  //compositePtrCandidate.setIsPrompt(genLeg2->statusFlags().isPrompt());
-		  //compositePtrCandidate.setIsPromptFS(genLeg2->isPromptFinalState());
-		  //compositePtrCandidate.setIsDirectPromptTauDecayProduct(genLeg2->statusFlags().isDirectPromptTauDecayProduct());
-		  //compositePtrCandidate.setIsDirectPromptTauDecayProductFS(genLeg2->isDirectPromptTauDecayProductFinalState());
+		  compositePtrCandidate.setIsPrompt2(genLeg2->statusFlags().isPrompt());
+		  compositePtrCandidate.setIsPromptFS2(genLeg2->isPromptFinalState());
+		  compositePtrCandidate.setIsDirectPromptTauDecayProduct2(genLeg2->statusFlags().isDirectPromptTauDecayProduct());
+		  compositePtrCandidate.setIsDirectPromptTauDecayProductFS2(genLeg2->isDirectPromptTauDecayProductFinalState());
 
 	  }
 	  else{

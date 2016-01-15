@@ -34,6 +34,7 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   process.analysisSequence = cms.Sequence()
 
   #mvaMet(process)
+  metSignificance(process)
 
   #Apply Tau Energy Scale Changes
   EScaledTaus(process,False)
@@ -82,6 +83,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   process.analysisSequence = cms.Sequence()
 
   #mvaMet(process)
+  metSignificance(process)
 
   #Apply Tau Energy Scale Changes
   EScaledTaus(process,False)
@@ -252,7 +254,7 @@ def mvaMet(process):
    process.load("RecoJets.JetProducers.ak4PFJets_cfi")
    process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
    process.ak4PFJets.doAreaFastjet = cms.bool(True)
-   
+  
    from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFJetsL1FastL2L3
    
    process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
@@ -272,6 +274,28 @@ def mvaMet(process):
 
    #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMVAMEtSequence*process.patMVAMet)
    process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.pfMVAMEtSequence*process.patMVAMet)
+
+
+def metSignificance(process):
+   process.load("RecoMET.METProducers.METSignificance_cfi")
+   process.load("RecoMET.METProducers.METSignificanceParams_cfi")
+
+   from RecoMET.METProducers.METSignificanceParams_cfi import METSignificanceParams
+ 
+   process.METSignificance = cms.EDProducer(
+       "METSignificanceProducer",
+       srcLeptons = cms.VInputTag(
+          'slimmedElectrons',
+          'slimmedMuons',
+          'slimmedPhotons'
+       ),
+       srcPfJets            = cms.InputTag('slimmedJets'),
+       srcMet               = cms.InputTag('slimmedMETs'),
+       srcPFCandidates      = cms.InputTag('packedPFCandidates'),
+    
+       parameters = METSignificanceParams
+   )
+   process.analysisSequence *= process.METSignificance
 
 
 def GenSumWeights(process):

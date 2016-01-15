@@ -153,8 +153,13 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               ),
                               pu = cms.PSet(
                                   pluginType = cms.string("PUFiller"),
-                                  src        = cms.InputTag("addPileupInfo"),
-                                  tag        = cms.string("pu"),
+                                  src        = cms.InputTag("slimmedAddPileupInfo"),
+                                  tag        = cms.string("pu")
+                              ),
+                              cov = cms.PSet(
+                                  pluginType = cms.string("METSignificanceFiller"),
+                                  src        = cms.InputTag("METSignificance"),
+                                  tag        = cms.string("metcov")
                               ),
                               PVsSync = cms.PSet(
                                   pluginType = cms.string("VertexSizeFiller"),
@@ -223,10 +228,10 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauMETCal = makeMuTauPair(src,"metCal","calibratedMET.pt()"),#FILLED
                               #muTauMETPhi = makeMuTauPair(src,"metphi","metPhi"),#FILLED
                               muTauMETPhi = makeMuTauPair(src,"metphi","met.phi()"),#FILLED
-                              muTauCovMat00 = makeMuTauPair(src,"covMatrix00","covMatrix00"),#FIXME
-                              muTauCovMat10 = makeMuTauPair(src,"covMatrix10","covMatrix10"),#FIXME
-                              muTauCovMat01 = makeMuTauPair(src,"covMatrix01","covMatrix01"),#FIXME
-                              muTauCovMat11 = makeMuTauPair(src,"covMatrix11","covMatrix11"),#FIXME
+                              muTauMvaCovMat00 = makeMuTauPair(src,"covMVAMatrix00","covMatrix00"),#FIXME
+                              muTauMvaCovMat10 = makeMuTauPair(src,"covMVAMatrix10","covMatrix10"),#FIXME
+                              muTauMvaCovMat01 = makeMuTauPair(src,"covMVAMatrix01","covMatrix01"),#FIXME
+                              muTauMvaCovMat11 = makeMuTauPair(src,"covMVAMatrix11","covMatrix11"),#FIXME
 
                               muTauMT = makeMuTauPair(src,"mt12","mt12MET"),#FILLED
                               muTauMT1 = makeMuTauPair(src,"mt_1","mt1MET"),#FILLED
@@ -302,10 +307,18 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauGenVisMass = makeMuTauPair(src,"genVisMass",'p4VisGen().M()'),
                               muTauGenMassMatched = makeMuTauPair(src,"genFullMassMatched",'p4gen().M()'),
                               muTauGenMass = makeMuTauPair(src,"fullGenMass",'genBosonMass()'),
-                              muTauGenIsPrompt = makeMuTauPair(src,"isPrompt",'isPrompt()'),
-                              muTauGenIsPromptFS = makeMuTauPair(src,"isPromptFS",'isPromptFS()'),
-                              muTauGenIsDirectTauDecay = makeMuTauPair(src,"isTauDecay",'isDirectPromptTauDecayProduct()'),
-                              muTauGenIsDirectTauDecayFS = makeMuTauPair(src,"isTauDecayFS",'isDirectPromptTauDecayProductFS()'),
+
+                              muTauGenIsPrompt1 = makeMuTauPair(src,"isPrompt1",'isPrompt1()'),
+                              muTauGenIsPromptFS1 = makeMuTauPair(src,"isPromptFS1",'isPromptFS1()'),
+                              muTauGenIsDirectTauDecay1 = makeMuTauPair(src,"isTauDecay1",'isDirectPromptTauDecayProduct1()'),
+                              muTauGenIsDirectTauDecayFS1 = makeMuTauPair(src,"isTauDecayFS1",'isDirectPromptTauDecayProductFS1()'),
+
+                              muTauGenIsPrompt2 = makeMuTauPair(src,"isPrompt2",'isPrompt2()'),
+                              muTauGenIsPromptFS2 = makeMuTauPair(src,"isPromptFS2",'isPromptFS2()'),
+                              muTauGenIsDirectTauDecay2 = makeMuTauPair(src,"isTauDecay2",'isDirectPromptTauDecayProduct2()'),
+                              muTauGenIsDirectTauDecayFS2 = makeMuTauPair(src,"isTauDecayFS2",'isDirectPromptTauDecayProductFS2()'),
+
+
 
 			      #Jets
                               muTauJetsPt20nbtag = makeMuTauJetCountPair(src,"nbtag",'pt()>20&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>=0.890'),
@@ -401,9 +414,14 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               ),
                               pu = cms.PSet(
                                   pluginType = cms.string("PUFiller"),
-                                  src        = cms.InputTag("addPileupInfo"),
-                                  tag        = cms.string("pu"),
+                                  src        = cms.InputTag("slimmedAddPileupInfo"),
+                                  tag        = cms.string("pu")
                               ),#FIXME
+                              cov = cms.PSet(
+                                  pluginType = cms.string("METSignificanceFiller"),
+                                  src        = cms.InputTag("METSignificance"),
+                                  tag        = cms.string("metcov")
+                              ),
                               PVsSync = cms.PSet(
                                   pluginType = cms.string("VertexSizeFiller"),
                                   src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
@@ -470,10 +488,10 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               eleTauMET = makeEleTauPair(src,"met","met.pt()"),#currently identical
                               #eleTauMETPhi = makeEleTauPair(src,"metphi","metPhi"),
                               eleTauMETPhi = makeEleTauPair(src,"metphi","met.phi()"),
-                              eleTauCovMat00 = makeEleTauPair(src,"covMatrix00","covMatrix00"),
-                              eleTauCovMat10 = makeEleTauPair(src,"covMatrix10","covMatrix10"),
-                              eleTauCovMat01 = makeEleTauPair(src,"covMatrix01","covMatrix01"),
-                              eleTauCovMat11 = makeEleTauPair(src,"covMatrix11","covMatrix11"),
+                              eleTauCovMat00 = makeEleTauPair(src,"mvacov00","covMatrix00"),
+                              eleTauCovMat10 = makeEleTauPair(src,"mvacov10","covMatrix10"),
+                              eleTauCovMat01 = makeEleTauPair(src,"mvacov01","covMatrix01"),
+                              eleTauCovMat11 = makeEleTauPair(src,"mvacov11","covMatrix11"),
 
                               eleTauMT = makeEleTauPair(src,"mt12","mt12MET"),
                               eleTauMT1 = makeEleTauPair(src,"mt_1","mt1MET"),
@@ -577,10 +595,16 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               eleTauGenVisMass = makeEleTauPair(src,"genVisMass",'p4VisGen().M()'),
                               eleTauGenMassMatched = makeEleTauPair(src,"genFullMassMatched",'p4gen().M()'),
                               eleTauGenMass = makeEleTauPair(src,"fullGenMass",'genBosonMass()'),
-                              eleTauGenIsPrompt = makeEleTauPair(src,"isPrompt",'isPrompt()'),
-                              eleTauGenIsPromptFS = makeEleTauPair(src,"isPromptFS",'isPromptFS()'),
-                              eleTauGenIsDirectTauDecay = makeEleTauPair(src,"isTauDecay",'isDirectPromptTauDecayProduct()'),
-                              eleTauGenIsDirectTauDecayFS = makeEleTauPair(src,"isTauDecayFS",'isDirectPromptTauDecayProductFS()'),
+
+                              eleTauGenIsPrompt1 = makeEleTauPair(src,"isPrompt1",'isPrompt1()'),
+                              eleTauGenIsPromptFS1 = makeEleTauPair(src,"isPromptFS1",'isPromptFS1()'),
+                              eleTauGenIsDirectTauDecay1 = makeEleTauPair(src,"isTauDecay1",'isDirectPromptTauDecayProduct1()'),
+                              eleTauGenIsDirectTauDecayFS1 = makeEleTauPair(src,"isTauDecayFS1",'isDirectPromptTauDecayProductFS1()'),
+                              eleTauGenIsPrompt2 = makeEleTauPair(src,"isPrompt2",'isPrompt2()'),
+                              eleTauGenIsPromptFS2 = makeEleTauPair(src,"isPromptFS2",'isPromptFS2()'),
+                              eleTauGenIsDirectTauDecay2 = makeEleTauPair(src,"isTauDecay2",'isDirectPromptTauDecayProduct2()'),
+                              eleTauGenIsDirectTauDecayFS2 = makeEleTauPair(src,"isTauDecayFS2",'isDirectPromptTauDecayProductFS2()'),
+
 
 
 			      #Jets

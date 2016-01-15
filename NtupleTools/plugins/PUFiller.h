@@ -6,7 +6,9 @@
 #include <TTree.h>
 
 #include "UWAnalysis/NtupleTools/interface/NtupleFillerBase.h"
-#include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h" 
+#include "DataFormats/VertexReco/interface/Vertex.h"
+#include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
+
 
 //
 // class decleration
@@ -41,24 +43,24 @@ class PUFiller : public NtupleFillerBase {
     edm::Handle<std::vector<PileupSummaryInfo> > PupInfo;
 
     if(iEvent.getByLabel(src_, PupInfo)) {
-      for(std::vector<PileupSummaryInfo>::const_iterator i = PupInfo->begin();
-	  i!=PupInfo->end();++i) {
-	int BX = i->getBunchCrossing();
+      std::vector<PileupSummaryInfo>::const_iterator PVI;
+      for(PVI = PupInfo->begin(); PVI != PupInfo->end(); ++PVI) {
+	int BX = PVI->getBunchCrossing();
 	if(BX==-1) {
-	  value[0] =  i->getPU_NumInteractions(); 
+	  value[0] =  PVI->getPU_NumInteractions(); 
 	}
 	if(BX==0) {
-	  value[2] =  i->getPU_NumInteractions(); 
-	  value[1] =i->getTrueNumInteractions(); 
+	  value[2] =  PVI->getPU_NumInteractions(); 
+	  value[1] =  PVI->getTrueNumInteractions(); 
 	}
 	if(BX==1) {
-	  value[4] =  i->getPU_NumInteractions(); 
+	  value[4] =  PVI->getPU_NumInteractions(); 
 	}
       }
     }
     else
       {
-	//printf("PU Info not found\n");
+	printf("PU Info not found\n");
       }
 
 

@@ -156,7 +156,12 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'osDiMuons', sr
                                   src        = cms.InputTag("addPileupInfo"),
                                   tag        = cms.string("pu"),
                               ),
-                               PVs = cms.PSet(
+			      cov = cms.PSet(
+                                  pluginType = cms.string("METSignificanceFiller"),
+                                  src        = cms.InputTag("METSignificance"),
+                                  tag        = cms.string("metcov")
+                              ),
+                              PVs = cms.PSet(
                                   pluginType = cms.string("VertexSizeFiller"),
                                   src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
                                   #src        = cms.InputTag("primaryVertexFilter"),
@@ -215,10 +220,10 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'osDiMuons', sr
                               #muTauMVAMET = makeMuTauPair(src,"mvamet","mvamet"),#FILLED
                               #muTauMVAMETPhi = makeMuTauPair(src,"mvametphi","mvametphi"),#FILLED
 
-                              muTauCovMat00 = makeMuTauPair(src,"metcov00","covMatrix00"),#FIXME
-                              muTauCovMat10 = makeMuTauPair(src,"metcov10","covMatrix10"),#FIXME
-                              muTauCovMat01 = makeMuTauPair(src,"metcov01","covMatrix01"),#FIXME
-                              muTauCovMat11 = makeMuTauPair(src,"metcov11","covMatrix11"),#FIXME
+                              muTauCovMat00 = makeMuTauPair(src,"mvacov00","covMatrix00"),#FIXME
+                              muTauCovMat10 = makeMuTauPair(src,"mvacov10","covMatrix10"),#FIXME
+                              muTauCovMat01 = makeMuTauPair(src,"mvacov01","covMatrix01"),#FIXME
+                              muTauCovMat11 = makeMuTauPair(src,"mvacov11","covMatrix11"),#FIXME
 
                               muTauMT = makeMuTauPair(src,"mt12","mt12MET"),#FILLED
                               muTauMT1 = makeMuTauPair(src,"mt_1","mt1MET"),#FILLED
@@ -285,6 +290,19 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'osDiMuons', sr
                               muTauGenVisMass = makeMuTauPair(src,"genVisMass",'p4VisGen().M()'),
                               muTauGenMassMatched = makeMuTauPair(src,"genFullMassMatched",'p4gen().M()'),
                               muTauGenMass = makeMuTauPair(src,"fullGenMass",'genBosonMass()'),
+                              muTauGenMatch1 = makeMuTauPair(src,"gen_match_1",'genPdgId1()'),
+                              muTauGenMatch2 = makeMuTauPair(src,"gen_match_2",'genPdgId2()'),
+
+
+                              muTauGenIsPrompt1 = makeMuTauPair(src,"isPrompt1",'isPrompt1()'),
+                              muTauGenIsPromptFS1 = makeMuTauPair(src,"isPromptFS1",'isPromptFS1()'),
+                              muTauGenIsDirectTauDecay1 = makeMuTauPair(src,"isTauDecay1",'isDirectPromptTauDecayProduct1()'),
+                              muTauGenIsDirectTauDecayFS1 = makeMuTauPair(src,"isTauDecayFS1",'isDirectPromptTauDecayProductFS1()'),
+
+                              muTauGenIsPrompt2 = makeMuTauPair(src,"isPrompt2",'isPrompt2()'),
+                              muTauGenIsPromptFS2 = makeMuTauPair(src,"isPromptFS2",'isPromptFS2()'),
+                              muTauGenIsDirectTauDecay2 = makeMuTauPair(src,"isTauDecay2",'isDirectPromptTauDecayProduct2()'),
+                              muTauGenIsDirectTauDecayFS2 = makeMuTauPair(src,"isTauDecayFS2",'isDirectPromptTauDecayProductFS2()'),
 
 
 
@@ -421,7 +439,12 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                                   pluginType = cms.string("PUFiller"),
                                   src        = cms.InputTag("addPileupInfo"),
                                   tag        = cms.string("pu"),
-                              ),#FIXME
+                              ),
+			      cov = cms.PSet(
+                                  pluginType = cms.string("METSignificanceFiller"),
+                                  src        = cms.InputTag("METSignificance"),
+                                  tag        = cms.string("metcov")
+                              ),
                               PVs = cms.PSet(
                                   pluginType = cms.string("VertexSizeFiller"),
                                   src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
@@ -476,6 +499,16 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauPhi1 = makeEleTauPair(src,"phi_1","leg1.phi"),
                               eleTauPhi2 = makeEleTauPair(src,"phi_2","leg2.phi"),
 
+                              eleTauGenIsPrompt1 = makeEleTauPair(src,"isPrompt1",'isPrompt1()'),
+                              eleTauGenIsPromptFS1 = makeEleTauPair(src,"isPromptFS1",'isPromptFS1()'),
+                              eleTauGenIsDirectTauDecay1 = makeEleTauPair(src,"isTauDecay1",'isDirectPromptTauDecayProduct1()'),
+                              eleTauGenIsDirectTauDecayFS1 = makeEleTauPair(src,"isTauDecayFS1",'isDirectPromptTauDecayProductFS1()'),
+                              eleTauGenIsPrompt2 = makeEleTauPair(src,"isPrompt2",'isPrompt2()'),
+                              eleTauGenIsPromptFS2 = makeEleTauPair(src,"isPromptFS2",'isPromptFS2()'),
+                              eleTauGenIsDirectTauDecay2 = makeEleTauPair(src,"isTauDecay2",'isDirectPromptTauDecayProduct2()'),
+                              eleTauGenIsDirectTauDecayFS2 = makeEleTauPair(src,"isTauDecayFS2",'isDirectPromptTauDecayProductFS2()'),
+
+
                               #eleTauMETUnc = makeEleTauPair(src,"metUnc","met.pt()"),#curretnly identical
                               #eleTauMET = makeEleTauPair(src,"met","calibratedMET.pt()"),#currently identical
                               #eleTauMETPhi = makeEleTauPair(src,"metphi","metPhi"),
@@ -486,10 +519,10 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
 
                               #eleTauMVAMET = makeEleTauPair(src,"mvamet","mvamet"),#currently identical
                               #eleTauMVAMETPhi = makeEleTauPair(src,"mvametphi","mvametphi"),#currently identical
-                              eleTauCovMat00 = makeEleTauPair(src,"metcov00","covMatrix00"),
-                              eleTauCovMat10 = makeEleTauPair(src,"metcov10","covMatrix10"),
-                              eleTauCovMat01 = makeEleTauPair(src,"metcov01","covMatrix01"),
-                              eleTauCovMat11 = makeEleTauPair(src,"metcov11","covMatrix11"),
+                              eleTauCovMat00 = makeEleTauPair(src,"mvacov00","covMatrix00"),
+                              eleTauCovMat10 = makeEleTauPair(src,"mvacov10","covMatrix10"),
+                              eleTauCovMat01 = makeEleTauPair(src,"mvacov01","covMatrix01"),
+                              eleTauCovMat11 = makeEleTauPair(src,"mvacov11","covMatrix11"),
 
                               eleTauMT = makeEleTauPair(src,"mt12","mt12MET"),
                               eleTauMT1 = makeEleTauPair(src,"mt_1","mt1MET"),
@@ -568,6 +601,11 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='osDiElectrons', s
                               eleTauGenVisMass = makeEleTauPair(src,"genVisMass",'p4VisGen().M()'),
                               eleTauGenMassMatched = makeEleTauPair(src,"genFullMassMatched",'p4gen().M()'),
                               eleTauGenMass = makeEleTauPair(src,"fullGenMass",'genBosonMass()'),
+
+                              eleTauGenMatch1 = makeEleTauPair(src,"gen_match_1",'genPdgId1()'),
+                              eleTauGenMatch2 = makeEleTauPair(src,"gen_match_2",'genPdgId2()'),
+
+
 
 
 

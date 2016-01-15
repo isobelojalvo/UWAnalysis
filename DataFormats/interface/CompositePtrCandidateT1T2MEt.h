@@ -68,10 +68,16 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
 
 
   /// set decay statusFlag
-  const int isPrompt() const { return isPrompt_; } 
-  const int isPromptFS() const { return isPromptFS_; } 
-  const int isDirectPromptTauDecayProduct() const { return isTauDecayFlag_; }  
-  const int isDirectPromptTauDecayProductFS() const { return isTauDecayFlagFS_; } 
+  const int isPrompt1() const { return isPrompt1_; } 
+  const int isPromptFS1() const { return isPromptFS1_; } 
+  const int isDirectPromptTauDecayProduct1() const { return isTauDecayFlag1_; }  
+  const int isDirectPromptTauDecayProductFS1() const { return isTauDecayFlagFS1_; } 
+
+  const int isPrompt2() const { return isPrompt2_; } 
+  const int isPromptFS2() const { return isPromptFS2_; } 
+  const int isDirectPromptTauDecayProduct2() const { return isTauDecayFlag2_; }  
+  const int isDirectPromptTauDecayProductFS2() const { return isTauDecayFlagFS2_; } 
+
 
 
   /// energy ratio of visible gen. daughter/mother particles
@@ -165,6 +171,11 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   double covMatrix01() const { return covMatrix01_; }
   double covMatrix10() const { return covMatrix10_; } 
   double covMatrix11() const { return covMatrix11_; }
+  //double covMatrixSig00() const { return covMatrixSig00_; }
+  //double covMatrixSig01() const { return covMatrixSig01_; }
+  //double covMatrixSig10() const { return covMatrixSig10_; } 
+  //double covMatrixSig11() const { return covMatrixSig11_; }
+
 
 
 
@@ -344,10 +355,17 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   void setGenBosonMass(float genBosonMass) { genBosonMass_ = genBosonMass; }
 
   /// set decay statusFlag
-  void setIsPrompt(int isPrompt) { isPrompt_=isPrompt; } //genLeg1->statusFlags().isPrompt());
-  void setIsPromptFS(int isPromptFS) { isPromptFS_=isPromptFS; } //genLeg1->isPromptFinalState());
-  void setIsDirectPromptTauDecayProduct(int isTauDecayFlag) { isTauDecayFlag_=isTauDecayFlag; }  //genLeg1->statusFlags().isDirectPromptTauDecayProduct());
-  void setIsDirectPromptTauDecayProductFS(int isTauDecayFlagFS) { isTauDecayFlagFS_=isTauDecayFlagFS; } //genLeg1->isDirectPromptTauDecayProductFinalState());
+  void setIsPrompt1(int isPrompt1) { isPrompt1_=isPrompt1; } //genLeg1->statusFlags().isPrompt());
+  void setIsPromptFS1(int isPromptFS1) { isPromptFS1_=isPromptFS1; } //genLeg1->isPromptFinalState());
+  void setIsDirectPromptTauDecayProduct1(int isTauDecayFlag1) { isTauDecayFlag1_=isTauDecayFlag1; }  //genLeg1->statusFlags().isDirectPromptTauDecayProduct());
+  void setIsDirectPromptTauDecayProductFS1(int isTauDecayFlagFS1) { isTauDecayFlagFS1_=isTauDecayFlagFS1; } //genLeg1->isDirectPromptTauDecayProductFinalState());
+
+  /// set decay statusFlag
+  void setIsPrompt2(int isPrompt2) { isPrompt2_=isPrompt2; } //genLeg1->statusFlags().isPrompt());
+  void setIsPromptFS2(int isPromptFS2) { isPromptFS2_=isPromptFS2; } //genLeg1->isPromptFinalState());
+  void setIsDirectPromptTauDecayProduct2(int isTauDecayFlag2) { isTauDecayFlag2_=isTauDecayFlag2; }  //genLeg1->statusFlags().isDirectPromptTauDecayProduct());
+  void setIsDirectPromptTauDecayProductFS2(int isTauDecayFlagFS2) { isTauDecayFlagFS2_=isTauDecayFlagFS2; } //genLeg1->isDirectPromptTauDecayProductFinalState());
+
 
 
 
@@ -395,6 +413,11 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   void setCovMat01(TMatrixD covMatrix) { covMatrix01_ = covMatrix[0][1]; }
   void setCovMat10(TMatrixD covMatrix) { covMatrix10_ = covMatrix[1][0]; }    
   void setCovMat11(TMatrixD covMatrix) { covMatrix11_ = covMatrix[1][1]; }
+  //void setCovMatSig00(double covMatrix) { covMatrixSig00_ = covMatrix; }
+  //void setCovMatSig01(double covMatrix) { covMatrixSig01_ = covMatrix; }
+  //void setCovMatSig10(double covMatrix) { covMatrixSig10_ = covMatrix; }    
+  //void setCovMatSig11(double covMatrix) { covMatrixSig11_ = covMatrix; }
+
 
 
   /// set vertex variables
@@ -469,10 +492,17 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   float genBosonMass_;
 
   //genStatus Flag
-  int isPrompt_;
-  int isPromptFS_;
-  int isTauDecayFlag_;
-  int isTauDecayFlagFS_;
+  int isPrompt1_;
+  int isPromptFS1_;
+  int isTauDecayFlag1_;
+  int isTauDecayFlagFS1_;
+
+  //genStatus Flag
+  int isPrompt2_;
+  int isPromptFS2_;
+  int isTauDecayFlag2_;
+  int isTauDecayFlagFS2_;
+
 
 
   //CSV SF variables
@@ -528,6 +558,12 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   double covMatrix01_;
   double covMatrix10_;
   double covMatrix11_;
+  //double covMatrixSig00_;
+  //double covMatrixSig01_;
+  //double covMatrixSig10_;
+  //double covMatrixSig11_;
+
+
 
 
   /// Vertex variables
