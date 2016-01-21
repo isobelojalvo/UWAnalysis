@@ -3,7 +3,29 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-process.GlobalTag.globaltag = 'MCRUN2_74_V9A'
+#process.GlobalTag.globaltag = 'MCRUN2_74_V9A'
+process.GlobalTag = cms.ESSource("PoolDBESSource",
+    DBParameters = cms.PSet(
+        authenticationPath = cms.untracked.string(''),
+        authenticationSystem = cms.untracked.int32(0),
+        connectionRetrialPeriod = cms.untracked.int32(10),
+        connectionRetrialTimeOut = cms.untracked.int32(60),
+        connectionTimeOut = cms.untracked.int32(60),
+        enableConnectionSharing = cms.untracked.bool(True),
+        enablePoolAutomaticCleanUp = cms.untracked.bool(False),
+        enableReadOnlySessionOnUpdateConnection = cms.untracked.bool(False),
+        idleConnectionCleanupPeriod = cms.untracked.int32(10),
+        messageLevel = cms.untracked.int32(0)
+    ),
+    connect = cms.string('frontier://FrontierProd/CMS_CONDITIONS'),
+    globaltag = cms.string('76X_mcRun2_asymptotic_v13'),
+    toGet = cms.VPSet(cms.PSet(
+        connect = cms.string('frontier://FrontierProd/CMS_CONDITIONS'),
+        record = cms.string('L1GtTriggerMenuRcd'),
+        snapshotTime = cms.string('2015-10-26 12:00:00.000'),
+        tag = cms.string('L1Menu_Collisions2015_25nsStage1_v5')
+    ))
+)
 
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsMiniAod import *

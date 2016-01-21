@@ -18,7 +18,7 @@ class SmearedJetProducer : public edm::EDProducer  {
 
   
   // ----------member data ---------------------------
-  edm::InputTag src_;           //input Collection
+  edm::EDGetTokenT<std::vector<pat::Jet> > src_;           //input Collection
   int energyScaleDB_;
   
   SmearedParticleMaker<pat::Jet,GenJetRetriever<pat::Jet> > *smearingModule;

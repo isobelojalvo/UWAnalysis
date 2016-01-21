@@ -1,6 +1,7 @@
 #include "FWCore/Framework/interface/EDFilter.h"
 #include "FWCore/Utilities/interface/InputTag.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
+#include "SimDataFormats/GeneratorProducts/interface/LHEEventProduct.h"
 #include "TH1D.h"
 #include "TH2D.h"
 
@@ -12,7 +13,7 @@ class GenHTCalculatorLHE : public edm::EDFilter {
 		virtual void beginJob();
 		virtual void endJob();
 	private:
-		edm::InputTag LHEParticleTag_;
+		edm::EDGetTokenT<LHEEventProduct> LHEParticleTag_;
 		int statusGen_;
 
 		std::map<std::string,TH1D*> h1_;
@@ -42,7 +43,7 @@ using namespace reco;
 
 
 GenHTCalculatorLHE::GenHTCalculatorLHE( const ParameterSet & cfg ) :
-	LHEParticleTag_(cfg.getUntrackedParameter<edm::InputTag> ("LHETag", edm::InputTag("externalLHEProducer"))),
+	LHEParticleTag_(consumes<LHEEventProduct>(cfg.getUntrackedParameter<edm::InputTag> ("LHETag", edm::InputTag("externalLHEProducer")))),
 	statusGen_(cfg.getUntrackedParameter<int>("PartonMultiplicity", 5))
 {
 }
@@ -77,7 +78,7 @@ bool GenHTCalculatorLHE::filter (Event & ev, const EventSetup &) {
         double py=0;
 
 	edm::Handle<LHEEventProduct> lheeventinfo;
-	if(!ev.getByLabel(LHEParticleTag_, lheeventinfo)){
+	if(!ev.getByToken(LHEParticleTag_, lheeventinfo)){
 		LogDebug("") << ">>> LHE info not found!!";
 		return false;
 	}

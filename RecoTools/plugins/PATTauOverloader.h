@@ -41,15 +41,16 @@ class PATTauOverloader : public edm::EDProducer {
   
 
   explicit PATTauOverloader(const edm::ParameterSet& iConfig):
-  src_(iConfig.getParameter<edm::InputTag>("src")),
-  muons_(iConfig.getParameter<edm::InputTag>("muons")),
-  vtxSrc_(iConfig.getParameter<edm::InputTag>("vtxSrc"))
+  src_(consumes<pat::TauCollection>(iConfig.getParameter<edm::InputTag>("src"))),
+  muons_(consumes<pat::MuonCollection>(iConfig.getParameter<edm::InputTag>("muons"))),
+  vtxSrc_(consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("vtxSrc")))
   {
     produces<pat::TauCollection>();
   }
   
   ~PATTauOverloader() {}
    private:
+
 
   virtual void produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   {
@@ -60,11 +61,11 @@ class PATTauOverloader : public edm::EDProducer {
     Handle<pat::MuonCollection > muons;
     
     edm::Handle<reco::VertexCollection> vertices;
-    iEvent.getByLabel(vtxSrc_, vertices);
-    const reco::Vertex& thePV = *vertices->begin();
+    iEvent.getByToken(vtxSrc_, vertices);
+    //const reco::Vertex& thePV = *vertices->begin();
 
   
-    if(iEvent.getByLabel(src_,cands)) 
+    if(iEvent.getByToken(src_,cands)) 
       for(unsigned int  i=0;i!=cands->size();++i){
 	pat::Tau tau = cands->at(i);
 
@@ -99,7 +100,7 @@ class PATTauOverloader : public edm::EDProducer {
 	        dZ = packedLeadTauCand->dz();
 	        dXY = packedLeadTauCand->dxy();
                 //std::cout<<"Sync Tau dZ is "<<dZ<<std::endl; 
-	        if(iEvent.getByLabel(muons_,muons)){
+	        if(iEvent.getByToken(muons_,muons)){
 		    for(unsigned int k =0; k!=muons->size();k++){
 			    if(ROOT::Math::VectorUtil::DeltaR(muons->at(k).p4(),tau.leadChargedHadrCand()->p4())<0.15){
 				    if(muons->at(k).numberOfMatches()>nMatchedSegments){
@@ -126,9 +127,10 @@ class PATTauOverloader : public edm::EDProducer {
   } 
 
   // ----------member data ---------------------------
-  edm::InputTag src_;
-  edm::InputTag vtxSrc_;
-  edm::InputTag muons_;
+  edm::EDGetTokenT<pat::TauCollection> src_;
+  edm::EDGetTokenT<pat::MuonCollection> muons_;
+  edm::EDGetTokenT<reco::VertexCollection> vtxSrc_;
+
 
 };
 

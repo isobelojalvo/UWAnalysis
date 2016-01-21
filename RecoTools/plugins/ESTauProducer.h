@@ -34,9 +34,9 @@ class ESTauProducer : public edm::EDProducer  {
 
   
   // ----------member data ---------------------------
-  edm::InputTag src_;           //input Collection
-  edm::InputTag genParticles_;
   bool smearConstituents_;
+  edm::EDGetTokenT<pat::TauCollection > src_;           //input Collection
+  edm::EDGetTokenT<reco::GenParticleCollection> genParticles_;
   double hadronEnergyScale_;
   double gammaEnergyScale_;
 

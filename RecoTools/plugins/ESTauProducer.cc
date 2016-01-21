@@ -8,9 +8,9 @@ Decay mode Tau Momentum scaling vs Tau pT
 	  */
 
 ESTauProducer::ESTauProducer(const edm::ParameterSet& iConfig):
-    src_(iConfig.getParameter<edm::InputTag>("src")),  
     smearConstituents_(iConfig.getParameter<bool>("smearConstituents")),
-    genParticles_(iConfig.getParameter<edm::InputTag>("genParticles"))
+    src_(consumes<pat::TauCollection>(iConfig.getParameter<edm::InputTag>("src"))), 
+    genParticles_(consumes<reco::GenParticleCollection>(iConfig.getParameter<edm::InputTag>("genParticles")))
     {
       smearingModule = new SmearedParticleMaker<pat::Tau,GenJetRetriever<pat::Tau> >(iConfig);
       produces<std::vector<pat::Tau> >();
@@ -28,15 +28,15 @@ ESTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 	using namespace edm;
 	using namespace reco;
 
-	std::auto_ptr<std::vector<pat::Tau> > out(new std::vector<pat::Tau> );
 	edm::Handle<pat::TauCollection > srcH;
+	std::auto_ptr<std::vector<pat::Tau> > out(new std::vector<pat::Tau> );
 
 	edm::Handle<reco::GenParticleCollection> genParticleCollection;
 
 	bool tauPresent = false;    
 	bool genParticlesPresent = false;     
 
-	if(iEvent.getByLabel(genParticles_,genParticleCollection)){
+	if(iEvent.getByToken(genParticles_,genParticleCollection)){
 		////first check if there is a tau somewhere in the collection
 		genParticlesPresent=true;
 		for(unsigned int j=0; j < genParticleCollection->size();j++){
@@ -47,7 +47,7 @@ ESTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 		}
 	}
 
-	if(iEvent.getByLabel(src_,srcH)) 
+	if(iEvent.getByToken(src_,srcH)) 
 	  for(unsigned int i=0;i<srcH->size();++i) {
 
 		pat::Tau object = srcH->at(i);

@@ -1,7 +1,7 @@
 #include "UWAnalysis/RecoTools/plugins/SmearedTauProducer.h"
 
 SmearedTauProducer::SmearedTauProducer(const edm::ParameterSet& iConfig):
-    src_(iConfig.getParameter<edm::InputTag>("src")),  
+    src_(consumes<std::vector<pat::Tau> >(iConfig.getParameter<edm::InputTag>("src"))),  
     smearConstituents_(iConfig.getParameter<bool>("smearConstituents")),  
     hadronEnergyScale_(iConfig.getParameter<double>("hadronEnergyScale")),
     gammaEnergyScale_(iConfig.getParameter<double>("gammaEnergyScale"))
@@ -24,7 +24,7 @@ SmearedTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 
     std::auto_ptr<std::vector<pat::Tau> > out(new std::vector<pat::Tau> );
     Handle<std::vector<pat::Tau> > srcH;
-    if(iEvent.getByLabel(src_,srcH) &&srcH->size()>0) 
+    if(iEvent.getByToken(src_,srcH) &&srcH->size()>0) 
       for(unsigned int i=0;i<srcH->size();++i) {
 	pat::Tau object = srcH->at(i);
 	//std::cout << " original object(" << i << "): Pt = " << object.pt() << "," 

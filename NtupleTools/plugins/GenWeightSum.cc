@@ -1,6 +1,7 @@
 #include "FWCore/Framework/interface/EDFilter.h"
 #include "FWCore/Utilities/interface/InputTag.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
+#include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 #include "TH1F.h"
 #include <TTree.h>
 
@@ -12,7 +13,7 @@ class GenWeightSum : public edm::EDFilter {
 		virtual void beginJob();
 		virtual void endJob();
 	private:
-		edm::InputTag src_;
+		edm::EDGetTokenT<GenEventInfoProduct> src_;
 
 		TH1F * genWeights;
 
@@ -21,6 +22,7 @@ class GenWeightSum : public edm::EDFilter {
 		unsigned int sumweight;
 		float weight;
 };
+
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "DataFormats/Common/interface/Handle.h"
@@ -40,7 +42,7 @@ using namespace reco;
 
 
 GenWeightSum::GenWeightSum( const ParameterSet & cfg ) :
-	src_(cfg.getUntrackedParameter<edm::InputTag>("genWeightSrc",edm::InputTag("generator")))
+	src_(consumes<GenEventInfoProduct>(cfg.getUntrackedParameter<edm::InputTag>("genWeightSrc",edm::InputTag("generator"))))
 {
 
 		edm::Service<TFileService> fs;
@@ -70,7 +72,7 @@ bool GenWeightSum::filter (Event & ev, const EventSetup &) {
 	float weight=.5;
 
 	edm::Handle<GenEventInfoProduct> genEvt;
-	if(ev.getByLabel(src_,genEvt)) {
+	if(ev.getByToken(src_,genEvt)) {
 		sumweight += genEvt->weight();
 		if ( (genEvt->weight()) <0) weight=-0.5;	
 	}

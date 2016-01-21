@@ -155,7 +155,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     bool foundTau = false;
     pat::Tau selectTau;
     //match Taus to leg2
-
+    /*
     if(Taus!=0)
       if(Taus->size()>0)
 	for(unsigned int k = 0; k <Taus->size(); k++){
@@ -165,7 +165,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 	    selectTau = Taus->at(k);
 	  }
 	}
-    
+    */  
     //calibrate the MET
     reco::Candidate::LorentzVector correctedMET = met->p4();
 

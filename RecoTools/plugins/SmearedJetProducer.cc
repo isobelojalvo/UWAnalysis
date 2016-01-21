@@ -1,7 +1,7 @@
 #include "UWAnalysis/RecoTools/plugins/SmearedJetProducer.h"
 
 SmearedJetProducer::SmearedJetProducer(const edm::ParameterSet& iConfig):
-    src_(iConfig.getParameter<edm::InputTag>("src")),  
+    src_(consumes<std::vector<pat::Jet> >(iConfig.getParameter<edm::InputTag>("src"))),  
     energyScaleDB_(iConfig.getParameter<int>("energyScaleDB"))
     {
       smearingModule = new SmearedParticleMaker<pat::Jet,GenJetRetriever<pat::Jet> >(iConfig);
@@ -27,7 +27,7 @@ SmearedJetProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 
     std::auto_ptr<std::vector<pat::Jet> > out(new std::vector<pat::Jet> );
     Handle<std::vector<pat::Jet> > srcH;
-    if(iEvent.getByLabel(src_,srcH) &&srcH->size()>0) 
+    if(iEvent.getByToken(src_,srcH) &&srcH->size()>0) 
       for(unsigned int i=0;i<srcH->size();++i) {
 	pat::Jet object = srcH->at(i);
 	//std::cout << " original object(" << i << "): Pt = " << object.pt() << "," 

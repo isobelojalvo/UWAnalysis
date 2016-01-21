@@ -12,7 +12,7 @@ class SmearedTauProducer : public edm::EDProducer  {
 
   
   // ----------member data ---------------------------
-  edm::InputTag src_;           //input Collection
+  edm::EDGetTokenT<std::vector<pat::Tau> > src_;           //input Collection
   bool smearConstituents_;
   double hadronEnergyScale_;
   double gammaEnergyScale_;

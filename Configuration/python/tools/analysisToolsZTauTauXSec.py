@@ -34,7 +34,7 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   process.analysisSequence = cms.Sequence()
 
   #mvaMet(process)
-  metSignificance(process)
+  #metSignificance(process)
 
   #Apply Tau Energy Scale Changes
   EScaledTaus(process,False)
@@ -83,7 +83,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   process.analysisSequence = cms.Sequence()
 
   #mvaMet(process)
-  metSignificance(process)
+  #metSignificance(process)
 
   #Apply Tau Energy Scale Changes
   EScaledTaus(process,False)
@@ -158,7 +158,8 @@ def MiniAODMuonIDEmbedder(process,muons):
 
 def MiniAODEleVIDEmbedder(process, eles):
   #Turn on versioned cut-based ID
-  from PhysicsTools.SelectorUtils.tools.vid_id_tools import  setupAllVIDIdsInModule, setupVIDElectronSelection, switchOnVIDElectronIdProducer, DataFormat
+  from PhysicsTools.SelectorUtils.tools.vid_id_tools import setupAllVIDIdsInModule, setupVIDElectronSelection, switchOnVIDElectronIdProducer, DataFormat, setupVIDSelection
+  #from PhysicsTools.SelectorUtils.tools.vid_id_tools import  setupAllVIDIdsInModule, setupVIDElectronSelection, switchOnVIDElectronIdProducer, DataFormat
   switchOnVIDElectronIdProducer(process, DataFormat.MiniAOD)
   process.load("RecoEgamma.ElectronIdentification.egmGsfElectronIDs_cfi")
   process.egmGsfElectronIDs.physicsObjectSrc = cms.InputTag(eles)
@@ -171,7 +172,7 @@ def MiniAODEleVIDEmbedder(process, eles):
       'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
       'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_nonTrig_V1_cff']
   for idmod in id_modules:
-      setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
+      setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection,None,False)
   
   IDLabels = ["eleMVAIDnonTrig80", "eleMVAIDnonTrig90","CBIDVeto", "CBIDLoose", "CBIDMedium", "CBIDTight","eleHEEPid"] # keys of based id user floats
   IDTags = [
@@ -359,12 +360,13 @@ def applyDefaultSelectionsPT(process):#FIXME THISWILL HVAE TO CHANGE
                                            filter = cms.bool(False)
   										)  
   process.selectedPatElectrons = cms.EDFilter("PATElectronSelector",
-                                           src = cms.InputTag("slimmedElectrons"),
+                                           src = cms.InputTag("miniAODElectronVID"),
                                            cut = cms.string('pt>10&&userFloat("CBIDVeto")>0&&userFloat("dBRelIso")<0.3'),
+                                           #cut = cms.string('pt>10&&userFloat("CBIDVeto")>0&&userFloat("dBRelIso")<0.3'),
                                            filter = cms.bool(False)
   										)
   process.selectedPatMuons = cms.EDFilter("PATMuonSelector",
-                                           src = cms.InputTag("slimmedMuons"),
+                                           src = cms.InputTag("miniAODMuonID"),
                                            cut = cms.string('pt>10&&userInt("mediumID")&&userFloat("dBRelIso")<0.3'),
                                            filter = cms.bool(False)
   										) 
@@ -439,7 +441,7 @@ def electronTriggerMatchMiniAOD(process,triggerProcess,HLT,srcEle):
 
    process.triggeredPatElectrons = cms.EDProducer("ElectronTriggerMatcherMiniAOD",
                                             src = cms.InputTag(srcEle),#"miniAODElectronVID"
-                                            trigEvent = cms.InputTag(HLT),
+                                            trigEvent = cms.InputTag(HLT),#unused
                                             filters = cms.vstring(
 						'hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter', #spring15 ETau
 						'hltEle22WPLooseL1IsoEG20erTau20erGsfTrackIsoFilter', #2015D ETau

@@ -95,6 +95,7 @@ class MiniAODCandidatePairSVFitSA : public edm::EDProducer
   }
 
  private:
+  //edm::EDGetTokenT<T1,T2> src_;
   edm::InputTag src_;
   std::string label_;
   typedef std::vector<int> vint;

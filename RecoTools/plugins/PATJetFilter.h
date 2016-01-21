@@ -49,7 +49,7 @@ class PATJetFilter : public edm::EDProducer {
   
   //vector<reco::GenJet>                  "ak5GenJets" 
   explicit PATJetFilter(const edm::ParameterSet& iConfig):
-    src_(iConfig.getParameter<edm::InputTag>("src"))
+    src_(consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("src")))
   {
     produces<pat::JetCollection>();
   }
@@ -66,7 +66,7 @@ class PATJetFilter : public edm::EDProducer {
     //std::cout<<"===== PATJetFilter JetCollection ====="<<std::endl;
     std::auto_ptr<pat::JetCollection> jets(new pat::JetCollection);
     Handle<pat::JetCollection > cands;
-    if(iEvent.getByLabel(src_,cands)) 
+    if(iEvent.getByToken(src_,cands)) 
       for(unsigned int  i=0;i!=cands->size();++i){
 	pat::Jet jet = cands->at(i);
 	if (jet.userFloat("idLoose")&&abs(jet.eta())<4.7) jets->push_back(jet);
@@ -77,8 +77,6 @@ class PATJetFilter : public edm::EDProducer {
   } 
 
   // ----------member data ---------------------------
-  edm::InputTag src_;
-  edm::InputTag genJets_;
-  reco::PFCandidatePtr pfcand;
+  edm::EDGetTokenT<pat::JetCollection> src_;
 };
 

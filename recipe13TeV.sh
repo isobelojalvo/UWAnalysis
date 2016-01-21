@@ -9,9 +9,9 @@ pushd $CMSSW_BASE/src
 
 
 #MVA MET
-git cms-addpkg RecoMET/METPUSubtraction
-cd RecoMET/METPUSubtraction/
-git clone https://github.com/rfriese/RecoMET-METPUSubtraction data -b 74X-13TeV-Summer15-July2015
+#git cms-addpkg RecoMET/METPUSubtraction
+#cd RecoMET/METPUSubtraction/
+#git clone https://github.com/rfriese/RecoMET-METPUSubtraction data -b 74X-13TeV-Summer15-July2015
 
 #
 # Edit mvaPFMet_cff.py to have the following:
@@ -28,8 +28,4 @@ pushd $CMSSW_BASE/src
 
 #METSignificance
 git cms-addpkg RecoMET/METProducers
-
-
-#egamma ID
-git cms-merge-topic ikrav:egm_id_7.4.12_v1
 

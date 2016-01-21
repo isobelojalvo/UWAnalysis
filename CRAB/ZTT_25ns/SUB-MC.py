@@ -3,7 +3,7 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v2'
+process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_v13'
 
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
