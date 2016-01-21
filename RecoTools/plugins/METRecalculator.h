@@ -24,7 +24,7 @@ class METRecalculator : public edm::EDProducer {
       
       // ----------member data ---------------------------
       
-      edm::InputTag met_;        //input Collection
+      edm::EDGetTokenT<pat::METCollection > met_;        //input Collection
       std::vector<edm::InputTag> originalObjects_;
       std::vector<edm::InputTag> smearedObjects_;
       float unclusteredScale_;

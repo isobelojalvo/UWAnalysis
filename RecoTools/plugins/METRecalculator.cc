@@ -6,7 +6,7 @@ METRecalculator::~METRecalculator()
 {}
 
 METRecalculator::METRecalculator(const edm::ParameterSet& iConfig):
-  met_(iConfig.getParameter<edm::InputTag>("met")),  
+  met_(consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("met"))),  
   originalObjects_(iConfig.getParameter<std::vector<edm::InputTag> >("originalObjects")),  
   smearedObjects_(iConfig.getParameter<std::vector<edm::InputTag> >("smearedObjects")),  
   unclusteredScale_(iConfig.getParameter<double>("unclusteredScale")),
@@ -105,7 +105,7 @@ METRecalculator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   std::auto_ptr<pat::METCollection > out(new pat::METCollection);
   Handle<pat::METCollection> srcH;
   
-  if(iEvent.getByLabel(met_,srcH)) 
+  if(iEvent.getByToken(met_,srcH)) 
     for(unsigned int i=0;i<srcH->size();++i) {
       pat::MET  met = srcH->at(i);
       math::XYZTLorentzVector unclustered =-met.p4()-originalVector;
