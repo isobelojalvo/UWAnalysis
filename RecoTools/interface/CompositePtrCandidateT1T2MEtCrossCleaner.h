@@ -36,13 +36,15 @@ class CompositePtrCandidateT1T2MEtCrossCleaner : public edm::EDProducer
   typedef edm::Ptr<T2> T2Ptr;
 
   typedef std::vector<CompositePtrCandidateT1T2MEt<T1,T2> > CompositePtrCandidateCollection;
+
+  typedef edm::View<CompositePtrCandidateT1T2MEt<T1,T2> > TView;
   
  public:
 
   explicit CompositePtrCandidateT1T2MEtCrossCleaner(const edm::ParameterSet& cfg)
   {
 
-    src_ = cfg.getParameter<edm::InputTag>("src");
+    src_ = consumes<TView>(cfg.getParameter<edm::InputTag>("src"));
     dR_ = cfg.getParameter<double>("dR");
     
     produces<CompositePtrCandidateCollection>("");
@@ -53,7 +55,6 @@ class CompositePtrCandidateT1T2MEtCrossCleaner : public edm::EDProducer
   void produce(edm::Event& evt, const edm::EventSetup& es)
   {
 
-    typedef edm::View<CompositePtrCandidateT1T2MEt<T1,T2> > TView;
     edm::Handle<TView> collection;
     pf::fetchCollection(collection, src_, evt);
   
@@ -83,7 +84,7 @@ class CompositePtrCandidateT1T2MEtCrossCleaner : public edm::EDProducer
 
  private:
 
-  edm::InputTag src_;
+  edm::EDGetTokenT<TView> src_;
   double dR_;
 
 };

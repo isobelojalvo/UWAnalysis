@@ -84,13 +84,16 @@ ESTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 
 				object.addUserFloat("ESmass",finalP4.mass());
 				object.addUserFloat("ESpt",finalP4.pt());
-                                //CHECKME
 			}
 
 			if(smearConstituents_&&tauPresent) {
 				object.setP4(finalP4);
 			}
 		}
+                else {
+                               object.addUserFloat("ESmass",0);
+                                object.addUserFloat("ESpt",0);
+                }
 
 		//std::cout << "smeared object(" << i << ") : decay mode = " << object.decayMode() <<" : Pt = " << object.pt() << " eta = " << object.eta() << ", phi = " << object.phi() << std::endl;
 

@@ -18,8 +18,8 @@ class EventWeightFiller : public NtupleFillerBase {
     }
 
 
-    EventWeightFiller(const edm::ParameterSet& iConfig, TTree* t):
-      src_(iConfig.getParameter<edm::InputTag>("src")),
+    EventWeightFiller(const edm::ParameterSet& iConfig, TTree* t, edm::ConsumesCollector && iC):
+      src_(iC.consumes<double>(iConfig.getParameter<edm::InputTag>("src"))),
       tag_(iConfig.getParameter<std::string>("tag"))
 	{
 	  value = 0;
@@ -37,14 +37,14 @@ class EventWeightFiller : public NtupleFillerBase {
   {
     edm::Handle<double> handle;
     value=0;
-    if(iEvent.getByLabel(src_,handle)) {
+    if(iEvent.getByToken(src_,handle)) {
       value = *handle;
     }
   }
   
 
  protected:
-  edm::InputTag src_;
+  edm::EDGetTokenT<double> src_;
   std::string tag_;
   float value;
 

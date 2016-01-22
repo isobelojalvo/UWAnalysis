@@ -20,8 +20,8 @@ class PUFiller : public NtupleFillerBase {
     }
 
 
-    PUFiller(const edm::ParameterSet& iConfig, TTree* t):
-      src_(iConfig.getParameter<edm::InputTag>("src")),
+    PUFiller(const edm::ParameterSet& iConfig, TTree* t,edm::ConsumesCollector && iC):
+      src_(iC.consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("src"))),
       tag_(iConfig.getParameter<std::string>("tag"))
 	{
 	  value = new float[6];
@@ -42,7 +42,7 @@ class PUFiller : public NtupleFillerBase {
   {
     edm::Handle<std::vector<PileupSummaryInfo> > PupInfo;
 
-    if(iEvent.getByLabel(src_, PupInfo)) {
+    if(iEvent.getByToken(src_, PupInfo)) {
       std::vector<PileupSummaryInfo>::const_iterator PVI;
       for(PVI = PupInfo->begin(); PVI != PupInfo->end(); ++PVI) {
 	int BX = PVI->getBunchCrossing();
@@ -69,7 +69,7 @@ class PUFiller : public NtupleFillerBase {
   
 
  protected:
-  edm::InputTag src_;
+  edm::EDGetTokenT<std::vector<PileupSummaryInfo> > src_;
   std::string tag_;
   float* value;
 

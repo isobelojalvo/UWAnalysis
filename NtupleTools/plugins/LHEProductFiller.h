@@ -17,8 +17,8 @@ class LHEProductFiller : public NtupleFillerBase {
     }
 
 
-    LHEProductFiller(const edm::ParameterSet& iConfig, TTree* t):
-      src_(iConfig.getParameter<edm::InputTag> ("src")),
+    LHEProductFiller(const edm::ParameterSet& iConfig, TTree* t,edm::ConsumesCollector && iC):
+      src_(iC.consumes<LHEEventProduct>(iConfig.getParameter<edm::InputTag> ("src"))),
       tag_(iConfig.getParameter<std::string>("tag"))
   {
     value = 0;
@@ -36,14 +36,14 @@ class LHEProductFiller : public NtupleFillerBase {
     {
       edm::Handle<LHEEventProduct> handle;
       value=0;
-      if(iEvent.getByLabel(src_,handle)) {
+      if(iEvent.getByToken(src_,handle)) {
         value = handle->hepeup().NUP;
       }
     }
 
 
   protected:
-    edm::InputTag src_;
+    edm::EDGetTokenT<LHEEventProduct> src_;
     std::string tag_;
     int value;
 

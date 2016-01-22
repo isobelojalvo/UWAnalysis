@@ -152,7 +152,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     int nJets = cleanedJets.size();
     //////
 
-    bool foundTau = false;
+    //bool foundTau = false;
     pat::Tau selectTau;
     //match Taus to leg2
     /*
@@ -290,16 +290,18 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     std::pair<float,float> HMassJets= ReturnSortByHMass(cleanedJets20);
 
     if(cleanedJetsCSVsorted.size()>1){
+      float mvaSF0 = cleanedJetsCSVsorted.at(0)->hasUserFloat("mvaSF") ? cleanedJetsCSVsorted.at(0)->userFloat("mvaSF") : 1;
+      float mvaSF1 = cleanedJetsCSVsorted.at(1)->hasUserFloat("mvaSF") ? cleanedJetsCSVsorted.at(0)->userFloat("mvaSF") : 1;
       compositePtrCandidate.setmJJCSVSort((cleanedJetsCSVsorted.at(0)->p4()+cleanedJetsCSVsorted.at(1)->p4()).M());
-      math::PtEtaPhiELorentzVector jet1(cleanedJetsCSVsorted.at(0)->pt()*cleanedJetsCSVsorted.at(0)->userFloat("mvaSF"),
+      math::PtEtaPhiELorentzVector jet1(cleanedJetsCSVsorted.at(0)->pt()*mvaSF0,
 			cleanedJetsCSVsorted.at(0)->eta(),
 			cleanedJetsCSVsorted.at(0)->phi(),
-			cleanedJetsCSVsorted.at(0)->energy()*cleanedJetsCSVsorted.at(0)->userFloat("mvaSF"));
+			cleanedJetsCSVsorted.at(0)->energy()*mvaSF0);
 
-      math::PtEtaPhiELorentzVector jet2(cleanedJetsCSVsorted.at(1)->pt()*cleanedJetsCSVsorted.at(1)->userFloat("mvaSF"),
+      math::PtEtaPhiELorentzVector jet2(cleanedJetsCSVsorted.at(1)->pt()*mvaSF1,
 			cleanedJetsCSVsorted.at(1)->eta(),
 			cleanedJetsCSVsorted.at(1)->phi(),
-			cleanedJetsCSVsorted.at(1)->energy()*cleanedJetsCSVsorted.at(1)->userFloat("mvaSF"));
+			cleanedJetsCSVsorted.at(1)->energy()*mvaSF1);
 
       compositePtrCandidate.setmJJReg((jet1+jet2).M());
       compositePtrCandidate.setJJReg((jet1+jet2));

@@ -17,8 +17,8 @@ class GenFilterInfoWeightFiller : public NtupleFillerBase {
     }
 
 
-    GenFilterInfoWeightFiller(const edm::ParameterSet& iConfig, TTree* t):
-      src_(iConfig.getParameter<edm::InputTag>("src")),
+    GenFilterInfoWeightFiller(const edm::ParameterSet& iConfig, TTree* t,edm::ConsumesCollector && iC):
+      src_(iC.consumes<GenEventInfoProduct>(iConfig.getParameter<edm::InputTag>("src"))),
       tag_(iConfig.getParameter<std::string>("tag"))
   {
     value = 0;
@@ -37,7 +37,7 @@ class GenFilterInfoWeightFiller : public NtupleFillerBase {
       //edm::Handle<GenFilterInfo> handle;
       edm::Handle<GenEventInfoProduct> genEvt;
       value=0;
-      if(iEvent.getByLabel(src_,genEvt)) {
+      if(iEvent.getByToken(src_,genEvt)) {
         //value = handle->filterEfficiency();
         value = genEvt->weight();
       }
@@ -45,7 +45,7 @@ class GenFilterInfoWeightFiller : public NtupleFillerBase {
 
 
   protected:
-    edm::InputTag src_;
+    edm::EDGetTokenT<GenEventInfoProduct> src_;
     std::string tag_;
     float value;
 

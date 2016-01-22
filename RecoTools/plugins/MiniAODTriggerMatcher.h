@@ -26,9 +26,9 @@
 #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
 #include "DataFormats/PatCandidates/interface/PackedTriggerPrescales.h"
 
-// Example USe case
-//
-//HLT = 'TriggerResults'
+// Example Use case
+//  Remove 'HLT' soon!!!
+//  HLT = 'TriggerResults'
 //  muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID")#NEW
 //
 //
@@ -118,11 +118,7 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 			edm::Handle<edm::View<T> > src;
 
 
-			//std::cout<<"Find GetByToken("<<src_<<","<<src<<")"<<std::endl;
-			std::cout<<"Find GetByToken"<<std::endl;
 			if(iEvent.getByToken(src_,src)){
-				//std::cout<<"Found GetByToken("<<src_<<","<<src<<")"<<std::endl;
-				std::cout<<"Found GetByToken"<<std::endl;
 				for(unsigned int k=0;k<src->size();++k) {
 					T pat = src->at(k);
 
@@ -179,7 +175,7 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 			}
 			
 			iEvent.put(out);
-			std::cout<<"iEvent added trigger"<<std::endl;
+			//std::cout<<"iEvent added trigger"<<std::endl;
 		}
 
 		virtual void endJob() { }

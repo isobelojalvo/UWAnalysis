@@ -18,9 +18,9 @@ class StringBasedNtupleFiller : public NtupleFillerBase {
     }
 
 
-    StringBasedNtupleFiller(const edm::ParameterSet& iConfig, TTree* t):
-      NtupleFillerBase(iConfig,t),
-      src_(iConfig.getParameter<edm::InputTag>("src")),
+    StringBasedNtupleFiller(const edm::ParameterSet& iConfig, TTree* t, edm::ConsumesCollector && iC):
+      NtupleFillerBase(iConfig,t,iC),
+      src_(iC.consumes<std::vector<T> >(iConfig.getParameter<edm::InputTag>("src"))),
       var_(iConfig.getParameter<std::string>("method")),
       tag_(iConfig.getParameter<std::string>("tag")),
       leadingOnly_(iConfig.getUntrackedParameter<bool>("leadingOnly",true))
@@ -51,7 +51,7 @@ class StringBasedNtupleFiller : public NtupleFillerBase {
     if(value->size()>0)
             value->clear();
     
-    if(iEvent.getByLabel(src_,handle)) {
+    if(iEvent.getByToken(src_,handle)) {
 
 
       if(leadingOnly_)
@@ -75,7 +75,7 @@ class StringBasedNtupleFiller : public NtupleFillerBase {
   
 
  protected:
-  edm::InputTag src_;
+  edm::EDGetTokenT<std::vector<T> > src_;
   std::string var_;
   std::string tag_;
   bool leadingOnly_;

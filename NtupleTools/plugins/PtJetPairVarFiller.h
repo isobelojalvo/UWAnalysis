@@ -23,9 +23,9 @@ class PtJetPairVarFiller : public NtupleFillerBase {
 		}
 
 
-		PtJetPairVarFiller(const edm::ParameterSet& iConfig, TTree* t):
-			NtupleFillerBase(iConfig,t),
-			src_(iConfig.getParameter<edm::InputTag>("src")),
+		PtJetPairVarFiller(const edm::ParameterSet& iConfig, TTree* t,edm::ConsumesCollector && iC):
+			NtupleFillerBase(iConfig,t,iC),
+			src_(iC.consumes<std::vector<T> >(iConfig.getParameter<edm::InputTag>("src"))),
 			var_(iConfig.getParameter<std::string>("method")),
 			tag_(iConfig.getParameter<std::string>("tag")),
 			cut_(iConfig.getParameter<std::string>("cut")),
@@ -58,7 +58,7 @@ class PtJetPairVarFiller : public NtupleFillerBase {
 			unsigned int i=0;
 			unsigned int j=0;
 			//printf("Get Jets\n");
-			if(iEvent.getByLabel(src_,handle)) {
+			if(iEvent.getByToken(src_,handle)) {
 				if(handle->size()>0){
 					if(handle->at(0).jets().size()>rank_){
 						while (rnk1==-1 && handle->at(0).jets().size()>i){
@@ -80,7 +80,7 @@ class PtJetPairVarFiller : public NtupleFillerBase {
 		}
 
 	protected:
-		edm::InputTag src_;
+		edm::EDGetTokenT<std::vector<T>> src_;
 		std::string var_;
 		std::string tag_;
 		std::string cut_;

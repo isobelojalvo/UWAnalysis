@@ -32,7 +32,7 @@ template <class T>
 class DiCandidateSorterByIso : public edm::EDProducer {
    public:
   explicit DiCandidateSorterByIso(const edm::ParameterSet& iConfig):
-    src_(iConfig.getParameter<edm::InputTag>("src"))
+    src_(consumes<std::vector<T>>(iConfig.getParameter<edm::InputTag>("src")))
      {
        produces<std::vector<T> >();
      }
@@ -48,7 +48,7 @@ class DiCandidateSorterByIso : public edm::EDProducer {
     
     std::vector<T> toBeSorted;
     Handle<std::vector<T> > cands;
-    if(iEvent.getByLabel(src_,cands)) 
+    if(iEvent.getByToken(src_,cands)) 
       toBeSorted =  *cands;
 
     if(toBeSorted.size()>0) {
@@ -87,7 +87,7 @@ class DiCandidateSorterByIso : public edm::EDProducer {
 };
 
       // ----------member data ---------------------------
-      edm::InputTag src_;
+      edm::EDGetTokenT<std::vector<T>>  src_;
 
 
 

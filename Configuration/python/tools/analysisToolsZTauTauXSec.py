@@ -45,7 +45,7 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   #Add trigger Matching
   muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID")#NEW
   electronTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODElectronVID")#NEW
-  tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"slimmedTaus")#ESTaus
+  tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"ESTausID") #slimmedTaus")
   
   #Build good vertex collection
   #goodVertexFilter(process)  
@@ -94,7 +94,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   #Add trigger Matching
   muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID")#NEW
   electronTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODElectronVID")#NEW
-  tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"slimmedTaus")#NEW #ESTAus
+  tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"ESTausID") #slimmedTaus")
   
   #Build good vertex collection
   #goodVertexFilter(process)  

@@ -79,17 +79,22 @@ class PATTauOverloader : public edm::EDProducer {
 	tau.addUserFloat("zIP",z_2);
 
         //Against Electron 
-        tau.addUserInt("againstElectronVLooseMVA5",tau.tauID("againstElectronVLooseMVA5"));
-        tau.addUserInt("againstElectronTightMVA",tau.tauID("againstElectronTightMVA5"));
+        //NOw use tau.tauID("") to access everything!!!
+        //tau.addUserInt("againstElectronVLooseMVA5",tau.tauID("againstElectronVLooseMVA5"));
+        //tau.addUserInt("againstElectronVLooseMVA6",tau.tauID("againstElectronVLooseMVA6"));
+        //tau.addUserInt("againstElectronTightMVA5",tau.tauID("againstElectronTightMVA5"));
+        //tau.addUserInt("againstElectronTightMVA6",tau.tauID("againstElectronTightMVA6"));
     
         //Against Muon 
-        tau.addUserInt("againstMuTightFixed",tau.tauID("againstMuonTight3"));
-        tau.addUserInt("againstMuLooseFixed",tau.tauID("againstMuonLoose3"));
+        //tau.addUserInt("againstMuTight3",tau.tauID("againstMuonTight3"));
+        //tau.addUserInt("againstMuTight4",tau.tauID("againstMuonTight4"));
+        //tau.addUserInt("againstMuLoose3",tau.tauID("againstMuonLoose3"));
 
 
         float nMatchedSegments = -1;
         float muonMatched = 0;
         float leadChargedHadrTrackPt = -1;
+        float leadChargedHadrTrackPtErr = -1;
         float nIsoTracks=-1;
         nIsoTracks = tau.isolationChargedHadrCands().size();
 
@@ -97,6 +102,7 @@ class PATTauOverloader : public edm::EDProducer {
 
         if(tau.leadChargedHadrCand().isNonnull()){
 	        leadChargedHadrTrackPt = tau.leadChargedHadrCand()->pt();
+	        //leadChargedHadrTrackPtErr = tau.leadChargedHadrCand()->ptError();
 	        dZ = packedLeadTauCand->dz();
 	        dXY = packedLeadTauCand->dxy();
                 //std::cout<<"Sync Tau dZ is "<<dZ<<std::endl; 
@@ -114,8 +120,11 @@ class PATTauOverloader : public edm::EDProducer {
 	        }
         }
 
+
+        tau.addUserFloat("dBRelIso03",0); //FIXME
         tau.addUserFloat("nIsoTracks",nIsoTracks);
         tau.addUserFloat("leadChargedHadrTrackPt",leadChargedHadrTrackPt);
+        tau.addUserFloat("leadChargedHadrTrackPtErr",leadChargedHadrTrackPtErr);
 	tau.addUserFloat("taudZ",dZ);
 	tau.addUserFloat("taudXY",dXY);
         tau.addUserFloat("muonNMatchedSeg",nMatchedSegments);

@@ -25,8 +25,7 @@ class METSignificanceFiller : public NtupleFillerBase {
     }
 
 
-    METSignificanceFiller(const edm::ParameterSet& iConfig, TTree* t):
-      src_(iConfig.getParameter<edm::InputTag>("src")),
+    METSignificanceFiller(const edm::ParameterSet& iConfig, TTree* t,edm::ConsumesCollector && iC):
       tag_(iConfig.getParameter<std::string>("tag"))
 	{
 	  value = new float[5];
@@ -70,7 +69,6 @@ class METSignificanceFiller : public NtupleFillerBase {
   }
 
  protected:
-  edm::InputTag src_;
   std::string tag_;
   float* value;
 

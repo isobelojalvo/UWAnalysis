@@ -143,9 +143,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
    process.TFileService = cms.Service("TFileService", fileName = cms.string("analysis.root") )
    eventTree = cms.EDAnalyzer('EventTreeMaker',
                               genEvent = cms.InputTag('generator'),
-                              coreCollections = cms.VInputTag(
-                                  cms.InputTag(src)
-                              ),
+                              coreCollections = cms.InputTag(src),
                               trigger = cms.PSet(
                                   pluginType = cms.string("TriggerFiller"),
                                   src        = cms.InputTag("patTrigger"),
@@ -296,7 +294,9 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauByNeutral = makeMuTauPair(src,"neutralIsoPtSum_2",'leg2.tauID("neutralIsoPtSum")'),
                               muTauByPU = makeMuTauPair(src,"puCorrPtSum_2",'leg2.tauID("puCorrPtSum")'), 
                               muTauAgainstMuonTight3 = makeMuTauPair(src,"againstMuonTight3_2",'leg2.tauID("againstMuonTight3")'),
+                              #muTauAgainstMuonTight4 = makeMuTauPair(src,"againstMuonTight4_2",'leg2.tauID("againstMuonTight4")'),
                               muTauAgainstEleVLooseMVA5 = makeMuTauPair(src,"againstElectronVLooseMVA5_2",'leg2.tauID("againstElectronVLooseMVA5")'),
+                              muTauAgainstEleVLooseMVA6 = makeMuTauPair(src,"againstElectronVLooseMVA6_2",'leg2.tauID("againstElectronVLooseMVA6")'),
 
                               muTauGenPt1 = makeMuTauPair(src,"genPt1",'p4Leg1gen().pt()'),
                               muTauGenPt2 = makeMuTauPair(src,"genPt2",'p4Leg2gen().pt()'),
@@ -404,9 +404,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
    process.TFileService = cms.Service("TFileService", fileName = cms.string("analysis.root") )
    eventTree = cms.EDAnalyzer('EventTreeMaker',
                               genEvent = cms.InputTag('generator'),
-                              coreCollections = cms.VInputTag(
-                                  cms.InputTag(src)
-                              ),
+                              coreCollections = cms.InputTag(src),
                               trigger = cms.PSet(
                                   pluginType = cms.string("TriggerFiller"),
                                   src        = cms.InputTag("patTrigger"),
@@ -416,7 +414,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                                   pluginType = cms.string("PUFiller"),
                                   src        = cms.InputTag("slimmedAddPileupInfo"),
                                   tag        = cms.string("pu")
-                              ),#FIXME
+                              ),
                               cov = cms.PSet(
                                   pluginType = cms.string("METSignificanceFiller"),
                                   src        = cms.InputTag("METSignificance"),
@@ -451,7 +449,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               tauNMatchedSeg =  makeEleTauPair(src,"tauMuonNMatchedSeg","leg2.userFloat('muonNMatchedSeg')"), #FILLED
                               tauTauHadMatched = makeEleTauPair(src,"tauMuonMatched","leg2.userFloat('muonTauHadMatched')"),
                               tauLeadChargedHadrTrackPt = makeEleTauPair(src,"tauLeadChargedHadrTrackPt","leg2.userFloat('leadChargedHadrTrackPt')"),
-                              tauLeadChargedHadrTrackPtErr = makeEleTauPair(src,"tauLeadChargedHadrTrackPtErr","leg2.userFloat('leadPFTrackPtErr')"), #FIXME
+                              #tauLeadChargedHadrTrackPtErr = makeEleTauPair(src,"tauLeadChargedHadrTrackPtErr","leg2.userFloat('leadPFTrackPtErr')"), #FIXME
 
                               mass2ES = makeEleTauPair(src,"mass2ES","leg2.userFloat('ESmass')"),#FIXME
                               pt2ES = makeEleTauPair(src,"pt2ES","leg2.userFloat('ESpt')"),#FIXME
@@ -513,7 +511,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               eleTauVBFJets20 = makeEleTauPair(src,"njetingap20","vbfNJetsGap20"),
                               eleTauVBFJets30 = makeEleTauPair(src,"njetingap","vbfNJetsGap30"),
 
-                              eleTauDZVZ = makeEleTauPair(src,"dz_vz",'abs(leg1.userFloat("vz")-leg2.userFloat("vz"))'),#EO #FIXME
+                              eleTauDZVZ = makeEleTauPair(src,"dz_vz",'abs(leg1.vz-leg2.vz)'),
                               eleTauDPhi = makeEleTauPair(src,"dPhi12",'dPhi12'),
                               eleTauDPhi1MET = makeEleTauPair(src,"dPhi1MET",'dPhi1MET'),
                               eleTauDPhi2MET = makeEleTauPair(src,"dPhi2MET",'dPhi2MET'),
@@ -564,7 +562,9 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               eleTauByNeutral = makeEleTauPair(src,"neutralIsoPtSum_2",'leg2.tauID("neutralIsoPtSum")'),
                               eleTauByPU = makeEleTauPair(src,"puCorrPtSum_2",'leg2.tauID("puCorrPtSum")'), 
                               eleTauAgainstMuonLoose3 = makeEleTauPair(src,"againstMuonLoose3_2",'leg2.tauID("againstMuonLoose3")'),
+                              #eleTauAgainstMuonLoose4 = makeEleTauPair(src,"againstMuonLoose4_2",'leg2.tauID("againstMuonLoose4")'),
                               eleTauAgainstMuonTight3 = makeEleTauPair(src,"againstMuonTight3_2",'leg2.tauID("againstMuonTight3")'),
+                              #eleTauAgainstMuonTight4 = makeEleTauPair(src,"againstMuonTight4_2",'leg2.tauID("againstMuonTight4")'),
                               eleTauMVANonTrig80 = makeEleTauPair(src,"id_e_mva_nt_80_1",'leg1.userFloat("eleMVAIDnonTrig80")'),#CHECKME #rename
                               eleTauMVANonTrig90 = makeEleTauPair(src,"id_e_mva_nt_90_1",'leg1.userFloat("eleMVAIDnonTrig90")'),#CHECKME #rename
                               eleTauCBIDVeto = makeEleTauPair(src,"id_e_cut_veto_1",'leg1.userFloat("CBIDVeto")'),#CHECKME #rename
@@ -580,11 +580,15 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               eleTauConversion = makeEleTauPair(src,"eleConversion","leg1.userInt('eleConversion')"),
                               eleTauPassConversion = makeEleTauPair(src,"ePassConversion",'leg1.passConversionVeto()'),
                               eleTauAgainstEleMVA5raw = makeEleTauPair(src,"againstElectronMVA5raw",'leg2.tauID("againstElectronMVA5raw")'),
-                              eleTauAgainstElectronTightMVA5 = makeEleTauPair(src,"tauElectronTightMVA5",'leg2.tauID("againstElectronTightMVA5")'),
-                              eleTauAgainstElectronTightMVA52 = makeEleTauPair(src,"againstElectronTightMVA5",'leg2.tauID("againstElectronTightMVA5")'),
-                              eleTauAgainstElectronMediumMVA5 = makeEleTauPair(src,"againstElectronMediumMVA5",'leg2.tauID("againstElectronMediumMVA5")'),
-                              eleTauAgainstElectronVLooseMVA5 = makeEleTauPair(src,"againstElectronVLooseMVA5",'leg2.tauID("againstElectronVLooseMVA5")'),
-                              eleTauAgainstElectronLooseMVA5 = makeEleTauPair(src,"againstElectronLooseMVA5",'leg2.tauID("againstElectronLooseMVA5")'),
+                              eleTauAgainstEleMVA6raw = makeEleTauPair(src,"againstElectronMVA6raw",'leg2.tauID("againstElectronMVA6raw")'),
+                              eleTauAgainstElectronTightMVA5 = makeEleTauPair(src,"againstElectronTightMVA5_2",'leg2.tauID("againstElectronTightMVA5")'),
+                              eleTauAgainstElectronTightMVA6 = makeEleTauPair(src,"againstElectronTightMVA6_2",'leg2.tauID("againstElectronTightMVA6")'),
+                              eleTauAgainstElectronMediumMVA5 = makeEleTauPair(src,"againstElectronMediumMVA5_2",'leg2.tauID("againstElectronMediumMVA5")'),
+                              eleTauAgainstElectronMediumMVA6 = makeEleTauPair(src,"againstElectronMediumMVA6_2",'leg2.tauID("againstElectronMediumMVA6")'),
+                              eleTauAgainstElectronVLooseMVA5 = makeEleTauPair(src,"againstElectronVLooseMVA5_2",'leg2.tauID("againstElectronVLooseMVA5")'),
+                              eleTauAgainstElectronVLooseMVA6 = makeEleTauPair(src,"againstElectronVLooseMVA6_2",'leg2.tauID("againstElectronVLooseMVA6")'),
+                              eleTauAgainstElectronLooseMVA5 = makeEleTauPair(src,"againstElectronLooseMVA5_2",'leg2.tauID("againstElectronLooseMVA5")'),
+                              eleTauAgainstElectronLooseMVA6 = makeEleTauPair(src,"againstElectronLooseMVA6_2",'leg2.tauID("againstElectronLooseMVA6")'),
 
                               eleTauGenPt1 = makeEleTauPair(src,"genPt1",'p4Leg1gen().pt()'),
                               eleTauGenPt2 = makeEleTauPair(src,"genPt2",'p4Leg2gen().pt()'),
