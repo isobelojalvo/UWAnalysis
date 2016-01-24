@@ -13,7 +13,7 @@ defaultReconstructionMC(process,'HLT',
 			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v2', #muTau
 			'HLT_IsoMu18_v2', #singlemu
 			'HLT_Ele22_eta2p1_WPLoose_Gsf_v3', #singleE
-			'HLT_Ele23_WPLoose_Gsf_v2' #singleE
+			'HLT_Ele23_WPLoose_Gsf_v3' #singleE
                       ])
 
                       

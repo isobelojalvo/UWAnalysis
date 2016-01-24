@@ -33,11 +33,11 @@ ETanalysisConfigurator.addSelector('eleTausDecayFound','PATEleTauPairSelector','
 ETanalysisConfigurator.addSelector('eleTausChargeNot2','PATEleTauPairSelector','abs(leg2.charge())==1','ETChargeIsABS1',1)
 #ETanalysisConfigurator.addSelector('eleTausEleTrigMatch','PATEleTauPairSelector','(leg1.pt()>33&&leg1.userFloat("hltEle32WP75GsfTrackIsoFilter")>0)||(leg2.userFloat("hltPFTau20TrackLooseIso")>0&&leg1.userFloat("hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter")>0)  ','ETEleTrigMatch',1)#all data triggered
 #ETanalysisConfigurator.addEleTauSVFitSA('eleTausSVFit')
-#ETanalysisConfigurator.addSorter('eleTausSorted','PATEleTauPairSorter')
-ETanalysisConfigurator.addSorter('eleTausSorted','PATEleTauPairSorterByIso')
+ETanalysisConfigurator.addSorter('eleTausSorted','PATEleTauPairSorter')
+#ETanalysisConfigurator.addSorter('eleTausSorted','PATEleTauPairSorterByIso')
 ETanalysisConfigurator.addSelector('eleTausTauIsolation','PATEleTauPairSelector','leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<1.5','ETTauLooseIso',1)
 ETanalysisConfigurator.addSelector('eleTausTauMuonVeto','PATEleTauPairSelector','leg2.tauID("againstMuonLoose3")','ETAgainstMuon',1)
-ETanalysisConfigurator.addSelector('eleTausTauElectronVeto','PATEleTauPairSelector','leg2.tauID("againstElectronTightMVA5")>0','ETAgainstElectron',1)
+ETanalysisConfigurator.addSelector('eleTausTauElectronVeto','PATEleTauPairSelector','leg2.tauID("againstElectronTightMVA6")>0','ETAgainstElectron',1)
 ETanalysisConfigurator.addSelector('eleTausEleIsolation','PATEleTauPairSelector','leg1.userFloat("dBRelIso03")<0.1','electronIsolation',1)
 ETanalysisConfigurator.addSelector('eleTausOS','PATEleTauPairSelector','charge==0','ETOS',1)
 
@@ -72,11 +72,11 @@ MTanalysisConfigurator.addSelector('muTausDecayFound','PATMuTauPairSelector','ab
 MTanalysisConfigurator.addSelector('muTausChargeNot2','PATMuTauPairSelector','abs(leg2.charge())==1','MTChargeIsABS1',1)
 #MTanalysisConfigurator.addSelector('muTausTausMuTrigMatch','PATMuTauPairSelector','(leg1.userFloat("hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09")>0&&leg2.userFloat("hltPFTau20TrackLooseIsoAgainstMuon")>0)||(leg1.userFloat("hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09")>0&&leg1.pt()>25)','MTMuTrigMatch',1) #Data is triggered
 #MTanalysisConfigurator.addMuTauSVFitSA('muTausSVFit')
-#MTanalysisConfigurator.addSorter('muTausSorted','PATMuTauPairSorter')
-MTanalysisConfigurator.addSorter('muTausSorted','PATMuTauPairSorterByIso')
+MTanalysisConfigurator.addSorter('muTausSorted','PATMuTauPairSorter')
+#MTanalysisConfigurator.addSorter('muTausSorted','PATMuTauPairSorterByIso')
 MTanalysisConfigurator.addSelector('muTausMuonIsolation','PATMuTauPairSelector','leg1.userFloat("dBRelIso03")<0.1','MuonIsolation',1)
 MTanalysisConfigurator.addSelector('muTausLooseTauIsolation','PATMuTauPairSelector','leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<1.5','MTTauLooseIso',1)
-MTanalysisConfigurator.addSelector('muTausTauElectronVeto','PATMuTauPairSelector','leg2.tauID("againstElectronVLooseMVA5")>0.5','MTAgainstElectron',1)
+MTanalysisConfigurator.addSelector('muTausTauElectronVeto','PATMuTauPairSelector','leg2.tauID("againstElectronVLooseMVA6")>0.5','MTAgainstElectron',1)
 MTanalysisConfigurator.addSelector('muTausTauMuonVeto','PATMuTauPairSelector','leg2.tauID("againstMuonTight3")>0','MTAgainstMuon',1)
 MTanalysisConfigurator.addSelector('muTausOS','PATMuTauPairSelector','charge==0','MTOS',1)
 

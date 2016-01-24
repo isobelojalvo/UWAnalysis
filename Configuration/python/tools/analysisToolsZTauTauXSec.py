@@ -34,7 +34,7 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   process.analysisSequence = cms.Sequence()
 
   #mvaMet(process)
-  #metSignificance(process)
+  metSignificance(process)
 
   #Apply Tau Energy Scale Changes
   EScaledTaus(process,False)
@@ -83,7 +83,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   process.analysisSequence = cms.Sequence()
 
   #mvaMet(process)
-  #metSignificance(process)
+  metSignificance(process)
 
   #Apply Tau Energy Scale Changes
   EScaledTaus(process,False)
@@ -216,47 +216,38 @@ def EScaledTaus(process,smearing):  #second arg is bool
   process.EScaledTaus = cms.Sequence(process.ESTausID)
   process.analysisSequence*=process.EScaledTaus
 
+
+#process.load("RecoJets.JetProducers.ak4PFJets_cfi")
+#process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
+#process.ak4PFJets.doAreaFastjet = cms.bool(True)
 #
-#def mvaMet(process):
-# 
+#from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFJetsL1FastL2L3
 #
-#  process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")  
-#  process.load("RecoJets.JetProducers.ak4PFJets_cfi")
-#  process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
-#  process.ak4PFJets.doAreaFastjet = cms.bool(True)
-#  
-#  from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFJetsL1FastL2L3
-#  
-#  process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
-#  #process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
-#  process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
-#  process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
-#  
-#  process.puJetIdForPFMVAMEt.jec =  cms.string('AK4PF')
-#  #process.puJetIdForPFMVAMEt.jets = cms.InputTag("ak4PFJets")
-#  process.puJetIdForPFMVAMEt.vertexes = cms.InputTag("offlineSlimmedPrimaryVertices")
-#  process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
-#  
-#  process.patMVAMet = process.patMETs.clone(
-# 	metSource = cms.InputTag('pfMVAMEt'),
-# 	addMuonCorrections = cms.bool(False),
-# 	addGenMET = cms.bool(False)
-#  )
+#process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
+##process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
+#process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
+#process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
 #
-#  #calibrated ak4jets should be in pfMVAMetSequence?
-#  process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.pfMVAMEtSequence*process.patMVAMet)
-#
+#process.puJetIdForPFMVAMEt.jec =  cms.string('AK4PF')
+##process.puJetIdForPFMVAMEt.jets = cms.InputTag("ak4PFJets")
+#process.puJetIdForPFMVAMEt.vertexes = cms.InputTag("offlineSlimmedPrimaryVertices")
+#process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
+
+
 
 
 def mvaMet(process):
    #I added
    process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")  
 
+   from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFL1Fastjet
    process.load("RecoJets.JetProducers.ak4PFJets_cfi")
    process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
    process.ak4PFJets.doAreaFastjet = cms.bool(True)
+   process.load('JetMETCorrections.Configuration.JetCorrectors_cff')
   
-   from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFJetsL1FastL2L3
+   #from JetMETCorrections.Configuration.JetCorrectionServices_cff import ak4PFL1Fastjet
+   process.load("JetMETCorrections.Configuration.DefaultJEC_cff")
    
    process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
    #process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
@@ -274,7 +265,8 @@ def mvaMet(process):
    )
 
    #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMVAMEtSequence*process.patMVAMet)
-   process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.pfMVAMEtSequence*process.patMVAMet)
+   process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.ak4PFL1FastL2L3CorrectorChain*process.pfMVAMEtSequence*process.patMVAMet)
+
 
 
 def metSignificance(process):

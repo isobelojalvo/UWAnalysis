@@ -13,10 +13,10 @@
 #include <math.h>
 #include "UWAnalysis/NtupleTools/interface/NtupleFillerBase.h"
 
+#include "FWCore/Framework/interface/ConsumesCollector.h"
 //
 // class decleration
 //
-
 
 
 class METSignificanceFiller : public NtupleFillerBase {
@@ -26,6 +26,8 @@ class METSignificanceFiller : public NtupleFillerBase {
 
 
     METSignificanceFiller(const edm::ParameterSet& iConfig, TTree* t,edm::ConsumesCollector && iC):
+      sig_(iC.consumes<double>(edm::InputTag("METSignificance:METSignificance"))),
+      cov_(iC.consumes<math::Error<2>::type>(edm::InputTag("METSignificance:METCovariance"))),
       tag_(iConfig.getParameter<std::string>("tag"))
 	{
 	  value = new float[5];
@@ -48,27 +50,31 @@ class METSignificanceFiller : public NtupleFillerBase {
     edm::Handle<double> significanceHandle;
     edm::Handle<math::Error<2>::type> covHandle;
 
-
-    if(iEvent.getByLabel("METSignificance","METSignificance", significanceHandle)) {
+    if(iEvent.getByToken(sig_, significanceHandle)) {
 	  value[0] = (float) (*significanceHandle); 
 	}
     else
       {
+	  std::cout<<"METSignificance Not Found"<<std::endl;
           value[0] = -999;	
       }
 
-    if (iEvent.getByLabel("METSignificance","METCovariance",covHandle)) {
-     value[1] = (*covHandle)(0,0);
-     value[3] = (*covHandle)(1,0);
-     value[2] = value[3]; // (1,0) is the only one saved
-     value[4] = (*covHandle)(1,1);
+    if (iEvent.getByToken(cov_,covHandle)) {
+        value[1] = (*covHandle)(0,0);
+        value[3] = (*covHandle)(1,0);
+        value[2] = value[3]; // (1,0) is the only one saved
+        value[4] = (*covHandle)(1,1);
     }
-     else
-   { for (int i=1;i<5;i++) value[i] = -999;}
+    else{ 
+	std::cout<<"METcovariance Not Found"<<std::endl;
+	for (int i=1;i<5;i++) value[i] = -999;
+    }
 
   }
 
- protected:
+ private:
+  edm::EDGetTokenT<double> sig_;
+  edm::EDGetTokenT<math::Error<2>::type> cov_;
   std::string tag_;
   float* value;
 
