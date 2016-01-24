@@ -7,11 +7,11 @@ H->tautau (+ many other) Final States! : )
 #Set Up instructions:
 
 ```
-cmsrel CMSSW_7_4_14 #for 2015D 05Oct
-cd CMSSW_7_4_14/src/
+cmsrel CMSSW_7_6_3 #for 2016 analysis
+cd CMSSW_7_6_3/src/
 cmsenv
 git cms-init 
-git clone --recursive -b 7414_dev https://github.com/lmdodd/UWAnalysis.git   
+git clone --recursive -b 763X_dev https://github.com/lmdodd/UWAnalysis.git   
 cd UWAnalysis
 source recipe13TeV.sh
 export USER_CXXFLAGS="-Wno-delete-non-virtual-dtor -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=reorder"
@@ -24,15 +24,9 @@ cd CRAB/ZTT_25/
 cmsRun LT-MC.py
 ```
 
-or 
-
-Note currently METNoHF set up to run 
-
 ```
 cd CRAB/ZTT_25ns/
 source submitMCv2.sh
-#source submitWJets.sh
-#source submitQCD.sh #submits QCD files-not ready in v2 yet
 source submitDATA.sh
 ```
 
@@ -62,10 +56,12 @@ Major Changes/Issues detailed in table
 | Kind Of Issue  | Issue Detail |
 | ------------- | ------------- |
 | StatTools Not Included  | StatTools is left behind in 715X because HiggsCombine is stuck there. StatTools can be found https://github.com/lmdodd/UWAnalysis/tree/stattools.  |
-| MVAMet Overcorrects | No solution yet. Needed for svFit. Include lepton. |
+| MVAMet qnd plain MET at same time | No solution yet. Needed for svFit. Include leptons and pairwise MVA MET |
 | Efficiencies Application | Add Efficiencies into Ntuples, rather than computing afterwards !! TODO|
-| ESscaling | Edited file to add pt2ES. This energy scle confuses me. userFloat(ESpt) was never getting filled. Now filled in TauESProducer. This should be checked. Currently output zero? |
-| relIso | use Dr=0.3 | 
+| Electron Efficiencies | Add Efficiencies into Ntuples, rather than computing afterwards !! TODO|
+| Muon Efficiencies | Add Efficiencies into Ntuples, rather than computing afterwards !! TODO|
+| Muon and Electron Scalings | Add Efficiencies into Ntuples, rather than computing afterwards !! TODO|
+| ESscaling | Edited file to add pt2ES. |
 | no particle embedding yet | TBC |
 | TBC | TBC |
 
