@@ -10,7 +10,7 @@ process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(20000)
 )
 
-
+process.load("FWCore.MessageLogger.MessageLogger_cfi")
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
@@ -22,6 +22,17 @@ process.source = cms.Source("PoolSource",
 		)
 )
 
+process.dump=cms.EDAnalyzer('EventContentAnalyzer')
+
+process.MessageLogger.categories.extend(["GetByLabelWithoutRegistration"])
+_messageSettings = cms.untracked.PSet(
+                reportEvery = cms.untracked.int32(1),
+                            optionalPSet = cms.untracked.bool(True),
+                            limit = cms.untracked.int32(10000000)
+                        )
+
+process.MessageLogger.cerr.GetManyWithoutRegistration = _messageSettings
+process.MessageLogger.cerr.GetByLabelWithoutRegistration = _messageSettings
 
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
@@ -53,8 +64,8 @@ process.eventSelectionMTJetDown  = createSystematics(process,process.selectionSe
 
 process.eventSelectionETTauUp    = createSystematics(process,process.selectionSequenceET,'TauUp',1.00,1.0,1.03,0,1.0)
 process.eventSelectionETTauDown  = createSystematics(process,process.selectionSequenceET,'TauDown',1.0,1.0,0.97,0,1.0)
-process.eventSelectionMTJetUp    = createSystematics(process,process.selectionSequenceMT,'JetUp',1.0,1.0,1.0,1,1.0)
-process.eventSelectionMTJetDown  = createSystematics(process,process.selectionSequenceMT,'JetDown',1.0,1.0,1.0,-1,1.0)
+process.eventSelectionETJetUp    = createSystematics(process,process.selectionSequenceET,'JetUp',1.0,1.0,1.0,1,1.0)
+process.eventSelectionETJetDown  = createSystematics(process,process.selectionSequenceET,'JetDown',1.0,1.0,1.0,-1,1.0)
 
 
 createGeneratedParticles(process,
