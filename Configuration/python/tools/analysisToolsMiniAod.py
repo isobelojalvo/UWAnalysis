@@ -162,40 +162,6 @@ def MiniAODMuonIDEmbedder(process,muons):
   process.embedMuonIDs = cms.Sequence(process.miniAODMuonID)
   process.analysisSequence*=process.embedMuonIDs
 
-#
-#def MiniAODEleCBIDEmbedder(process, eles):
-#  #Turn on versioned cut-based ID
-#  from PhysicsTools.SelectorUtils.tools.vid_id_tools import  setupAllVIDIdsInModule, setupVIDElectronSelection, switchOnVIDElectronIdProducer, DataFormat
-#  switchOnVIDElectronIdProducer(process, DataFormat.MiniAOD)
-#  process.load("RecoEgamma.ElectronIdentification.egmGsfElectronIDs_cfi")
-#  process.egmGsfElectronIDs.physicsObjectSrc = cms.InputTag(eles)
-#  from PhysicsTools.SelectorUtils.centralIDRegistry import central_id_registry
-#  process.egmGsfElectronIDSequence = cms.Sequence(process.egmGsfElectronIDs)
-#  cb_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_PHYS14_PU20bx25_V2_cff',
-#      'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV51_cff']
-#  for idmod in cb_id_modules:
-#      setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
-#  
-#  CBIDLabels = ["CBIDVeto", "CBIDLoose", "CBIDMedium", "CBIDTight"] # keys of cut based id user floats
-#  CBIDTags = [
-#          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-veto'),
-#          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-loose'),
-#          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-medium'),
-#          cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-tight'),
-#          cms.InputTag('egmGsfElectronIDs:heepElectronID-HEEPV51'),
-#  ]
-#  # Embed cut-based VIDs
-#  process.miniAODElectronCutBasedID = cms.EDProducer(
-#      "MiniAODElectronCutBasedIDEmbedder",
-#      src=cms.InputTag(eles),
-#      idLabels = cms.vstring(*CBIDLabels),
-#      ids = cms.VInputTag(*CBIDTags)
-#  )
-#   
-#  process.embedEleCBIDs = cms.Sequence(process.egmGsfElectronIDSequence+process.miniAODElectronCutBasedID)
-#  process.analysisSequence*=process.embedEleCBIDs
-#
-#
 
 def MiniAODEleVIDEmbedder(process, eles):
   #Turn on versioned cut-based ID
@@ -375,6 +341,7 @@ def tauTriggerMatchMiniAOD(process,triggerProcess,HLT):
                                             trigEvent = cms.InputTag(HLT),
                                             filters = cms.vstring(
                                                 'hltOverlapFilterIsoMu17LooseIsoPFTau20',
+                                                'hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20',
                                                 'hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20'
                                             ),
                                             bits = cms.InputTag("TriggerResults","","HLT"),
@@ -388,6 +355,7 @@ def tauTriggerMatchMiniAOD(process,triggerProcess,HLT):
                                             trigEvent = cms.InputTag(HLT),
                                             filters = cms.vstring(
                                                 'hltOverlapFilterIsoMu17LooseIsoPFTau20',
+                                                'hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20',
                                                 'hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20'
                                             ),
                                             bits = cms.InputTag("TriggerResults","","HLT"),
@@ -420,7 +388,8 @@ def electronTriggerMatchMiniAOD(process,triggerProcess,HLT):
                                             src = cms.InputTag("miniAODElectronVID"),
                                             trigEvent = cms.InputTag(HLT),
                                             filters = cms.vstring(
-                                                'hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20'#etau filter
+                                                'hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20',#etau filter
+                                                'hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20'#etau filter
                                             ),
                                             bits = cms.InputTag("TriggerResults","","HLT"),
                                             prescales = cms.InputTag("patTrigger"),

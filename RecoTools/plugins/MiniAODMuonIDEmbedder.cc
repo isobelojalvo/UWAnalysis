@@ -61,13 +61,27 @@ void MiniAODMuonIDEmbedder::produce(edm::Event& evt, const edm::EventSetup& es) 
 
 	for(unsigned i = 0 ; i < nbMuon; i++){
 		pat::Muon muon(muons->at(i));
+
+
+		if(muon.muonBestTrack().isNonnull()) {
+                        float xy = muon.muonBestTrack()->dxy(vertices->at(0).position());
+                        float z = muon.muonBestTrack()->dz(vertices->at(0).position());
+			muon.addUserFloat("dXY",xy); //bestTrack
+			muon.addUserFloat("dZ",z); //bestTrack
+
+		}
+		else {
+			muon.addUserFloat("dXY",-999.);
+			muon.addUserFloat("dZ",-999.);
+		}
+
 		float muIso = (muon.chargedHadronIso()+std::max(muon.photonIso()+muon.neutralHadronIso()-(0.5*(muon.puChargedHadronIso())),0.0))/(muon.pt());
-                //std::cout<<"muIso: "<<muIso<<std::endl;
-		//float muIso = (muon.pfIsolationR03().sumChargedHadronPt + max(
-                //muon.pfIsolationR03().sumNeutralHadronPt +
-                //muon.pfIsolationR03().sumPhotonEt - 
-                //0.5 * muon.pfIsolationR03().sumPUPt, 0.0)) / muon.pt();
- 
+                //std::cout<<"Muon Isolation04: "<<muIso<<std::endl;
+		float muIso03 = (muon.pfIsolationR03().sumChargedHadronPt + std::max(
+           muon.pfIsolationR03().sumNeutralHadronEt + muon.pfIsolationR03().sumPhotonEt - 0.5 * muon.pfIsolationR03().sumPUPt, 0.0)) / muon.pt();
+// (muon.chargedHadronIso()+std::max(muon.photonIso()+muon.neutralHadronIso()-(0.5*(muon.puChargedHadronIso())),0.0))/(muon.pt());
+                //std::cout<<"Muon Isolation03: "<<muIso03<<std::endl;
+
 		int muId = 0; 
 		if (muon.isLooseMuon()&&(((muon.isGlobalMuon()&&muon.globalTrack()->normalizedChi2()<3&&muon.combinedQuality().chi2LocalPosition<12&&muon.combinedQuality().trkKink<20)&&(muon.innerTrack()->validFraction()>=0.8&&muon.segmentCompatibility()>=0.303))||(!(muon.isGlobalMuon()&&muon.globalTrack()->normalizedChi2()<3&&muon.combinedQuality().chi2LocalPosition<12&&muon.combinedQuality().trkKink<20)&&(muon.innerTrack()->validFraction()>=0.8&&muon.segmentCompatibility()>=0.451))))
 		{
@@ -75,6 +89,7 @@ void MiniAODMuonIDEmbedder::produce(edm::Event& evt, const edm::EventSetup& es) 
 		}
 
 		muon.addUserFloat("dBRelIso",muIso);
+		muon.addUserFloat("dBRelIso03",muIso03);
 		muon.addUserInt("mediumID",muId);
 
 		output->push_back(muon);
