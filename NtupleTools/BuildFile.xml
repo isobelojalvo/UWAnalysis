@@ -8,6 +8,7 @@
 <use   name="DQMServices/Core"/>
 <use   name="TrackingTools/TransientTrack"/>
 <use   name="RecoVertex/KalmanVertexFit"/>
+<use   name="HTT-utilities/LepEffInterface"/>
 <export>
   <lib   name="1"/>
 </export>

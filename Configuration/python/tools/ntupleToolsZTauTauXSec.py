@@ -74,6 +74,16 @@ def makeMuTauPtPair(sourceDiTaus,tagName,cutName,methodName,rank):
    )
    return PSet
 
+def makeMuTauEventWeight(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATMuTauPairWeightFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string("Mu"),
+         isMuon      = cms.bool(True)
+   )
+   return PSet
+
+
 
 def makeMuTauJetCountPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
    PSet = cms.PSet(
@@ -137,6 +147,15 @@ def makeEleTauJetCountPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
          leadingOnly = cms.untracked.bool(leadingOnly)
    )
    return PSet
+def makeEleTauEventWeight(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATEleTauPairWeightFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string("Ele"),
+         isMuon      = cms.bool(False)
+   )
+   return PSet
+
 
 
 def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorted', srcU='TightMuons', srcE='TightElectrons'):
@@ -172,6 +191,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                                   tag        = cms.string("vertices")
                               ),#FILLED
  
+                              muTauEventWeight = makeMuTauEventWeight(src),#FILLED
                               muTauSize = makeCollSize(src,"nCands"),#FILLED
                               genTaus = makeCollSize("genTauCands","genTaus"), #FIXME
                               muMuSize = makeCollSize(srcLL,"diLeptons"),#CHECKME
@@ -434,6 +454,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               ),
 
 
+                              eTauEventWeight = makeEleTauEventWeight(src),#FILLED
 
                               muonsSizeET = makeCollSize(srcU,"tightMuons"),
                               muonsSizeETVeto = makeCollSizeVeto(srcU,0,"extramuon_veto"),

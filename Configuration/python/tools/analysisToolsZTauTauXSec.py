@@ -33,7 +33,7 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   TriggerPaths= triggerPaths
   process.analysisSequence = cms.Sequence()
 
-  #mvaMet(process)
+  mvaMet(process)
   metSignificance(process)
 
   #Apply Tau Energy Scale Changes
@@ -82,7 +82,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   TriggerPaths= triggerPaths
   process.analysisSequence = cms.Sequence()
 
-  #mvaMet(process)
+  mvaMet(process)
   metSignificance(process)
 
   #Apply Tau Energy Scale Changes

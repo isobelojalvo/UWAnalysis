@@ -9,23 +9,29 @@ pushd $CMSSW_BASE/src
 
 
 #MVA MET
-#git cms-addpkg RecoMET/METPUSubtraction
-#cd RecoMET/METPUSubtraction/
-#git clone https://github.com/rfriese/RecoMET-METPUSubtraction data -b 74X-13TeV-Summer15-July2015
+git cms-addpkg RecoMET/METPUSubtraction
+cd RecoMET/METPUSubtraction/
+git clone https://github.com/rfriese/RecoMET-METPUSubtraction data -b 74X-13TeV-Summer15-July2015
 
 #
 # Edit mvaPFMet_cff.py to have the following:
 #
-#inputFileNames = cms.PSet(
-#        U     = cms.FileInPath('RecoMET/METPUSubtraction/data/gbru_7_4_X_miniAOD_50NS_July2015.root'),
-#        DPhi  = cms.FileInPath('RecoMET/METPUSubtraction/data/gbrphi_7_4_X_miniAOD_50NS_July2015.root'),
-#        CovU1 = cms.FileInPath('RecoMET/METPUSubtraction/data/gbru1cov_7_4_X_miniAOD_50NS_July2015.root'),
-#        CovU2 = cms.FileInPath('RecoMET/METPUSubtraction/data/gbru2cov_7_4_X_miniAOD_50NS_July2015.root')
-#    ),
-#
+
+pushd $CMSSW_BASE/src
+
+git clone https://github.com/CMS-HTT/LeptonEff-interface.git HTT-utilities 
+cd HTT-utilities/LepEffInterface/
+git clone https://github.com/CMS-HTT/LeptonEfficiencies.git data 
+
 
 pushd $CMSSW_BASE/src
 
 #METSignificance
 git cms-addpkg RecoMET/METProducers
+
+
+#Electron corrections
+git cms-merge-topic -u matteosan1:smearer_76X
+
+
 

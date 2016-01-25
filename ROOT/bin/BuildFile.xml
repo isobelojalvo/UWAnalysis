@@ -8,7 +8,8 @@
 <!--<use   name="roottmva"/>0-->
 
 
-
+<bin   name="SVFitStandAlone" file="SVFitStandAlone.cc">
+</bin>
 
 <bin   name="GetErrors" file="GetErrors.cc">
 </bin>
