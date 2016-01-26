@@ -6,7 +6,6 @@
 #include "TTree.h"
 #include "TH1F.h"
 #include "TF1.h"
-#include "TDirectory.h"
 #include <math.h> 
 #include "TMath.h" 
 #include <limits>
@@ -17,7 +16,6 @@
 #include "TH1.h"
 
 void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]) ;
-//void readdir(TFile *f, optutl::CommandLineParser parser, char TreeToUse[]) ;
 
 int main (int argc, char* argv[]) 
 {
@@ -35,11 +33,9 @@ int main (int argc, char* argv[])
 
 
 void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]) 
-//void readdir(TFile *f, optutl::CommandLineParser parser, char TreeToUse[]) 
 {
   TDirectory *dirsav = gDirectory;
   TIter next(dir->GetListOfKeys());
-  //TIter next(f->GetListOfKeys());
   TKey *key;
   char stringA[80]="Ntuple";
   edm::FileInPath inputFileName_visPtResolution("TauAnalysis/SVfitStandalone/data/svFitVisMassAndPtResolutionPDF.root");
@@ -52,12 +48,9 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
     //if(!strcmp(stringA,TreeToUse)) 
     //printf("Strings %s %s \n",TreeToUse,stringA);
     TObject *obj = key->ReadObj();
-    std::cout << &obj << "  " << obj << std::endl;
-    if (obj->IsFolder()) std::cout << "Is A Folder!" <<std::endl;
     
     if (obj->IsA()->InheritsFrom(TDirectory::Class())) {
       dir->cd(key->GetName());
-      //f->cd(key->GetName());
       TDirectory *subdir = gDirectory;
       sprintf(TreeToUse,"%s",key->GetName());
       readdir(subdir,parser,TreeToUse);
@@ -66,7 +59,6 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
     }
     else if (obj->IsA()->InheritsFrom(TDirectoryFile::Class())) {
       dir->cd(key->GetName());
-      //f->cd(key->GetName());
       TDirectory *subdir = gDirectory;
       sprintf(TreeToUse,"%s",key->GetName());
       readdir(subdir,parser,TreeToUse);
@@ -109,7 +101,6 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
       TLorentzVector TMet(0,0,0,0);
       // define MET covariance
       TMatrixD covMET(2, 2);
-      //double mass;
       //ele/mu variables
       svFitStandalone::kDecayType decayType1 = svFitStandalone::kUndefinedDecayType; //svFitStandalone::kTauToElecDecay
       svFitStandalone::kDecayType decayType2 = svFitStandalone::kUndefinedDecayType; //svFitStandalone::kTauToElecDecay
@@ -148,7 +139,7 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
     channel = "tt";
       }
       else{
-	std::cout<<"TreeToUse "<< std::string(TreeToUse)<<" does not match muTauEvent or eleTauEvent... Skipping!!"<<std::endl;
+	std::cout<<"TreeToUse "<< std::string(TreeToUse)<<" does not match muTauEvent or eleTauEvent or 'em' or 'tt'... Skipping!!"<<std::endl;
 	continue;
       }
       
@@ -267,21 +258,15 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 		   svFitStandalone::MeasuredTauLepton(decayType2,  pt2, eta2, phi2, mass2)
 					 ); // tau -> 1prong0pi0 hadronic decay (Pt, eta, phi, mass, pat::Tau.decayMode())
 
-	    //std::cout<<"Here 0"<<std::endl;
 	    SVfitStandaloneAlgorithm algo(measuredTauLeptons, measuredMETx, measuredMETy, covMET, 1);
-	    //std::cout<<"Here 1"<<std::endl;
 	    algo.addLogM(false);  
-	    //std::cout<<"Here 2"<<std::endl;
 	    algo.shiftVisPt(true, inputFile_visPtResolution);
-	    //std::cout<<"Here 3"<<std::endl;
 	    algo.integrateMarkovChain();
-	    //std::cout<<"Here 4"<<std::endl;
 	    svFitMass = algo.getMass(); // return value is in units of GeV
 	    svFitPt = algo.pt();
 	    svFitEta = algo.eta();
 	    svFitPhi = algo.phi();
 	    svFitMET = algo.fittedMET().Rho();
-	    //std::cout<<"Here 5"<<std::endl;
 	    if ( algo.isValidSolution() ) {
 	      std::cout << "found mass = " << svFitMass << std::endl;
         }
@@ -303,21 +288,15 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 	  	   svFitStandalone::MeasuredTauLepton(decayType2,  pt2, eta2, phi2,  mass2, decayMode2)
 	  				 ); // tau -> 1prong0pi0 hadronic decay (Pt, eta, phi, mass, pat::Tau.decayMode())
 
-	    //std::cout<<"Here 0"<<std::endl;
 	    SVfitStandaloneAlgorithm algo(measuredTauLeptons, measuredMETx, measuredMETy, covMET, 1);
-	    //std::cout<<"Here 1"<<std::endl;
 	    algo.addLogM(false);  
-	    //std::cout<<"Here 2"<<std::endl;
 	    algo.shiftVisPt(true, inputFile_visPtResolution);
-	    //std::cout<<"Here 3"<<std::endl;
 	    algo.integrateMarkovChain();
-	    //std::cout<<"Here 4"<<std::endl;
 	    svFitMass = algo.getMass(); // return value is in units of GeV
 	    svFitPt = algo.pt();
 	    svFitEta = algo.eta();
 	    svFitPhi = algo.phi();
 	    svFitMET = algo.fittedMET().Rho();
-	    //std::cout<<"Here 5"<<std::endl;
 	    if ( algo.isValidSolution() ) {
 	      std::cout << "found mass = " << svFitMass << std::endl;
         }
@@ -336,7 +315,6 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 	  newBranch3->Fill();
 	  newBranch4->Fill();
 	  newBranch5->Fill();
-	  //dir->Fill();
       svFitMass = -100;
       svFitPt = -100;
       svFitEta = -100;
@@ -345,12 +323,10 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 	}
     
     inputFile_visPtResolution->Close(); 
-	//f->Write("",TObject::kOverwrite);
 	dir->cd();
 	t->Write("",TObject::kOverwrite);
-	//return;
-	//strcpy(TreeToUse,stringA) ;
-	//delete inputFile_visPtResolution;
+	strcpy(TreeToUse,stringA) ;
+	delete inputFile_visPtResolution;
     }
   
   }
