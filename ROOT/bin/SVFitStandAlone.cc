@@ -6,6 +6,7 @@
 #include "TTree.h"
 #include "TH1F.h"
 #include "TF1.h"
+#include "TDirectory.h"
 #include <math.h> 
 #include "TMath.h" 
 #include <limits>
@@ -51,6 +52,8 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
     //if(!strcmp(stringA,TreeToUse)) 
     //printf("Strings %s %s \n",TreeToUse,stringA);
     TObject *obj = key->ReadObj();
+    std::cout << &obj << "  " << obj << std::endl;
+    if (obj->IsFolder()) std::cout << "Is A Folder!" <<std::endl;
     
     if (obj->IsA()->InheritsFrom(TDirectory::Class())) {
       dir->cd(key->GetName());
@@ -59,6 +62,16 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
       sprintf(TreeToUse,"%s",key->GetName());
       readdir(subdir,parser,TreeToUse);
       dirsav->cd();
+      std::cout << "Found a save directory: " << dirsav << std::endl;
+    }
+    else if (obj->IsA()->InheritsFrom(TDirectoryFile::Class())) {
+      dir->cd(key->GetName());
+      //f->cd(key->GetName());
+      TDirectory *subdir = gDirectory;
+      sprintf(TreeToUse,"%s",key->GetName());
+      readdir(subdir,parser,TreeToUse);
+      dirsav->cd();
+      std::cout << "Found a save directory file: " << dirsav << std::endl;
     }
     else if(obj->IsA()->InheritsFrom(TTree::Class())) {
       std::cout<<"Object inherits from TTree Class Tree to use: "<<TreeToUse<<std::endl;
@@ -330,11 +343,16 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
       svFitPhi = -100;
       svFitMET = -100;
 	}
-      
+    
+    inputFile_visPtResolution->Close(); 
 	//f->Write("",TObject::kOverwrite);
+	dir->cd();
 	t->Write("",TObject::kOverwrite);
-	strcpy(TreeToUse,stringA) ;
-	delete inputFile_visPtResolution;
+	//return;
+	//strcpy(TreeToUse,stringA) ;
+	//delete inputFile_visPtResolution;
     }
+  
   }
+  return;
 }
