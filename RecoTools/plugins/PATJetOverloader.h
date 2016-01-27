@@ -63,40 +63,40 @@ class PATJetOverloader : public edm::EDProducer {
 	float pt=0.0;
 	float sumPt=0.0;
 	float sumPt2=0.0;
-        //std::cout<<"===== PATJetOverloader Jet Number of Daughters ====="<<std::endl;
-        //std::cout<<"numberOfDaughters(Constituents): "<<jet.numberOfDaughters()<<std::endl;
-        std::vector<reco::CandidatePtr> daus(jet.daughterPtrVector());
-        std::sort(daus.begin(), daus.end(), [](const reco::CandidatePtr &p1, const reco::CandidatePtr &p2) { return p1->pt() > p2->pt(); }); // the joys of C++11
-        for (unsigned int i2 = 0, n = daus.size(); i2 < n; ++i2) {
-          const pat::PackedCandidate &cand = dynamic_cast<const pat::PackedCandidate &>(*daus[i2]);
-          pt=cand.pt();
-          //std::cout<<"Constituent Pt: "<<pt<<std::endl;
-	  sumPt+=pt;
-	  sumPt2+=pt*pt;
+	//std::cout<<"===== PATJetOverloader Jet Number of Daughters ====="<<std::endl;
+	//std::cout<<"numberOfDaughters(Constituents): "<<jet.numberOfDaughters()<<std::endl;
+	std::vector<reco::CandidatePtr> daus(jet.daughterPtrVector());
+	std::sort(daus.begin(), daus.end(), [](const reco::CandidatePtr &p1, const reco::CandidatePtr &p2) { return p1->pt() > p2->pt(); }); // the joys of C++11
+	for (unsigned int i2 = 0, n = daus.size(); i2 < n; ++i2) {
+		const pat::PackedCandidate &cand = dynamic_cast<const pat::PackedCandidate &>(*daus[i2]);
+		pt=cand.pt();
+		//std::cout<<"Constituent Pt: "<<pt<<std::endl;
+		sumPt+=pt;
+		sumPt2+=pt*pt;
 	}
 	//std::cout<<"Constituent SumPt: "<<sumPt<<std::endl;
 	//std::cout<<"Constituent SumPt^2: "<<sumPt2<<std::endl;
 
 	bool loose = true;
-	bool medium = true;
+	bool medium = true; //tightLep veto
 	bool tight = true;
 	if (std::abs(jet.eta()) <= 3.0){
 		if (jet.neutralHadronEnergyFraction() >= 0.99)
 			loose = false;
-		if (jet.neutralHadronEnergyFraction() >= 0.95)
-			medium = false;
 		if (jet.neutralHadronEnergyFraction() >= 0.90)
 			tight = false;
+			medium = false;
 		if (jet.neutralEmEnergyFraction() >= 0.99)
 			loose = false;
-		if (jet.neutralEmEnergyFraction() >= 0.95)
-			medium = false;
-		if (jet.neutralEmEnergyFraction() >= 0.90 && jet.muonEnergyFraction()>=0.8)
+		if (jet.neutralEmEnergyFraction() >= 0.90)
 			tight = false;
-		if (jet.numberOfDaughters() <= 1) { //getPFConstitutents broken in miniAOD
+		if ((jet.chargedMultiplicity()+jet.neutralMultiplicity()) <= 1) { //getPFConstitutents broken in miniAOD
 			loose = false;
 			medium = false;
 			tight = false;
+		}
+		if (jet.muonEnergyFraction() >= 0.8){
+			medium = false;
 		}
 
 		if (std::abs(jet.eta()) <= 2.4) {
@@ -117,7 +117,7 @@ class PATJetOverloader : public edm::EDProducer {
 			}
 		}
 	}
-	if (std::abs(jet.eta()) > 3.0) {
+	else if (std::abs(jet.eta()) > 3.0) {
 		if (jet.neutralEmEnergyFraction() >= 0.90) {
 			loose = false;
 			medium = false;
@@ -130,7 +130,7 @@ class PATJetOverloader : public edm::EDProducer {
 		}
 	}
 	jet.addUserFloat("idLoose", loose);
-	jet.addUserFloat("idMedium", medium);
+	jet.addUserFloat("idTightLepVeto", medium);
 	jet.addUserFloat("idTight", tight);
 
 

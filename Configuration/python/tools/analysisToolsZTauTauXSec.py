@@ -33,7 +33,7 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   TriggerPaths= triggerPaths
   process.analysisSequence = cms.Sequence()
 
-  mvaMet(process)
+  #mvaMet(process)
   metSignificance(process)
 
   #Apply Tau Energy Scale Changes
@@ -43,9 +43,9 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   MiniAODMuonIDEmbedder(process,"slimmedMuons")  
 
   #Add trigger Matching
-  muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID")#NEW
-  electronTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODElectronVID")#NEW
-  tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"ESTausID") #slimmedTaus")
+  muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID") 
+  electronTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODElectronVID") 
+  tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"slimmedTaus") #ESTaus
   
   #Build good vertex collection
   #goodVertexFilter(process)  
@@ -82,7 +82,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   TriggerPaths= triggerPaths
   process.analysisSequence = cms.Sequence()
 
-  mvaMet(process)
+  #mvaMet(process)
   metSignificance(process)
 
   #Apply Tau Energy Scale Changes
@@ -348,12 +348,12 @@ def applyDefaultSelectionsPT(process):#FIXME THISWILL HVAE TO CHANGE
   #ONLY FOR SYSTEMATICS . PLEASE CHANGE THEM in YOUR CFG FILE IF REALLY NEEDED
   process.selectedPatTaus = cms.EDFilter("PATTauSelector",
                                            src = cms.InputTag("ESTausID"),
-                                           cut = cms.string('pt>15&&tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<3&&tauID("againstElectronVLooseMVA5")&&tauID("againstMuonLoose3")'),
+                                           cut = cms.string('pt>15&&tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<3&&tauID("againstElectronVLooseMVA6")&&tauID("againstMuonLoose3")'),
                                            filter = cms.bool(False)
   										)  
   process.selectedPatElectrons = cms.EDFilter("PATElectronSelector",
                                            src = cms.InputTag("miniAODElectronVID"),
-                                           cut = cms.string('pt>10&&userFloat("CBIDVeto")>0&&userFloat("dBRelIso")<0.3'),
+                                           cut = cms.string('pt>10&&userFloat("eleMVAIDnonTrig90")>0&&userFloat("dBRelIso")<0.3'),
                                            #cut = cms.string('pt>10&&userFloat("CBIDVeto")>0&&userFloat("dBRelIso")<0.3'),
                                            filter = cms.bool(False)
   										)
@@ -424,7 +424,7 @@ def muonTriggerMatchMiniAOD(process,triggerProcess,HLT,srcMuon):
                                             bits = cms.InputTag("TriggerResults","","HLT"),
                                             prescales = cms.InputTag("patTrigger"),
                                             objects = cms.InputTag("selectedPatTrigger"),
-                                            ptCut = cms.int32(18) #too low to affect anything
+                                            ptCut = cms.int32(0) 
    )
   
    process.analysisSequence*= process.triggeredPatMuons
@@ -457,7 +457,7 @@ def electronTriggerMatchMiniAOD(process,triggerProcess,HLT,srcEle):
                                             bits = cms.InputTag("TriggerResults","","HLT"),
                                             prescales = cms.InputTag("patTrigger"),
                                             objects = cms.InputTag("selectedPatTrigger"),
-                                            ptCut = cms.int32(23) #22was accidentally prescaled
+                                            ptCut = cms.int32(0) 
    )
   
    process.analysisSequence*= process.triggeredPatElectrons
@@ -525,7 +525,7 @@ def createGeneratedParticles(process,name,commands):
   refObjects = cms.EDProducer("GenParticlePruner",
     src = cms.InputTag("prunedGenParticles"),
     select = cms.vstring(
-    "drop  *  " 
+    "keep  *  " 
     )
    )
   refObjects.select.extend(commands)

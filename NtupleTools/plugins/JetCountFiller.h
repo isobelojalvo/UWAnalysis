@@ -78,10 +78,6 @@ class JetCountFiller : public NtupleFillerBase {
 
 
     }
-    else
-      {
-	printf("JetCountFiller: Obj not found \n");
-      }
   }
   
 

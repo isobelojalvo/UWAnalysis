@@ -37,7 +37,7 @@ defaultReconstruction(process,'HLT',
                       
 
 #EventSelection
-process.load("UWAnalysis.Configuration.zTauTauXSec_MVAMet_data_cff")
+process.load("UWAnalysis.Configuration.zTauTauXSec_MVAMEt_data_cff")
 
 process.metCalibration.applyCalibration = cms.bool(False)
 
