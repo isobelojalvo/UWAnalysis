@@ -68,9 +68,9 @@ class CompositePtrCandidateT1T2MEtProducer : public edm::EDProducer
 		srcJets_ = consumes<edm::View<pat::Jet> >(cfg.getParameter<edm::InputTag>("srcJets"));
 		dRmin12_ = cfg.getParameter<double>("dRmin12");
 		srcMET_ = consumes<reco::CandidateView>(cfg.getParameter<edm::InputTag>("srcMET"));
-		//srcMET_ = ( cfg.exists("srcMET") ) ? cfg.getParameter<edm::InputTag>("srcMET") : edm::InputTag();
-		srcTaus_ =  consumes<std::vector<pat::Tau> >(cfg.getParameter<edm::InputTag>("srcTaus"));//( cfg.exists("srcTaus") ) ? cfg.getParameter<edm::InputTag>("srcTaus") : edm::InputTag();
-		srcGenParticles_ = consumes<reco::GenParticleCollection>(cfg.getParameter<edm::InputTag>("srcGenParticles")); //( cfg.exists("srcGenParticles") ) ? cfg.getParameter<edm::InputTag>("srcGenParticles") : edm::InputTag();
+		srcTaus_ =  consumes<std::vector<pat::Tau> >(cfg.getParameter<edm::InputTag>("srcTaus"));
+		srcGenParticles_ = consumes<reco::GenParticleCollection>(cfg.getParameter<edm::InputTag>("srcGenParticles")); 
+		//srcGenParticles_ = consumes<reco::GenParticleCollection>( cfg.exists("srcGenParticles") ? cfg.getParameter<edm::InputTag>("srcGenParticles") : edm::InputTag())
 		recoMode_ = cfg.getParameter<std::string>("recoMode");
 		verbosity_ = cfg.getUntrackedParameter<int>("verbosity", 0);
 		minPt_ = cfg.getUntrackedParameter<double>("minJetPt", 20.0);

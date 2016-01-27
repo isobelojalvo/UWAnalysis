@@ -136,6 +136,10 @@ void findDaughters(const reco::GenParticle* mother, std::vector<const reco::GenP
   }
 }
 
+bool isEleMu(const reco::GenParticle* daughter)
+{
+  return ( TMath::Abs(daughter->pdgId()) == 11 || TMath::Abs(daughter->pdgId()) == 13 );
+}
 bool isNeutrino(const reco::GenParticle* daughter)
 {
   return ( TMath::Abs(daughter->pdgId()) == 12 || TMath::Abs(daughter->pdgId()) == 14 || TMath::Abs(daughter->pdgId()) == 16 );
@@ -147,7 +151,7 @@ reco::Candidate::LorentzVector getVisMomentum(const std::vector<const reco::GenP
 
   for ( std::vector<const reco::GenParticle*>::const_iterator daughter = daughters.begin();
 	daughter != daughters.end(); ++daughter ) {
-    if ( (status == -1 || (*daughter)->status() == status) && !isNeutrino(*daughter) ) {
+    if ( (status == -1 || (*daughter)->status() == status) && !isNeutrino(*daughter) && !isEleMu(*daughter)) {
       //std::cout << "adding daughter: pdgId = " << (*daughter)->pdgId() << ", Pt = " << (*daughter)->pt() << ","
       //	  << " eta = " << (*daughter)->eta() << ", phi = " << (*daughter)->phi()*180./TMath::Pi() << std::endl;
       p4Vis += (*daughter)->p4();

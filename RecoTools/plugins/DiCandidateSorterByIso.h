@@ -48,13 +48,13 @@ class DiCandidateSorterByIso : public edm::EDProducer {
     
     std::vector<T> toBeSorted;
     Handle<std::vector<T> > cands;
-    if(iEvent.getByToken(src_,cands)) 
-      toBeSorted =  *cands;
+    if(iEvent.getByToken(src_,cands)) {toBeSorted =  *cands;}
 
     if(toBeSorted.size()>0) {
       Sorter sorter;
       std::sort(toBeSorted.begin(),toBeSorted.end(),sorter);
     }
+    else {std::cout<<"SorterSize==0!"<<std::endl;}
 
     std::auto_ptr<std::vector<T> > out(new std::vector<T>);
     for(unsigned int i=0;i<toBeSorted.size();++i)

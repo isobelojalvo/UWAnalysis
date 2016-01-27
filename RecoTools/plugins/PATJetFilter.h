@@ -1,21 +1,3 @@
-// -*- C++ -*-
-//
-// Package:    PATMuonTrackVetoSelector
-// Class:      PATMuonTrackVetoSelector
-// 
-/**\class PATMuonTrackVetoSelector PATMuonTrackVetoSelector.cc UWAnalysis/PATMuonTrackVetoSelector/src/PATMuonTrackVetoSelector.cc
-
- Description: <one line class summary>
-
- Implementation:
-     <Notes on implementation>
-*/
-//
-// Original Author:  Michail Bachtis
-//         Created:  Sun Jan 31 15:04:57 CST 2010
-// $Id: PATJetFilter.h,v 1.3 2013/10/25 21:01:55 ojalvo Exp $
-//
-//
 #include "PhysicsTools/JetMCUtils/interface/JetMCTag.h"
 
 // system include files
@@ -47,7 +29,6 @@ class PATJetFilter : public edm::EDProducer {
    public:
   
   
-  //vector<reco::GenJet>                  "ak5GenJets" 
   explicit PATJetFilter(const edm::ParameterSet& iConfig):
     src_(consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("src")))
   {

@@ -121,7 +121,6 @@ class PATTauOverloader : public edm::EDProducer {
         }
 
 
-        tau.addUserFloat("dBRelIso03",0); //FIXME
         tau.addUserFloat("nIsoTracks",nIsoTracks);
         tau.addUserFloat("leadChargedHadrTrackPt",leadChargedHadrTrackPt);
         tau.addUserFloat("leadChargedHadrTrackPtErr",leadChargedHadrTrackPtErr);

@@ -72,7 +72,6 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 			src_(consumes<edm::View<T>>(iConfig.getParameter<edm::InputTag>("src"))),
 			filters_(iConfig.getParameter<std::vector<std::string> >("filters")),
 			filtersAND_(iConfig.getParameter<std::vector<std::string> >("filtersAND")),
-			//triggerEvent_(consumes<trigger::TriggerEvent>(iConfig.getParameter<edm::InputTag>("trigEvent"))),//TriggerResults
 			triggerBits_(consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("bits"))),
 			triggerObjects_(consumes<pat::TriggerObjectStandAloneCollection>(iConfig.getParameter<edm::InputTag>("objects"))),
 			triggerPrescales_(consumes<pat::PackedTriggerPrescales>(iConfig.getParameter<edm::InputTag>("prescales"))),
@@ -122,10 +121,13 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 				for(unsigned int k=0;k<src->size();++k) {
 					T pat = src->at(k);
 
+                			std::cout<<" pat: iso_1: "<<pat.userFloat("dBRelIso03")<<std::endl;
+                			std::cout<<" pat: Muon Pt: "<<pat.pt()<<std::endl;
+
 					//loop the filters
 					for(unsigned int i=0;i<filters_.size();++i) {
 						std::vector<LV> trigObjects = getFilterCollectionMiniAOD(ptCut_,filters_[i],*triggerObjects);
-						std::vector<LV> trigObjectsAND = getFilterCollectionMiniAOD(ptCut_,filtersAND_[i],*triggerObjects); //check if decalring here gives reasonable results
+						std::vector<LV> trigObjectsAND = getFilterCollectionMiniAOD(ptCut_,filtersAND_[i],*triggerObjects); 
 
 						bool match = false;
 						bool doAND = true;

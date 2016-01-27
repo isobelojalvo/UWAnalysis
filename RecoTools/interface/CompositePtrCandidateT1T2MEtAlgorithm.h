@@ -233,7 +233,10 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     if ( genParticles ) {
       compGenQuantities(compositePtrCandidate, genParticles);
     }
-    
+    //else { std::cout<< "noGenParticles: "<<genParticles<<std::endl;}
+    //FIXME in pythia8
+    //
+
 //--- set compositePtr four-momentum
 //    (depending on recoMode configuration parameter)
     if ( recoMode_ == "collinearApprox" ) {
@@ -393,28 +396,23 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 	  const reco::GenParticle* genLeg1 = findGenParticle(compositePtrCandidate.leg1()->p4(), *genParticles, 0.5, -1);
 	  const reco::GenParticle* genTau1 = findGenParticle(compositePtrCandidate.leg1()->p4(), *genParticles, 0.5, -1,&pdgIds,true);
 	  if ( genLeg1 ) {
-		  //std::cout << "genLeg1: Pt = " << genLeg1->pt() << ", eta = " << genLeg1->eta() << ", pdgId = " << genLeg1->pdgId() << std::endl; 
+		  //std::cout << "genLeg1: Pt = " << genLeg1->pt() << ", eta = " << genLeg1->eta() << ", pdgId = " << genLeg1->pdgId() 
+		 // 	  << " phi = " << genLeg1->phi()*180./TMath::Pi() << std::endl;
 		  //std::cout << "genLeg1: isPrompt Status = " << genLeg1->statusFlags().isPrompt()<<std::endl; 
 		  //std::cout << "genLeg1: isPrompt Final State = " << genLeg1->isPromptFinalState()<<std::endl; 
 		  //std::cout << "genLeg1: isDirectPromptTauDecayProduct = " << genLeg1->statusFlags().isDirectPromptTauDecayProduct()<<std::endl; 
 		  //std::cout << "genLeg1: isDirectPromptTauDecayProductFinalState = " << genLeg1->isDirectPromptTauDecayProductFinalState()<<std::endl; 
-		  //	  << " phi = " << genLeg1->phi()*180./TMath::Pi() << std::endl;
 
 
-		  //int genmatch;
-                  //if (genLeg1->pt()>8&&genLeg1->statusFlags().isPrompt()&&abs(genLeg1->pdgId())==11) {genmatch=1;}
-                  //else if (genLeg1->pt()>8&&genLeg1->statusFlags().isPrompt()&&abs(genLeg1->pdgId())==13) {genmatch=2;}
-                  //else if (genLeg1->pt()>8&&genLeg1->statusFlags().isDirectPromptTauDecayProduct()&&abs(genLeg1->pdgId())==13) {genmatch=3;}
-                  //else if (genLeg1->pt()>8&&genLeg1->statusFlags().isDirectPromptTauDecayProduct()&&abs(genLeg1->pdgId())==11) {genmatch=4;}
 		  compositePtrCandidate.setP4Leg1gen(genLeg1->p4());
 		  compositePtrCandidate.setPdg1(genLeg1->pdgId());
 		  compositePtrCandidate.setIsPrompt1(genLeg1->statusFlags().isPrompt());
 		  compositePtrCandidate.setIsPromptFS1(genLeg1->isPromptFinalState());
 		  compositePtrCandidate.setIsDirectPromptTauDecayProduct1(genLeg1->statusFlags().isDirectPromptTauDecayProduct());
 		  compositePtrCandidate.setIsDirectPromptTauDecayProductFS1(genLeg1->isDirectPromptTauDecayProductFinalState());
-		  //compositePtrCandidate.setGenMatch1(genmatch);
 	  }
 	  else{
+                  //std::cout<<"genLeg1 Not found"<<std::endl;
 		  compositePtrCandidate.setPdg1( 0 );
 	  }
 	  if( genTau1 ){
