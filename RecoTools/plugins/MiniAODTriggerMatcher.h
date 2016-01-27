@@ -121,9 +121,6 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 				for(unsigned int k=0;k<src->size();++k) {
 					T pat = src->at(k);
 
-                			std::cout<<" pat: iso_1: "<<pat.userFloat("dBRelIso03")<<std::endl;
-                			std::cout<<" pat: Muon Pt: "<<pat.pt()<<std::endl;
-
 					//loop the filters
 					for(unsigned int i=0;i<filters_.size();++i) {
 						std::vector<LV> trigObjects = getFilterCollectionMiniAOD(ptCut_,filters_[i],*triggerObjects);

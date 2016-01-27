@@ -68,6 +68,8 @@ class PATTauOverloader : public edm::EDProducer {
     if(iEvent.getByToken(src_,cands)) 
       for(unsigned int  i=0;i!=cands->size();++i){
 	pat::Tau tau = cands->at(i);
+        //std::cout<<"Tau : "<<i<<std::endl;
+        //std::cout<<"   Tau  pt: "<<tau.pt()<<" eta: "<<tau.eta()<<" byCmbIso: "<<tau.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<<std::endl;  
 
         float dZ=-999;
         float dXY=-999;
@@ -105,7 +107,7 @@ class PATTauOverloader : public edm::EDProducer {
 	        //leadChargedHadrTrackPtErr = tau.leadChargedHadrCand()->ptError();
 	        dZ = packedLeadTauCand->dz();
 	        dXY = packedLeadTauCand->dxy();
-                //std::cout<<"Sync Tau dZ is "<<dZ<<std::endl; 
+                std::cout<<"Sync Tau dZ is "<<dZ<<std::endl; 
 	        if(iEvent.getByToken(muons_,muons)){
 		    for(unsigned int k =0; k!=muons->size();k++){
 			    if(ROOT::Math::VectorUtil::DeltaR(muons->at(k).p4(),tau.leadChargedHadrCand()->p4())<0.15){
