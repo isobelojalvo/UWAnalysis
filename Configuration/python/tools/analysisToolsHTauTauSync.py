@@ -34,6 +34,7 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   process.analysisSequence = cms.Sequence()
 
   #mvaMet(process)
+  mvaPairMet(process)
   metSignificance(process)
 
   MiniAODEleVIDEmbedder(process,"slimmedElectrons")  
@@ -80,6 +81,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   process.analysisSequence = cms.Sequence()
 
   #mvaMet(process)
+  mvaPairMet(process)
   metSignificance(process)
 
   #Apply Tau Energy Scale Changes
@@ -102,8 +104,8 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   jetOverloading(process,"slimmedJets")
   jetFilter(process,"patOverloadedJets")
 
-  GenSumWeights(process)
-  GenHTCalculator(process)
+  #GenSumWeights(process)
+  #GenHTCalculator(process)
   #Default selections for systematics
   applyDefaultSelectionsPT(process)
 
@@ -215,24 +217,6 @@ def EScaledTaus(process,smearing):  #second arg is bool
   process.analysisSequence*=process.EScaledTaus
 
 
-#process.load("RecoJets.JetProducers.ak4PFJets_cfi")
-#process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
-#process.ak4PFJets.doAreaFastjet = cms.bool(True)
-#
-#from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFJetsL1FastL2L3
-#
-#process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
-##process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
-#process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
-#process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
-#
-#process.puJetIdForPFMVAMEt.jec =  cms.string('AK4PF')
-##process.puJetIdForPFMVAMEt.jets = cms.InputTag("ak4PFJets")
-#process.puJetIdForPFMVAMEt.vertexes = cms.InputTag("offlineSlimmedPrimaryVertices")
-#process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
-
-
-
 
 def mvaMet(process):
    #I added
@@ -248,6 +232,10 @@ def mvaMet(process):
    process.load("JetMETCorrections.Configuration.DefaultJEC_cff")
    
    process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
+   #process.pfMVAMEt.srcLeptons = cms.VInputTag(
+   #   cms.InputTag("slimmedTaus", "", ""),
+   #   cms.InputTag("slimmedMuons", "", ""),
+   #)
    #process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
    process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
    process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
@@ -264,6 +252,55 @@ def mvaMet(process):
 
    #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMVAMEtSequence*process.patMVAMet)
    process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.ak4PFL1FastL2L3CorrectorChain*process.pfMVAMEtSequence*process.patMVAMet)
+
+
+def mvaPairMet(process):
+   #I added
+   process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")  
+
+   from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFL1Fastjet
+   process.load("RecoJets.JetProducers.ak4PFJets_cfi")
+   process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
+   process.ak4PFJets.doAreaFastjet = cms.bool(True)
+   process.load('JetMETCorrections.Configuration.JetCorrectors_cff')
+  
+   #from JetMETCorrections.Configuration.JetCorrectionServices_cff import ak4PFL1Fastjet
+   process.load("JetMETCorrections.Configuration.DefaultJEC_cff")
+   
+   
+   #from RecoMET.METPUSubtraction.mvaPFMET_cff import pfMVAMEt
+   process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
+   process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
+   process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
+   # 
+   process.puJetIdForPFMVAMEt.jec =  cms.string('AK4PF')
+   process.puJetIdForPFMVAMEt.vertexes = cms.InputTag("offlineSlimmedPrimaryVertices")
+   process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
+ 
+   process.mvaMETTauMu = cms.EDProducer('PFMETProducerMVATauTau', 
+                             **process.pfMVAMEt.parameters_())
+
+   process.mvaMETTauMu.srcPFCandidates = cms.InputTag("packedPFCandidates")
+   process.mvaMETTauMu.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
+   process.mvaMETTauMu.srcRho = cms.InputTag("fixedGridRhoFastjetAll")
+   process.mvaMETTauMu.srcLeptons = cms.VInputTag(
+      cms.InputTag("slimmedTaus", "", ""),
+      cms.InputTag("slimmedMuons", "", ""),
+   )
+   process.mvaMETTauMu.permuteLeptons = cms.bool(True)
+
+
+ 
+   process.patMVAMet = process.patMETs.clone(
+         metSource = cms.InputTag('mvaMETTauMu'),
+         addMuonCorrections = cms.bool(False),
+         addGenMET = cms.bool(False)
+   )
+
+   #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMVAMEtSequence*process.patMVAMet)
+   #process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.ak4PFL1FastL2L3CorrectorChain*process.pfMVAMEtSequence*process.mvaMETTauMu*process.patMVAMet)
+   process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.ak4PFL1FastL2L3CorrectorChain*process.pfMVAMEtSequence*process.mvaMETTauMu*process.patMVAMet)
+
 
 
 
@@ -346,21 +383,21 @@ def applyDefaultSelectionsPT(process):#FIXME THISWILL HVAE TO CHANGE
   #ONLY FOR SYSTEMATICS . PLEASE CHANGE THEM in YOUR CFG FILE IF REALLY NEEDED
   process.selectedPatTaus = cms.EDFilter("PATTauSelector",
                                            src = cms.InputTag("slimmedTaus"),
-                                           cut = cms.string('pt>15'),
+                                           cut = cms.string('pt>15 && abs(eta)<2.1 && tauID("decayModeFindingNewDMs")'),
                                            #cut = cms.string('pt>15&&tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<3&&tauID("againstElectronVLooseMVA6")&&tauID("againstMuonLoose3")'),
                                            filter = cms.bool(False)
   										)  
   process.selectedPatElectrons = cms.EDFilter("PATElectronSelector",
                                            src = cms.InputTag("slimmedElectrons"),
                                            #src = cms.InputTag("miniAODElectronVID"),
-                                           cut = cms.string('pt>10'),
+  					   cut = cms.string('pt>10&&abs(eta)<2.5'),
                                            #cut = cms.string('pt>10&&userFloat("eleMVAIDnonTrig90")>0&&userFloat("dBRelIso03")<0.3'),
                                            filter = cms.bool(False)
   										)
   process.selectedPatMuons = cms.EDFilter("PATMuonSelector",
                                            src = cms.InputTag("slimmedMuons"),
                                            #src = cms.InputTag("miniAODMuonID"),
-                                           cut = cms.string('pt>10'),
+                                           cut = cms.string('pt>10&&abs(eta)<2.4&&isMediumMuon>0'),
                                            #cut = cms.string('pt>10&&userInt("mediumID")&&userFloat("dBRelIso03")<0.3'),
                                            filter = cms.bool(False)
   										) 
@@ -530,7 +567,7 @@ def createGeneratedParticles(process,name,commands):
   refObjects = cms.EDProducer("GenParticlePruner",
     src = cms.InputTag("prunedGenParticles"),
     select = cms.vstring(
-    "keep  *  " 
+    "drop * " 
     )
    )
   refObjects.select.extend(commands)
