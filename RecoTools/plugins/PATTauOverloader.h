@@ -107,7 +107,7 @@ class PATTauOverloader : public edm::EDProducer {
 	        //leadChargedHadrTrackPtErr = tau.leadChargedHadrCand()->ptError();
 	        dZ = packedLeadTauCand->dz();
 	        dXY = packedLeadTauCand->dxy();
-                std::cout<<"Sync Tau dZ is "<<dZ<<std::endl; 
+                //std::cout<<"Sync Tau dZ is "<<dZ<<std::endl; 
 	        if(iEvent.getByToken(muons_,muons)){
 		    for(unsigned int k =0; k!=muons->size();k++){
 			    if(ROOT::Math::VectorUtil::DeltaR(muons->at(k).p4(),tau.leadChargedHadrCand()->p4())<0.15){

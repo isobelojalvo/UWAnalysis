@@ -59,7 +59,7 @@ void MiniAODMuonIDEmbedder::produce(edm::Event& evt, const edm::EventSetup& es) 
 	std::auto_ptr<pat::MuonCollection> output(new pat::MuonCollection);
 	output->reserve(nbMuon);
 
-        std::cout<<"NMuons: "<<nbMuon<<std::endl;
+        //std::cout<<"NMuons: "<<nbMuon<<std::endl;
 	for(unsigned i = 0 ; i < nbMuon; i++){
 		pat::Muon muon(muons->at(i));
 
