@@ -1,7 +1,7 @@
 #!/bin/sh
-mkdir /nfs_scratch/$USER/htt_weighted2
-cp /nfs_scratch/$USER/htt_unweighted2/* /nfs_scratch/$USER/htt_weighted2/.
-cd /nfs_scratch/$USER/htt_unweighted2/
+mkdir /nfs_scratch/$USER/htt_weighted5
+cp /nfs_scratch/$USER/htt_unweighted5/* /nfs_scratch/$USER/htt_weighted5/.
+cd /nfs_scratch/$USER/htt_weighted5/
 
 
 weight=1;
@@ -34,7 +34,7 @@ fi
 
 if [ $weight -eq 1 ]
     then
-    #EventWeightsIterativeGen outputFile='ZJets.root'     weight=6025.2    histoName='MT/results' sumHistoName='sumweights/genWeights'
+    #EventWeightsIterativeGen outputFile='ZJets.root'     weight=6025.2    histoName='MT/results' sumHistoName='sumweights/genWeights' #Z in in Z
     EventWeightsIterativeGen outputFile='TTJets.root'  weight=831.76     histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='TT.root'  weight=831.76     histoName='MT/results' sumHistoName='sumweights/genWeights'
 
@@ -64,7 +64,8 @@ if [ $weight -eq 1 ]
     EventWeightsIterativeGen outputFile='St_top.root'       weight=44.07    histoName='MT/results' sumHistoName='sumweights/genWeights' #136 * 3*.108
 
     #hadd -f DiBoson.root VV.root WZ*root ZZ*root WW*root St_*top.root t*_tW.root
-    hadd -f DiBoson.root WZJets.root ZZ*root WW*root St_*top.root t*_tW.root
+    hadd -f DiBoson.root WZJets.root ZZ.root WW.root St_top.root t*_tW.root
+    #hadd -f DiBoson.root WZJets.root ZZ*root WW*root St_*top.root t*_tW.root
     #hadd -f ZJetsMerge.root ZJets.root ZJets550.root
 fi
 
