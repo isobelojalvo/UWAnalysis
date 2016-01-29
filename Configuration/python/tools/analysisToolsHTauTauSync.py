@@ -33,8 +33,8 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   TriggerPaths= triggerPaths
   process.analysisSequence = cms.Sequence()
 
-  #mvaMet(process)
-  mvaPairMet(process)
+  mvaMet(process)
+  #mvaPairMet(process)
   metSignificance(process)
 
   MiniAODEleVIDEmbedder(process,"slimmedElectrons")  
@@ -80,8 +80,8 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   TriggerPaths= triggerPaths
   process.analysisSequence = cms.Sequence()
 
-  #mvaMet(process)
-  mvaPairMet(process)
+  mvaMet(process)
+  #mvaPairMet(process)
   metSignificance(process)
 
   #Apply Tau Energy Scale Changes

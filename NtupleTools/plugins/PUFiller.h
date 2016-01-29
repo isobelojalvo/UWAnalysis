@@ -9,6 +9,10 @@
 #include "DataFormats/VertexReco/interface/Vertex.h"
 #include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
 
+#include "PhysicsTools/Utilities/interface/LumiReWeighting.h"
+
+#include "boost/filesystem.hpp"
+
 
 //
 // class decleration
@@ -29,6 +33,7 @@ class PUFiller : public NtupleFillerBase {
 	  t->Branch((tag_+"Truth").c_str(),&value[1],(tag_+"Truth/F").c_str());
 	  t->Branch((tag_+"BX0").c_str(),&value[2],(tag_+"BX0/F").c_str());
 	  t->Branch((tag_+"BXplus").c_str(),&value[4],(tag_+"BXplus/F").c_str());
+	  t->Branch((tag_+"weight").c_str(),&value[5],(tag_+"weight/F").c_str());
 	}
 
 
@@ -57,16 +62,31 @@ class PUFiller : public NtupleFillerBase {
 	  value[4] =  PVI->getPU_NumInteractions(); 
 	}
       }
+      std::string base = std::getenv("CMSSW_BASE");
+      std::string fPUMCloc =   "/src/UWAnalysis/Configuration/data/MC_Fall15_PU25_V1.root";
+      //Spring15
+      //std::string fPUMCloc =   "/src/UWAnalysis/Configuration/data/MC_Spring15_PU25_Startup.root";
+      std::string fPUDATAloc = "/src/UWAnalysis/Configuration/data/Data_Pileup_2015D_Jan27.root";
+      std::string fPUMCname =   base+fPUMCloc;
+      std::string fPUDATAname = base+fPUDATAloc;
+      bool fPUMCis   = boost::filesystem::exists( fPUMCname   );
+      bool fPUDATAis = boost::filesystem::exists( fPUDATAname );
+      if (fPUMCis && fPUDATAis){
+	      edm::LumiReWeighting *LumiWeights;
+	      LumiWeights = new edm::LumiReWeighting(fPUMCname,fPUDATAname,"pileup","pileup");
+	      value[5] = LumiWeights->weight(value[1]);
+      }
+
     }
     else
-      {
-	printf("PU Info not found\n");
-      }
+    {
+	    printf("PU Info not found\n");
+    }
 
 
 
   }
-  
+
 
  protected:
   edm::EDGetTokenT<std::vector<PileupSummaryInfo> > src_;
