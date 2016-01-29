@@ -11,7 +11,7 @@ cmsrel CMSSW_7_6_3 #for 2016 analysis
 cd CMSSW_7_6_3/src/
 cmsenv
 git cms-init 
-git clone --recursive -b 763X_dev https://github.com/lmdodd/UWAnalysis.git   
+git clone --recursive -b 763_dev https://github.com/lmdodd/UWAnalysis.git   
 cd UWAnalysis
 source recipe13TeV.sh
 export USER_CXXFLAGS="-Wno-delete-non-virtual-dtor -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=reorder"
