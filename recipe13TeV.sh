@@ -13,6 +13,11 @@ git cms-addpkg RecoMET/METPUSubtraction
 cd RecoMET/METPUSubtraction/
 git clone https://github.com/rfriese/RecoMET-METPUSubtraction data -b 74X-13TeV-Summer15-July2015
 
+wget https://raw.githubusercontent.com/CMS-HTT/cmssw/587e58b7e3c5905fc8962c0c4ddbc1fb9776196f/RecoMET/METPUSubtraction/plugins/PFMETProducerMVATauTau.cc
+wget https://raw.githubusercontent.com/CMS-HTT/cmssw/587e58b7e3c5905fc8962c0c4ddbc1fb9776196f/RecoMET/METPUSubtraction/plugins/PFMETProducerMVATauTau.h
+mv PFMETProducerMVATauTau.cc plugins/.
+mv PFMETProducerMVATauTau.h plugins/.
+
 #
 # Edit mvaPFMet_cff.py to have the following:
 #
@@ -30,8 +35,8 @@ pushd $CMSSW_BASE/src
 git cms-addpkg RecoMET/METProducers
 
 
-#Electron corrections
-git cms-merge-topic -u matteosan1:smearer_76X
+#Electron corrections USE?
+#git cms-merge-topic -u matteosan1:smearer_76X
 
 
 
