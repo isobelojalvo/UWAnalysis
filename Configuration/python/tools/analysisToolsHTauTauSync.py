@@ -33,8 +33,8 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   TriggerPaths= triggerPaths
   process.analysisSequence = cms.Sequence()
 
-  mvaMet(process)
-  #mvaPairMet(process)
+  #mvaMet(process)
+  mvaPairMet(process)
   metSignificance(process)
 
   MiniAODEleVIDEmbedder(process,"slimmedElectrons")  
@@ -80,8 +80,8 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   TriggerPaths= triggerPaths
   process.analysisSequence = cms.Sequence()
 
-  mvaMet(process)
-  #mvaPairMet(process)
+  #mvaMet(process)
+  mvaPairMet(process)
   metSignificance(process)
 
   #Apply Tau Energy Scale Changes
@@ -284,22 +284,29 @@ def mvaPairMet(process):
    process.mvaMETTauMu.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
    process.mvaMETTauMu.srcRho = cms.InputTag("fixedGridRhoFastjetAll")
    process.mvaMETTauMu.srcLeptons = cms.VInputTag(
-      cms.InputTag("slimmedTaus", "", ""),
-      cms.InputTag("slimmedMuons", "", ""),
+      cms.InputTag("slimmedMuons"), 
+      cms.InputTag("slimmedTaus")
    )
    process.mvaMETTauMu.permuteLeptons = cms.bool(True)
 
+   process.mvaMETTauEle = cms.EDProducer('PFMETProducerMVATauTau', 
+                             **process.pfMVAMEt.parameters_())
 
- 
-   process.patMVAMet = process.patMETs.clone(
-         metSource = cms.InputTag('mvaMETTauMu'),
-         addMuonCorrections = cms.bool(False),
-         addGenMET = cms.bool(False)
+   process.mvaMETTauEle.srcPFCandidates = cms.InputTag("packedPFCandidates")
+   process.mvaMETTauEle.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
+   process.mvaMETTauEle.srcRho = cms.InputTag("fixedGridRhoFastjetAll")
+   process.mvaMETTauEle.srcLeptons = cms.VInputTag(
+      cms.InputTag("slimmedElectrons"), 
+      cms.InputTag("slimmedTaus")
    )
+   process.mvaMETTauEle.permuteLeptons = cms.bool(True)
+
+
 
    #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMVAMEtSequence*process.patMVAMet)
    #process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.ak4PFL1FastL2L3CorrectorChain*process.pfMVAMEtSequence*process.mvaMETTauMu*process.patMVAMet)
-   process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.ak4PFL1FastL2L3CorrectorChain*process.pfMVAMEtSequence*process.mvaMETTauMu*process.patMVAMet)
+   #process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.ak4PFL1FastL2L3CorrectorChain*process.pfMVAMEtSequence*process.mvaMETTauMu*process.patMVAMet)
+   process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.ak4PFL1FastL2L3CorrectorChain*process.pfMVAMEtSequence*process.mvaMETTauMu*process.mvaMETTauEle)
 
 
 

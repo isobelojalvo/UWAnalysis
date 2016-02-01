@@ -259,10 +259,14 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauPhi1LL = makeLTauGeneric("PATMuPairFiller",srcLL,"LLphi_1","leg1.phi"),#FILLED
                               muTauPhi2LL = makeLTauGeneric("PATMuPairFiller",srcLL,"LLphi_2","leg2.phi"),#FILLED
 
-                              muTauMET = makeMuTauPair(src,"met","met.pt()"),#FILLED
-                              muTauMETCal = makeMuTauPair(src,"metCal","calibratedMET.pt()"),#FILLED
+                              #muTauMET = makeMuTauPair(src,"met","met.pt()"),#FILLED
                               #muTauMETPhi = makeMuTauPair(src,"metphi","metPhi"),#FILLED
-                              muTauMETPhi = makeMuTauPair(src,"metphi","met.phi()"),#FILLED
+                              #muTauMETCal = makeMuTauPair(src,"metCal","calibratedMET.pt()"),#FILLED
+                              #muTauMETPhi = makeMuTauPair(src,"metphi","met.phi()"),#FILLED
+                              #mumuMET = makeLTauGeneric("PATMuPairFiller",srcLL,"met","met.pt()"),#FIXME
+                              #mumuMETPhi = makeLTauGeneric("PATMuPairFiller",srcLL,"metphi","met.phi()"),#FIXME
+                              muTauMET = makeMuTauPair(src,"mvamet","met.pt()"),#FILLED
+                              muTauMETPhi = makeMuTauPair(src,"mvametphi","met.phi()"),#FILLED
                               muTauMvaCovMat00 = makeMuTauPair(src,"covMVAMatrix00","covMatrix00"),#FIXME
                               muTauMvaCovMat10 = makeMuTauPair(src,"covMVAMatrix10","covMatrix10"),#FIXME
                               muTauMvaCovMat01 = makeMuTauPair(src,"covMVAMatrix01","covMatrix01"),#FIXME
@@ -316,6 +320,8 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
 
 			      #tauIDs
                               muTauByCombIsoDBRaw3 = makeMuTauPair(src,"byCombinedIsolationDeltaBetaCorrRaw3Hits_2",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
+                              muTauByNewDMMVAIso = makeMuTauPair(src,"byIsolationMVArun2v1DBnewDMwLTraw_2",'leg2.tauID("byIsolationMVArun2v1DBnewDMwLTraw")'),
+                              muTauByOldDMMVAIso = makeMuTauPair(src,"byIsolationMVArun2v1DBoldDMwLTraw_2",'leg2.tauID("byIsolationMVArun2v1DBoldDMwLTraw")'),
                               muTauByCombIsoLoose = makeMuTauPair(src,"tauIsoLoose",'leg2.tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits")'),
                               muTauByCombIsoMedium = makeMuTauPair(src,"tauIsoMedium",'leg2.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits")'),
                               muTauByCombIsoTight = makeMuTauPair(src,"tauIsoTight",'leg2.tauID("byTightCombinedIsolationDeltaBetaCorr3Hits")'),
@@ -514,9 +520,11 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
 
                               #eleTauMETUnc = makeEleTauPair(src,"metUnc","met.pt()"),#curretnly identical
                               #eleTauMET = makeEleTauPair(src,"met","calibratedMET.pt()"),#currently identical
-                              eleTauMET = makeEleTauPair(src,"met","met.pt()"),#currently identical
                               #eleTauMETPhi = makeEleTauPair(src,"metphi","metPhi"),
-                              eleTauMETPhi = makeEleTauPair(src,"metphi","met.phi()"),
+                              #eleeleMET = makeLTauGeneric("PATElePairFiller",srcLL,"met","met.pt()"),#FIXME
+                              #eleeleMETPhi = makeLTauGeneric("PATElePairFiller",srcLL,"metphi","met.phi()"),#
+                              eleTauMET = makeEleTauPair(src,"mvamet","met.pt()"),#currently identical
+                              eleTauMETPhi = makeEleTauPair(src,"mvametphi","met.phi()"),
                               eleTauCovMat00 = makeEleTauPair(src,"mvacov00","covMatrix00"),
                               eleTauCovMat10 = makeEleTauPair(src,"mvacov10","covMatrix10"),
                               eleTauCovMat01 = makeEleTauPair(src,"mvacov01","covMatrix01"),
@@ -581,6 +589,8 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               eleTauByCombIsoTight = makeEleTauPair(src,"tauIsoTight",'leg2.tauID("byTightCombinedIsolationDeltaBetaCorr3Hits")'),
  
                               eleTauByCombIsoDBRaw3 = makeEleTauPair(src,"byCombinedIsolationDeltaBetaCorrRaw3Hits_2",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
+                              eleTauByNewDMMVAIso = makeEleTauPair(src,"byIsolationMVArun2v1DBnewDMwLTraw_2",'leg2.tauID("byIsolationMVArun2v1DBnewDMwLTraw")'),
+                              eleTauByOldDMMVAIso = makeEleTauPair(src,"byIsolationMVArun2v1DBoldDMwLTraw_2",'leg2.tauID("byIsolationMVArun2v1DBoldDMwLTraw")'),
                               eleTauByCombIsoDBRaw3Iso = makeEleTauPair(src,"tauIso",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
                               eleTauByCharged = makeEleTauPair(src,"chargedIsoPtSum_2",'leg2.tauID("chargedIsoPtSum")'),
                               eleTauByNeutral = makeEleTauPair(src,"neutralIsoPtSum_2",'leg2.tauID("neutralIsoPtSum")'),

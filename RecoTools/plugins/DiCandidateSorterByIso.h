@@ -75,8 +75,8 @@ class DiCandidateSorterByIso : public edm::EDProducer {
     {
             //std::cout<<" Cand 1 Leg 1 isolation: "<<t1.leg1()->userFloat("dBRelIso03")<<std::endl;
             //std::cout<<" Cand 2 Leg 1 isolation: "<<t2.leg1()->userFloat("dBRelIso03")<<std::endl;
-            //std::cout<<" Cand 1 Leg 2 isolation: "<<t1.leg2()->tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<<std::endl;
-            //std::cout<<" Cand 2 Leg 2 isolation: "<<t2.leg2()->tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<<std::endl;
+            //std::cout<<" Cand 1 Leg 2 isolation: "<<t1.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw")<<std::endl;
+            //std::cout<<" Cand 2 Leg 2 isolation: "<<t2.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw")<<std::endl;
 	    if ((t1.leg1()->userFloat("dBRelIso03")) < (t2.leg1()->userFloat("dBRelIso03"))){
                     //std::cout<<"cand 1 Isolation: "<<t1.leg1()->userFloat("dBRelIso03")<<" < cand 2 Isolation: "<<t2.leg1()->userFloat("dBRelIso03")<<std::endl;
 		    return true;
@@ -84,10 +84,10 @@ class DiCandidateSorterByIso : public edm::EDProducer {
 	    else if(((t1.leg1()->userFloat("dBRelIso03")) == (t2.leg1()->userFloat("dBRelIso03")))&& ( (t1.leg1()->pt()) > (t2.leg1()->pt()) ) ){
 		    return true;
 	    }
-	    else if(((t1.leg1()->userFloat("dBRelIso03")) == (t2.leg1()->userFloat("dBRelIso03")))&&( (t1.leg1()->pt()) == (t2.leg1()->pt()) )&&((t1.leg2()->tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits") < t2.leg2()->tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")) ) ){
+	    else if(((t1.leg1()->userFloat("dBRelIso03")) == (t2.leg1()->userFloat("dBRelIso03")))&&( (t1.leg1()->pt()) == (t2.leg1()->pt()) )&&((t1.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw") < t2.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw")) ) ){
 		    return true;
 	    }
-	    else if(((t1.leg1()->userFloat("dBRelIso03")) == (t2.leg1()->userFloat("dBRelIso03")))&&( (t1.leg1()->pt()) == (t2.leg1()->pt()) )&&((t1.leg2()->tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits") == t2.leg2()->tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")) )&&((t1.leg2()->pt()) > (t2.leg2()->pt()))){
+	    else if(((t1.leg1()->userFloat("dBRelIso03")) == (t2.leg1()->userFloat("dBRelIso03")))&&( (t1.leg1()->pt()) == (t2.leg1()->pt()) )&&((t1.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw") == t2.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw")) )&&((t1.leg2()->pt()) > (t2.leg2()->pt()))){
 		    return true; 
 	    }
 	    else {return false;}

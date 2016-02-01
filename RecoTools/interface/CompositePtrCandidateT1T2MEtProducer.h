@@ -67,7 +67,8 @@ class CompositePtrCandidateT1T2MEtProducer : public edm::EDProducer
 		srcLeg2_ = consumes<T2View>(cfg.getParameter<edm::InputTag>("srcLeg2"));
 		srcJets_ = consumes<edm::View<pat::Jet> >(cfg.getParameter<edm::InputTag>("srcJets"));
 		dRmin12_ = cfg.getParameter<double>("dRmin12");
-		srcMET_ = consumes<reco::CandidateView>(cfg.getParameter<edm::InputTag>("srcMET"));
+		srcMET_ = consumes<edm::View<pat::MET>>(cfg.getParameter<edm::InputTag>("srcMET"));
+		//srcMET_ = consumes<reco::CandidateView>(cfg.getParameter<edm::InputTag>("srcMET"));
 		srcTaus_ =  consumes<std::vector<pat::Tau> >(cfg.getParameter<edm::InputTag>("srcTaus"));
 		srcGenParticles_ = consumes<reco::GenParticleCollection>(cfg.getParameter<edm::InputTag>("srcGenParticles")); 
 		//srcGenParticles_ = consumes<reco::GenParticleCollection>( cfg.exists("srcGenParticles") ? cfg.getParameter<edm::InputTag>("srcGenParticles") : edm::InputTag())
@@ -139,23 +140,48 @@ class CompositePtrCandidateT1T2MEtProducer : public edm::EDProducer
 			//std::cout<< "Got Taus: " << tauCollection->size()<<endl;
 		}
 
-		reco::CandidatePtr metPtr;
-		if ( !(srcMET_.isUninitialized()) ) {
-			edm::Handle<reco::CandidateView> metCollection;
-			pf::fetchCollection(metCollection, srcMET_, evt);
 
-			//--- check that there is exactly one MET object in the event
-			//    (missing transverse momentum is an **event level** quantity)
-			if ( metCollection->size() == 1 ) {
-				metPtr = metCollection->ptrAt(0);
-			} else {
-				edm::LogError ("produce") << " Found " << metCollection->size() << " MET objects in collection "
-					<< " --> CompositePtrCandidateT1T2MEt collection will NOT be produced !!";
-				std::auto_ptr<CompositePtrCandidateCollection> emptyCompositePtrCandidateCollection(new CompositePtrCandidateCollection());
-				evt.put(emptyCompositePtrCandidateCollection);
-				return;
-			}
-		}
+		reco::CandidatePtr metPtr;
+		edm::Handle<edm::View<pat::MET>> metCollection;
+		pf::fetchCollection(metCollection, srcMET_, evt);
+		if (metCollection->size() == 0) { 
+			edm::LogError ("produce") << " Found " << metCollection->size() << " MET objects in collection "
+				<< " --> CompositePtrCandidateT1T2MEt collection will NOT be produced !!";
+			std::auto_ptr<CompositePtrCandidateCollection> emptyCompositePtrCandidateCollection(new CompositePtrCandidateCollection());      
+			evt.put(emptyCompositePtrCandidateCollection);
+			return;
+		}                
+
+		//--- check that there is exactly one MET object in the event
+		//    (missing transverse momentum is an **event level** quantity)
+		//if ( metCollection->size() == 1 ) {
+		//	metPtr = metCollection->ptrAt(0);
+		//}
+		//else if (metCollection->size() == 0) {
+		//		edm::LogError ("produce") << " Found " << metCollection->size() << " MET objects in collection "
+		//				<< " --> CompositePtrCandidateT1T2MEt collection will NOT be produced !!";
+		//			std::auto_ptr<CompositePtrCandidateCollection> emptyCompositePtrCandidateCollection(new CompositePtrCandidateCollection());
+		//			evt.put(emptyCompositePtrCandidateCollection);
+		//			return;
+		//
+		//		} else { 
+		//                       std::cout<<"MulitpleMets use 1 for now"<<std::endl;
+		//			metPtr = metCollection->ptrAt(0);
+		//PAIRWISE MVA MET COUT 
+		//for (size_t i = 0; i < metCollection->size(); ++i) {
+		//const pat::MET& met = (*metCollection)[i];
+		//std::cout<<"Met "<<i<< " Candidate1: "<<met.hasUserCand("lepton1")<<std::endl;
+		//std::cout<<"        Pt: "<<met.userCand("lepton1")->pt()<<" Eta: "<< met.userCand("lepton1")->eta()<<std::endl;
+		//std::cout<<"Met "<<i<< " Candidate2: "<<met.hasUserCand("lepton2")<<std::endl;
+		//std::cout<<"        Pt: "<<met.userCand("lepton2")->pt()<<" Eta: "<< met.userCand("lepton2")->eta()<<std::endl;
+		//}
+		//edm::LogError ("produce") << " Found " << metCollection->size() << " MET objects in collection "
+		//	<< " --> CompositePtrCandidateT1T2MEt collection will NOT be produced !!";
+		//std::auto_ptr<CompositePtrCandidateCollection> emptyCompositePtrCandidateCollection(new CompositePtrCandidateCollection());
+		//evt.put(emptyCompositePtrCandidateCollection);
+		//return;
+		//		}
+
 
 		const reco::GenParticleCollection* genParticles = 0;
 		if ( !(srcGenParticles_.isUninitialized()) ) {
@@ -177,7 +203,6 @@ class CompositePtrCandidateT1T2MEtProducer : public edm::EDProducer
 		//    shall be produced, or all possible combinations of leg1 and leg2 objects
 		std::auto_ptr<CompositePtrCandidateCollection> compositePtrCandidateCollection(new CompositePtrCandidateCollection());
 		if ( useLeadingTausOnly_ ) {
-
 			//--- find highest Pt particles in leg1 and leg2 collections
 			int idxLeadingLeg1 = -1;
 			double leg1PtMax = 0.;
@@ -214,6 +239,7 @@ class CompositePtrCandidateT1T2MEtProducer : public edm::EDProducer
 					idxLeadingLeg2 != -1 ) {
 				T1Ptr leadingLeg1Ptr = leg1Collection->ptrAt(idxLeadingLeg1);
 				T2Ptr leadingLeg2Ptr = leg2Collection->ptrAt(idxLeadingLeg2);
+				//ADD MVA MET HERE
 
 				CompositePtrCandidateT1T2MEt<T1,T2> compositePtrCandidate = 
 					algorithm_.buildCompositePtrCandidate(leadingLeg1Ptr, leadingLeg2Ptr,pfJets, metPtr, tauPtr, IsRealData, genParticles);
@@ -222,14 +248,14 @@ class CompositePtrCandidateT1T2MEtProducer : public edm::EDProducer
 				if ( verbosity_ >= 1 ) {
 					edm::LogInfo ("produce") << " Found no combination of particles in Collections" 
 						<< " leg1 and leg2 = " ;
-						//<< " leg1 = " << srcLeg1_ << " and leg2 = " << srcLeg2_ << ".";
+					//<< " leg1 = " << srcLeg1_ << " and leg2 = " << srcLeg2_ << ".";
 				}
 			}
 		} else {
 			//--- check if the same collection is used on both legs;
 			//    if so, skip diTau(j,i), j > i combination in order to avoid two diTau objects being produced
 			//    for combinations (i,j) and (j,i) of the same pair of particles in leg1 and leg2 collections
-			bool sameCollection = (leg1Collection.id () == leg2Collection.id());
+			bool sameCollection = (leg1Collection.id() == leg2Collection.id());
 
 			for ( unsigned idxLeg1 = 0, numLeg1 = leg1Collection->size(); 
 					idxLeg1 < numLeg1; ++idxLeg1 ) {
@@ -244,6 +270,62 @@ class CompositePtrCandidateT1T2MEtProducer : public edm::EDProducer
 					//    for combination of particle with itself
 					double dR = reco::deltaR(leg1Ptr->p4(), leg2Ptr->p4());
 					if ( dR < dRmin12_ ) continue;
+					bool foundMET = false;
+					if ( metCollection->size() == 1 ) 
+					{
+						metPtr = metCollection->ptrAt(0);
+						foundMET=true;
+					} //required for pfMet
+					else { 
+						//std::cout<<"~~~~~~~~~I AM INSIDE MVA MET ELSE MATCHING~~~~~~~~"<<std::endl;
+						for (size_t i = 0; i < metCollection->size(); ++i) {
+							const pat::MET& met = (*metCollection)[i];
+
+
+	 						double l1pt = (round(leg1Ptr->pt()*100))/100.0;
+	 						double l1eta = (round(leg1Ptr->eta()*100))/100.0;
+	 						double l2pt = (round(leg2Ptr->pt()*100))/100.0;
+	 						double l2eta = (round(leg2Ptr->eta()*100))/100.0;
+	 						double m1pt = (round(met.userCand("lepton1")->pt()*100))/100.0;
+	 						double m1eta = (round(met.userCand("lepton1")->eta()*100))/100.0;
+	 						double m2pt = (round(met.userCand("lepton2")->pt()*100))/100.0;
+	 						double m2eta = (round(met.userCand("lepton2")->eta()*100))/100.0;
+							
+
+							//std::cout<<"MVA MET loop: "<<i<<std::endl;
+							//if (l1pt == m1pt) {std::cout<<"l1pt "<<l1pt<<" matches m1pt "<<m1pt<<std::endl;} 
+							//if (l2pt == m2pt) {std::cout<<"l2pt "<<l2pt<<" matches m2pt "<<m2pt<<std::endl;} 
+							//if (l1eta == m1eta) {std::cout<<"l1eta "<<l1eta<<" matches m1eta "<<m1eta<<std::endl;} 
+							//if (l2eta == m2eta) {std::cout<<"l2eta "<<l2eta<<" matches m2eta "<<m2eta<<std::endl;} 
+							//if (l1pt == m2pt) {std::cout<<"NOTE: l1pt "<<l1pt<<" matches m2pt "<<m2pt<<std::endl;} 
+
+
+							if ( l1pt == m1pt && l2pt == m2pt && l1eta==m1eta && l2eta==m2eta)
+							{ 
+								//std::cout<<"FOUND MET MATCH 1"<<std::endl;
+								metPtr = metCollection->ptrAt(i); 
+								foundMET=true; 
+								break;
+							}
+						}//end met loop
+					}//end else
+					if(!foundMET) {	
+						std::cout<<"===============MET NOT FOUND============="<<std::endl;
+						std::cout<<"Leg1 Pt: "<<leg1Ptr->pt()<<" Eta: "<<leg1Ptr->eta()<<" Phi: "<<leg1Ptr->phi()<<std::endl;
+						std::cout<<"Leg2 Pt: "<<leg2Ptr->pt()<<" Eta: "<<leg2Ptr->eta()<<" Phi: "<<leg2Ptr->phi()<<std::endl;
+						for (size_t i = 0; i < metCollection->size(); ++i) {
+							const pat::MET& met = (*metCollection)[i];
+							std::cout<<"MVA Lepton Pair # "<<i<<std::endl;
+							std::cout<<"MVA1 Pt: "<<met.userCand("lepton1")->pt()<<" Eta: "<<met.userCand("lepton1")->eta()<<" Phi: "<<met.userCand("lepton1")->phi()<<std::endl;
+							std::cout<<"MVA2 Pt: "<<met.userCand("lepton2")->pt()<<" Eta: "<<met.userCand("lepton2")->eta()<<" Phi: "<<met.userCand("lepton2")->phi()<<std::endl;
+						}
+						//edm::LogError ("produce") << " Found " << metCollection->size() << " MET objects in collection "
+						//<< " but NO LEPTON MATCH --> CompositePtrCandidateT1T2MEt collection will NOT be produced !!";
+						std::auto_ptr<CompositePtrCandidateCollection> emptyCompositePtrCandidateCollection(new CompositePtrCandidateCollection());      
+						evt.put(emptyCompositePtrCandidateCollection);
+						return;
+					}
+
 
 					CompositePtrCandidateT1T2MEt<T1,T2> compositePtrCandidate = 
 						algorithm_.buildCompositePtrCandidate(leg1Ptr, leg2Ptr, pfJets, metPtr, tauPtr, IsRealData, genParticles);
@@ -267,7 +349,8 @@ class CompositePtrCandidateT1T2MEtProducer : public edm::EDProducer
 	edm::EDGetTokenT<T2View> srcLeg2_;
 	edm::EDGetTokenT<edm::View<pat::Jet> >  srcJets_;
 	double dRmin12_;
-	edm::EDGetTokenT<reco::CandidateView> srcMET_;
+	edm::EDGetTokenT<edm::View<pat::MET>> srcMET_;
+	//edm::EDGetTokenT<reco::CandidateView> srcMET_;
 	edm::EDGetTokenT<std::vector<pat::Tau> > srcTaus_;
 	edm::EDGetTokenT<reco::GenParticleCollection> srcGenParticles_;
 	std::string recoMode_;
