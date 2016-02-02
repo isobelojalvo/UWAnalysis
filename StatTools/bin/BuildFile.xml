@@ -28,6 +28,10 @@
 
 <bin   name="MakeDataCardZTT" file="MakeDataCardZTT.cc">
 </bin>
+<bin   name="MakeDataCardZTT_Twiki" file="MakeDataCardZTT_Twiki.cc">
+</bin>
+<bin   name="MakeDataCardHTT_Twiki" file="MakeDataCardHTT_Twiki.cc">
+</bin>
 <bin   name="MakeDataCardZTT_EventTree" file="MakeDataCardZTT_NoFinal.cc">
 </bin>
 <bin   name="MakeDataCardZTT_MC" file="MakeDataCardZTT_MC.cc">
