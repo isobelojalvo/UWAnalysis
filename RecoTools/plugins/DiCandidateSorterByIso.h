@@ -84,7 +84,7 @@ class DiCandidateSorterByIso : public edm::EDProducer {
 	    else if(((t1.leg1()->userFloat("dBRelIso03")) == (t2.leg1()->userFloat("dBRelIso03")))&& ( (t1.leg1()->pt()) > (t2.leg1()->pt()) ) ){
 		    return true;
 	    }
-	    else if(((t1.leg1()->userFloat("dBRelIso03")) == (t2.leg1()->userFloat("dBRelIso03")))&&( (t1.leg1()->pt()) == (t2.leg1()->pt()) )&&((t1.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw") < t2.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw")) ) ){
+	    else if(((t1.leg1()->userFloat("dBRelIso03")) == (t2.leg1()->userFloat("dBRelIso03")))&&( (t1.leg1()->pt()) == (t2.leg1()->pt()) )&&((t1.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw") > t2.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw")) ) ){
 		    return true;
 	    }
 	    else if(((t1.leg1()->userFloat("dBRelIso03")) == (t2.leg1()->userFloat("dBRelIso03")))&&( (t1.leg1()->pt()) == (t2.leg1()->pt()) )&&((t1.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw") == t2.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw")) )&&((t1.leg2()->pt()) > (t2.leg2()->pt()))){

@@ -282,14 +282,18 @@ class CompositePtrCandidateT1T2MEtProducer : public edm::EDProducer
 							const pat::MET& met = (*metCollection)[i];
 
 
-	 						double l1pt = (round(leg1Ptr->pt()*100))/100.0;
-	 						double l1eta = (round(leg1Ptr->eta()*100))/100.0;
-	 						double l2pt = (round(leg2Ptr->pt()*100))/100.0;
-	 						double l2eta = (round(leg2Ptr->eta()*100))/100.0;
-	 						double m1pt = (round(met.userCand("lepton1")->pt()*100))/100.0;
-	 						double m1eta = (round(met.userCand("lepton1")->eta()*100))/100.0;
-	 						double m2pt = (round(met.userCand("lepton2")->pt()*100))/100.0;
-	 						double m2eta = (round(met.userCand("lepton2")->eta()*100))/100.0;
+	 						double l1pt = (round(leg1Ptr->pt()*1000))/1000.0;
+	 						double l1eta = (round(leg1Ptr->eta()*1000))/1000.0;
+	 						double l1phi = (round(leg1Ptr->phi()*1000))/1000.0;
+	 						double l2pt = (round(leg2Ptr->pt()*1000))/1000.0;
+	 						double l2eta = (round(leg2Ptr->eta()*1000))/1000.0;
+	 						double l2phi = (round(leg2Ptr->phi()*1000))/1000.0;
+	 						double m1pt = (round(met.userCand("lepton1")->pt()*1000))/1000.0;
+	 						double m1eta = (round(met.userCand("lepton1")->eta()*1000))/1000.0;
+	 						double m1phi = (round(met.userCand("lepton1")->phi()*1000))/1000.0;
+	 						double m2pt = (round(met.userCand("lepton2")->pt()*1000))/1000.0;
+	 						double m2eta = (round(met.userCand("lepton2")->eta()*1000))/1000.0;
+	 						double m2phi = (round(met.userCand("lepton2")->phi()*1000))/1000.0;
 							
 
 							//std::cout<<"MVA MET loop: "<<i<<std::endl;
@@ -300,7 +304,7 @@ class CompositePtrCandidateT1T2MEtProducer : public edm::EDProducer
 							//if (l1pt == m2pt) {std::cout<<"NOTE: l1pt "<<l1pt<<" matches m2pt "<<m2pt<<std::endl;} 
 
 
-							if ( l1pt == m1pt && l2pt == m2pt && l1eta==m1eta && l2eta==m2eta)
+							if ( l1phi == m1phi && l2phi == m2phi && l1eta==m1eta && l2eta==m2eta)
 							{ 
 								//std::cout<<"FOUND MET MATCH 1"<<std::endl;
 								metPtr = metCollection->ptrAt(i); 

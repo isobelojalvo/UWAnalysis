@@ -34,64 +34,63 @@ class PUFiller : public NtupleFillerBase {
 	  t->Branch((tag_+"BX0").c_str(),&value[2],(tag_+"BX0/F").c_str());
 	  t->Branch((tag_+"BXplus").c_str(),&value[4],(tag_+"BXplus/F").c_str());
 	  t->Branch((tag_+"weight").c_str(),&value[5],(tag_+"weight/F").c_str());
+	  std::string base = std::getenv("CMSSW_BASE");
+	  std::string fPUMCloc =   "/src/UWAnalysis/Configuration/data/MC_Fall15_PU25_V1.root";
+	  std::string fPUDATAloc = "/src/UWAnalysis/Configuration/data/Data_Pileup_2015D_Jan27.root";
+	  std::string fPUMCname =   base+fPUMCloc;
+	  std::string fPUDATAname = base+fPUDATAloc;
+	  bool fPUMCis   = boost::filesystem::exists( fPUMCname   );
+	  bool fPUDATAis = boost::filesystem::exists( fPUDATAname );
+	  if (fPUMCis && fPUDATAis){
+		  //edm::LumiReWeighting *LumiWeights;
+		  LumiWeights = new edm::LumiReWeighting(fPUMCname,fPUDATAname,"pileup","pileup");
+	  }
+
 	}
 
 
-  ~PUFiller()
+    ~PUFiller()
     { 
 
     }
-       
 
-  void fill(const edm::Event& iEvent, const edm::EventSetup& iSetup)
-  {
-    edm::Handle<std::vector<PileupSummaryInfo> > PupInfo;
 
-    if(iEvent.getByToken(src_, PupInfo)) {
-      std::vector<PileupSummaryInfo>::const_iterator PVI;
-      for(PVI = PupInfo->begin(); PVI != PupInfo->end(); ++PVI) {
-	int BX = PVI->getBunchCrossing();
-	if(BX==-1) {
-	  value[0] =  PVI->getPU_NumInteractions(); 
-	}
-	if(BX==0) {
-	  value[2] =  PVI->getPU_NumInteractions(); 
-	  value[1] =  PVI->getTrueNumInteractions(); 
-	}
-	if(BX==1) {
-	  value[4] =  PVI->getPU_NumInteractions(); 
-	}
-      }
-      std::string base = std::getenv("CMSSW_BASE");
-      std::string fPUMCloc =   "/src/UWAnalysis/Configuration/data/MC_Fall15_PU25_V1.root";
-      //Spring15
-      //std::string fPUMCloc =   "/src/UWAnalysis/Configuration/data/MC_Spring15_PU25_Startup.root";
-      std::string fPUDATAloc = "/src/UWAnalysis/Configuration/data/Data_Pileup_2015D_Jan27.root";
-      std::string fPUMCname =   base+fPUMCloc;
-      std::string fPUDATAname = base+fPUDATAloc;
-      bool fPUMCis   = boost::filesystem::exists( fPUMCname   );
-      bool fPUDATAis = boost::filesystem::exists( fPUDATAname );
-      if (fPUMCis && fPUDATAis){
-	      edm::LumiReWeighting *LumiWeights;
-	      LumiWeights = new edm::LumiReWeighting(fPUMCname,fPUDATAname,"pileup","pileup");
-	      value[5] = LumiWeights->weight(value[1]);
-      }
-
-    }
-    else
+    void fill(const edm::Event& iEvent, const edm::EventSetup& iSetup)
     {
-	    printf("PU Info not found\n");
+	    edm::Handle<std::vector<PileupSummaryInfo> > PupInfo;
+
+	    if(iEvent.getByToken(src_, PupInfo)) {
+		    std::vector<PileupSummaryInfo>::const_iterator PVI;
+		    for(PVI = PupInfo->begin(); PVI != PupInfo->end(); ++PVI) {
+			    int BX = PVI->getBunchCrossing();
+			    if(BX==-1) {
+				    value[0] =  PVI->getPU_NumInteractions(); 
+			    }
+			    if(BX==0) {
+				    value[2] =  PVI->getPU_NumInteractions(); 
+				    value[1] =  PVI->getTrueNumInteractions(); 
+			    }
+			    if(BX==1) {
+				    value[4] =  PVI->getPU_NumInteractions(); 
+			    }
+		    }
+		    value[5] = LumiWeights->weight(value[1]);
+	    }
+	    else
+	    {
+		    printf("PU Info not found\n");
+	    }
+
+
+
     }
-
-
-
-  }
 
 
  protected:
-  edm::EDGetTokenT<std::vector<PileupSummaryInfo> > src_;
-  std::string tag_;
-  float* value;
+    edm::EDGetTokenT<std::vector<PileupSummaryInfo> > src_;
+    edm::LumiReWeighting *LumiWeights;
+    std::string tag_;
+    float* value;
 
 };
 

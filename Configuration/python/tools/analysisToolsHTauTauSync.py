@@ -236,7 +236,7 @@ def mvaMet(process):
    #   cms.InputTag("slimmedTaus", "", ""),
    #   cms.InputTag("slimmedMuons", "", ""),
    #)
-   #process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
+
    process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
    process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
    
@@ -389,31 +389,24 @@ def applyDefaultSelectionsPT(process):#FIXME THISWILL HVAE TO CHANGE
   #DONT CHANGE THOSE HERE:: THEY ARE NOT USED FOR YOUR SELECTIONS!!!
   #ONLY FOR SYSTEMATICS . PLEASE CHANGE THEM in YOUR CFG FILE IF REALLY NEEDED
   process.selectedPatTaus = cms.EDFilter("PATTauSelector",
-                                           src = cms.InputTag("slimmedTaus"),
-                                           cut = cms.string('pt>15 && abs(eta)<2.1 && tauID("decayModeFindingNewDMs")'),
-                                           #cut = cms.string('pt>15&&tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<3&&tauID("againstElectronVLooseMVA6")&&tauID("againstMuonLoose3")'),
+                                           src = cms.InputTag("patOverloadedTaus"),
+                                           cut = cms.string('pt>15 && abs(eta)<2.1 && tauID("decayModeFindingNewDMs")&&tauID("againstElectronVLooseMVA6")&&tauID("againstMuonLoose3")'),
                                            filter = cms.bool(False)
   										)  
   process.selectedPatElectrons = cms.EDFilter("PATElectronSelector",
-                                           src = cms.InputTag("slimmedElectrons"),
-                                           #src = cms.InputTag("miniAODElectronVID"),
-  					   cut = cms.string('pt>10&&abs(eta)<2.5'),
+                                           src = cms.InputTag("miniAODElectronVID"),
+  					   cut = cms.string('pt>10&&abs(eta)<2.5&&userFloat("eleMVAIDnonTrig90")>0'),
                                            #cut = cms.string('pt>10&&userFloat("eleMVAIDnonTrig90")>0&&userFloat("dBRelIso03")<0.3'),
                                            filter = cms.bool(False)
   										)
   process.selectedPatMuons = cms.EDFilter("PATMuonSelector",
-                                           src = cms.InputTag("slimmedMuons"),
-                                           #src = cms.InputTag("miniAODMuonID"),
+                                           src = cms.InputTag("miniAODMuonID"),
                                            cut = cms.string('pt>10&&abs(eta)<2.4&&isMediumMuon>0'),
-                                           #cut = cms.string('pt>10&&userInt("mediumID")&&userFloat("dBRelIso03")<0.3'),
                                            filter = cms.bool(False)
   										) 
   process.cleanPatJets = cms.EDProducer("PATJetCleaner",
-                                           src = cms.InputTag("slimmedJets"),#"patMVAEmbeddedJets"
-                                           #src = cms.InputTag("filteredJets"),#"patMVAEmbeddedJets"
-                                           #src = cms.InputTag("patOverloadedJets"),#"patMVAEmbeddedJets"
-                                           #preselection = cms.string('abs(eta)<4.7&&pt>10&&userFloat("idLoose")'),
-                                           preselection = cms.string('abs(eta)<4.7&&pt>10'),
+                                           src = cms.InputTag("filteredJets"),#"patMVAEmbeddedJets"
+                                           preselection = cms.string('abs(eta)<4.7&&pt>10&&userFloat("idLoose")'),
                                            checkOverlaps = cms.PSet(),
                                            finalCut = cms.string('')
   										)								 									  

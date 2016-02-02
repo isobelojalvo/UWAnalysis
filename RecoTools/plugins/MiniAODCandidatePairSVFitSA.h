@@ -38,7 +38,7 @@ class MiniAODCandidatePairSVFitSA : public edm::EDProducer
 
   explicit MiniAODCandidatePairSVFitSA(const edm::ParameterSet& cfg)
   {
-    src_     = cfg.getParameter<edm::InputTag>("src");
+    src_     = consumes<std::vector<CompositePtrCandidateT1T2MEt<T1,T2> > >(cfg.getParameter<edm::InputTag>("src"));
 
 
     produces<CompositePtrCandidateCollection>();
@@ -58,7 +58,7 @@ class MiniAODCandidatePairSVFitSA : public edm::EDProducer
 
     edm::Handle<std::vector<CompositePtrCandidateT1T2MEt<T1,T2> > > cands;
 
-    if(evt.getByLabel(src_,cands)) {
+    if(evt.getByToken(src_,cands)) {
 
       for (unsigned int i=0;i<cands->size();++i) {
 
@@ -95,8 +95,8 @@ class MiniAODCandidatePairSVFitSA : public edm::EDProducer
   }
 
  private:
-  //edm::EDGetTokenT<T1,T2> src_;
-  edm::InputTag src_;
+  edm::EDGetTokenT<std::vector<CompositePtrCandidateT1T2MEt<T1,T2> > > src_;
+  //edm::InputTag src_;
   std::string label_;
   typedef std::vector<int> vint;
 
