@@ -425,7 +425,6 @@ class DataCardCreatorHTT_Twiki {
 
 			std::cout<<"Select DATA"<<std::endl;
 			std::pair<float,float> dataY         = createHistogramAndShifts(dataFile_,"data_obs","("+preSelection+"&&"+trigSelection50ns_+"&&"+osSignalSelection_+"&&"+categorySelection+")",scaleUp_,prefix);
-			//std::pair<float,float> dataY         = createHistogramAndShifts(dataFile_,"data_obs","("+preSelection+"&&"+osSignalSelection_+"&&"+categorySelection+")",scaleUp_,prefix);
 			output.DATA = dataY.first;
 			std::cout<<"      DATA Yield: "<< output.DATA<<std::endl;
 
@@ -433,7 +432,6 @@ class DataCardCreatorHTT_Twiki {
 
                         std::cout<<"Create DiBoson"<<std::endl;
 			//Create Diboson
-			//stopped here!
 			std::pair<float,float> vvYield      = createHistogramAndShifts(vvFile_,"VV",("("+preSelection+"&&"+trigSelection_+"&&"+osSignalSelection_+"&&"+categorySelection+")*"+weight_),luminosity_*leg1Corr*tauID_,prefix);
 			std::cout<<"      VV before error inflation: "<<vvYield.first<<std::endl;
 			std::pair<float,float> vvInflYield  = inflateError(vvYield,vvErr_);

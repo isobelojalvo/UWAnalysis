@@ -28,7 +28,7 @@ int main (int argc, char* argv[])
 	parser.addOption("wSelection",optutl::CommandLineParser::kString,"W sideband defintion ","mt_1>70");
 	parser.addOption("qcdSelection",optutl::CommandLineParser::kString,"QCD Shape definition");
 	parser.addOption("relaxedSelection",optutl::CommandLineParser::kString,"Relaxed Selection");
-	parser.addOption("bSelection",optutl::CommandLineParser::kString,"Anti Btagging requirement for MSSM","(nbtag==0&&njets<2)");
+	parser.addOption("bselection",optutl::CommandLineParser::kString,"Btagging requirement for MSSM","nbtag>=1");
 	parser.addOption("antibSelection",optutl::CommandLineParser::kString,"Anti Btagging requirement for MSSM","(nbtag==0&&njets<2)");
 	parser.addOption("btagSelection",optutl::CommandLineParser::kString,"btagSelection","nbtag>0");
 	parser.addOption("btagSelection2",optutl::CommandLineParser::kString,"btagSelection","nbtag>0");
@@ -127,6 +127,10 @@ int main (int argc, char* argv[])
 		creator.makeHiggsShape(parser.stringValue("preselectiontwoprong"),parser.stringValue("preselectiontwoprong"),"_inclusive");
 	}
 
+	if(bitmask[2]==0){
+		BkgOutput output = creator.runOSLSMT(parser.stringValue("bselection"),"_btag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"));
+		creator.makeHiggsShape(parser.stringValue("bselection"),parser.stringValue("bselection"),"_btag");
+	}
 
 	if(bitmask[0]==1){
 
