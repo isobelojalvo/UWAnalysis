@@ -169,7 +169,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 
 
     ///set old met quantities
-
+    /*
     //define dp_x = Corrected Tau  - Uncorrected Tau  p_x  (same for dp_y)
     if(foundTau==true){
       float metpt_ = met->pt();
@@ -181,6 +181,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
       math::XYZTLorentzVector scaledmetP4 = unscaledmetP4 - deltaTauP4;
       correctedMET = scaledmetP4;
     }
+    */
     ////////////////
     compositePtrCandidate.setMETold(correctedMET);            
 
@@ -669,26 +670,26 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 			   				const reco::Candidate::LorentzVector& leg2,
 							const JetPtrVector& jets,
 							const reco::Candidate::LorentzVector& METP4) {
-    double deta=-1.0;
-    double mass=-1.0;
-    double dphi=-10.0;
+    double deta=-999.0;
+    double mass=-999.0;
+    double dphi=-999.0;
     int jets20=0;
     int jets30=0;
 
-    float pt1=-1.0;
-    float pt2=-1.0;
-    float dijetpt=-1.0;
-    float eta1=-10.;
-    float eta2=-10.;
-    float ditaupt=-1.0;
-    float dphihj=-10.;
-    float c1=-1.0;
-    float c2=-1.0;
+    float pt1=-999.0;
+    float pt2=-999.0;
+    float dijetpt=-999.0;
+    float eta1=-999.;
+    float eta2=-999.;
+    float ditaupt=-999.0;
+    float dphihj=-999.;
+    float c1=-999.0;
+    float c2=-999.0;
 	reco::Candidate::LorentzVector diTau = leg1+leg2+METP4;
 	reco::Candidate::LorentzVector diTauVis = leg1+leg2;
 	reco::Candidate::LorentzVector diJet;
 	
-      if(jets.size()>1) {
+      if(jets.size()>1&&jets.at(0)->pt()>20&&jets.at(1)->pt()>20 ) {
 		  diJet = jets.at(0)->p4()+jets.at(1)->p4() ;
 		  deta =fabs(jets.at(0)->eta()-jets.at(1)->eta()); 
 		  dphi = fabs(deltaPhi(jets.at(0)->phi(), jets.at(1)->phi()));

@@ -11,7 +11,7 @@
 using std::cout;
 using std::endl;
 
-void readdir(TDirectory *dir,optutl::CommandLineParser parser,float ev,TH1F* puWeight); 
+void readdir(TDirectory *dir,optutl::CommandLineParser parser,float ev); 
 
 
 int main (int argc, char* argv[]) 
@@ -38,75 +38,50 @@ int main (int argc, char* argv[])
    
    TFile *f = new TFile(parser.stringValue("outputFile").c_str(),"UPDATE");   
    
-   TFile *fPileUp    = new TFile("vertices.root","UPDATE");
-   TH1F* puWeight = 0;
-   if(fPileUp!=0 && fPileUp->IsOpen()) {
-     puWeight = (TH1F*)fPileUp->Get("vertices");;
-     printf("ENABLING PU WEIGHTING USING VERTICES\n");
-   }  
-   else{
-     cout<<"ERROR!!! EXITING!!"<<endl;
-     return 0;
-   }
-     
-   cout<<"Bin content of bin with 12 vertices "<<puWeight->GetBinContent(puWeight->FindBin(9))<<endl;
-
-   readdir(f,parser,ev,puWeight);
+   readdir(f,parser,ev);
 
    f->Close();
-   if(fPileUp!=0 && fPileUp->IsOpen())
-     fPileUp->Close();
 
 } 
 
 
-void readdir(TDirectory *dir,optutl::CommandLineParser parser,float ev,TH1F* puWeight) 
+void readdir(TDirectory *dir,optutl::CommandLineParser parser,float ev) 
 {
-
-
   TDirectory *dirsav = gDirectory;
   TIter next(dir->GetListOfKeys());
   TKey *key;
   while ((key = (TKey*)next())) {
-    printf("Found key=%s \n",key->GetName());
-    TString keyname = key->GetName();
-    if (keyname=="CircJetID_puv2"){
-        printf("Skipping key %s . Not weighting. \n",key->GetName());
-        continue;
-    }
-    TObject *obj = key->ReadObj();
+	  printf("Found key=%s \n",key->GetName());
+	  TString keyname = key->GetName();
+	  if (keyname=="CircJetID_puv2"||keyname=="sumweights"){
+		  printf("Skipping key %s . Not weighting. \n",key->GetName());
+		  continue;
+	  }
 
-    if (obj->IsA()->InheritsFrom(TDirectory::Class())) {
-      dir->cd(key->GetName());
-      TDirectory *subdir = gDirectory;
-      readdir(subdir,parser,ev, puWeight);
-      dirsav->cd();
-    }
-    else if(obj->IsA()->InheritsFrom(TTree::Class())) {
-      int vertices;
-      float weight = parser.doubleValue("weight")/(ev);
+	  TObject *obj = key->ReadObj();
 
-      TTree *t = (TTree*)obj;
-      TBranch *newBranch = t->Branch(parser.stringValue("branch").c_str(),&weight,(parser.stringValue("branch")+"/F").c_str());
-      t->SetBranchAddress("vertices",&vertices);
+	  if (obj->IsA()->InheritsFrom(TDirectory::Class())) {
+		  dir->cd(key->GetName());
+		  TDirectory *subdir = gDirectory;
+		  readdir(subdir,parser,ev);
+		  dirsav->cd();
+	  }
+	  else if(obj->IsA()->InheritsFrom(TTree::Class())) {
+		  float weight = parser.doubleValue("weight")/(ev);
 
-      printf("Found tree -> weighting\n");
-      for(Int_t i=0;i<t->GetEntries();++i)
-	{
-	  t->GetEntry(i);
-	  //cout<<"nVertices "<<vertices<<endl;
-	  //cout<< "i "<< i <<" bin "<<puWeight->FindBin(vertices)<<endl;
-	  int bin=puWeight->FindBin(vertices);
+		  TTree *t = (TTree*)obj;
+		  TBranch *newBranch = t->Branch(parser.stringValue("branch").c_str(),&weight,(parser.stringValue("branch")+"/F").c_str());
 
-	  weight = parser.doubleValue("weight")/(ev);
-	  weight*=puWeight->GetBinContent(bin);
+		  printf("Found tree -> weighting\n");
+		  for(Int_t i=0;i<t->GetEntries();++i)
+		  {
+			  t->GetEntry(i);
 
-	    if(i==1)
-	      printf("PU WEIGHT = %f\n",puWeight->GetBinContent(puWeight->FindBin(vertices)));
+			  weight = parser.doubleValue("weight")/(ev);
 
-	  newBranch->Fill();
-	}
-      t->Write("",TObject::kOverwrite);
-    }//end else if object A
+			  newBranch->Fill();
+		  }
+		  t->Write("",TObject::kOverwrite);
+	  }//end else if object A
   }//end while key
 }//end read directory

@@ -71,7 +71,7 @@ class PATIsolationFiller : public NtupleFillerBase {
     }
     else
       {
-	printf("Obj not found \n");
+	printf("PATIsolationFiller: Obj not found \n");
       }
     //    vbranch->Fill();
   }

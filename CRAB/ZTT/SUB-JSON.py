@@ -24,7 +24,7 @@ process.maxEvents = cms.untracked.PSet(
 
 
 #added in etau and mutau triggers
-from UWAnalysis.Configuration.tools.analysisToolsMiniAod import *
+from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
 defaultReconstruction(process,'HLT',
                       [
 						'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v1',#etau
@@ -37,25 +37,28 @@ defaultReconstruction(process,'HLT',
                       
 
 #EventSelection
-process.load("UWAnalysis.Configuration.MiniAodAnalysis_cff")
+process.load("UWAnalysis.Configuration.zTauTauXSec_data_cff")
 
 process.metCalibration.applyCalibration = cms.bool(False)
 
 process.eventSelectionMT = cms.Path(process.selectionSequenceMT)
 process.eventSelectionET = cms.Path(process.selectionSequenceET)
 
-
-from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addMuTauEventTree
+from UWAnalysis.Configuration.tools.ntupleToolsZTauTauXSec import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
-addMuTauEventTree(process,'muTauEventTreeFinal','diTausOS','diMuonsSorted')
+addMuTauEventTree(process,'muTauEventTreeFinal','muTausOS','diMuonsOSSorted')
 
 
-from UWAnalysis.Configuration.tools.ntupleToolsMiniAod import addEleTauEventTree
+from UWAnalysis.Configuration.tools.ntupleToolsZTauTauXSec import addEleTauEventTree
 addEleTauEventTree(process,'eleTauEventTree')
-addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','osDiElectrons')
+addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','diElectronsOS')
 
 addEventSummary(process,False,'MT','eventSelectionMT')
 addEventSummary(process,False,'ET','eventSelectionET')
+
+addMuTauEventTree(process,'muTauEventTreeNoMuonDisc','muTausTauElectronVeto','diMuonsOSSorted')
+addEleTauEventTree(process,'eleTauEventTreeNoEleDisc','eleTausTauMuonVeto','diElectronsOS')
+
 
 
 process.TFileService.fileName=cms.string("$outputFileName")

@@ -80,9 +80,8 @@ class JetCountFiller : public NtupleFillerBase {
     }
     else
       {
-	printf("Obj not found \n");
+	printf("JetCountFiller: Obj not found \n");
       }
-    //    vbranch->Fill();
   }
   
 

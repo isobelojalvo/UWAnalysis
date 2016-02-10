@@ -79,8 +79,9 @@ class DiCandidateSorterByIso : public edm::EDProducer {
          return true;
       else if(((t1.leg1()->userFloat("dBRelIso03")) == (t2.leg1()->userFloat("dBRelIso03")))&&( (t1.leg1()->pt()) == (t2.leg1()->pt()) )&&((t1.leg2()->tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits") < t2.leg2()->tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")) ) )
          return true;
-      else if(((t1.leg1()->userFloat("dBRelIso")) == (t2.leg1()->userFloat("dBRelIso")))&&( (t1.leg1()->pt()) == (t2.leg1()->pt()) )&&((t1.leg2()->tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits") == t2.leg2()->tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")) )&&((t1.leg2()->pt()) > (t2.leg2()->pt())));
+      else if(((t1.leg1()->userFloat("dBRelIso03")) == (t2.leg1()->userFloat("dBRelIso03")))&&( (t1.leg1()->pt()) == (t2.leg1()->pt()) )&&((t1.leg2()->tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits") == t2.leg2()->tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")) )&&((t1.leg2()->pt()) > (t2.leg2()->pt())))
 	 return true; 
+      else {return false;}
 
     } 
 };
