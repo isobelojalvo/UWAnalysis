@@ -1,0 +1,6 @@
+python scriptForDirectorySetup.py  --sampledir /hdfs/store/user/ojalvo/test-dir-svfit --jobName ggH125
+
+##This is the location of the files you want to run over: /hdfs/store/user/ojalvo/test-dir-svfit
+##The files will output to /hdfs/store/user/$USER/ggH125/test-dir-svfit/*
+
+#To try running this new SVFitStandalone interactively the command is: SVFitStandAlone outputFile=WZ.root newOutputFile=1.0 newFile="svfitout.root"
