@@ -31,7 +31,7 @@ template<typename T>
 class SimpleTreeMaker : public edm::EDAnalyzer {
    public:
        explicit SimpleTreeMaker(const edm::ParameterSet& iConfig):
-	 src_(iConfig.getParameter<edm::InputTag>("src")),
+	 src_(consumes<std::vector<T> >(iConfig.getParameter<edm::InputTag>("src"))),
 	 vars_(iConfig.getParameter<std::vector<edm::ParameterSet> >("vars")),
 	 //	 fileName_(iConfig.getParameter<std::string>("fileName")),
 	 //	 filters_(iConfig.getUntrackedParameter<std::vector<std::string> >("Filters")),
@@ -108,7 +108,7 @@ class SimpleTreeMaker : public edm::EDAnalyzer {
 	  RUN    = iEvent.id().run();
 	  LUMI   = 0;//iEvent.id().luminosityBlock();
 
-	  if(iEvent.getByLabel(src_,obj))  {
+	  if(iEvent.getByToken(src_,obj))  {
 	    unsigned int objToProcess=0;
 	    if(useLeading_)
 	      {
@@ -135,7 +135,7 @@ class SimpleTreeMaker : public edm::EDAnalyzer {
 	}
 
       // ----------member data ---------------------------
-      edm::InputTag src_;
+      edm::EDGetTokenT<std::vector<T> > src_;
       std::vector<edm::ParameterSet> vars_;
       std::vector<StringObjectFunction<T>* > vars;
       //      std::string fileName_;

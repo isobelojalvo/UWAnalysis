@@ -17,8 +17,8 @@ class CollectionSizeVetoFiller : public NtupleFillerBase {
     }
 
 
-    CollectionSizeVetoFiller(const edm::ParameterSet& iConfig, TTree* t):
-      src_(iConfig.getParameter<edm::InputTag>("src")),
+    CollectionSizeVetoFiller(const edm::ParameterSet& iConfig, TTree* t, edm::ConsumesCollector && iC):
+      src_(iC.consumes<edm::View<reco::Candidate> >(iConfig.getParameter<edm::InputTag>("src"))),
       size_(iConfig.getUntrackedParameter<double>("size",0.)),
       tag_(iConfig.getParameter<std::string>("tag"))
 	{
@@ -37,7 +37,7 @@ class CollectionSizeVetoFiller : public NtupleFillerBase {
   {
     edm::Handle<edm::View<reco::Candidate> > handle;
     value=0; //do not veto
-    if(iEvent.getByLabel(src_,handle)) {
+    if(iEvent.getByToken(src_,handle)) {
       if (handle->size()>size_)
 	value=1;//veto is size is larger than expected
     }
@@ -45,7 +45,7 @@ class CollectionSizeVetoFiller : public NtupleFillerBase {
   
 
  protected:
-  edm::InputTag src_;
+  edm::EDGetTokenT<edm::View<reco::Candidate>> src_;
   double size_;
   std::string tag_;
   int value;

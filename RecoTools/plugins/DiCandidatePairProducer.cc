@@ -2,6 +2,7 @@
 #include "UWAnalysis/RecoTools/plugins/DiCandidatePairProducer.h" 
 
 #include "FWCore/Framework/interface/MakerMacros.h"
+
 DEFINE_FWK_MODULE(DiCandidatePairProducer);
 //DEFINE_FWK_MODULE(PATJetPairProducer);
 DEFINE_FWK_MODULE(PATMuTauPairProducer);

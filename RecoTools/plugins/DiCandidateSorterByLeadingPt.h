@@ -46,7 +46,7 @@ template <class T>
 class DiCandidateSorterByLeadingPt : public edm::EDProducer {
    public:
   explicit DiCandidateSorterByLeadingPt(const edm::ParameterSet& iConfig):
-    src_(iConfig.getParameter<edm::InputTag>("src"))
+    src_(consumes<std::vector<T>>(iConfig.getParameter<edm::InputTag>("src")))
      {
        produces<std::vector<T> >();
      }
@@ -62,7 +62,7 @@ class DiCandidateSorterByLeadingPt : public edm::EDProducer {
     
     std::vector<T> toBeSorted;
     Handle<std::vector<T> > cands;
-    if(iEvent.getByLabel(src_,cands)) 
+    if(iEvent.getByToken(src_,cands)) 
       toBeSorted =  *cands;
 
     if(toBeSorted.size()>0) {
@@ -92,7 +92,7 @@ class DiCandidateSorterByLeadingPt : public edm::EDProducer {
 };
 
       // ----------member data ---------------------------
-      edm::InputTag src_;
+      edm::EDGetTokenT<std::vector<T>>  src_;
 
 
 

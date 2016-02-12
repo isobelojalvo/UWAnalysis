@@ -13,22 +13,26 @@
 
 
 class METRecalculator : public edm::EDProducer {
-   public:
-    explicit METRecalculator(const edm::ParameterSet& iConfig);
-    ~METRecalculator();
-    
-   private:
-    virtual void beginJob();
-    virtual void produce(edm::Event& iEvent, const edm::EventSetup& iSetup); 
-    virtual void endJob();
-      
-      // ----------member data ---------------------------
-      
-      edm::InputTag met_;        //input Collection
-      std::vector<edm::InputTag> originalObjects_;
-      std::vector<edm::InputTag> smearedObjects_;
-      float unclusteredScale_;
-      float threshold_;
- };
+	public:
+		explicit METRecalculator(const edm::ParameterSet& iConfig);
+		~METRecalculator();
+
+	private:
+		virtual void beginJob();
+		virtual void produce(edm::Event& iEvent, const edm::EventSetup& iSetup); 
+		virtual void endJob();
+
+		// ----------member data ---------------------------
+		typedef std::vector<edm::InputTag> VInputTag;
+
+
+		edm::EDGetTokenT<pat::METCollection > met_;        //input Collection
+		std::vector<edm::EDGetTokenT<edm::View<reco::Candidate>>> originalObjects_;
+		std::vector<edm::EDGetTokenT<edm::View<reco::Candidate>>> smearedObjects_;
+		//std::vector<edm::InputTag> originalObjects_;
+		//std::vector<edm::InputTag> smearedObjects_;
+		float unclusteredScale_;
+		float threshold_;
+};
 
 

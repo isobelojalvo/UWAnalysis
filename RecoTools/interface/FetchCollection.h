@@ -7,20 +7,19 @@
 
 namespace pf {
 
-template<class T>
+template<class T, class G>
 void fetchCollection(T& c,
-		     const edm::InputTag& tag,
+		     edm::EDGetTokenT<G> const& tag,
 		     const edm::Event& iEvent) {
   
-  edm::InputTag empty;
-  if( tag==empty ) return;
+  if( tag.isUninitialized() ) return;
   
-  bool found = iEvent.getByLabel(tag, c);
+  bool found = iEvent.getByToken(tag, c);
   
   if(!found ) {
     std::ostringstream  err;
-    err<<" cannot get collection: "
-       <<tag<<std::endl;
+    err<<" cannot fetchCollection (getToken) "
+    <<std::endl;
     edm::LogError("PFPAT")<<err.str();
     throw cms::Exception( "MissingProduct", err.str());
   }

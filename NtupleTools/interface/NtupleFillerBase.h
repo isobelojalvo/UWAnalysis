@@ -6,6 +6,8 @@
 #include "TBranch.h"
 #include "TTree.h"
 
+#include "FWCore/Framework/interface/ConsumesCollector.h"
+
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/ESHandle.h"
@@ -14,7 +16,7 @@ class NtupleFillerBase {
 
  public:
   NtupleFillerBase() {}
-  NtupleFillerBase(const edm::ParameterSet&,TTree*) {}
+  NtupleFillerBase(const edm::ParameterSet&,TTree*,edm::ConsumesCollector) {}
 
   ~NtupleFillerBase(){}
 
@@ -23,6 +25,6 @@ class NtupleFillerBase {
 
 #include "FWCore/PluginManager/interface/PluginFactory.h"
 
-typedef edmplugin::PluginFactory<NtupleFillerBase*(const edm::ParameterSet&,TTree*)> NtupleFillerFactory;
+typedef edmplugin::PluginFactory<NtupleFillerBase*(const edm::ParameterSet&,TTree*,edm::ConsumesCollector)> NtupleFillerFactory;
 
 #endif

@@ -1,16 +1,5 @@
 // -*- C++ -*-
 //
-// Package:    PATMuonTrackVetoSelector
-// Class:      PATMuonTrackVetoSelector
-// 
-/**\class PATMuonTrackVetoSelector PATMuonTrackVetoSelector.cc UWAnalysis/PATMuonTrackVetoSelector/src/PATMuonTrackVetoSelector.cc
-
- Description: <one line class summary>
-
- Implementation:
-     <Notes on implementation>
-*/
-//
 // Original Author:  Michail Bachtis
 //         Created:  Sun Jan 31 15:04:57 CST 2010
 // $Id: PATJetOverloader.h,v 1.3 2013/10/25 21:01:55 ojalvo Exp $
@@ -49,8 +38,8 @@ class PATJetOverloader : public edm::EDProducer {
   
   //vector<reco::GenJet>                  "ak5GenJets" 
   explicit PATJetOverloader(const edm::ParameterSet& iConfig):
-    src_(iConfig.getParameter<edm::InputTag>("src")),
-    genJets_(iConfig.getParameter<edm::InputTag>("genJets"))
+    src_(consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("src"))),
+    genJets_(consumes<reco::GenJetCollection>(iConfig.getParameter<edm::InputTag>("genJets")))
   {
     produces<pat::JetCollection>();
   }
@@ -68,69 +57,83 @@ class PATJetOverloader : public edm::EDProducer {
     std::auto_ptr<pat::JetCollection> jets(new pat::JetCollection);
     Handle<pat::JetCollection > cands;
     Handle<reco::GenJetCollection > genJets;
-    if(iEvent.getByLabel(src_,cands)) 
+    if(iEvent.getByToken(src_,cands)) 
       for(unsigned int  i=0;i!=cands->size();++i){
 	pat::Jet jet = cands->at(i);
 	float pt=0.0;
 	float sumPt=0.0;
 	float sumPt2=0.0;
-        //std::cout<<"===== PATJetOverloader Jet Number of Daughters ====="<<std::endl;
-        //std::cout<<"numberOfDaughters(Constituents): "<<jet.numberOfDaughters()<<std::endl;
-        std::vector<reco::CandidatePtr> daus(jet.daughterPtrVector());
-        std::sort(daus.begin(), daus.end(), [](const reco::CandidatePtr &p1, const reco::CandidatePtr &p2) { return p1->pt() > p2->pt(); }); // the joys of C++11
-        for (unsigned int i2 = 0, n = daus.size(); i2 < n; ++i2) {
-          const pat::PackedCandidate &cand = dynamic_cast<const pat::PackedCandidate &>(*daus[i2]);
-          pt=cand.pt();
-          //std::cout<<"Constituent Pt: "<<pt<<std::endl;
-	  sumPt+=pt;
-	  sumPt2+=pt*pt;
+	//std::cout<<"===== PATJetOverloader Jet Number of Daughters ====="<<std::endl;
+	//std::cout<<"numberOfDaughters(Constituents): "<<jet.numberOfDaughters()<<std::endl;
+	std::vector<reco::CandidatePtr> daus(jet.daughterPtrVector());
+	std::sort(daus.begin(), daus.end(), [](const reco::CandidatePtr &p1, const reco::CandidatePtr &p2) { return p1->pt() > p2->pt(); }); // the joys of C++11
+	for (unsigned int i2 = 0, n = daus.size(); i2 < n; ++i2) {
+		const pat::PackedCandidate &cand = dynamic_cast<const pat::PackedCandidate &>(*daus[i2]);
+		pt=cand.pt();
+		//std::cout<<"Constituent Pt: "<<pt<<std::endl;
+		sumPt+=pt;
+		sumPt2+=pt*pt;
 	}
 	//std::cout<<"Constituent SumPt: "<<sumPt<<std::endl;
 	//std::cout<<"Constituent SumPt^2: "<<sumPt2<<std::endl;
 
 	bool loose = true;
-	bool medium = true;
+	bool medium = true; //tightLep veto
 	bool tight = true;
-	if (jet.neutralHadronEnergyFraction() >= 0.99)
-		loose = false;
-	if (jet.neutralHadronEnergyFraction() >= 0.95)
-		medium = false;
-	if (jet.neutralHadronEnergyFraction() >= 0.90)
-		tight = false;
+	if (std::abs(jet.eta()) <= 3.0){
+		if (jet.neutralHadronEnergyFraction() >= 0.99)
+			loose = false;
+		if (jet.neutralHadronEnergyFraction() >= 0.90)
+			tight = false;
+			medium = false;
+		if (jet.neutralEmEnergyFraction() >= 0.99)
+			loose = false;
+		if (jet.neutralEmEnergyFraction() >= 0.90)
+			tight = false;
+		if ((jet.chargedMultiplicity()+jet.neutralMultiplicity()) <= 1) { //getPFConstitutents broken in miniAOD
+			loose = false;
+			medium = false;
+			tight = false;
+		}
+		if (jet.muonEnergyFraction() >= 0.8){
+			medium = false;
+		}
 
-	if (jet.neutralEmEnergyFraction() >= 0.99)
-		loose = false;
-	if (jet.neutralEmEnergyFraction() >= 0.95)
-		medium = false;
-	if (jet.neutralEmEnergyFraction() >= 0.90 && jet.muonEnergyFraction()>=0.8)
-		tight = false;
-
-	if (jet.numberOfDaughters() <= 1) { //getPFConstitutents broken in miniAOD
-		loose = false;
-		medium = false;
-		tight = false;
+		if (std::abs(jet.eta()) <= 2.4) {
+			if (jet.chargedHadronEnergyFraction() == 0) {
+				loose = false;
+				medium = false;
+				tight = false;
+			}
+			if (jet.chargedHadronMultiplicity() == 0) {
+				loose = false;
+				medium = false;
+				tight = false;
+			}
+			if (jet.chargedEmEnergyFraction() >= 0.99) {
+				loose = false;
+				medium = false;
+				tight = false;
+			}
+		}
 	}
-
-	if (std::abs(jet.eta()) <= 2.4) {
-		if (jet.chargedHadronEnergyFraction() == 0) {
+	else if (std::abs(jet.eta()) > 3.0) {
+		if (jet.neutralEmEnergyFraction() >= 0.90) {
 			loose = false;
 			medium = false;
 			tight = false;
 		}
-		if (jet.chargedHadronMultiplicity() == 0) {
-			loose = false;
-			medium = false;
-			tight = false;
-		}
-		if (jet.chargedEmEnergyFraction() >= 0.99) {
+		if (jet.neutralMultiplicity() <= 10) {
 			loose = false;
 			medium = false;
 			tight = false;
 		}
 	}
 	jet.addUserFloat("idLoose", loose);
-	jet.addUserFloat("idMedium", medium);
+	jet.addUserFloat("idTightLepVeto", medium);
 	jet.addUserFloat("idTight", tight);
+
+
 
 	// Pileup discriminant
 	bool passPU = true;
@@ -186,7 +189,7 @@ class PATJetOverloader : public edm::EDProducer {
 	//std::cout<<"'Uncorrected' jet pt: "<<uncorrectedPt<<std::endl;
 
 	//std::cout<<"===== PATJetOverloader GenJet ====="<<std::endl;
-	if(iEvent.getByLabel(genJets_,genJets))
+	if(iEvent.getByToken(genJets_,genJets))
 		for(unsigned int k=0;k!=genJets->size();k++){
 			if(ROOT::Math::VectorUtil::DeltaR(genJets->at(k).p4(),jet.p4())<DRMin){
 				DRMin = ROOT::Math::VectorUtil::DeltaR(genJets->at(k).p4(),jet.p4());
@@ -241,8 +244,8 @@ class PATJetOverloader : public edm::EDProducer {
   } 
 
   // ----------member data ---------------------------
-  edm::InputTag src_;
-  edm::InputTag genJets_;
+  edm::EDGetTokenT<pat::JetCollection> src_;
+  edm::EDGetTokenT<reco::GenJetCollection> genJets_;
   reco::PFCandidatePtr pfcand;
 };
 

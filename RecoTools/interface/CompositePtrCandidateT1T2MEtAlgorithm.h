@@ -26,6 +26,8 @@
 #include "DataFormats/RecoCandidate/interface/RecoCandidate.h"
 #include "DataFormats/Candidate/interface/LeafCandidate.h"
 
+#include "DataFormats/HepMCCandidate/interface/GenStatusFlags.h"
+
 #include "UWAnalysis/RecoTools/interface/candidateAuxFunctions.h"
 #include "UWAnalysis/RecoTools/interface/METCalibrator.h"
 #include "UWAnalysis/RecoTools/interface/VBFMVA.h"
@@ -150,10 +152,10 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     int nJets = cleanedJets.size();
     //////
 
-    bool foundTau = false;
+    //bool foundTau = false;
     pat::Tau selectTau;
     //match Taus to leg2
-
+    /*
     if(Taus!=0)
       if(Taus->size()>0)
 	for(unsigned int k = 0; k <Taus->size(); k++){
@@ -163,7 +165,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 	    selectTau = Taus->at(k);
 	  }
 	}
-    
+    */  
     //calibrate the MET
     reco::Candidate::LorentzVector correctedMET = met->p4();
 
@@ -214,6 +216,11 @@ class CompositePtrCandidateT1T2MEtAlgorithm
       compositePtrCandidate.setCovMat01( convert_matrix(metPtr->getSignificanceMatrix()) );
       compositePtrCandidate.setCovMat10( convert_matrix(metPtr->getSignificanceMatrix()) );
       compositePtrCandidate.setCovMat11( convert_matrix(metPtr->getSignificanceMatrix()) );
+      //compositePtrCandidate.setCovMatSig00(CovarianceMatrix00);
+      //compositePtrCandidate.setCovMatSig01(CovarianceMatrix01);
+      //compositePtrCandidate.setCovMatSig10(CovarianceMatrix10);
+      //compositePtrCandidate.setCovMatSig11(CovarianceMatrix11);
+
       compositePtrCandidate.setFullPt( (correctedMET + leg1->p4() + leg2->p4()).pt() );
       compositePtrCandidate.setFullEta( (correctedMET + leg1->p4() + leg2->p4()).eta() );
       compositePtrCandidate.setFullPhi( (correctedMET + leg1->p4() + leg2->p4()).phi() );
@@ -226,7 +233,10 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     if ( genParticles ) {
       compGenQuantities(compositePtrCandidate, genParticles);
     }
-    
+    //else { std::cout<< "noGenParticles: "<<genParticles<<std::endl;}
+    //FIXME in pythia8
+    //
+
 //--- set compositePtr four-momentum
 //    (depending on recoMode configuration parameter)
     if ( recoMode_ == "collinearApprox" ) {
@@ -283,16 +293,18 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     std::pair<float,float> HMassJets= ReturnSortByHMass(cleanedJets20);
 
     if(cleanedJetsCSVsorted.size()>1){
+      float mvaSF0 = cleanedJetsCSVsorted.at(0)->hasUserFloat("mvaSF") ? cleanedJetsCSVsorted.at(0)->userFloat("mvaSF") : 1;
+      float mvaSF1 = cleanedJetsCSVsorted.at(1)->hasUserFloat("mvaSF") ? cleanedJetsCSVsorted.at(0)->userFloat("mvaSF") : 1;
       compositePtrCandidate.setmJJCSVSort((cleanedJetsCSVsorted.at(0)->p4()+cleanedJetsCSVsorted.at(1)->p4()).M());
-      math::PtEtaPhiELorentzVector jet1(cleanedJetsCSVsorted.at(0)->pt()*cleanedJetsCSVsorted.at(0)->userFloat("mvaSF"),
+      math::PtEtaPhiELorentzVector jet1(cleanedJetsCSVsorted.at(0)->pt()*mvaSF0,
 			cleanedJetsCSVsorted.at(0)->eta(),
 			cleanedJetsCSVsorted.at(0)->phi(),
-			cleanedJetsCSVsorted.at(0)->energy()*cleanedJetsCSVsorted.at(0)->userFloat("mvaSF"));
+			cleanedJetsCSVsorted.at(0)->energy()*mvaSF0);
 
-      math::PtEtaPhiELorentzVector jet2(cleanedJetsCSVsorted.at(1)->pt()*cleanedJetsCSVsorted.at(1)->userFloat("mvaSF"),
+      math::PtEtaPhiELorentzVector jet2(cleanedJetsCSVsorted.at(1)->pt()*mvaSF1,
 			cleanedJetsCSVsorted.at(1)->eta(),
 			cleanedJetsCSVsorted.at(1)->phi(),
-			cleanedJetsCSVsorted.at(1)->energy()*cleanedJetsCSVsorted.at(1)->userFloat("mvaSF"));
+			cleanedJetsCSVsorted.at(1)->energy()*mvaSF1);
 
       compositePtrCandidate.setmJJReg((jet1+jet2).M());
       compositePtrCandidate.setJJReg((jet1+jet2));
@@ -373,45 +385,63 @@ class CompositePtrCandidateT1T2MEtAlgorithm
   }
 
  private: 
-  
+
   void compGenQuantities(CompositePtrCandidateT1T2MEt<T1,T2>& compositePtrCandidate, const reco::GenParticleCollection* genParticles)
   {
-	std::vector<int> pdgIds;
-	pdgIds.push_back(15);
-	pdgIds.push_back(-15);
+	  std::vector<int> pdgIds;
+	  pdgIds.push_back(15);
+	  pdgIds.push_back(-15);
 
-    const reco::GenParticle* genLeg1 = findGenParticle(compositePtrCandidate.leg1()->p4(), *genParticles, 0.5, -1);
-    const reco::GenParticle* genTau1 = findGenParticle(compositePtrCandidate.leg1()->p4(), *genParticles, 0.5, -1,&pdgIds,true);
-    if ( genLeg1 ) {
-      //  std::cout << "genLeg1: Pt = " << genLeg1->pt() << ", eta = " << genLeg1->eta() << ", pdgId = " << genLeg1->pdgId() << std::endl; 
-      //	  << " phi = " << genLeg1->phi()*180./TMath::Pi() << std::endl;
-      compositePtrCandidate.setP4Leg1gen(genLeg1->p4());
-      compositePtrCandidate.setPdg1(genLeg1->pdgId());
 
-    }
-    else{
-      compositePtrCandidate.setPdg1( 0 );
-    }
-    if( genTau1 ){
-      compositePtrCandidate.setP4VisLeg1gen(getVisMomentum(genTau1, genParticles));
-    }    
-    const reco::GenParticle* genLeg2 = findGenParticle(compositePtrCandidate.leg2()->p4(), *genParticles, 0.5, -1);
-    const reco::GenParticle* genTau2 = findGenParticle(compositePtrCandidate.leg2()->p4(), *genParticles, 0.5, -1,&pdgIds,true);    
-    if ( genLeg2 ) {
-      //  std::cout << "genLeg2: Pt = " << genLeg2->pt() << ", eta = " << genLeg2->eta() << ", pdgId = " << genLeg2->pdgId() << std::endl;
-      //	  << " phi = " << genLeg2->phi()*180./TMath::Pi() << std::endl;
-      compositePtrCandidate.setP4Leg2gen(genLeg2->p4());
-      compositePtrCandidate.setPdg2(genLeg2->pdgId());
-    }
-    else{
-      compositePtrCandidate.setPdg2( 0 );
-    }
-    if( genTau2 ){
-	  compositePtrCandidate.setP4VisLeg2gen(getVisMomentum(genTau2, genParticles));
-    }
-    
-    float genBosonMass = getGenBosonMass(*genParticles);
-    compositePtrCandidate.setGenBosonMass(genBosonMass);
+	  const reco::GenParticle* genLeg1 = findGenParticle(compositePtrCandidate.leg1()->p4(), *genParticles, 0.5, -1);
+	  const reco::GenParticle* genTau1 = findGenParticle(compositePtrCandidate.leg1()->p4(), *genParticles, 0.5, -1,&pdgIds,true);
+	  if ( genLeg1 ) {
+		  //std::cout << "genLeg1: Pt = " << genLeg1->pt() << ", eta = " << genLeg1->eta() << ", pdgId = " << genLeg1->pdgId() 
+		 // 	  << " phi = " << genLeg1->phi()*180./TMath::Pi() << std::endl;
+		  //std::cout << "genLeg1: isPrompt Status = " << genLeg1->statusFlags().isPrompt()<<std::endl; 
+		  //std::cout << "genLeg1: isPrompt Final State = " << genLeg1->isPromptFinalState()<<std::endl; 
+		  //std::cout << "genLeg1: isDirectPromptTauDecayProduct = " << genLeg1->statusFlags().isDirectPromptTauDecayProduct()<<std::endl; 
+		  //std::cout << "genLeg1: isDirectPromptTauDecayProductFinalState = " << genLeg1->isDirectPromptTauDecayProductFinalState()<<std::endl; 
+
+
+		  compositePtrCandidate.setP4Leg1gen(genLeg1->p4());
+		  compositePtrCandidate.setPdg1(genLeg1->pdgId());
+		  compositePtrCandidate.setIsPrompt1(genLeg1->statusFlags().isPrompt());
+		  compositePtrCandidate.setIsPromptFS1(genLeg1->isPromptFinalState());
+		  compositePtrCandidate.setIsDirectPromptTauDecayProduct1(genLeg1->statusFlags().isDirectPromptTauDecayProduct());
+		  compositePtrCandidate.setIsDirectPromptTauDecayProductFS1(genLeg1->isDirectPromptTauDecayProductFinalState());
+	  }
+	  else{
+                  //std::cout<<"genLeg1 Not found"<<std::endl;
+		  compositePtrCandidate.setPdg1( 0 );
+	  }
+	  if( genTau1 ){
+		  compositePtrCandidate.setP4VisLeg1gen(getVisMomentum(genTau1, genParticles));
+
+	  }    
+	  const reco::GenParticle* genLeg2 = findGenParticle(compositePtrCandidate.leg2()->p4(), *genParticles, 0.5, -1);
+	  const reco::GenParticle* genTau2 = findGenParticle(compositePtrCandidate.leg2()->p4(), *genParticles, 0.5, -1,&pdgIds,true);    
+	  if ( genLeg2 ) {
+		  //  std::cout << "genLeg2: Pt = " << genLeg2->pt() << ", eta = " << genLeg2->eta() << ", pdgId = " << genLeg2->pdgId() << std::endl;
+		  //	  << " phi = " << genLeg2->phi()*180./TMath::Pi() << std::endl;
+		  compositePtrCandidate.setP4Leg2gen(genLeg2->p4());
+		  compositePtrCandidate.setPdg2(genLeg2->pdgId());
+		  compositePtrCandidate.setIsPrompt2(genLeg2->statusFlags().isPrompt());
+		  compositePtrCandidate.setIsPromptFS2(genLeg2->isPromptFinalState());
+		  compositePtrCandidate.setIsDirectPromptTauDecayProduct2(genLeg2->statusFlags().isDirectPromptTauDecayProduct());
+		  compositePtrCandidate.setIsDirectPromptTauDecayProductFS2(genLeg2->isDirectPromptTauDecayProductFinalState());
+
+	  }
+	  else{
+		  compositePtrCandidate.setPdg2( 0 );
+	  }
+	  if( genTau2 ){
+		  compositePtrCandidate.setP4VisLeg2gen(getVisMomentum(genTau2, genParticles));
+
+	  }
+
+	  float genBosonMass = getGenBosonMass(*genParticles);
+	  compositePtrCandidate.setGenBosonMass(genBosonMass);
   }
   
   

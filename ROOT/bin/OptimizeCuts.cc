@@ -20,6 +20,8 @@ int main (int argc, char* argv[])
 
    //Data
    parser.addOption("dataFile",optutl::CommandLineParser::kString,"File with the data","DATA-ntuple.root");
+   parser.addOption("bkgFile",optutl::CommandLineParser::kString,"File with the bkg","BKG-ntuple.root");
+   //parser.addOption("significance",optutl::CommandLineParser::kString,"Significance","SIG/sqrt(BKG)");
    parser.addOption("significance",optutl::CommandLineParser::kString,"Significance","SIG/sqrt(SIG+BKG)");
    parser.addOption("signalPreselection",optutl::CommandLineParser::kString,"SignalPreselection","charge==0&&TYPE==1&&abs(muIP)<0.05&&tauLooseIso");
    parser.addOption("bkgPreselection",optutl::CommandLineParser::kString,"BkgPreselection","charge==0&&TYPE!=1&&abs(muIP)<0.05&&tauLooseIso");
@@ -39,10 +41,14 @@ int main (int argc, char* argv[])
    std::vector<double> step = parser.doubleVector("step");
 
 
-   TChain * c = new TChain("tree");
-   c->AddFile(parser.stringValue("dataFile").c_str());
+   TChain * s = new TChain("tree");
+   s->AddFile(parser.stringValue("dataFile").c_str());
 
-   CutOptimizer optimizer(c,c);
+   TChain * b = new TChain("tree");
+   b->AddFile(parser.stringValue("bkgFile").c_str());
+
+   CutOptimizer optimizer(s,b);
+
    optimizer.setPreselections(parser.stringValue("signalPreselection"),parser.stringValue("bkgPreselection"));
    optimizer.setSignificance(parser.stringValue("significance"));
 

@@ -32,7 +32,7 @@ template <class T>
 class DiCandidateSorterByIso : public edm::EDProducer {
    public:
   explicit DiCandidateSorterByIso(const edm::ParameterSet& iConfig):
-    src_(iConfig.getParameter<edm::InputTag>("src"))
+    src_(consumes<std::vector<T>>(iConfig.getParameter<edm::InputTag>("src")))
      {
        produces<std::vector<T> >();
      }
@@ -48,13 +48,13 @@ class DiCandidateSorterByIso : public edm::EDProducer {
     
     std::vector<T> toBeSorted;
     Handle<std::vector<T> > cands;
-    if(iEvent.getByLabel(src_,cands)) 
-      toBeSorted =  *cands;
+    if(iEvent.getByToken(src_,cands)) {toBeSorted =  *cands;}
 
     if(toBeSorted.size()>0) {
       Sorter sorter;
       std::sort(toBeSorted.begin(),toBeSorted.end(),sorter);
     }
+    else {std::cout<<"SorterSize==0!"<<std::endl;}
 
     std::auto_ptr<std::vector<T> > out(new std::vector<T>);
     for(unsigned int i=0;i<toBeSorted.size();++i)
@@ -73,21 +73,30 @@ class DiCandidateSorterByIso : public edm::EDProducer {
     {}
     bool operator()(T t1,T t2)
     {
-      if ((t1.leg1()->userFloat("dBRelIso03")) < (t2.leg1()->userFloat("dBRelIso03")))
-         return true;
-      else if(((t1.leg1()->userFloat("dBRelIso03")) == (t2.leg1()->userFloat("dBRelIso03")))&& ( (t1.leg1()->pt()) > (t2.leg1()->pt()) ) )
-         return true;
-      else if(((t1.leg1()->userFloat("dBRelIso03")) == (t2.leg1()->userFloat("dBRelIso03")))&&( (t1.leg1()->pt()) == (t2.leg1()->pt()) )&&((t1.leg2()->tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits") < t2.leg2()->tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")) ) )
-         return true;
-      else if(((t1.leg1()->userFloat("dBRelIso03")) == (t2.leg1()->userFloat("dBRelIso03")))&&( (t1.leg1()->pt()) == (t2.leg1()->pt()) )&&((t1.leg2()->tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits") == t2.leg2()->tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")) )&&((t1.leg2()->pt()) > (t2.leg2()->pt())))
-	 return true; 
-      else {return false;}
+            //std::cout<<" Cand 1 Leg 1 isolation: "<<t1.leg1()->userFloat("dBRelIso03")<<std::endl;
+            //std::cout<<" Cand 2 Leg 1 isolation: "<<t2.leg1()->userFloat("dBRelIso03")<<std::endl;
+            //std::cout<<" Cand 1 Leg 2 isolation: "<<t1.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw")<<std::endl;
+            //std::cout<<" Cand 2 Leg 2 isolation: "<<t2.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw")<<std::endl;
+	    if ((t1.leg1()->userFloat("dBRelIso03")) < (t2.leg1()->userFloat("dBRelIso03"))){
+                    //std::cout<<"cand 1 Isolation: "<<t1.leg1()->userFloat("dBRelIso03")<<" < cand 2 Isolation: "<<t2.leg1()->userFloat("dBRelIso03")<<std::endl;
+		    return true;
+	    }
+	    else if(((t1.leg1()->userFloat("dBRelIso03")) == (t2.leg1()->userFloat("dBRelIso03")))&& ( (t1.leg1()->pt()) > (t2.leg1()->pt()) ) ){
+		    return true;
+	    }
+	    else if(((t1.leg1()->userFloat("dBRelIso03")) == (t2.leg1()->userFloat("dBRelIso03")))&&( (t1.leg1()->pt()) == (t2.leg1()->pt()) )&&((t1.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw") > t2.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw")) ) ){
+		    return true;
+	    }
+	    else if(((t1.leg1()->userFloat("dBRelIso03")) == (t2.leg1()->userFloat("dBRelIso03")))&&( (t1.leg1()->pt()) == (t2.leg1()->pt()) )&&((t1.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw") == t2.leg2()->tauID("byIsolationMVArun2v1DBnewDMwLTraw")) )&&((t1.leg2()->pt()) > (t2.leg2()->pt()))){
+		    return true; 
+	    }
+	    else {return false;}
 
     } 
-};
+  };
 
-      // ----------member data ---------------------------
-      edm::InputTag src_;
+  // ----------member data ---------------------------
+  edm::EDGetTokenT<std::vector<T>>  src_;
 
 
 

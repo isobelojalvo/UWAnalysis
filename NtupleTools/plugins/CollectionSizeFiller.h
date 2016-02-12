@@ -17,8 +17,8 @@ class CollectionSizeFiller : public NtupleFillerBase {
     }
 
 
-    CollectionSizeFiller(const edm::ParameterSet& iConfig, TTree* t):
-      src_(iConfig.getParameter<edm::InputTag>("src")),
+    CollectionSizeFiller(const edm::ParameterSet& iConfig, TTree* t,edm::ConsumesCollector && iC):
+      src_(iC.consumes<edm::View<reco::Candidate>>(iConfig.getParameter<edm::InputTag>("src"))),
       tag_(iConfig.getParameter<std::string>("tag"))
 	{
 	  value = 0;
@@ -36,14 +36,14 @@ class CollectionSizeFiller : public NtupleFillerBase {
   {
     edm::Handle<edm::View<reco::Candidate> > handle;
     value=0;
-    if(iEvent.getByLabel(src_,handle)) {
+    if(iEvent.getByToken(src_,handle)) {
       value = handle->size();
     }
   }
   
 
  protected:
-  edm::InputTag src_;
+  edm::EDGetTokenT<edm::View<reco::Candidate>> src_;
   std::string tag_;
   int value;
 

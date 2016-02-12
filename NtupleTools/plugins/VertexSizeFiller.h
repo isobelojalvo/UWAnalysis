@@ -6,6 +6,8 @@
 #include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/VertexReco/interface/VertexFwd.h"
 #include <TTree.h>
+#include "FWCore/Framework/interface/EDConsumerBase.h"
+#include "FWCore/Framework/interface/ConsumesCollector.h"
 
 #include "UWAnalysis/NtupleTools/interface/NtupleFillerBase.h"
 
@@ -19,8 +21,8 @@ class VertexSizeFiller : public NtupleFillerBase {
     }
 
 
-    VertexSizeFiller(const edm::ParameterSet& iConfig, TTree* t):
-      src_(iConfig.getParameter<edm::InputTag>("src")),
+    VertexSizeFiller(const edm::ParameterSet& iConfig, TTree* t,edm::ConsumesCollector && iC):
+      src_(iC.consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("src"))),
       tag_(iConfig.getParameter<std::string>("tag"))
 	{
 	  value = 0;
@@ -38,14 +40,14 @@ class VertexSizeFiller : public NtupleFillerBase {
   {
     edm::Handle<reco::VertexCollection > handle;
     value=0;
-    if(iEvent.getByLabel(src_,handle)) {
+    if(iEvent.getByToken(src_,handle)) {
       value = handle->size();
     }
   }
   
 
  protected:
-  edm::InputTag src_;
+  edm::EDGetTokenT<reco::VertexCollection> src_;
   std::string tag_;
   int value;
 

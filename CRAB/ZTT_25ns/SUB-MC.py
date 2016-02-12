@@ -3,14 +3,17 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-process.GlobalTag.globaltag = 'MCRUN2_74_V9'
+process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_v13'
 
 #added in etau and mutau triggers
-from UWAnalysis.Configuration.tools.analysisToolsMiniAod import *
+from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
 defaultReconstructionMC(process,'HLT',
                       [
-			'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v1',#etau
-			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v2'#muTau
+			'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v1', #etau
+			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v2', #muTau
+			'HLT_IsoMu18_v2', #singlemu
+			'HLT_Ele22_eta2p1_WPLoose_Gsf_v3', #singleE
+			'HLT_Ele23_WPLoose_Gsf_v3' #singleE
                       ])
 
                       
@@ -30,8 +33,8 @@ process.eventSelectionMTJetDown  = createSystematics(process,process.selectionSe
 
 process.eventSelectionETTauUp    = createSystematics(process,process.selectionSequenceET,'TauUp',1.00,1.0,1.03,0,1.0)
 process.eventSelectionETTauDown  = createSystematics(process,process.selectionSequenceET,'TauDown',1.0,1.0,0.97,0,1.0)
-process.eventSelectionETJetUp    = createSystematics(process,process.selectionSequenceMT,'JetUp',1.0,1.0,1.0,1,1.0)
-process.eventSelectionETJetDown  = createSystematics(process,process.selectionSequenceMT,'JetDown',1.0,1.0,1.0,-1,1.0)
+process.eventSelectionETJetUp    = createSystematics(process,process.selectionSequenceET,'JetUp',1.0,1.0,1.0,1,1.0)
+process.eventSelectionETJetDown  = createSystematics(process,process.selectionSequenceET,'JetDown',1.0,1.0,1.0,-1,1.0)
 
 
 
@@ -54,8 +57,8 @@ createGeneratedParticles(process,
 createGeneratedParticles(process,
                          'genTauCands',
                           [
-                           "keep pdgId = {tau+} & mother.pdgId()= {Z0}",
-                           "keep pdgId = {tau-} & mother.pdgId() = {Z0}"
+                           "keep pdgId = {tau+}",
+                           "keep pdgId = {tau-}"
                           ]
 )
 

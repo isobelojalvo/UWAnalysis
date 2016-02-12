@@ -17,7 +17,6 @@
 #include "UWAnalysis/DataFormats/interface/CompositePtrCandidateT1T2MEtFwd.h"
 #include "UWAnalysis/DataFormats/interface/CompositePtrCandidateTMEtFwd.h"
 
-#include "DataFormats/HLTReco/interface/TriggerEvent.h"
 #include "DataFormats/HLTReco/interface/TriggerRefsCollections.h"
 #include "DataFormats/HLTReco/interface/TriggerObject.h"
 
@@ -27,8 +26,42 @@
 #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
 #include "DataFormats/PatCandidates/interface/PackedTriggerPrescales.h"
 
-
-
+// Example Use case
+//  Remove 'HLT' soon!!!
+//  HLT = 'TriggerResults'
+//  muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID")#NEW
+//
+//
+////
+//def muonTriggerMatchMiniAOD(process,triggerProcess,HLT,srcMuon):
+//
+//   process.triggeredPatMuons = cms.EDProducer("MuonTriggerMatcherMiniAOD",
+//                                            src = cms.InputTag(srcMuon),#"miniAODMuonID"
+//                                            trigEvent = cms.InputTag(HLT),
+//                                            filters = cms.vstring(
+//						'hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09',
+//						'hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09',
+//						'hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09', #2015D
+//						'hltL3crIsoL1sSingleMu16erL1f0L2f10QL3f17QL3trkIsoFiltered0p09', #2015D Sync
+//						'hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09' #2015D IsoMu18
+//                                            ),
+//					    filtersAND = cms.vstring(
+//					    	'hltOverlapFilterIsoMu17LooseIsoPFTau20',
+//						'hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09', 
+//						'hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09', #2015D Sync
+//						'hltL3crIsoL1sSingleMu16erL1f0L2f10QL3f17QL3trkIsoFiltered0p09', #2015D Sync
+//						'hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09' #2015D IsoMu18
+//					    ),
+//                                            bits = cms.InputTag("TriggerResults","","HLT"),
+//                                            prescales = cms.InputTag("patTrigger"),
+//                                            objects = cms.InputTag("selectedPatTrigger"),
+//                                            ptCut = cms.int32(18) #too low to affect anything
+//   )
+//  
+//   process.analysisSequence*= process.triggeredPatMuons
+//
+//
+//
 // class declaration
 //
 template <typename T> 
@@ -36,14 +69,13 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 
 	public:
 		explicit MiniAODTriggerMatcher (const edm::ParameterSet& iConfig):
-			src_(iConfig.getParameter<edm::InputTag>("src")),
-			//triggerEvent_(iConfig.getParameter<edm::InputTag>("trigEvent")),
+			src_(consumes<edm::View<T>>(iConfig.getParameter<edm::InputTag>("src"))),
 			filters_(iConfig.getParameter<std::vector<std::string> >("filters")),
 			filtersAND_(iConfig.getParameter<std::vector<std::string> >("filtersAND")),
 			triggerBits_(consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("bits"))),
 			triggerObjects_(consumes<pat::TriggerObjectStandAloneCollection>(iConfig.getParameter<edm::InputTag>("objects"))),
 			triggerPrescales_(consumes<pat::PackedTriggerPrescales>(iConfig.getParameter<edm::InputTag>("prescales"))),
-			pdgId_(iConfig.getParameter<int>("pdgId"))
+			ptCut_(iConfig.getParameter<int>("ptCut"))
 	{
 		produces<std::vector<T> >();
 	}
@@ -54,15 +86,15 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 		}
 
 	private:
+		edm::EDGetTokenT<edm::View<T>> src_;
+		std::vector<std::string> filters_;
+		std::vector<std::string> filtersAND_;
+
 		edm::EDGetTokenT<edm::TriggerResults> triggerBits_;
 		edm::EDGetTokenT<pat::TriggerObjectStandAloneCollection> triggerObjects_;
 		edm::EDGetTokenT<pat::PackedTriggerPrescales> triggerPrescales_;
 
-		edm::InputTag src_;
-		edm::InputTag triggerEvent_;
-		std::vector<std::string> filters_;
-		std::vector<std::string> filtersAND_;
-		int pdgId_;
+		int ptCut_;
 
 
 		virtual void produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
@@ -82,21 +114,17 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 
 			//Read the shallow clones of a candidate and save the SECOND Clone
 			std::auto_ptr<std::vector<T> > out(new std::vector<T> );
-			edm::Handle<std::vector<T> > src;
+			edm::Handle<edm::View<T> > src;
 
-			edm::Handle<TriggerEvent> trigEv;
-			iEvent.getByLabel(triggerEvent_,trigEv);
 
-			//const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);
-
-			if(iEvent.getByLabel(src_,src))
+			if(iEvent.getByToken(src_,src)){
 				for(unsigned int k=0;k<src->size();++k) {
 					T pat = src->at(k);
 
 					//loop the filters
 					for(unsigned int i=0;i<filters_.size();++i) {
-						std::vector<LV> trigObjects = getFilterCollectionMiniAOD(pdgId_,filters_[i],*triggerObjects);
-                                                std::vector<LV> trigObjectsAND = getFilterCollectionMiniAOD(pdgId_,filtersAND_[i],*triggerObjects); //check if decalring here gives reasonable results
+						std::vector<LV> trigObjects = getFilterCollectionMiniAOD(ptCut_,filters_[i],*triggerObjects);
+						std::vector<LV> trigObjectsAND = getFilterCollectionMiniAOD(ptCut_,filtersAND_[i],*triggerObjects); 
 
 						bool match = false;
 						bool doAND = true;
@@ -105,7 +133,7 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 							doAND=false;
 							//std::cout << "\n === TRIGGER Filters: SingleFilter  === " << std::endl;
 						}
-                                        
+
 						//std::cout << "\n === TRIGGER OBJECT Filters: "<< filters_[i]<< std::endl;
 						//std::cout << "\n === TRIGGER OBJECT FiltersAND: "<< filtersAND_[i]<< std::endl;
 
@@ -116,7 +144,6 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 								break;
 							}//end match if no AND requirements. 
 							else if(deltaR(trigObjects.at(j),pat)<0.5&&doAND==true ) {
-                                                	//	std::vector<LV> trigObjectsAND = getFilterCollectionMiniAOD(pdgId_,filtersAND_[i],*triggerObjects);
 								for(unsigned int r=0;r<trigObjectsAND.size();++r){
 									if(deltaR(trigObjectsAND.at(r),pat)<0.5){
 										match=true;
@@ -130,9 +157,9 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 							pat.addUserFloat(filters_[i],1.0);
 							if (doAND) pat.addUserFloat(filtersAND_[i],1.0);
 							//std::cout << "\n === TRIGGER OBJECT MATCHED === " << std::endl;
-	                                                //std::cout << "\n === TRIGGER OBJECT Filters: "<< filters_[i]<< std::endl;
-	                                                //if (doAND) std::cout << "\n === TRIGGER OBJECT FiltersAND: "<< filtersAND_[i]<< std::endl;
-	                                                                                                
+							//std::cout << "\n === TRIGGER OBJECT Filters: "<< filters_[i]<< std::endl;
+							//if (doAND) std::cout << "\n === TRIGGER OBJECT FiltersAND: "<< filtersAND_[i]<< std::endl;
+
 							//std::cout << "\n === TRIGGER OBJECT ADD USER FLOAT === " << std::endl;
 						}
 						else{
@@ -144,15 +171,17 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 
 					out->push_back(pat);
 				}
-
+			}
+			
 			iEvent.put(out);
+			//std::cout<<"iEvent added trigger"<<std::endl;
 		}
 
 		virtual void endJob() { }
 
 		//MiniAod 
 		std::vector<reco::Candidate::LorentzVector> 
-			getFilterCollectionMiniAOD(int id,std::string filter,pat::TriggerObjectStandAloneCollection triggerObjects)
+			getFilterCollectionMiniAOD(int ptcut,std::string filter,pat::TriggerObjectStandAloneCollection triggerObjects)
 			{
 				//const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);
 
@@ -168,7 +197,7 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 						//std::cout<<"Filter Label :"<<obj.filterLabels()[h]<<std::endl;
 						//std::cout<<"Given Filter :"<<filter<<std::endl;
 						//if (obj.filterIds()[h]==id && obj.filter(filter)){
-						if (obj.filter(filter)){
+						if (obj.filter(filter)&&obj.pt()>=ptcut){
 							out.push_back(a);
 							//std::cout<<"=====After Filter====="<<std::endl;
 							//std::cout<<"Filter Label :"<<obj.filterLabels()[h]<<std::endl;
@@ -181,31 +210,6 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 					return out;
 				}
 
-
-
-				std::vector<reco::Candidate::LorentzVector> 
-					getFilterCollection(size_t index,int id,const trigger::TriggerEvent& trigEv)
-					{
-						//Create output Collection
-						std::vector<reco::Candidate::LorentzVector>  out;
-						//get All the final trigger objects
-						const trigger::TriggerObjectCollection& TOC(trigEv.getObjects());
-						//filter index
-						if(index!=trigEv.sizeFilters())
-
-						{
-							const trigger::Keys& KEYS = trigEv.filterKeys(index);
-							for(size_t i = 0;i<KEYS.size();++i)
-							{
-								const trigger::TriggerObject& TO(TOC[KEYS[i]]);
-								reco::Candidate::LorentzVector a(TO.px(),TO.py(),TO.pz(),sqrt(TO.px()*TO.px()+TO.py()*TO.py()+TO.pz()*TO.pz()));
-								if(abs(TO.id()) == id)
-									out.push_back(a);
-							}
-						}
-
-						return out;
-					}
 
 
 			};

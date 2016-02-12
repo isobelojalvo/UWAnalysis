@@ -20,7 +20,7 @@ template <typename T,typename G>
 class SmearedParticleProducer : public edm::EDProducer {
    public:
   explicit SmearedParticleProducer(const edm::ParameterSet& iConfig):
-    src_(iConfig.getParameter<edm::InputTag>("src"))  
+    src_(consumes<std::vector<T> >(iConfig.getParameter<edm::InputTag>("src"))) 
     {
       smearingModule = new SmearedParticleMaker<T,G>(iConfig);
       produces<std::vector<T> >();
@@ -39,7 +39,7 @@ class SmearedParticleProducer : public edm::EDProducer {
        std::auto_ptr<std::vector<T> > out(new std::vector<T> );
        Handle<std::vector<T> > srcH;
        
-       if(iEvent.getByLabel(src_,srcH)) 
+       if(iEvent.getByToken(src_,srcH)) 
 	 for(unsigned int i=0;i<srcH->size();++i) {
 	   T object = srcH->at(i);
 	   smearingModule->smear(object);
@@ -49,7 +49,7 @@ class SmearedParticleProducer : public edm::EDProducer {
      } 
 
 
-      edm::InputTag src_;           //input Collection
+      edm::EDGetTokenT<std::vector<T> > src_;           //input Collection
       SmearedParticleMaker<T,G> *smearingModule;
 };
 

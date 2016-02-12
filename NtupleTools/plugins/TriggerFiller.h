@@ -20,7 +20,7 @@ class TriggerFiller : public NtupleFillerBase {
     TriggerFiller(){
     }
 
-    TriggerFiller(const edm::ParameterSet& iConfig, TTree* t):
+    TriggerFiller(const edm::ParameterSet& iConfig, TTree* t, edm::ConsumesCollector && iC):
       src_(iConfig.getParameter<edm::InputTag>("src")),
       paths_(iConfig.getParameter<std::vector<std::string> >("paths"))
 	{

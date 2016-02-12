@@ -94,7 +94,7 @@ void MiniAODElectronVIDEmbedder::produce(edm::Event& iEvent, const edm::EventSet
 	edm::Handle<reco::VertexCollection> vertices;
 	iEvent.getByToken(vtxToken_, vertices);
 	if (vertices->empty()) return;//skip event if no vertices found
-
+        //std::cout<<"size of IDMap tokens: "<<idMapTokens_.size()<<std::endl;
 	for(unsigned int i = 0;
 			i < idMapTokens_.size();
 			++i)
@@ -115,7 +115,6 @@ void MiniAODElectronVIDEmbedder::produce(edm::Event& iEvent, const edm::EventSet
 		eleIso04 = (ei->chargedHadronIso()+std::max(ei->photonIso()+ei->neutralHadronIso()-(0.5*(ei->puChargedHadronIso())),0.0))/(ei->pt());
                 //std::cout<<"electron Isolation04: "<<eleIso04<<std::endl;
 		float eleIso03 = 999;
-		//if(eptr->pfIsolationVariables().isNonnull()) 
 		eleIso03 = (eptr->pfIsolationVariables().sumChargedHadronPt + std::max(eptr->pfIsolationVariables().sumNeutralHadronEt +
 					eptr->pfIsolationVariables().sumPhotonEt - 0.5 * eptr->pfIsolationVariables().sumPUPt, 0.0)) / ei->pt(); 
                 //std::cout<<"electron Isolation03: "<<eleIso03<<std::endl;
@@ -148,6 +147,7 @@ void MiniAODElectronVIDEmbedder::produce(edm::Event& iEvent, const edm::EventSet
 		{
 			bool result = (*(ids.at(i)))[eptr];
 			out->back().addUserFloat(idLabels_.at(i), float(result)); // 1 for true, 0 for false
+                        //std::cout<<"Adding User Float: "<<idLabels_.at(i)<<" with result: "<<float(result)<<std::endl;
 		}
 	}
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
 To run: 
        SVFitStandAlone outputFile=WZ.root newOutputFile=1.0 newFile="svfitout.root"
@@ -6,6 +7,8 @@ To run:
        newFile - is the name of the new output file; this option is needed when farming out this script.
  */
 
+=======
+>>>>>>> 13TeV_76X
 #include "PhysicsTools/FWLite/interface/CommandLineParser.h" 
 #include "TFile.h"
 #include "TROOT.h"
@@ -29,13 +32,20 @@ To run:
 
 void copyFiles( optutl::CommandLineParser parser, TFile* fOld, TFile* fNew) ;
 void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]) ;
+<<<<<<< HEAD
 void CopyFile(const char *fname, optutl::CommandLineParser parser);
 void CopyDir(TDirectory *source,optutl::CommandLineParser parser);
 float runSVFit(std::vector<svFitStandalone::MeasuredTauLepton> & measuredTauLeptons, double measuredMETx, double measuredMETy, TMatrixD &covMET, float num);
+=======
+//void copyFiles( optutl::CommandLineParser parser, TFile* fOld, TFile* fNew);
+void CopyFile(const char *fname, optutl::CommandLineParser parser);
+void CopyDir(TDirectory *source,optutl::CommandLineParser parser);
+>>>>>>> 13TeV_76X
 
 int main (int argc, char* argv[]) 
 {
    optutl::CommandLineParser parser ("Sets Event Weights in the ntuple");
+<<<<<<< HEAD
    parser.addOption("branch",optutl::CommandLineParser::kString,"Branch","__svFit__");
    parser.addOption("newFile",optutl::CommandLineParser::kString,"newFile","newFile");
    parser.addOption("newOutputFile",optutl::CommandLineParser::kDouble,"New Output File",0.0);
@@ -57,27 +67,74 @@ int main (int argc, char* argv[])
      readdir(fProduce,parser,TreeToUse);
      fProduce->ls();
      fProduce->Close();
+=======
+   parser.addOption("branch",optutl::CommandLineParser::kString,"Branch","svFit");
+   parser.addOption("newFile",optutl::CommandLineParser::kString,"newFile","newFile");
+   parser.addOption("newOutputFile",optutl::CommandLineParser::kDouble,"New Output File",0.0);
+   //parser.addOption("--newOutputFile",optutl::CommandLineParser::kBool,"NewOutputFile",true);
+   parser.parseArguments (argc, argv);
+   
+   char TreeToUse[80]="first" ;
+
+   TFile *fProduce = new TFile("dummy","UPDATE");
+
+   TFile *f = new TFile(parser.stringValue("outputFile").c_str(),"UPDATE");
+
+   //if(parser.boolValue("--newOutputFile")){
+   if(parser.doubleValue("newOutputFile")>0){
+     std::cout<<"Creating new outputfile"<<std::endl;
+     std::string newFileName = parser.stringValue("newFile");
+     fProduce = new TFile(newFileName.c_str(),"recreate");
+     copyFiles(parser, f, fProduce);//new TFile(parser.stringValue("outputFile").c_str()+"SVFit","UPDATE");
+     std::cout<<"listing the directories================="<<std::endl;
+     fProduce->ls();
+     readdir(fProduce,parser,TreeToUse);
+>>>>>>> 13TeV_76X
    }
    else{
      readdir(f,parser,TreeToUse);
    }
    f->Close();
+<<<<<<< HEAD
+=======
+   fProduce->Close();
+
+
+>>>>>>> 13TeV_76X
 
 } 
 
 
 void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]) 
 {
+<<<<<<< HEAD
 
+=======
+  int j = 0;
+>>>>>>> 13TeV_76X
   TDirectory *dirsav = gDirectory;
   TIter next(dir->GetListOfKeys());
   TKey *key;
   char stringA[80]="first";
+<<<<<<< HEAD
 
   while ((key = (TKey*)next())) {
     printf("Found key=%s \n",key->GetName());
 
     TObject *obj = key->ReadObj();
+=======
+  edm::FileInPath inputFileName_visPtResolution("TauAnalysis/SVfitStandalone/data/svFitVisMassAndPtResolutionPDF.root");
+  TH1::AddDirectory(false);  
+  TFile* inputFile_visPtResolution = new TFile(inputFileName_visPtResolution.fullPath().data());  
+  std::cout<<"reading dir"<<std::endl;
+  while ((key = (TKey*)next())) {
+    std::cout<<"reading keys"<<std::endl;
+    printf("Found key=%s \n",key->GetName());
+    //if(!strcmp(stringA,TreeToUse)) 
+    //printf("Strings %s %s \n",TreeToUse,stringA);
+    TObject *obj = key->ReadObj();
+    
+>>>>>>> 13TeV_76X
     if (obj->IsA()->InheritsFrom(TDirectory::Class())) {
       dir->cd(key->GetName());
       TDirectory *subdir = gDirectory;
@@ -86,8 +143,17 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
       dirsav->cd();
     }
     else if(obj->IsA()->InheritsFrom(TTree::Class())) {
+<<<<<<< HEAD
       TTree *t = (TTree*)obj;
       float svFitMass = -1;
+=======
+      std::cout<<"Object inherits from TTree Class Tree to use: "<<TreeToUse<<std::endl;
+
+      TTree *t = (TTree*)obj;
+
+      float svFitMass = -1;
+      TBranch *newBranch = t->Branch(parser.stringValue("branch").c_str(),&svFitMass,(parser.stringValue("branch")+"/F").c_str());
+>>>>>>> 13TeV_76X
       float pt1;
       float eta1;
       float phi1;
@@ -95,10 +161,17 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
       float eta2;
       float phi2;
       float decayMode;
+<<<<<<< HEAD
       float covMatrix00;
       float covMatrix10;
       float covMatrix01;
       float covMatrix11;
+=======
+      float mvacov00;
+      float mvacov10;
+      float mvacov01;
+      float mvacov11;
+>>>>>>> 13TeV_76X
       // define MET
       double measuredMETx;
       double measuredMETy;
@@ -128,28 +201,43 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
       }
       
       //MET, MET Covariance, lepton objects,
+<<<<<<< HEAD
       TBranch *pt1branch;
       TBranch *newBranch = t->Branch(parser.stringValue("branch").c_str(),&svFitMass,(parser.stringValue("branch")+"/F").c_str());
       newBranch->SetFile("svfitout.root:/input/muTauEventTree");
 
       t->SetBranchAddress("pt_1",&pt1,&pt1branch);
+=======
+      t->SetBranchAddress("pt_1",&pt1);
+>>>>>>> 13TeV_76X
       t->SetBranchAddress("eta_1",&eta1);
       t->SetBranchAddress("phi_1",&phi1);
       t->SetBranchAddress("pt_2",&pt2);
       t->SetBranchAddress("eta_2",&eta2);
       t->SetBranchAddress("phi_2",&phi2);
       t->SetBranchAddress("tauDecayMode",&decayMode);
+<<<<<<< HEAD
       t->SetBranchAddress("covMatrix00",&covMatrix00);
       t->SetBranchAddress("covMatrix01",&covMatrix01);
       t->SetBranchAddress("covMatrix10",&covMatrix10);
       t->SetBranchAddress("covMatrix11",&covMatrix11);
+=======
+      t->SetBranchAddress("mvacov00",&mvacov00);
+      t->SetBranchAddress("mvacov01",&mvacov01);
+      t->SetBranchAddress("mvacov10",&mvacov10);
+      t->SetBranchAddress("mvacov11",&mvacov11);
+>>>>>>> 13TeV_76X
       t->SetBranchAddress("met",&met);
       t->SetBranchAddress("metphi",&metphi);
       
       printf("Found tree -> weighting\n");
       for(Int_t i=0;i<t->GetEntries();++i)
 	{
+<<<<<<< HEAD
 	  //if(j>1)break ;
+=======
+	  if(j>1)break ;
+>>>>>>> 13TeV_76X
 	  t->GetEntry(i);
 
 	  TMet.SetPtEtaPhiM(met,0,metphi,0);
@@ -171,6 +259,7 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 	  else if(decayMode==3)
 	    mass2 = 0.13957*3;
 
+<<<<<<< HEAD
 	  covMET[0][0] =  covMatrix00;
 	  covMET[1][0] =  covMatrix10;
 	  covMET[0][1] =  covMatrix01;
@@ -184,6 +273,19 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 	  //std::cout<<"Dir: "<<(dir->GetPath())<<std::endl;
 	  //std::cout<<"DirSav: "<<(dirsav->GetPath())<<std::endl;
 	  //std::cout<<"gDirectory: "<<(gDirectory->GetPath())<<std::endl;
+=======
+	  covMET[0][0] =  mvacov00;
+	  covMET[1][0] =  mvacov10;
+	  covMET[0][1] =  mvacov01;
+	  covMET[1][1] =  mvacov11;
+	  ///comment me out 
+	  //covMET[0][0] =  787.352;
+	  //covMET[1][0] = -178.63;
+	  //covMET[0][1] = -178.63;
+	  //covMET[1][1] =  179.545;
+	  /// to here once we have real covMET... 0's cause SVFit to SegFault.
+
+>>>>>>> 13TeV_76X
 	  if(decayMode==0||decayMode==1||decayMode==10){
 	    // define lepton four vectors
 	    std::vector<svFitStandalone::MeasuredTauLepton> measuredTauLeptons;
@@ -195,24 +297,46 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 	    measuredTauLeptons.push_back(
 		 svFitStandalone::MeasuredTauLepton(decayType2,  pt2, eta2, phi2,  mass2, decayMode)
 					 ); // tau -> 1prong0pi0 hadronic decay (Pt, eta, phi, mass, pat::Tau.decayMode())
+<<<<<<< HEAD
 
 	    
 	    svFitMass = runSVFit(measuredTauLeptons, measuredMETx, measuredMETy, covMET, 0);
 	    dir->cd();
+=======
+	    //std::cout<<"Here 0"<<std::endl;
+	    SVfitStandaloneAlgorithm algo(measuredTauLeptons, measuredMETx, measuredMETy, covMET, 1);
+	    algo.addLogM(false);  
+	    algo.shiftVisPt(true, inputFile_visPtResolution);
+	    algo.integrateMarkovChain();
+	    svFitMass = algo.getMass(); // return value is in units of GeV
+	    if ( algo.isValidSolution() ) {
+	      std::cout << "found mass = " << svFitMass << std::endl;
+	  } else {
+	      std::cout << "sorry -- status of NLL is not valid [" << algo.isValidSolution() << "]" << std::endl;
+	    }
+>>>>>>> 13TeV_76X
 	  }
 	  else
 	    svFitMass = 0;
 	  
 	  newBranch->Fill();
 	}
+<<<<<<< HEAD
 
       t->Write("",TObject::kOverwrite);
       strcpy(TreeToUse,stringA) ;
 
+=======
+      dir->cd();      
+      t->Write("",TObject::kOverwrite);
+      strcpy(TreeToUse,stringA) ;
+      delete inputFile_visPtResolution;
+>>>>>>> 13TeV_76X
     }
   }
 }
 
+<<<<<<< HEAD
 float runSVFit(std::vector<svFitStandalone::MeasuredTauLepton> & measuredTauLeptons, double measuredMETx, double measuredMETy, TMatrixD &covMET, float num){
   edm::FileInPath inputFileName_visPtResolution("TauAnalysis/SVfitStandalone/data/svFitVisMassAndPtResolutionPDF.root");
   TH1::AddDirectory(false);  
@@ -233,22 +357,34 @@ float runSVFit(std::vector<svFitStandalone::MeasuredTauLepton> & measuredTauLept
 
 }
 
+=======
+>>>>>>> 13TeV_76X
 
 //Thank you Renee Brun :)
 void CopyDir(TDirectory *source, optutl::CommandLineParser parser) {
   //copy all objects and subdirs of directory source as a subdir of the current directory
+<<<<<<< HEAD
   //source->ls();
   TDirectory *savdir = gDirectory;
 
+=======
+  source->ls();
+  TDirectory *savdir = gDirectory;
+  std::cout<<"source getname "<<source->GetName()<<std::endl;
+>>>>>>> 13TeV_76X
   TDirectory *adir = savdir; 
   if(source->GetName()!=parser.stringValue("outputFile")){
     adir = savdir->mkdir(source->GetName());
     std::cout<<"Source name is not outputfile name"<<std::endl;
+<<<<<<< HEAD
     adir->cd();    
   }
   else{
     //adir = savdir->mkdir("input");
     adir->cd();    
+=======
+    adir->cd();
+>>>>>>> 13TeV_76X
   }
 
   //loop on all entries of this directory
@@ -300,10 +436,20 @@ void copyFiles( optutl::CommandLineParser parser, TFile* fOld, TFile* fNew)
   if(gSystem->AccessPathName(parser.stringValue("outputFile").c_str())) {
     gSystem->CopyFile("hsimple.root", parser.stringValue("outputFile").c_str());
   }
+<<<<<<< HEAD
 
 
   fNew->cd();
   CopyFile(parser.stringValue("outputFile").c_str(),parser);
   fNew->ls();
   fNew->Close();
+=======
+  //main function copying 4 files as subdirectories of a new file
+  //std::string newFileName = parser.stringValue("newFile");
+  //fNew = new TFile(newFileName.c_str(),"recreate");
+  fNew->cd();
+  CopyFile(parser.stringValue("outputFile").c_str(),parser);
+  //fNew->ls();
+
+>>>>>>> 13TeV_76X
 }

@@ -29,7 +29,7 @@
 
 #include "Math/GenVector/VectorUtil.h"
 //
-// class decleration
+// class declaration
 #include <boost/foreach.hpp>
 #include "DataFormats/Math/interface/deltaR.h"
 #include "DataFormats/Math/interface/angle.h"
@@ -41,15 +41,16 @@ class PATTauOverloader : public edm::EDProducer {
   
 
   explicit PATTauOverloader(const edm::ParameterSet& iConfig):
-  src_(iConfig.getParameter<edm::InputTag>("src")),
-  muons_(iConfig.getParameter<edm::InputTag>("muons")),
-  vtxSrc_(iConfig.getParameter<edm::InputTag>("vtxSrc"))
+  src_(consumes<pat::TauCollection>(iConfig.getParameter<edm::InputTag>("src"))),
+  muons_(consumes<pat::MuonCollection>(iConfig.getParameter<edm::InputTag>("muons"))),
+  vtxSrc_(consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("vtxSrc")))
   {
     produces<pat::TauCollection>();
   }
   
   ~PATTauOverloader() {}
    private:
+
 
   virtual void produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   {
@@ -60,13 +61,15 @@ class PATTauOverloader : public edm::EDProducer {
     Handle<pat::MuonCollection > muons;
     
     edm::Handle<reco::VertexCollection> vertices;
-    iEvent.getByLabel(vtxSrc_, vertices);
-    const reco::Vertex& thePV = *vertices->begin();
+    iEvent.getByToken(vtxSrc_, vertices);
+    //const reco::Vertex& thePV = *vertices->begin();
 
   
-    if(iEvent.getByLabel(src_,cands)) 
+    if(iEvent.getByToken(src_,cands)) 
       for(unsigned int  i=0;i!=cands->size();++i){
 	pat::Tau tau = cands->at(i);
+        //std::cout<<"Tau : "<<i<<std::endl;
+        //std::cout<<"   Tau  pt: "<<tau.pt()<<" eta: "<<tau.eta()<<" byCmbIso: "<<tau.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<<std::endl;  
 
         float dZ=-999;
         float dXY=-999;
@@ -78,17 +81,22 @@ class PATTauOverloader : public edm::EDProducer {
 	tau.addUserFloat("zIP",z_2);
 
         //Against Electron 
-        tau.addUserInt("againstElectronVLooseMVA5",tau.tauID("againstElectronVLooseMVA5"));
-        tau.addUserInt("againstElectronTightMVA",tau.tauID("againstElectronTightMVA5"));
+        //NOw use tau.tauID("") to access everything!!!
+        //tau.addUserInt("againstElectronVLooseMVA5",tau.tauID("againstElectronVLooseMVA5"));
+        //tau.addUserInt("againstElectronVLooseMVA6",tau.tauID("againstElectronVLooseMVA6"));
+        //tau.addUserInt("againstElectronTightMVA5",tau.tauID("againstElectronTightMVA5"));
+        //tau.addUserInt("againstElectronTightMVA6",tau.tauID("againstElectronTightMVA6"));
     
         //Against Muon 
-        tau.addUserInt("againstMuTightFixed",tau.tauID("againstMuonTight3"));
-        tau.addUserInt("againstMuLooseFixed",tau.tauID("againstMuonLoose3"));
+        //tau.addUserInt("againstMuTight3",tau.tauID("againstMuonTight3"));
+        //tau.addUserInt("againstMuTight4",tau.tauID("againstMuonTight4"));
+        //tau.addUserInt("againstMuLoose3",tau.tauID("againstMuonLoose3"));
 
 
         float nMatchedSegments = -1;
         float muonMatched = 0;
         float leadChargedHadrTrackPt = -1;
+        float leadChargedHadrTrackPtErr = -1;
         float nIsoTracks=-1;
         nIsoTracks = tau.isolationChargedHadrCands().size();
 
@@ -96,10 +104,11 @@ class PATTauOverloader : public edm::EDProducer {
 
         if(tau.leadChargedHadrCand().isNonnull()){
 	        leadChargedHadrTrackPt = tau.leadChargedHadrCand()->pt();
+	        //leadChargedHadrTrackPtErr = tau.leadChargedHadrCand()->ptError();
 	        dZ = packedLeadTauCand->dz();
 	        dXY = packedLeadTauCand->dxy();
                 //std::cout<<"Sync Tau dZ is "<<dZ<<std::endl; 
-	        if(iEvent.getByLabel(muons_,muons)){
+	        if(iEvent.getByToken(muons_,muons)){
 		    for(unsigned int k =0; k!=muons->size();k++){
 			    if(ROOT::Math::VectorUtil::DeltaR(muons->at(k).p4(),tau.leadChargedHadrCand()->p4())<0.15){
 				    if(muons->at(k).numberOfMatches()>nMatchedSegments){
@@ -113,8 +122,10 @@ class PATTauOverloader : public edm::EDProducer {
 	        }
         }
 
+
         tau.addUserFloat("nIsoTracks",nIsoTracks);
         tau.addUserFloat("leadChargedHadrTrackPt",leadChargedHadrTrackPt);
+        tau.addUserFloat("leadChargedHadrTrackPtErr",leadChargedHadrTrackPtErr);
 	tau.addUserFloat("taudZ",dZ);
 	tau.addUserFloat("taudXY",dXY);
         tau.addUserFloat("muonNMatchedSeg",nMatchedSegments);
@@ -126,9 +137,10 @@ class PATTauOverloader : public edm::EDProducer {
   } 
 
   // ----------member data ---------------------------
-  edm::InputTag src_;
-  edm::InputTag vtxSrc_;
-  edm::InputTag muons_;
+  edm::EDGetTokenT<pat::TauCollection> src_;
+  edm::EDGetTokenT<pat::MuonCollection> muons_;
+  edm::EDGetTokenT<reco::VertexCollection> vtxSrc_;
+
 
 };
 

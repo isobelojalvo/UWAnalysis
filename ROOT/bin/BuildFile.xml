@@ -3,12 +3,14 @@
 <use   name="PhysicsTools/FWLite"/>
 <use   name="PhysicsTools/Utilities"/>
 <use   name="DataFormats/FWLite"/>
+<use   name="TauAnalysis/SVfitStandalone"/> 
 <use   name="roofit"/>
 <use   name="roostats"/>
 <!--<use   name="roottmva"/>0-->
 
 
-
+<bin   name="SVFitStandAlone" file="SVFitStandAlone.cc">
+</bin>
 
 <bin   name="GetErrors" file="GetErrors.cc">
 </bin>
@@ -28,6 +30,8 @@
 <bin   name="EventWeightsIterativePU" file="EventWeightsIterativePUWeighting.cc">
 </bin>
 <bin   name="EventWeightsIterativeGen" file="EventWeightsIterativeGen.cc">
+</bin>
+<bin   name="EventWeightsIterativeGenPU" file="EventWeightsIterativeGenPU.cc">
 </bin>
 <bin   name="EventWeightsIterative" file="EventWeightsIterative.cc">
 </bin>

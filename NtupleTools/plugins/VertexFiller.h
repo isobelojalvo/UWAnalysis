@@ -34,7 +34,7 @@ class VertexFiller : public NtupleFillerBase {
 		}
 
 
-		VertexFiller(const edm::ParameterSet& iConfig, TTree* t):
+		VertexFiller(const edm::ParameterSet& iConfig, TTree* t,edm::ConsumesCollector && iC):
 			src_(iConfig.getParameter<edm::InputTag>("src")),
 			tag_(iConfig.getParameter<std::string>("tag"))
 	{

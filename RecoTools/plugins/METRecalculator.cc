@@ -6,12 +6,18 @@ METRecalculator::~METRecalculator()
 {}
 
 METRecalculator::METRecalculator(const edm::ParameterSet& iConfig):
-  met_(iConfig.getParameter<edm::InputTag>("met")),  
-  originalObjects_(iConfig.getParameter<std::vector<edm::InputTag> >("originalObjects")),  
-  smearedObjects_(iConfig.getParameter<std::vector<edm::InputTag> >("smearedObjects")),  
+  met_(consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("met"))),  
+  //originalObjects_(iConfig.getParameter<std::vector<edm::InputTag> >("originalObjects")),  
+  //smearedObjects_(iConfig.getParameter<std::vector<edm::InputTag> >("smearedObjects")),  
   unclusteredScale_(iConfig.getParameter<double>("unclusteredScale")),
   threshold_(iConfig.getParameter<double>("threshold"))
-{
+ {
+ VInputTag origTags = iConfig.getParameter<VInputTag>("originalObjects");
+ VInputTag smearTags = iConfig.getParameter<VInputTag>("smearedObjects");
+ for(VInputTag::const_iterator it=origTags.begin();it!=origTags.end();it++) {
+    originalObjects_.push_back( consumes<edm::View<reco::Candidate> > ( *it ) );
+    smearedObjects_.push_back( consumes<edm::View<reco::Candidate> > ( *it ) );
+  }
    produces<pat::METCollection >();
 }
 
@@ -31,7 +37,7 @@ METRecalculator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 
   for(unsigned int i=0;i<originalObjects_.size();++i)   {
       edm::Handle<edm::View<reco::Candidate> > objects;
-      iEvent.getByLabel(originalObjects_[i],objects); 
+      iEvent.getByToken(originalObjects_[i],objects); 
       std::vector<math::XYZTLorentzVector> lvs;
       for(unsigned int o = 0 ;o != objects->size();++o)
 	if(objects->at(o).pt()>threshold_)
@@ -47,7 +53,7 @@ METRecalculator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 
   for(unsigned int i=0;i<smearedObjects_.size();++i)   {
       edm::Handle<edm::View<reco::Candidate> > objects;
-      iEvent.getByLabel(smearedObjects_[i],objects); 
+      iEvent.getByToken(smearedObjects_[i],objects); 
       std::vector<math::XYZTLorentzVector> lvs;
 
       for(unsigned int o = 0 ;o != objects->size();++o)
@@ -105,7 +111,7 @@ METRecalculator::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   std::auto_ptr<pat::METCollection > out(new pat::METCollection);
   Handle<pat::METCollection> srcH;
   
-  if(iEvent.getByLabel(met_,srcH)) 
+  if(iEvent.getByToken(met_,srcH)) 
     for(unsigned int i=0;i<srcH->size();++i) {
       pat::MET  met = srcH->at(i);
       math::XYZTLorentzVector unclustered =-met.p4()-originalVector;

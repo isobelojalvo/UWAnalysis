@@ -21,6 +21,9 @@
 
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 
+#include "FWCore/Framework/interface/ConsumesCollector.h"
+#include "FWCore/Framework/interface/EDConsumerBase.h"
+
 
 #include <TTree.h>
 
@@ -45,8 +48,8 @@ class EventTreeMaker : public edm::EDAnalyzer {
 			t->Branch("LUMI",&LUMI,"LUMI/i");
 			t->Branch("lumi",&LUMI,"lumi/i");
 			t->Branch("GENWEIGHT",&GENWEIGHT,"GENWEIGHT/F"); 
- 			src_ = iConfig.getParameter<edm::InputTag>("genEvent");
-			coreColl = iConfig.getParameter<std::vector<edm::InputTag> >("coreCollections");
+ 			src_ = consumes<GenEventInfoProduct>(iConfig.getParameter<edm::InputTag>("genEvent"));
+			coreColl = consumes<edm::View<reco::Candidate> >(iConfig.getParameter<edm::InputTag>("coreCollections"));
 
 			std::vector<std::string> branchNames = iConfig.getParameterNamesForType<edm::ParameterSet>();
 			for ( std::vector<std::string>::const_iterator branchName = branchNames.begin(); 
@@ -55,7 +58,7 @@ class EventTreeMaker : public edm::EDAnalyzer {
 
 				edm::ParameterSet ntupleFillerCfg = iConfig.getParameter<edm::ParameterSet>(*branchName);
 				std::string fillerPlugin = ntupleFillerCfg.getParameter<std::string>("pluginType");
-				NtupleFillerBase* filler = NtupleFillerFactory::get()->create(fillerPlugin,ntupleFillerCfg,t);
+				NtupleFillerBase* filler = NtupleFillerFactory::get()->create(fillerPlugin,ntupleFillerCfg,t,consumesCollector());
 				fillers.push_back(filler);
 
 			}
@@ -75,7 +78,7 @@ class EventTreeMaker : public edm::EDAnalyzer {
 			plugins.insert(plugins.end(),z2l2.begin(),z2l2.end());
 			for (std::vector<edm::ParameterSet>::const_iterator branch = plugins.begin(); branch != plugins.end(); ++branch){
 				std::string fillerPlugin = branch->getParameter<std::string>("pluginType");
-				NtupleFillerBase* filler = NtupleFillerFactory::get()->create(fillerPlugin,*branch,t);
+				NtupleFillerBase* filler = NtupleFillerFactory::get()->create(fillerPlugin,*branch,t,consumesCollector());
 				fillers.push_back(filler);
 			}
 
@@ -100,18 +103,15 @@ class EventTreeMaker : public edm::EDAnalyzer {
 			LUMI   = iEvent.luminosityBlock();
 			edm::Handle<GenEventInfoProduct> genEvt;
  			GENWEIGHT = 1;
- 			if(iEvent.getByLabel(src_,genEvt)) {
- 			  //value = handle->filterEfficiency();
+ 			if(iEvent.getByToken(src_,genEvt)) {
  			  if (genEvt->weight()<0) GENWEIGHT=-1;
  			}
 
 			bool doFill=false;
-			for(unsigned int i=0;i<coreColl.size();++i) {
-				edm::Handle<edm::View<reco::Candidate> > handle;
-				if(iEvent.getByLabel(coreColl.at(i),handle))
-					if(handle->size()>0)
-						doFill=true;
-			}
+			edm::Handle<edm::View<reco::Candidate> > handle;
+			if(iEvent.getByToken(coreColl,handle))
+				if(handle->size()>0)
+					doFill=true;
 
 			if(doFill) {
 				for(unsigned int i=0;i<fillers.size();++i)
@@ -130,8 +130,8 @@ class EventTreeMaker : public edm::EDAnalyzer {
 		unsigned int LUMI;
 		float GENWEIGHT;
 
-		edm::InputTag src_;
-		std::vector<edm::InputTag> coreColl;
+		edm::EDGetTokenT<GenEventInfoProduct> src_;
+		edm::EDGetTokenT<edm::View<reco::Candidate> > coreColl;
 		std::vector<NtupleFillerBase*> fillers;
 
 };	 
