@@ -37,26 +37,30 @@ int main (int argc, char* argv[])
    
    char TreeToUse[80]="first" ;
 
-   TFile *fProduce = new TFile("dummy","UPDATE");
+   TFile *fProduce;//= new TFile(parser.stringValue("newFile").c_str(),"UPDATE");
 
-   TFile *f = new TFile(parser.stringValue("outputFile").c_str(),"UPDATE");
+
 
    //if(parser.boolValue("--newOutputFile")){
    if(parser.doubleValue("newOutputFile")>0){
+   TFile *f = new TFile(parser.stringValue("outputFile").c_str(),"READ");
      std::cout<<"Creating new outputfile"<<std::endl;
      std::string newFileName = parser.stringValue("newFile");
-     fProduce = new TFile(newFileName.c_str(),"UPDATE");
+
+     fProduce = new TFile(newFileName.c_str(),"RECREATE");
      copyFiles(parser, f, fProduce);//new TFile(parser.stringValue("outputFile").c_str()+"SVFit","UPDATE");
+     fProduce = new TFile(newFileName.c_str(),"UPDATE");
      std::cout<<"listing the directories================="<<std::endl;
      fProduce->ls();
      readdir(fProduce,parser,TreeToUse);
+     fProduce->Close();
+     f->Close();
    }
    else{
+     TFile *f = new TFile(parser.stringValue("outputFile").c_str(),"UPDATE");
      readdir(f,parser,TreeToUse);
+     f->Close();
    }
-   f->Close();
-   fProduce->Close();
-
 
 
 } 
@@ -68,7 +72,7 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
   TIter next(dir->GetListOfKeys());
   TKey *key;
   char stringA[80]="first";
-  //dir->cd();      
+  dir->cd();      
   while ((key = (TKey*)next())) {
     printf("Found key=%s \n",key->GetName());
 
@@ -172,13 +176,26 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
         t->SetBranchAddress("t2Eta",&eta2);
         t->SetBranchAddress("t2Phi",&phi2);
         t->SetBranchAddress("t1DecayMode",&decayMode);
-        t->SetBranchAddress("t2DecayMode",&decayMode2);
+        t->SetBranchAddress("t2DecayMode",&decayMode2);/*
+        t->SetBranchAddress("mvaMetCov00",&covMatrix00);
+        t->SetBranchAddress("mvaMetCov01",&covMatrix01);
+        t->SetBranchAddress("mvaMetCov10",&covMatrix10);
+        t->SetBranchAddress("mvaMetCov11",&covMatrix11);
+	t->SetBranchAddress("mvaMetEt",&met);
+	t->SetBranchAddress("mvaMetPhi",&metphi);
+ mvaMetCov00     = 267.274
+ mvaMetCov01     = 193.226
+ mvaMetCov10     = 193.226
+ mvaMetCov11     = 336.776
+ mvaMetEt        = 30.5186
+ mvaMetPhi       = -0.874371*/
         t->SetBranchAddress("t1_t2_TTpairMvaMetCovMatrix00",&covMatrix00);
         t->SetBranchAddress("t1_t2_TTpairMvaMetCovMatrix01",&covMatrix01);
         t->SetBranchAddress("t1_t2_TTpairMvaMetCovMatrix10",&covMatrix10);
         t->SetBranchAddress("t1_t2_TTpairMvaMetCovMatrix11",&covMatrix11);
         t->SetBranchAddress("t1_t2_TTpairMvaMet",&met);
         t->SetBranchAddress("t1_t2_TTpairMvaMetPhi",&metphi);
+
       }
 
       else if(channel=="em") {
@@ -187,7 +204,15 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
         t->SetBranchAddress("ePhi",&phi1);
         t->SetBranchAddress("mPt",&pt2);
         t->SetBranchAddress("mEta",&eta2);
-        t->SetBranchAddress("mPhi",&phi2);
+        t->SetBranchAddress("mPhi",&phi2);/*
+        t->SetBranchAddress("mvaMetCov00",&covMatrix00);
+        t->SetBranchAddress("mvaMetCov01",&covMatrix01);
+        t->SetBranchAddress("mvaMetCov10",&covMatrix10);
+        t->SetBranchAddress("mvaMetCov11",&covMatrix11);
+	t->SetBranchAddress("mvaMetEt",&met);
+	t->SetBranchAddress("mvaMetPhi",&metphi);
+*/
+	
         t->SetBranchAddress("e_m_EMpairMvaMetCovMatrix00",&covMatrix00);
         t->SetBranchAddress("e_m_EMpairMvaMetCovMatrix01",&covMatrix01);
         t->SetBranchAddress("e_m_EMpairMvaMetCovMatrix10",&covMatrix10);
@@ -205,10 +230,10 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
         t->SetBranchAddress("phi_2",&phi2);
         t->SetBranchAddress("t1DecayMode",&decayMode);
         t->SetBranchAddress("t2DecayMode",&decayMode2);
-        t->SetBranchAddress("covMatrix00",&covMatrix00);
-        t->SetBranchAddress("covMatrix01",&covMatrix01);
-        t->SetBranchAddress("covMatrix10",&covMatrix10);
-        t->SetBranchAddress("covMatrix11",&covMatrix11);
+        t->SetBranchAddress("mvacov00",&covMatrix00);
+        t->SetBranchAddress("mvacov01",&covMatrix01);
+        t->SetBranchAddress("mvacov10",&covMatrix10);
+        t->SetBranchAddress("mvacov11",&covMatrix11);
         t->SetBranchAddress("mvamet",&met);
         t->SetBranchAddress("mvametphi",&metphi);
       }
@@ -274,7 +299,7 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 	  	  svFitStandalone::MeasuredTauLepton(decayType2,  pt2, eta2, phi2,  mass2, decayMode)
 	  				 ); // tau -> 1prong0pi0 hadronic decay (Pt, eta, phi, mass, pat::Tau.decayMode())
         
-	    SVfitStandaloneAlgorithm algo(measuredTauLeptons, measuredMETx, measuredMETy, covMET, 1);
+	    SVfitStandaloneAlgorithm algo(measuredTauLeptons, measuredMETx, measuredMETy, covMET, 0);
 
 	    algo.addLogM(false);  
 	    algo.integrateMarkovChain();
@@ -356,6 +381,7 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 	  newBranch4->Fill();
 	  newBranch5->Fill();
 	}
+      dir->cd();
       t->Write("",TObject::kOverwrite);
       strcpy(TreeToUse,stringA) ;
 
