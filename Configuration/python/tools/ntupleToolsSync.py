@@ -236,8 +236,8 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauPt = makeMuTauPair(src,"pth","pt"),#FILLED
                               muTauHT = makeMuTauPair(src,"ht","ht"),#FILLED
                               muTauMass = makeMuTauPair(src,"m_vis","mass"),#FILLED
-                              muTauSVPt = makeMuTauPair(src,"pt_sv","svPt"),#FIXME
-                              muTauSVMass = makeMuTauPair(src,"m_sv","svMass"),#FILLED
+                              muTauSVPt = makeMuTauPair(src,"svPt","svPt"),#FIXME
+                              muTauSVMass = makeMuTauPair(src,"svMass","svMass"),#FILLED
 
                               muTauFullPt = makeMuTauPair(src,"fullPt","fullPt"),#FILLED
                               muTauEta = makeMuTauPair(src,"fullEta","fullEta"),#FILLED
@@ -519,8 +519,8 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               eleTauPt = makeEleTauPair(src,"pt","pt"),
                               eleTauHT = makeEleTauPair(src,"ht","ht"),
                               eleTauMass = makeEleTauPair(src,"m_vis","mass"),
-                              eleTauSVPt = makeEleTauPair(src,"pt_sv","svPt"),
-                              eleTauSVMass = makeEleTauPair(src,"m_sv","svMass"),
+                              eleTauSVPt = makeEleTauPair(src,"svPt","svPt"),
+                              eleTauSVMass = makeEleTauPair(src,"svMass","svMass"),
 
                               eleTauFullPt = makeEleTauPair(src,"fullPt","fullPt"),
                               eleTauEta = makeEleTauPair(src,"fullEta","fullEta"),

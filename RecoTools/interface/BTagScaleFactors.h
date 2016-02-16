@@ -132,7 +132,7 @@ class BTagScaleFactors
 
   std::pair<double,double> CSVMedium1( JetPtrVector jets , bool top ){
  
-    double bdisc = 0.814;
+    double bdisc = 0.8;
     double EffWEIGHTCSVM1 = 0;
     double EffWEIGHTCSVM1err = 0;
     ///==================================================================    ////Medium Jet Atleast 1  
@@ -352,8 +352,7 @@ class BTagScaleFactors
     double SF2err = 0;
     double EffWEIGHTCSVM2 = 0; 
     double EffWEIGHTCSVM2err = 0;
-    double bdisc = 0.814;
-    //cout<< "Btag7" << endl;
+    double bdisc = 0.8;
     if(jets.size()>1&&jets.at(0)->pt()>20&&jets.at(1)->pt()>20)
     if(jets.at(0)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>bdisc&&jets.at(1)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>bdisc){
       jetpt0 = jets.at(0)->pt(); //define pt,eta,flavor

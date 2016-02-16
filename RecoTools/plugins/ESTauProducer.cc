@@ -75,10 +75,10 @@ ESTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 
 				if(object.decayMode()==1||object.decayMode()==2||object.decayMode()==10){
 					if(object.decayMode()==1||object.decayMode()==2){
-						finalP4 = (object.p4())* (1.012);
+						finalP4 = (object.p4())* (1.03);
 					}
 					else if(object.decayMode()==10){
-						finalP4 = (object.p4())* (1.012);
+						finalP4 = (object.p4())* (1.03);
 
 					}
 

@@ -6,28 +6,10 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_v13'
 
 
-process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
-)
-
-
-
-process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring(
-'/store/mc/RunIIFall15MiniAODv2/SUSYGluGluToHToTauTau_M-160_TuneCUETP8M1_13TeV-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/60000/98ACE26B-05BC-E511-8AA4-001EC9ADCD7A.root'
-#'file:/hdfs/store/mc/RunIIFall15MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/70000/C0BD1DB7-D5B8-E511-A52D-0025907253B6.root'
-     
-		),
-		inputCommands=cms.untracked.vstring(
-						'keep *',
-						'keep *_l1extraParticles_*_*',
-		)
-)
-
 
 #added in etau and mutau triggers
 #from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
-from UWAnalysis.Configuration.tools.analysisToolsHTauTauSync import *
+from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import *
 defaultReconstructionMC(process,'HLT',
                       [
 			'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v1',#etau
@@ -73,10 +55,10 @@ createGeneratedParticles(process,
 			 ]				 
 			)
 
-from UWAnalysis.Configuration.tools.ntupleToolsSync import addMuTauEventTree
+from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
 
-from UWAnalysis.Configuration.tools.ntupleToolsSync import addEleTauEventTree
+from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addEleTauEventTree
 addEleTauEventTree(process,'eleTauEventTree')
 
 addEventSummary(process,True,'MT','eventSelectionMT')
@@ -99,20 +81,29 @@ process.eventSelectionETJetDown  = createSystematics(process,process.selectionSe
 #Final trees afor shapes after shifts
 addMuTauEventTree(process,'muTauEventTreeTauUp','muTausSortedTauUp','osDiMuonsTauUp')
 addMuTauEventTree(process,'muTauEventTreeTauDown','muTausSortedTauDown','osDiMuonsTauDown')
-addMuTauEventTree(process,'muTauEventTreeFinalTauUp','muTausOSTauUp','osDiMuonsTauUp')
-addMuTauEventTree(process,'muTauEventTreeFinalTauDown','muTausOSTauDown','osDiMuonsTauDown')
 addMuTauEventTree(process,'muTauEventTreeJetUp','muTausSortedJetUp','osDiMuonsJetUp')
 addMuTauEventTree(process,'muTauEventTreeJetDown','muTausSortedJetDown','osDiMuonsJetDown')
-addMuTauEventTree(process,'muTauEventTreeFinalJetUp','muTausOSJetUp','osDiMuonsJetUp')
-addMuTauEventTree(process,'muTauEventTreeFinalJetDown','muTausOSJetDown','osDiMuonsJetDown')
 
 addEleTauEventTree(process,'eleTauEventTreeTauUp','eleTausSortedTauUp','osDiElectronsTauUp')
 addEleTauEventTree(process,'eleTauEventTreeTauDown','eleTausSortedTauDown','osDiElectronsTauDown')
-addEleTauEventTree(process,'eleTauEventTreeFinalTauUp','eleTausOSTauUp','osDiElectronsTauUp')
-addEleTauEventTree(process,'eleTauEventTreeFinalTauDown','eleTausOSTauDown','osDiElectronsTauDown')
 addEleTauEventTree(process,'eleTauEventTreeJetUp','eleTausSortedJetUp','osDiElectronsJetUp')
 addEleTauEventTree(process,'eleTauEventTreeJetDown','eleTausSortedJetDown','osDiElectronsJetDown')
-addEleTauEventTree(process,'eleTauEventTreeFinalJetUp','eleTausOSJetUp','osDiElectronsJetUp')
-addEleTauEventTree(process,'eleTauEventTreeFinalJetDown','eleTausOSJetDown','osDiElectronsJetDown')
 
-#
+process.source = cms.Source("PoolSource",
+    fileNames = cms.untracked.vstring(
+       $inputFileNames
+		),
+		inputCommands=cms.untracked.vstring(
+						'keep *',
+		)
+)
+
+process.maxEvents = cms.untracked.PSet(
+    input = cms.untracked.int32(-1)
+)
+
+#process.TFileService.fileName=cms.string("$outputFileName")
+process.TFileService = cms.Service(
+    "TFileService",
+    fileName = cms.string("$outputFileName")
+)

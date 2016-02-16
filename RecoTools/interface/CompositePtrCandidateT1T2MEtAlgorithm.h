@@ -111,7 +111,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     JetPtrVector cleanedJetsCSVsorted;
     JetPtrVector cleanedJets20;
 
-    //Use jets >30 for Phil's CALIBRATOR. Change it if you need different
     int njets30=0;
     int njetsW30=0;
     for(unsigned int i=0;i<pfJets.size();++i){ 
@@ -135,12 +134,33 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     	
     }
 
-    ///////implementing MIT's buggy code :(
     // Memory leak here
     bool bTagEvent = false;
     int nbtags = 0;
+/*
+    // Memory leak here
+    //Can implement new btag thing here when time comes
+    if(IsRealData){
+      isdata=1;
+    }
 
-   //Can implement new btag thing here when time comes
+    for(unsigned int k=0; k<cleanedJets.size();k++){
+      btagged = false;
+
+
+      if(cleanedJets.at(k)->pt()>20&&fabs(cleanedJets.at(k)->eta())<2.4){
+	btagged = btsf_->isbtagged(cleanedJets.at(k)->pt(), cleanedJets.at(k)->eta(),cleanedJets.at(k)->bDiscriminator("combinedSecondaryVertexBJetTags"),cleanedJets.at(k)->partonFlavour(), isdata , 0, 0, true);
+	
+      }
+      
+      
+      if(btagged){
+	bTagEvent=true;
+	nbtags +=1;
+      }
+
+    }
+  */  
 
     compositePtrCandidate.setEventBTag(bTagEvent);
     compositePtrCandidate.setNBTags(nbtags);
@@ -393,8 +413,8 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 	  pdgIds.push_back(-15);
 
 
-	  const reco::GenParticle* genLeg1 = findGenParticle(compositePtrCandidate.leg1()->p4(), *genParticles, 0.5, -1);
-	  const reco::GenParticle* genTau1 = findGenParticle(compositePtrCandidate.leg1()->p4(), *genParticles, 0.5, -1,&pdgIds,true);
+	  const reco::GenParticle* genLeg1 = findGenParticle(compositePtrCandidate.leg1()->p4(), *genParticles, 0.2, -1);
+	  const reco::GenParticle* genTau1 = findGenParticle(compositePtrCandidate.leg1()->p4(), *genParticles, 0.2, -1,&pdgIds,true);
 	  if ( genLeg1 ) {
 		  //std::cout << "genLeg1: Pt = " << genLeg1->pt() << ", eta = " << genLeg1->eta() << ", pdgId = " << genLeg1->pdgId() 
 		 // 	  << " phi = " << genLeg1->phi()*180./TMath::Pi() << std::endl;
@@ -419,8 +439,8 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 		  compositePtrCandidate.setP4VisLeg1gen(getVisMomentum(genTau1, genParticles));
 
 	  }    
-	  const reco::GenParticle* genLeg2 = findGenParticle(compositePtrCandidate.leg2()->p4(), *genParticles, 0.5, -1);
-	  const reco::GenParticle* genTau2 = findGenParticle(compositePtrCandidate.leg2()->p4(), *genParticles, 0.5, -1,&pdgIds,true);    
+	  const reco::GenParticle* genLeg2 = findGenParticle(compositePtrCandidate.leg2()->p4(), *genParticles, 0.2, -1);
+	  const reco::GenParticle* genTau2 = findGenParticle(compositePtrCandidate.leg2()->p4(), *genParticles, 0.2, -1,&pdgIds,true);    
 	  if ( genLeg2 ) {
 		  //  std::cout << "genLeg2: Pt = " << genLeg2->pt() << ", eta = " << genLeg2->eta() << ", pdgId = " << genLeg2->pdgId() << std::endl;
 		  //	  << " phi = " << genLeg2->phi()*180./TMath::Pi() << std::endl;

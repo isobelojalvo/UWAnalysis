@@ -33,6 +33,9 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   TriggerPaths= triggerPaths
   process.analysisSequence = cms.Sequence()
 
+
+  EScaledTaus(process,False)
+
   #mvaMet(process)
   mvaPairMet(process)
   metSignificance(process)
@@ -43,7 +46,7 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   #Add trigger Matching
   muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID") 
   electronTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODElectronVID") 
-  tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"slimmedTaus") #ESTaus
+  tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"ESTausID") #ESTaus
   
   #Build good vertex collection
   #goodVertexFilter(process)  
@@ -80,12 +83,13 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   TriggerPaths= triggerPaths
   process.analysisSequence = cms.Sequence()
 
+  #Apply Tau Energy Scale Changes
+  EScaledTaus(process,False)
+
   #mvaMet(process)
   mvaPairMet(process)
   metSignificance(process)
 
-  #Apply Tau Energy Scale Changes
-  #EScaledTaus(process,False)
 
   MiniAODEleVIDEmbedder(process,"slimmedElectrons")  
   MiniAODMuonIDEmbedder(process,"slimmedMuons")  
@@ -93,8 +97,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   #Add trigger Matching
   muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID")#NEW
   electronTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODElectronVID")#NEW
-  #tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"ESTausID") #slimmedTaus")
-  tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"slimmedTaus")
+  tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"ESTausID") #slimmedTaus")
   
   #Build good vertex collection
   #goodVertexFilter(process)  
@@ -282,7 +285,7 @@ def mvaPairMet(process):
    process.mvaMETTauMu.srcRho = cms.InputTag("fixedGridRhoFastjetAll")
    process.mvaMETTauMu.srcLeptons = cms.VInputTag(
       cms.InputTag("slimmedMuons"), 
-      cms.InputTag("slimmedTaus")
+      cms.InputTag("ESTausID") #slimmedTaus
    )
    process.mvaMETTauMu.permuteLeptons = cms.bool(True)
 
@@ -294,7 +297,7 @@ def mvaPairMet(process):
    process.mvaMETTauEle.srcRho = cms.InputTag("fixedGridRhoFastjetAll")
    process.mvaMETTauEle.srcLeptons = cms.VInputTag(
       cms.InputTag("slimmedElectrons"), 
-      cms.InputTag("slimmedTaus")
+      cms.InputTag("ESTausID") #slimmedTaus
    )
    process.mvaMETTauEle.permuteLeptons = cms.bool(True)
 

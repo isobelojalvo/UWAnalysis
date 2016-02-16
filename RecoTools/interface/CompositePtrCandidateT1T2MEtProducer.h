@@ -282,16 +282,16 @@ class CompositePtrCandidateT1T2MEtProducer : public edm::EDProducer
 							const pat::MET& met = (*metCollection)[i];
 
 
-	 						double l1pt = (round(leg1Ptr->pt()*1000))/1000.0;
+	 						//double l1pt = (round(leg1Ptr->pt()*1000))/1000.0;
 	 						double l1eta = (round(leg1Ptr->eta()*1000))/1000.0;
 	 						double l1phi = (round(leg1Ptr->phi()*1000))/1000.0;
-	 						double l2pt = (round(leg2Ptr->pt()*1000))/1000.0;
+	 						//double l2pt = (round(leg2Ptr->pt()*1000))/1000.0;
 	 						double l2eta = (round(leg2Ptr->eta()*1000))/1000.0;
 	 						double l2phi = (round(leg2Ptr->phi()*1000))/1000.0;
-	 						double m1pt = (round(met.userCand("lepton1")->pt()*1000))/1000.0;
+	 						//double m1pt = (round(met.userCand("lepton1")->pt()*1000))/1000.0;
 	 						double m1eta = (round(met.userCand("lepton1")->eta()*1000))/1000.0;
 	 						double m1phi = (round(met.userCand("lepton1")->phi()*1000))/1000.0;
-	 						double m2pt = (round(met.userCand("lepton2")->pt()*1000))/1000.0;
+	 						//double m2pt = (round(met.userCand("lepton2")->pt()*1000))/1000.0;
 	 						double m2eta = (round(met.userCand("lepton2")->eta()*1000))/1000.0;
 	 						double m2phi = (round(met.userCand("lepton2")->phi()*1000))/1000.0;
 							
