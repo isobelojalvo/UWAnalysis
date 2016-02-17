@@ -21,10 +21,9 @@
 
 void copyFiles( optutl::CommandLineParser parser, TFile* fOld, TFile* fNew) ;
 void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]) ;
-//void copyFiles( optutl::CommandLineParser parser, TFile* fOld, TFile* fNew);
 void CopyFile(const char *fname, optutl::CommandLineParser parser);
 void CopyDir(TDirectory *source,optutl::CommandLineParser parser);
-float runSVFit(std::vector<svFitStandalone::MeasuredTauLepton> & measuredTauLeptons, double measuredMETx, double measuredMETy, TMatrixD &covMET, float num);
+void runSVFit(std::vector<svFitStandalone::MeasuredTauLepton> & measuredTauLeptons, double measuredMETx, double measuredMETy, TMatrixD &covMET, float num, float &svFitMass, float& svFitPt, float &svFitEta, float &svFitPhi, float &svFitMET);
 
 int main (int argc, char* argv[]) 
 {
@@ -32,16 +31,13 @@ int main (int argc, char* argv[])
    parser.addOption("branch",optutl::CommandLineParser::kString,"Branch","__svFit__");
    parser.addOption("newFile",optutl::CommandLineParser::kString,"newFile","newFile");
    parser.addOption("newOutputFile",optutl::CommandLineParser::kDouble,"New Output File",0.0);
-   //parser.addOption("--newOutputFile",optutl::CommandLineParser::kBool,"NewOutputFile",true);
+
    parser.parseArguments (argc, argv);
    
    char TreeToUse[80]="first" ;
 
    TFile *fProduce;//= new TFile(parser.stringValue("newFile").c_str(),"UPDATE");
 
-
-
-   //if(parser.boolValue("--newOutputFile")){
    if(parser.doubleValue("newOutputFile")>0){
    TFile *f = new TFile(parser.stringValue("outputFile").c_str(),"READ");
      std::cout<<"Creating new outputfile"<<std::endl;
@@ -93,16 +89,18 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
       float svFitMET = -10;
       //TBranch *newBranch = t->Branch(parser.stringValue("branch").c_str(),&svFitMass,(parser.stringValue("branch")+"/F").c_str());
       TBranch *newBranch1 = t->Branch("m_sv", &svFitMass, "m_sv/F");
-      TBranch *newBranch2 = t->Branch("pt_sv", &svFitPt, "pt_sv/F");
+      TBranch *newBranch2 = t->Branch("p_sv", &svFitPt, "pt_sv/F");
       TBranch *newBranch3 = t->Branch("eta_sv", &svFitEta, "eta_sv/F");
       TBranch *newBranch4 = t->Branch("phi_sv", &svFitPhi, "phi_sv/F");
       TBranch *newBranch5 = t->Branch("met_sv", &svFitMET, "met_sv/F");
+      unsigned int evt, run, lumi;
       float pt1;
       float eta1;
       float phi1;
       float pt2;
       float eta2;
       float phi2;
+      float m2;
       float decayMode;
       float decayMode2;
       float covMatrix00;
@@ -127,15 +125,16 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
       if(std::string(TreeToUse).find("muTauEvent")!= std::string::npos){
 	decayType1 = svFitStandalone::kTauToMuDecay;
 	decayType2 = svFitStandalone::kTauToHadDecay; 
-	mass1 = 105.658e-3;
-	mass2 = 0.13957;
+	mass1 = 0.105658;
+	mass2 = 0;
 	channel = "mt";
       }
       else if(std::string(TreeToUse).find("eleTauEvent")!= std::string::npos){
+	std::cout<<"eleTauTree"<<std::endl;
 	decayType1 = svFitStandalone::kTauToElecDecay;
 	decayType2 = svFitStandalone::kTauToHadDecay;
-	mass1 = 0.51100e-3;
-	mass2 = 0.13957;
+	mass1 = 0.00051100;
+	mass2 = 0;
 	channel = "et";
       }
       //else if(parser.stringValue("outputFile").find("_em.root") != std::string::npos){
@@ -144,8 +143,8 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
         std::cout<< "EMu sample" <<std::endl;
 	decayType1 = svFitStandalone::kTauToElecDecay;
 	decayType2 = svFitStandalone::kTauToMuDecay;
-	mass1 = 0.51100e-3;
-	mass2 = 105.658e-3;
+	mass1 = 0.00051100;
+	mass2 = 0;
 	channel = "em";
       }
       //else if(parser.stringValue("outputFile").find("_tt.root") != std::string::npos){
@@ -220,15 +219,18 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
         t->SetBranchAddress("e_m_EMpairMvaMet",&met);
         t->SetBranchAddress("e_m_EMpairMvaMetPhi",&metphi);
       }
-
       else {
+	t->SetBranchAddress("EVENT",&evt);
+	t->SetBranchAddress("run",&run);
+	t->SetBranchAddress("lumi",&lumi);
         t->SetBranchAddress("pt_1",&pt1,&pt1branch);
         t->SetBranchAddress("eta_1",&eta1);
         t->SetBranchAddress("phi_1",&phi1);
         t->SetBranchAddress("pt_2",&pt2);
         t->SetBranchAddress("eta_2",&eta2);
         t->SetBranchAddress("phi_2",&phi2);
-        t->SetBranchAddress("t1DecayMode",&decayMode);
+        t->SetBranchAddress("m_2",&m2);
+        t->SetBranchAddress("tauDecayMode",&decayMode);
         t->SetBranchAddress("t2DecayMode",&decayMode2);
         t->SetBranchAddress("mvacov00",&covMatrix00);
         t->SetBranchAddress("mvacov01",&covMatrix01);
@@ -247,46 +249,19 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 	  
 	  measuredMETx = met*TMath::Cos(metphi);
 	  measuredMETy = met*TMath::Sin(metphi);
-	  /*
-	  if(measuredMETx<0.0001){
-	    std::cout<<"something seems funny with measuredMETx closing"<<std::endl;
-	    std::cout<<"measuredMETx "<<measuredMETx<<" measuredMETy "<<measuredMETy<<" met "<< met<<" metphi "<< metphi<<std::endl;
-	    std::cout<<"TLorentz MetX "<<TMet.Px() <<std::endl;
-	    std::cout<<"TLorentz MetY "<<TMet.Py() <<std::endl;
-	    return;
-	    }*/
-	  ////if(decayMode==0)
-	  ////  mass2 = 0.13957;
-	  ////else if(decayMode==1)
-	  ////  mass2 = 0.13957*2;
-	  ////else if(decayMode==3)
-	  ////  mass2 = 0.13957*3;
+
 	  if(channel=="et" || channel=="mt"){
+	    mass2 = m2;
 	    if(decayMode==0)
-	      mass2 = 0.13957;
-	    else if(decayMode==1)
-	      mass2 = 0.13957*2;
-	    else if(decayMode==3)
-	      mass2 = 0.13957*3;}
-	  if(channel=="tt"){
-	    if(decayMode==0)
-	      mass1 = 0.13957;
-	    else if(decayMode==1)
-	      mass1 = 0.13957*2;
-	    else if(decayMode==3)
-	      mass1 = 0.13957*3;
-	    if(decayMode2==0)
-	      mass2 = 0.13957;
-	    else if(decayMode2==1)
-	      mass2 = 0.13957*2;
-	    else if(decayMode2==3)
-	      mass2 = 0.13957*3;}
-	  
+	    mass2 = 0.13957;
+	  }
+	  //mods needed for tau tau here
+
 	  covMET[0][0] =  covMatrix00;
 	  covMET[1][0] =  covMatrix10;
 	  covMET[0][1] =  covMatrix01;
 	  covMET[1][1] =  covMatrix11;
-	  
+	  //std::cout<<"getting decay mode "<< decayMode<<std::endl;
 	  if(decayMode==0||decayMode==1||decayMode==10){
 	    // define lepton four vectors
 	    std::vector<svFitStandalone::MeasuredTauLepton> measuredTauLeptons;
@@ -298,23 +273,28 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 	    measuredTauLeptons.push_back(
 	  	  svFitStandalone::MeasuredTauLepton(decayType2,  pt2, eta2, phi2,  mass2, decayMode)
 	  				 ); // tau -> 1prong0pi0 hadronic decay (Pt, eta, phi, mass, pat::Tau.decayMode())
-        
+	    std::cout<< "evt: "<<evt<<" run: "<<run<<" lumi: "<<lumi<< " pt1 " << pt1 << " mass1 " << mass1 << " pt2: "<< pt2<< " mass2: "<< mass2 <<std::endl;        
+	    runSVFit(measuredTauLeptons, measuredMETx, measuredMETy, covMET, 0, svFitMass, svFitPt, svFitEta, svFitPhi, svFitMET);
+	    std::cout<<"finished runningSVFit"<<std::endl;
+	    /*
 	    SVfitStandaloneAlgorithm algo(measuredTauLeptons, measuredMETx, measuredMETy, covMET, 0);
-
 	    algo.addLogM(false);  
+	    algo.shiftVisPt(true, inputFile_visPtResolution);
 	    algo.integrateMarkovChain();
 	    svFitMass = algo.getMass(); // return value is in units of GeV
-	    svFitPt = algo.pt();
+ 	    svFitPt = algo.pt();
 	    svFitEta = algo.eta();
 	    svFitPhi = algo.phi();
 	    svFitMET = algo.fittedMET().Rho();
 	    if ( algo.isValidSolution() ) {
+
 	      std::cout << "found mass = " << svFitMass << std::endl;
         }
 	    else {
 	      std::cout << "sorry -- status of NLL is not valid [" << algo.isValidSolution() << "]" << std::endl;
 	    }
-      } // eTau / muTau
+	    */
+	  } // eTau / muTau
 
 	  else if(channel=="em"){
 	    // define lepton four vectors
@@ -389,24 +369,27 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
   }
 }
 
+void runSVFit(std::vector<svFitStandalone::MeasuredTauLepton> & measuredTauLeptons, double measuredMETx, double measuredMETy, TMatrixD &covMET, float num, float &svFitMass, float& svFitPt, float &svFitEta, float &svFitPhi, float &svFitMET){
 
-float runSVFit(std::vector<svFitStandalone::MeasuredTauLepton> & measuredTauLeptons, double measuredMETx, double measuredMETy, TMatrixD &covMET, float num){
   edm::FileInPath inputFileName_visPtResolution("TauAnalysis/SVfitStandalone/data/svFitVisMassAndPtResolutionPDF.root");
   TH1::AddDirectory(false);  
   TFile* inputFile_visPtResolution = new TFile(inputFileName_visPtResolution.fullPath().data());  
-  float svFitMass = 0;
-  SVfitStandaloneAlgorithm algo(measuredTauLeptons, measuredMETx, measuredMETy, covMET, 1);
+  //float svFitMass = 0;
+  SVfitStandaloneAlgorithm algo(measuredTauLeptons, measuredMETx, measuredMETy, covMET, 0);
   algo.addLogM(false);  
   algo.shiftVisPt(true, inputFile_visPtResolution);
   algo.integrateMarkovChain();
   svFitMass = algo.getMass(); // return value is in units of GeV
+  svFitPt = algo.pt();
+  svFitEta = algo.eta();
+  svFitPhi = algo.phi();
+  svFitMET = algo.fittedMET().Rho();
   if ( algo.isValidSolution() ) {
     std::cout << "found mass = " << svFitMass << std::endl;
   } else {
     std::cout << "sorry -- status of NLL is not valid [" << algo.isValidSolution() << "]" << std::endl;
   }
   delete inputFile_visPtResolution;
-  return svFitMass;
 
 }
 
