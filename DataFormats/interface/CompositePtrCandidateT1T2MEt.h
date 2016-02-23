@@ -209,6 +209,8 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   double recoilDPhi() const {return recoilDPhi_;}
   double EventBTag() const {return EventBTag_;}
   double NBTags() const {return NBTags_;}
+  double NBTagsUp() const {return NBTagsUp_;}
+  double NBTagsDown() const {return NBTagsDown_;}
   TMatrixD covMatrix() const {return covMatrix_;}
 
 
@@ -456,6 +458,8 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   void setRecoilDPhi(double recoilDPhi) { recoilDPhi_ = recoilDPhi; }
   void setEventBTag(bool EventBTag) { EventBTag_ = EventBTag; }
   void setNBTags(int NBTags) { NBTags_ = NBTags; }
+  void setNBTagsUp(int NBTagsUp) { NBTagsUp_ = NBTagsUp; }
+  void setNBTagsDown(int NBTagsDown) { NBTagsDown_ = NBTagsDown; }
 
 
   //jet variables
@@ -587,6 +591,8 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   double recoilDPhi_;
   bool EventBTag_;
   int NBTags_;
+  int NBTagsUp_;
+  int NBTagsDown_;
 
   //jets
   std::vector<JetPtr> jets_;

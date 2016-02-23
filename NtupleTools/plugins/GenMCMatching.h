@@ -57,7 +57,8 @@ class GenMCMatching : public NtupleFillerBase {
 				else if (abs(handle->at(0).genPdg1())==13&&handle->at(0).isPrompt1()&&handle->at(0).p4Leg1gen().pt()>8){genMatch1=2;}
 				else if (abs(handle->at(0).genPdg1())==11&&handle->at(0).isDirectPromptTauDecayProduct1()&&handle->at(0).p4Leg1gen().pt()>8){genMatch1=3;}
 				else if (abs(handle->at(0).genPdg1())==13&&handle->at(0).isDirectPromptTauDecayProduct1()&&handle->at(0).p4Leg1gen().pt()>8){genMatch1=4;}
-				else if (abs(handle->at(0).genPdg1())==15&&handle->at(0).p4Leg1gen().pt()>15){genMatch1=5;}
+				else if (handle->at(0).p4VisLeg1gen().pt()>15){genMatch1=5;}
+				//else if (abs(handle->at(0).genPdg1())==15&&handle->at(0).p4VisLeg1gen().pt()>15){genMatch1=5;}
 				else {genMatch1=6;}
 
 
@@ -65,7 +66,8 @@ class GenMCMatching : public NtupleFillerBase {
 				else if (abs(handle->at(0).genPdg2())==13&&handle->at(0).isPrompt2()&&handle->at(0).p4Leg2gen().pt()>8){genMatch2=2;}
 				else if (abs(handle->at(0).genPdg2())==11&&handle->at(0).isDirectPromptTauDecayProduct2()&&handle->at(0).p4Leg2gen().pt()>8){genMatch2=3;}
 				else if (abs(handle->at(0).genPdg2())==13&&handle->at(0).isDirectPromptTauDecayProduct2()&&handle->at(0).p4Leg2gen().pt()>8){genMatch2=4;}
-				else if (abs(handle->at(0).genPdg2())==15&&handle->at(0).p4Leg2gen().pt()>15){genMatch2=5;}//FIXME to GenVis
+				else if (handle->at(0).p4VisLeg2gen().pt()>15){genMatch2=5;}//FIXME to GenVis
+				//else if (abs(handle->at(0).genPdg2())==15&&handle->at(0).p4VisLeg1gen().pt>15){genMatch2=5;}//FIXME to GenVis
 				else {genMatch2=6;}
 
 

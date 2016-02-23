@@ -71,7 +71,6 @@ class CompositePtrCandidateT1T2MEtProducer : public edm::EDProducer
 		//srcMET_ = consumes<reco::CandidateView>(cfg.getParameter<edm::InputTag>("srcMET"));
 		srcTaus_ =  consumes<std::vector<pat::Tau> >(cfg.getParameter<edm::InputTag>("srcTaus"));
 		srcGenParticles_ = consumes<reco::GenParticleCollection>(cfg.getParameter<edm::InputTag>("srcGenParticles")); 
-		//srcGenParticles_ = consumes<reco::GenParticleCollection>( cfg.exists("srcGenParticles") ? cfg.getParameter<edm::InputTag>("srcGenParticles") : edm::InputTag())
 		recoMode_ = cfg.getParameter<std::string>("recoMode");
 		verbosity_ = cfg.getUntrackedParameter<int>("verbosity", 0);
 		minPt_ = cfg.getUntrackedParameter<double>("minJetPt", 20.0);

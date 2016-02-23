@@ -42,9 +42,12 @@
 #include "Geometry/Records/interface/TrackerDigiGeometryRecord.h"
 #include "Geometry/CommonDetUnit/interface/GeomDet.h"
 #include "Geometry/TrackerGeometryBuilder/interface/GluedGeomDet.h"
-#include "UWAnalysis/RecoTools/interface/BTagScaleFactors.h"
 #include "DataFormats/Math/interface/LorentzVector.h"
 
+#include "UWAnalysis/RecoTools/interface/BTagScaleFactors.h"
+#include "UWAnalysis/RecoTools/interface/BTagPromoteDemote.h"
+//#include "CondFormats/BTauObjects/interface/BTagCalibration.h"
+//#include "CondFormats/BTauObjects/interface/BTagCalibrationReader.h"
 
 #include <TFile.h>
 #include <TH1F.h>
@@ -72,6 +75,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 
   void setMETCalibrator(METCalibrator * calibrator) {calibrator_ = calibrator;}
   void setBTagScaleFactor(BTagScaleFactors * bFactors) {bFactors_ = bFactors;}
+  void setBTSF(BtagSFV * btsf) {btsf_=  btsf;}
 
   TMatrixD convert_matrix(const ROOT::Math::SMatrix<double,2>& mat) const {
      TMatrixD output = TMatrixD(mat.kRows,mat.kCols, mat.Array());
@@ -137,7 +141,9 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     // Memory leak here
     bool bTagEvent = false;
     int nbtags = 0;
-/*
+    int nbtagsup = 0;
+    int nbtagsdown = 0;
+    int isdata = 0;
     // Memory leak here
     //Can implement new btag thing here when time comes
     if(IsRealData){
@@ -145,11 +151,16 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     }
 
     for(unsigned int k=0; k<cleanedJets.size();k++){
-      btagged = false;
+      bool btagged = false;
+      bool btaggedup = false;
+      bool btaggeddown = false;
 
 
-      if(cleanedJets.at(k)->pt()>20&&fabs(cleanedJets.at(k)->eta())<2.4){
-	btagged = btsf_->isbtagged(cleanedJets.at(k)->pt(), cleanedJets.at(k)->eta(),cleanedJets.at(k)->bDiscriminator("combinedSecondaryVertexBJetTags"),cleanedJets.at(k)->partonFlavour(), isdata , 0, 0, true);
+      if(cleanedJets.at(k)->pt()>30&&fabs(cleanedJets.at(k)->eta())<2.4){
+	btagged = btsf_->isbtagged(cleanedJets.at(k)->pt()<670. ? cleanedJets.at(k)->pt() : 670., cleanedJets.at(k)->eta(),cleanedJets.at(k)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"),cleanedJets.at(k)->partonFlavour(), isdata , 0, 0, true);
+	btaggedup = btsf_->isbtaggedup(cleanedJets.at(k)->pt()<670. ? cleanedJets.at(k)->pt() : 670., cleanedJets.at(k)->eta(),cleanedJets.at(k)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"),cleanedJets.at(k)->partonFlavour(), isdata , 0, 0, true);
+	btaggeddown = btsf_->isbtaggeddown(cleanedJets.at(k)->pt()<670. ? cleanedJets.at(k)->pt() : 670., cleanedJets.at(k)->eta(),cleanedJets.at(k)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"),cleanedJets.at(k)->partonFlavour(), isdata , 0, 0, true);
+	//btagged = btsf_->applySF(isb,sf,eff);
 	
       }
       
@@ -158,12 +169,16 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 	bTagEvent=true;
 	nbtags +=1;
       }
+      if (btaggedup) nbtagsup+=1;
+      if (btaggeddown) nbtagsdown+=1;
 
     }
-  */  
+    
 
     compositePtrCandidate.setEventBTag(bTagEvent);
     compositePtrCandidate.setNBTags(nbtags);
+    compositePtrCandidate.setNBTagsUp(nbtagsup);
+    compositePtrCandidate.setNBTagsDown(nbtagsdown);
     
     
 
@@ -253,7 +268,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     if ( genParticles ) {
       compGenQuantities(compositePtrCandidate, genParticles);
     }
-    //else { std::cout<< "noGenParticles: "<<genParticles<<std::endl;}
+    else { std::cout<< "noGenParticles: "<<genParticles<<std::endl;}
     //FIXME in pythia8
     //
 
@@ -457,7 +472,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 	  }
 	  if( genTau2 ){
 		  compositePtrCandidate.setP4VisLeg2gen(getVisMomentum(genTau2, genParticles));
-
 	  }
 
 	  float genBosonMass = getGenBosonMass(*genParticles);
@@ -780,6 +794,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 
   METCalibrator *calibrator_;
   BTagScaleFactors * bFactors_;
+  BtagSFV* btsf_; 
 
 
 
