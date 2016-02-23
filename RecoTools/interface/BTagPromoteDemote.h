@@ -26,11 +26,10 @@ class BtagSFV
 	public:
   
 
-
 		BtagSFV(const edm::ParameterSet& iConfig)
 		{
-
 		}
+
 
 
 		~BtagSFV() {
@@ -44,30 +43,8 @@ class BtagSFV
 		enum { kNo, kDown, kUp };                     // systematic variations 
 
 
-		Bool_t isbtagged(Float_t pt, Float_t eta, Float_t csv, Int_t jetflavor, Bool_t isdata, UInt_t btagsys, UInt_t mistagsys, Bool_t is2015)
+		bool isbtagged(Float_t pt, Float_t eta, Float_t csv, Int_t jetflavor, Bool_t isdata, UInt_t btagsys, UInt_t mistagsys, Bool_t is2015)
 		{
-
-			std:: cout << "BTag Calibration Creators" <<std::endl;
-			BTagCalibration btagcalib("CSVv2",string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_76.csv");
-			BTagCalibrationReader btag_reader_light(&btagcalib, BTagEntry::OP_MEDIUM, "incl", "central");
-			BTagCalibrationReader btag_reader_light_up(&btagcalib, BTagEntry::OP_MEDIUM, "incl", "up");
-			BTagCalibrationReader btag_reader_light_down(&btagcalib, BTagEntry::OP_MEDIUM, "incl", "down");
-			BTagCalibrationReader btag_reader(&btagcalib, BTagEntry::OP_MEDIUM, "mujets", "central");
-			BTagCalibrationReader btag_reader_up(&btagcalib, BTagEntry::OP_MEDIUM, "mujets", "up");  // sys up
-			BTagCalibrationReader btag_reader_down(&btagcalib, BTagEntry::OP_MEDIUM, "mujets", "down");  // sys down
-
-			std::cout << "Efficiency Creators" <<std::endl;
-			edm::FileInPath fipEffMap("UWAnalysis/Configuration/data/bTaggingEfficiency.root");
-			std::string path=fipEffMap.fullPath();
-			std::cout << "File In Path:" << path <<std::endl;
-			f_EffMap = new TFile(path.c_str(),"READONLY");
-			std:: cout << "f_EffMap " <<std::endl;
-
-			h2_EffMapB    = (TH2D*)f_EffMap->Get("effi/h2_BTaggingEff_b");
-			h2_EffMapC    = (TH2D*)f_EffMap->Get("effi/h2_BTaggingEff_c");
-			h2_EffMapUDSG = (TH2D*)f_EffMap->Get("effi/h2_BTaggingEff_udsg");
-			std:: cout << "TH2D Acquired" <<std::endl;
-
 			//btagged set to false
 			Bool_t btagged = kFALSE;
 
@@ -78,54 +55,84 @@ class BtagSFV
 				return btagged;
 			}
 
+			//std::cout << "Efficiency Creators" <<std::endl;
+			edm::FileInPath fipEffMap("UWAnalysis/Configuration/data/bTaggingEfficiency.root");
+			std::string path=fipEffMap.fullPath();
+			//std::cout << "File In Path:" << path <<std::endl;
+			TFile *f_EffMap = new TFile(path.c_str(),"READONLY");
+			//std:: cout << "f_EffMap " <<std::endl;
+
+			TH2D *h2_EffMapB    = (TH2D*)f_EffMap->Get("effi/h2_BTaggingEff_b");
+			TH2D *h2_EffMapC    = (TH2D*)f_EffMap->Get("effi/h2_BTaggingEff_c");
+			TH2D *h2_EffMapUDSG = (TH2D*)f_EffMap->Get("effi/h2_BTaggingEff_usdg");
+			std:: cout << "TH2D Acquired" <<std::endl;
+	
+			std:: cout << "BTag Calibration Creators" <<std::endl;
+			BTagCalibration btagcalib("CSVv2",string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_76.csv");
+			BTagCalibrationReader btag_reader_light(&btagcalib, BTagEntry::OP_MEDIUM, "incl", "central");
+			BTagCalibrationReader btag_reader_light_up(&btagcalib, BTagEntry::OP_MEDIUM, "incl", "up");
+			BTagCalibrationReader btag_reader_light_down(&btagcalib, BTagEntry::OP_MEDIUM, "incl", "down");
+			BTagCalibrationReader btag_reader(&btagcalib, BTagEntry::OP_MEDIUM, "mujets", "central");
+			BTagCalibrationReader btag_reader_up(&btagcalib, BTagEntry::OP_MEDIUM, "mujets", "up");  // sys up
+			BTagCalibrationReader btag_reader_down(&btagcalib, BTagEntry::OP_MEDIUM, "mujets", "down");  // sys down
+
 			cout<< "Efficiencies and SF set at start" <<endl;
 			Double_t SF = 0.0;
 			Double_t eff = 0.0; 
 			bool pass = false; 
 			if (csv>0.8) pass = true;
 
-			cout<< "JET" <<endl;
-			cout<< "pt: " <<pt<<endl;
-			cout<< "eta: " <<eta<<endl;
-			cout<< "flavor: " <<jetflavor<<endl;
-			cout<< "before SF: " <<SF<<endl;
-			cout<< "before eff: " <<eff<<endl;
-			cout<< "before pass: " <<eff<<endl;
+			//cout<< "JET" <<endl;
+			//cout<< "pt: " <<pt<<endl;
+			//cout<< "eta: " <<eta<<endl;
+			//cout<< "flavor: " <<jetflavor<<endl;
+			//cout<< "before SF: " <<SF<<endl;
+			//cout<< "before eff: " <<eff<<endl;
+			//cout<< "before pass: " <<eff<<endl;
 
 			if (fabs(jetflavor) == 5) {                // real b-jet
+				//cout<< "Flavor 5" <<endl;
 				SF = btag_reader.eval(BTagEntry::FLAV_B, eta, pt );
+				//eff = 0.80; 
 				eff = h2_EffMapB->GetBinContent( h2_EffMapB->GetXaxis()->FindBin(pt), h2_EffMapB->GetYaxis()->FindBin(fabs(eta)) );
 			}
 			else if (fabs(jetflavor) == 4) { 
+				//cout<< "Flavor 4" <<endl;
 				SF = btag_reader.eval(BTagEntry::FLAV_C, eta, pt );
+				//eff =0.06;
 				eff = h2_EffMapC->GetBinContent( h2_EffMapC->GetXaxis()->FindBin(pt), h2_EffMapC->GetYaxis()->FindBin(fabs(eta)) );
 			}  
 			else {
-				SF = btag_reader.eval(BTagEntry::FLAV_UDSG, eta, pt );
+				//cout<< "Flavor UDSG" <<endl;
+				SF = btag_reader_light.eval(BTagEntry::FLAV_UDSG, eta, pt );
+				//cout<< "Flavor UDSG: SF" <<endl;
+				//eff =0.02;
 				eff = h2_EffMapUDSG->GetBinContent( h2_EffMapUDSG->GetXaxis()->FindBin(pt), h2_EffMapUDSG->GetYaxis()->FindBin(fabs(eta)) );
+				//cout<< "Flavor UDSG: EFF" <<endl;
 			}
 
-			cout<< "after SF: " <<SF<<endl;
-			cout<< "after eff: " <<eff<<endl;
+			//cout<< "after SF: " <<SF<<endl;
+			//cout<< "after eff: " <<eff<<endl;
 
 			btagged = applySF(pass, SF, eff);
-			cout<< "after pass: " <<pass<<endl;
+			//cout<< "after pass: " <<pass<<endl;
 
-			cout<< "Gets To Return" <<endl;
+			//cout<< "Gets To Return" <<endl;
 			return btagged;
 		}
 
 
 		bool applySF(bool& isBTagged, float Btag_SF, float Btag_eff){
 			TRandom3 * rand_;
-			rand_ = new TRandom3(12345);
-	
+			rand_ = new TRandom3(0);
+			//rand_ = new TRandom3(12345);
+
 			bool newBTag = isBTagged;
 
 			if (Btag_SF == 1) return newBTag; //no correction needed 
 
 			//throw die
-			float coin = rand_->Uniform(1.);    
+			float coin = rand_->Uniform();    
 			std::cout<<"Uniform coin: "<<coin<<std::endl;
 
 			if(Btag_SF > 1){  // use this if SF>1
@@ -150,11 +157,4 @@ class BtagSFV
 		}
 
 
-
-
-	private:
-		TFile *f_EffMap;
-		TH2D *h2_EffMapB;
-		TH2D *h2_EffMapC;
-		TH2D *h2_EffMapUDSG;
 };
