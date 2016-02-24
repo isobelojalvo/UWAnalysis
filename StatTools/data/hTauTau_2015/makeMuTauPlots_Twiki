@@ -1,10 +1,10 @@
 #!/bin/sh
 #preselection='pt_1>19&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&tauIsoMedium>0.5&&tightMuons<=1&&tightElectrons==0&&againstMuonTight3_2>0&&againstElectronVLooseMVA6_2>0&&tauDecayMode!=5&&tauDecayMode!=6'
 preselection='pt_1>19&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&byTightIsolationMVArun2v1DBoldDMwLT_2>0.5&&tightMuons<=1&&tightElectrons==0&&againstMuonTight3_2>0&&againstElectronVLooseMVA6_2>0&&tauDecayMode!=5&&tauDecayMode!=6'
-extraselection='tauDecayMode!=5&&tauDecayMode!=6'
-bselection='tauDecayMode!=5&&tauDecayMode!=6&&nbtag>=1'
+extraselection='mt_1<40'
+bselection='mt_1<40&&nbtag>=1'
 wselection='mt_1>80'
-signalselection='mt_1<40'
+signalselection='mt_1>0'
 qcdselection=$inclselection
 trigselection='pt_1>0' #only for MC
 trigselectiondata='pt_1>0' #only for Data

@@ -9,7 +9,7 @@ qcdselection=$inclselection
 trigselection='pt_1>0' #only for MC
 trigselectiondata='pt_1>0' #only for Data
 relaxedSelection='pt_1>19&&pt_2>20&&npv>0&&diLeptons==0&&iso_1<0.1&&tauIsoMedium>0.5'
-luminosity=2315. #pb
+luminosity=2300. #pb
 #luminosity=2246. #pb
 direc='/nfs_scratch/laura/htt_weighted11/'
 datadirec='/nfs_scratch/laura/htt_unweighted11/'
