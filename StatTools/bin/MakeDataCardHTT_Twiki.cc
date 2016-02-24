@@ -22,10 +22,10 @@ int main (int argc, char* argv[])
 
 	//Input Selections
 	parser.addOption("preselection",optutl::CommandLineParser::kString,"preselection","");
-	parser.addOption("preselectiontwoprong",optutl::CommandLineParser::kString,"preselectiontwoprong","");
-	parser.addOption("inclSelection",optutl::CommandLineParser::kString,"inclSelection","");
-	parser.addOption("signalSelection",optutl::CommandLineParser::kString," Signal ","mt_1<30");
-	parser.addOption("wSelection",optutl::CommandLineParser::kString,"W sideband defintion ","mt_1>70");
+	parser.addOption("extraselection",optutl::CommandLineParser::kString,"extraselection","");
+	parser.addOption("inclselection",optutl::CommandLineParser::kString,"inclselection","");
+	parser.addOption("signalselection",optutl::CommandLineParser::kString," Signal ","mt_1<30");
+	parser.addOption("wselection",optutl::CommandLineParser::kString,"W sideband defintion ","mt_1>70");
 	parser.addOption("qcdSelection",optutl::CommandLineParser::kString,"QCD Shape definition");
 	parser.addOption("relaxedSelection",optutl::CommandLineParser::kString,"Relaxed Selection");
 	parser.addOption("bselection",optutl::CommandLineParser::kString,"Btagging requirement for MSSM","nbtag>=1");
@@ -115,37 +115,49 @@ int main (int argc, char* argv[])
 
 	printf(" -------------------------------------\n"); 
 	printf(" --------New Variable--------\n"); 
+
 	if(bitmask[0]==0){
-	printf("INCLUSIVE: No Two prong : preselection -------------------------------------\n"); 
-		BkgOutput output = creator.runOSLSMT(parser.stringValue("preselection"),"_inclusivemtnotwoprong",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"));
-//(std::string preselection, std::string categoryselection, std::string prefix)
-		creator.makeHiggsShape(parser.stringValue("preselection"),parser.stringValue("preselection"),"_inclusivemtnotwoprong");
-	}
-	if(bitmask[1]==0){
-		BkgOutput output = creator.runOSLSMT(parser.stringValue("preselectiontwoprong"),"_inclusive",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"));
-//(std::string preselection, std::string categoryselection, std::string prefix)
-		creator.makeHiggsShape(parser.stringValue("preselectiontwoprong"),parser.stringValue("preselectiontwoprong"),"_inclusive");
-	}
+	printf(" -------------------------------------\n"); 
 
-	if(bitmask[2]==0){
-		BkgOutput output = creator.runOSLSMT(parser.stringValue("bselection"),"_btag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"));
-		creator.makeHiggsShape(parser.stringValue("bselection"),parser.stringValue("bselection"),"_btag");
-	}
-
-	if(bitmask[0]==1){
-
-		std::cout<<"========Running inclusive selection========"<<std::endl;
-		std::string inclSel = parser.stringValue("inclSelection"); 
+		printf("INCLUSIVE: No Two prong and MT Cut : preselection -------------------------------------\n"); 
+		std::string inclSel = parser.stringValue("preselection"); 
+		std::string catSel = parser.stringValue("extraselection"); 
 		std::string bTagSF = parser.stringValue("bTagSF");					 
 
-		creator.makeHiggsShape(parser.stringValue("preselection"),inclSel,"_inclusivemtnotwoprong");
-		BkgOutput outputIncl = creator.runFullExtrapBtag(parser.stringValue("inclSelection"),parser.stringValue("wSelection"),parser.stringValue("preselection"),inclSel,"_inclusivemtnotwoprong",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
+		creator.makeHiggsShape(inclSel,catSel,"_inclusivemt40");
+		BkgOutput outputIncl = creator.runFullExtrapBtag(inclSel,parser.stringValue("wselection"),inclSel,catSel,"_inclusivemt40",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
 				1,//parser.doubleValue("zExtrap"),
 				1,//parser.doubleValue("zExtrapErr"),
 				bTagSF
 				);
 	}
+	
+	if(bitmask[1]==0){
+	printf(" -------------------------------------\n"); 
+		printf("INCLUSIVE: All DM and No MT Cut : inclselection -------------------------------------\n"); 
+		std::string inclSel = parser.stringValue("preselection"); 
+                std::cout<<"using preselection: "<<inclSel<<std::endl;
+		BkgOutput output = creator.runOSLSMT(inclSel,"_inclusive",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"));
+		//(std::string preselection, std::string categoryselection, std::string prefix)
+		creator.makeHiggsShape(inclSel,inclSel,"_inclusive");
+	}
+       
 
+	if(bitmask[2]==0){
+
+	printf(" -------------------------------------\n"); 
+		std::cout<<"========Running btag selection========"<<std::endl;
+		std::string inclSel = parser.stringValue("preselection"); 
+		std::string catSel = parser.stringValue("bselection"); 
+		std::string bTagSF = parser.stringValue("bTagSF");					 
+
+		creator.makeHiggsShape(inclSel,catSel,"_btag");
+		BkgOutput outputIncl = creator.runFullExtrapBtag(inclSel,parser.stringValue("wselection"),inclSel,catSel,"_btag",parser.stringValue("zEmbeddedSample"),parser.doubleValue("topSF"),
+				1,//parser.doubleValue("zExtrap"),
+				1,//parser.doubleValue("zExtrapErr"),
+				bTagSF
+				);
+	}
 
 	creator.close();
 }

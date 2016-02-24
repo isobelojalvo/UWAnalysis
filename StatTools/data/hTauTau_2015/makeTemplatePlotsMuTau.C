@@ -3,6 +3,8 @@
 
    //makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString units = "GeV",bool left=false,TString channel = "",TString year = "2012",bool log = false,bool dndm=false,bool doRatio = false,true)
 
+   makeLTauStack("~/www/ztt/MuTau/25ns_FullSelection/muTau_OldMVAIso","muTauPlots/muTau_OldMVAIso.root","mt_inclusivemtnotwoprong",3,"Raw MVAIsolation","GeV",false,"#tau_{#mu}#tau_{h}","Golden",false,false,true);
+}
    makeLTauStack("~/www/ztt/MuTau/25ns_FullSelection/muTau_m_vis","muTauPlots/muTau_m_vis.root","mt_inclusivemtnotwoprong",3,"visible mass","GeV",false,"#tau_{#mu}#tau_{h}","Golden",false,false,true);
    //makeLTauStack("~/www/ztt/MuTau/25ns_FullSelection/muTau_m_vis","datacards/htt_mt.inputs-sm-13TeV.root","mt_inclusivemtnotwoprong",3,"visible mass","GeV",false,"#tau_{#mu}#tau_{h}","Golden",false,false,true);
    makeLTauStack("~/www/ztt/MuTau/25ns_FullSelection/muTau_mt_1","muTauPlots/muTau_mt_1.root","mt_inclusivemtnotwoprong",3,"m_{T}","GeV",false,"#tau_{#mu}#tau_{h}","Golden",false,false,true);

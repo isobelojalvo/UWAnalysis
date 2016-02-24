@@ -266,7 +266,7 @@ makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString
 		data2->SetTitleSize  (0.12,"X");
 		data2->SetLabelSize  (0.10,"X");
 		data2->SetLabelSize  (0.08,"Y");
-		data2->GetYaxis()->SetRangeUser(0.8,1.2);
+		data2->GetYaxis()->SetRangeUser(0.6,1.4);
 		data2->GetYaxis()->SetNdivisions(305);
 		data2->GetYaxis()->SetTitle("Data/MC");
 
