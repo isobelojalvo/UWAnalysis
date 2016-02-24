@@ -14,9 +14,19 @@ scram b
 To plot 
 
 ```
-cd UWAnalysis/StatTools/data/zTauTau/
+cd UWAnalysis/StatTools/data/hTauTau_2015/
 ./makeMuTauPlots
 ./makeETauPlots
 root -l -b -q makeTemplatePlotsMuTau.C
 root -l -b -q makeTemplatePlotsETau.C
 ```
+
+To plot using HTTTwiki categories
+```
+cd UWAnalysis/StatTools/data/hTauTau_2015/
+./makeMuTauPlots_Twiki
+./makeETauPlots_Twiki
+root -l -b -q makeTemplatePlotsMuTau.C
+root -l -b -q makeTemplatePlotsETau.C
+```
+editing makeTemplatePlotsMuTau.C as necessary for wanted branch.
