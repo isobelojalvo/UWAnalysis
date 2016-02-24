@@ -148,7 +148,7 @@ BTaggingEffAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
 		bool selectEvent=false;
 		for(pat::TauCollection::const_iterator tau = taus->begin(); tau != taus->end(); ++tau){
-			if (tau->tauID("decayModeFinding")>0.5 && (tau->eta()<-2.3||tau->eta()>2.3)) selectEvent = true;
+			if (tau->tauID("decayModeFinding")>0.5 &&tau->tauID("byLooseIsolationMVArun2v1DBoldDMwLT") > 0.5&& (tau->eta()<-2.3||tau->eta()>2.3)) selectEvent = true;
 		}
 		if (selectEvent==false) continue;
 

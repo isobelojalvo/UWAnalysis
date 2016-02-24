@@ -15,6 +15,12 @@
 #include <TRandom3.h>
 #include "Utilities/General/interface/FileInPath.h"
 
+#include "CondFormats/BTauObjects/interface/BTagCalibration.h"
+#include "CondFormats/BTauObjects/interface/BTagCalibrationReader.h"
+
+#include "UWAnalysis/RecoTools/plugins/BTagCalibrationStandalone.h"
+
+
 //
 // class decleration
 
@@ -48,22 +54,22 @@ class BTagScaleFactors
   }
 
   
-  std::pair<double,double> getCSVL1( JetPtrVector jets , bool top )
-    { return CSVLoose1(jets,top);}
-  std::pair<double,double> getCSVL2( JetPtrVector jets , bool top )
-    { return CSVLoose2(jets,top);}
-  std::pair<double,double> getCSVM1( JetPtrVector jets , bool top )
-    { return CSVMedium1(jets,top);}
-  std::pair<double,double> getCSVM2( JetPtrVector jets , bool top )
-    { return CSVMedium2(jets,top);}
-  std::pair<double,double> getCSVT1( JetPtrVector jets , bool top )
-    { return CSVTight1(jets,top);}
-  std::pair<double,double> getCSVT2( JetPtrVector jets , bool top )
-    { return CSVTight2(jets,top);}
+  std::pair<double,double> getCSVL1( JetPtrVector jets )
+    { return CSVLoose1(jets);}
+  std::pair<double,double> getCSVL2( JetPtrVector jets )
+    { return CSVLoose2(jets);}
+  std::pair<double,double> getCSVM1( JetPtrVector jets )
+    { return CSVMedium1(jets);}
+  std::pair<double,double> getCSVM2( JetPtrVector jets )
+    { return CSVMedium2(jets);}
+  std::pair<double,double> getCSVT1( JetPtrVector jets )
+    { return CSVTight1(jets);}
+  std::pair<double,double> getCSVT2( JetPtrVector jets )
+    { return CSVTight2(jets);}
 
  private:
 
-  std::pair<double,double> CSVLoose1( JetPtrVector jets , bool top ){
+  std::pair<double,double> CSVLoose1( JetPtrVector jets ){
     double bdisc = 0;
     double EffWEIGHTCSVL1 = 0;
     double EffWEIGHTCSVL1err = 0;
@@ -96,8 +102,7 @@ class BTagScaleFactors
       
       if(jetflavor==5||jetflavor==4){
 	nbjets +=1;
-	if(top)jetpair = CSVLTop(jetpt); ////special algorithm for top
-	else jetpair = CSVL(jetpt);
+	jetpair = CSVL(jetpt);
 	
 	bjettotal += jetpair.first;////GET b SCALEFACTOR
 	bjettotalerr += jetpair.second; ///Average the error (check this?)
@@ -130,7 +135,7 @@ class BTagScaleFactors
   }
 
 
-  std::pair<double,double> CSVMedium1( JetPtrVector jets , bool top ){
+  std::pair<double,double> CSVMedium1( JetPtrVector jets ){
  
     double bdisc = 0.8;
     double EffWEIGHTCSVM1 = 0;
@@ -192,7 +197,7 @@ class BTagScaleFactors
   }
 
   
-  std::pair<double,double> CSVTight1( JetPtrVector jets , bool top ){
+  std::pair<double,double> CSVTight1( JetPtrVector jets ){
  
     double bdisc = 0;
     double EffWEIGHTCSVT1 = 0;
@@ -259,7 +264,7 @@ class BTagScaleFactors
 
 
   
-  std::pair<double,double> CSVLoose2( JetPtrVector jets , bool top ){
+  std::pair<double,double> CSVLoose2( JetPtrVector jets ){
     ////==========Loose tags exactly 2  
     double jetpt0, jeteta0, jetflavor0;
     double jetpt1, jeteta1, jetflavor1;
@@ -286,14 +291,8 @@ class BTagScaleFactors
 	if((jetflavor0==5||jetflavor0==4)/////both true b's
 	   &&(jetflavor1==5||jetflavor1==4))
 	  {
-	    if(top){
-	      jet0pair = CSVLTop(jetpt0);
-	      jet1pair = CSVLTop(jetpt1);
-	    }
-	    else{
 	      jet0pair = CSVL(jetpt0);
 	      jet1pair = CSVL(jetpt1);
-	    }
 
 	    SF2=(jet0pair.first)*(jet1pair.first);
 	    SF2err=pow(pow(jet0pair.second,2)+pow(jet1pair.second,2),0.5);
@@ -301,9 +300,6 @@ class BTagScaleFactors
 	else if((jetflavor0==5||jetflavor0==4)////first true b second fake b
 		&&(jetflavor1!=5&&jetflavor1!=4))
 	  {
-	    if(top)
-	      jet0pair = CSVLTop(jetpt0);
-	    else
 	      jet0pair = CSVL(jetpt0);
 	    
 	    jet1pair = CSVLFake(jetpt1,jeteta1);
@@ -316,9 +312,6 @@ class BTagScaleFactors
 	  { 
 	  jet0pair = CSVLFake(jetpt0,jeteta0);
 	  
-	  if(top)
-	    jet1pair = CSVLTop(jetpt1);
-	  else
 	    jet1pair = CSVL(jetpt1);
 	  
 	  SF2=(jet0pair.first)*(jet1pair.first);
@@ -344,7 +337,7 @@ class BTagScaleFactors
     return ScalefactorAndError;
   }
 
-  std::pair<double,double> CSVMedium2( JetPtrVector jets , bool top ){
+  std::pair<double,double> CSVMedium2( JetPtrVector jets  ){
     ////==========Loose tags exactly 2  
     double jetpt0, jeteta0, jetflavor0;
     double jetpt1, jeteta1, jetflavor1;
@@ -367,23 +360,14 @@ class BTagScaleFactors
       if((jetflavor0==5||jetflavor0==4)/////both true b's
 	 &&(jetflavor1==5||jetflavor1==4))
 	{
-	  if(top){
-	    jet0pair = CSVMTop(jetpt0);
-	    jet1pair = CSVMTop(jetpt1);
-	  }
-	  else{
 	    jet0pair = CSVM(jetpt0);
 	    jet1pair = CSVM(jetpt1);
-	  }
 	  SF2=(jet0pair.first)*(jet1pair.first);
 	  SF2err=pow(pow(jet0pair.second,2)+pow(jet1pair.second,2),0.5);
 	}
       else if((jetflavor0==5||jetflavor0==4)////first true b second fake b
 	      &&(jetflavor1!=5&&jetflavor1!=4))
 	{
-	  if(top)
-	    jet0pair = CSVMTop(jetpt0);
-	  else
 	    jet0pair = CSVM(jetpt0);
 
 	  jet1pair = CSVMFake(jetpt1,jeteta1);
@@ -396,9 +380,6 @@ class BTagScaleFactors
 	{ 
 	  jet0pair = CSVMFake(jetpt0,jeteta0);
 
-	  if(top)
-	    jet1pair = CSVMTop(jetpt1);
-	  else
 	    jet1pair = CSVM(jetpt1);
 
 	  SF2=(jet0pair.first)*(jet1pair.first);
@@ -423,7 +404,7 @@ class BTagScaleFactors
     return ScalefactorAndError;
   }
 
-  std::pair<double,double> CSVTight2( JetPtrVector jets , bool top ){
+  std::pair<double,double> CSVTight2( JetPtrVector jets ){
     ////==========Loose tags exactly 2  
     double jetpt0, jeteta0, jetflavor0;
     double jetpt1, jeteta1, jetflavor1;
@@ -448,14 +429,8 @@ class BTagScaleFactors
       if((jetflavor0==5||jetflavor0==4)/////both true b's
 	 &&(jetflavor1==5||jetflavor1==4))
 	{
-	  if(top){
-	    jet0pair = CSVTTop(jetpt0);
-	    jet1pair = CSVTTop(jetpt1);
-	  }
-	  else{
 	    jet0pair = CSVT(jetpt0);
 	    jet1pair = CSVT(jetpt1);
-	  }
 
 	  SF2=(jet0pair.first)*(jet1pair.first);
 	  SF2err=pow(pow(jet0pair.second,2)+pow(jet1pair.second,2),0.5);
@@ -463,9 +438,6 @@ class BTagScaleFactors
       else if((jetflavor0==5||jetflavor0==4)////first true b second fake b
 	      &&(jetflavor1!=5&&jetflavor1!=4))
 	{
-	  if(top)
-	    jet0pair = CSVTTop(jetpt0);
-	  else
 	    jet0pair = CSVT(jetpt0);
 
 	  jet1pair = CSVTFake(jetpt1,jeteta1);
@@ -478,9 +450,6 @@ class BTagScaleFactors
 	{ 
 	  jet0pair = CSVTFake(jetpt0,jeteta0);
 
-	  if(top)
-	    jet1pair = CSVTTop(jetpt1);
-	  else
 	    jet1pair = CSVT(jetpt1);
 
 	  SF2=(jet0pair.first)*(jet1pair.first);
@@ -508,6 +477,7 @@ class BTagScaleFactors
 
 					   
   std::pair<double,double> CSVL(double jetpt){ ////return pair (value,error)
+
     double SF = 1.00572*((1.+(0.013676*jetpt))/(1.+(0.0143279*jetpt)));//0.981149*((1.+(-0.000713295*jetpt))/(1.+(-0.000703264*jetpt)));
     double SFerr=0;
     double SFb_error[16] = {
@@ -626,25 +596,6 @@ class BTagScaleFactors
   }
 
 
-  std::pair<double,double> CSVLTop(double jetpt){ ////return pair (value,error)
-    double SF = 1.008;
-    double SFerr = 0.023;
-    return std::make_pair(SF,SFerr); 
-  }
-
-  std::pair<double,double> CSVMTop(double jetpt){ ////return pair (value,error)
-    double SF = 0.963;
-    double SFerr = 0.02;
-    return std::make_pair(SF,SFerr); 
-  }
-
-  std::pair<double,double> CSVTTop(double jetpt){ ////return pair (value,error)
-    double SF = 0.947;
-    double SFerr = 0.025;
-    return std::make_pair(SF,SFerr); 
-  }
-
-
   /////CSVL Fake Algo Defines a Scale factor (SF), a High Scale Factor(SFH) and a Low Scale Factor (SFL)
   /////Using SFH-SFL for error estimate; perhaps better to just output SFH and SFL but much more messy
   /////For the future: Consider implementing high and low values
@@ -725,7 +676,6 @@ class BTagScaleFactors
     return std::make_pair(SF,SFerr); 
   }
 
-  bool top_;
 
 };
 

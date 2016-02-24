@@ -18,6 +18,7 @@ process.source = cms.Source("PoolSource",
 #'file:/hdfs/store/mc/RunIIFall15MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/70000/C0BD1DB7-D5B8-E511-A52D-0025907253B6.root'
      
 		),
+		firstEvent= cms.untracked.uint32(402849),
 		inputCommands=cms.untracked.vstring(
 						'keep *',
 						'keep *_l1extraParticles_*_*',

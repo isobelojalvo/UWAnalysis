@@ -57,10 +57,10 @@ process.effi = cms.EDAnalyzer("BTaggingEffAnalyzer",
     JetsTag = cms.InputTag("slimmedJets"),
     DiscriminatorTag = cms.string("pfCombinedInclusiveSecondaryVertexV2BJetTags"),
     DiscriminatorValue = cms.double(0.80),
-    PtNBins = cms.int32(1),
+    PtNBins = cms.int32(10),
     PtMin = cms.double(30.0),
     PtMax = cms.double(670.0),
-    EtaNBins = cms.int32(1),
+    EtaNBins = cms.int32(8),
     EtaMin = cms.double(-2.4),
     EtaMax = cms.double(2.4)
 )

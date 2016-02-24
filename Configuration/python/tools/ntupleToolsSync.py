@@ -82,6 +82,7 @@ def makeMuTauEventWeight(sourceDiTaus):
          isMuon      = cms.bool(True)
    )
    return PSet
+
 def makeMuTauGenMatch(sourceDiTaus):
    PSet = cms.PSet(
          pluginType  = cms.string("PATMuTauPairGenMCMatching"),
@@ -89,8 +90,20 @@ def makeMuTauGenMatch(sourceDiTaus):
    )
    return PSet
 
+def makeMuTauNBTag(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATMuTauPairNBTagFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         doEffMap      = cms.bool(False)
+   )
+   return PSet
 
-
+def makeMuTauEffCSV(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATMuTauPairEffCSVFiller"),
+         src         = cms.InputTag(sourceDiTaus)
+   )
+   return PSet
 
 def makeMuTauJetCountPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
    PSet = cms.PSet(
@@ -169,6 +182,23 @@ def makeEleTauGenMatch(sourceDiTaus):
          src         = cms.InputTag(sourceDiTaus)
    )
    return PSet
+def makeEleTauNBTag(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATEleTauPairNBTagFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         doEffMap      = cms.bool(False)
+   )
+   return PSet
+
+def makeEleTauEffCSV(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATEleTauPairEffCSVFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         doEffMap      = cms.bool(False)
+   )
+   return PSet
+
+
 
 
 
@@ -207,6 +237,8 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               ),#FILLED
  
                               muTauEventWeight = makeMuTauEventWeight(src),#FILLED
+                              muTauNBTags = makeMuTauNBTag(src),#FILLED
+                              muTauEFFCSV = makeMuTauEffCSV(src),#FILLED
                               muTauGenMCMatch = makeMuTauGenMatch(src),#FILLED
                               muTauSize = makeCollSize(src,"nCands"),#FILLED
                               genTaus = makeCollSize("genTauCands","genTaus"), #FIXME
@@ -492,6 +524,8 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
 
 
                               eTauEventWeight = makeEleTauEventWeight(src),#FILLED
+                              eleTauNBTags = makeEleTauNBTag(src),#FILLED
+                              eleTauEffCSV = makeEleTauEffCSV(src),#FILLED
                               eTauGenMCMatch = makeEleTauGenMatch(src),#FILLED
 
                               muonsSizeET = makeCollSize(srcU,"tightMuons"),

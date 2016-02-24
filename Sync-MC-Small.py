@@ -7,17 +7,20 @@ process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_v13'
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(-1)
 )
 
 
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-'/store/mc/RunIIFall15MiniAODv2/SUSYGluGluToHToTauTau_M-160_TuneCUETP8M1_13TeV-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/60000/98ACE26B-05BC-E511-8AA4-001EC9ADCD7A.root'
+'/store/mc/RunIIFall15MiniAODv2/SUSYGluGluToBBHToTauTau_M-160_TuneCUETP8M1_13TeV-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/10000/0228BA78-4EB8-E511-9B0D-003048F3511E.root'
+#'/store/mc/RunIIFall15MiniAODv2/SUSYGluGluToHToTauTau_M-160_TuneCUETP8M1_13TeV-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/60000/98ACE26B-05BC-E511-8AA4-001EC9ADCD7A.root',
+#'/store/mc/RunIIFall15MiniAODv2/SUSYGluGluToHToTauTau_M-160_TuneCUETP8M1_13TeV-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/50000/B2FF8F77-3DB8-E511-B743-001E6757F1D4.root'
 #'file:/hdfs/store/mc/RunIIFall15MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/70000/C0BD1DB7-D5B8-E511-A52D-0025907253B6.root'
      
 		),
+		#firstEvent=cms.untracked.uint32(0),
 		inputCommands=cms.untracked.vstring(
 						'keep *',
 						'keep *_l1extraParticles_*_*',
@@ -76,9 +79,9 @@ createGeneratedParticles(process,
 from UWAnalysis.Configuration.tools.ntupleToolsSync import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
 
-from UWAnalysis.Configuration.tools.ntupleToolsSync import addEleTauEventTree
-addEleTauEventTree(process,'eleTauEventTree')
+#from UWAnalysis.Configuration.tools.ntupleToolsSync import addEleTauEventTree
+#addEleTauEventTree(process,'eleTauEventTree')
 
 addEventSummary(process,True,'MT','eventSelectionMT')
-addEventSummary(process,True,'ET','eventSelectionET')
+#addEventSummary(process,True,'ET','eventSelectionET')
 
