@@ -144,11 +144,12 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     int nbtagsup = 0;
     int nbtagsdown = 0;
     int isdata = 0;
+    compositePtrCandidate.setIsData(IsRealData);
     // Memory leak here
     //Can implement new btag thing here when time comes
-    if(IsRealData){
-      isdata=1;
-    }
+    //iif(IsRealData){
+    //  isdata=1;
+    //}
 
 /*    for(unsigned int k=0; k<cleanedJets.size();k++){
 	    bool btagged = false;
@@ -324,6 +325,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 			    top = true;
 		    }
 	    }
+    compositePtrCandidate.setIsTop(top);
     compositePtrCandidate.setTopGenPt(topGenPt);
     compositePtrCandidate.setAntiTopGenPt(antiTopGenPt);
 

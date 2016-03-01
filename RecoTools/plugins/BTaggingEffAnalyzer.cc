@@ -10,12 +10,6 @@ Description: [one line class summary]
 Implementation:
 [Notes on implementation]
 */
-//
-// Original Author:  Dinko Ferencek
-//         Created:  Thu Oct  4 20:25:54 CDT 2012
-// $Id$
-//
-//
 
 
 // system include files
@@ -32,6 +26,7 @@ Implementation:
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 #include "TH2D.h"
+#include "TH1.h"
 
 
 //
@@ -114,7 +109,7 @@ BTaggingEffAnalyzer::BTaggingEffAnalyzer(const edm::ParameterSet& iConfig) :
 	h2_BTaggingEff_Num_udsg = fs->make<TH2D>("h2_BTaggingEff_Num_udsg", ";p_{T} [GeV];#eta", ptNBins, ptMin, ptMax, etaNBins, etaMin, etaMax);
 	h2_BTaggingEff_b    = fs->make<TH2D>("h2_BTaggingEff_b", ";p_{T} [GeV];#eta", ptNBins, ptMin, ptMax, etaNBins, etaMin, etaMax);
 	h2_BTaggingEff_c    = fs->make<TH2D>("h2_BTaggingEff_c", ";p_{T} [GeV];#eta", ptNBins, ptMin, ptMax, etaNBins, etaMin, etaMax);
-	h2_BTaggingEff_udsg    = fs->make<TH2D>("h2_BTaggingEff_usdg", ";p_{T} [GeV];#eta", ptNBins, ptMin, ptMax, etaNBins, etaMin, etaMax);
+	h2_BTaggingEff_udsg    = fs->make<TH2D>("h2_BTaggingEff_udsg", ";p_{T} [GeV];#eta", ptNBins, ptMin, ptMax, etaNBins, etaMin, etaMax);
 }
 
 
@@ -137,6 +132,10 @@ BTaggingEffAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 {
 	edm::Handle<pat::TauCollection> taus;
 	iEvent.getByToken(tausTag,taus);
+
+	//edm::Handle<pat::EleCollection> eles;
+	//iEvent.getByToken(elesTag,eles);
+
 
 	edm::Handle<pat::JetCollection> jets;
 	iEvent.getByToken(jetsTag,jets);

@@ -48,17 +48,20 @@ class NBTagFiller : public NtupleFillerBase {
 		reader_down=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "mujets", "down");  // sys down
 
 		std::string base = std::getenv("CMSSW_BASE");
-		std::string fEff =   "/src/UWAnalysis/Configuration/data/bTaggingEfficiencyEff.root";
+		std::string fEff =   "/src/UWAnalysis/Configuration/data/efficiency.root";
 		std::string path= base+fEff;
 		isEffFile_   = boost::filesystem::exists( path  );
 		if (isEffFile_ && doEff_){
+			std::cout<<"INFO::NBTagFiller using efficiency map"<<std::endl;
 			f_EffMap = new TFile(path.c_str(),"READONLY");
-
-			h2_EffMapB    = (TH2D*)f_EffMap->Get("effi/h2_BTaggingEff_b");
-			h2_EffMapC    = (TH2D*)f_EffMap->Get("effi/h2_BTaggingEff_c");
-			h2_EffMapUDSG = (TH2D*)f_EffMap->Get("effi/h2_BTaggingEff_usdg");
-
+			h2_TTEffMapB    = (TH2D*)f_EffMap->Get("TT_effi/efficiency_b");
+			h2_TTEffMapC    = (TH2D*)f_EffMap->Get("TT_effi/efficiency_c");
+			h2_TTEffMapUDSG = (TH2D*)f_EffMap->Get("TT_effi/efficiency_udsg");
+			h2_ZJetsEffMapB    = (TH2D*)f_EffMap->Get("ZJets_effi/efficiency_b");
+			h2_ZJetsEffMapC    = (TH2D*)f_EffMap->Get("ZJets_effi/efficiency_c");
+			h2_ZJetsEffMapUDSG = (TH2D*)f_EffMap->Get("ZJets_effi/efficiency_udsg");
 		}
+		else { std::cout<<"WARNING::NBTagFiller No efficiency file found!!!"<<std::endl;}
 
 	}
 
@@ -72,15 +75,20 @@ class NBTagFiller : public NtupleFillerBase {
 			int nbtags=0;
 			int nbtagsup=0;
 			int nbtagsdown=0;
+			bool top =false;
 
 			edm::Handle<std::vector<T>> handle;
 			if( iEvent.getByToken(src_,handle)){
+
+				if (handle->at(0).isTop()){top =true;}
 				for ( int i=0;i<handle->at(0).jets().size();i++){
 					bool btagged = false;
 					bool btaggedup = false;
 					bool btaggeddown = false;
 					bool pass = false;
 					double pt = handle->at(0).jets().at(i)->pt();
+					if (pt>670.) {pt=670.;}
+					else if (pt<30) {continue;}
 					double eta = handle->at(0).jets().at(i)->eta();
 					int jetflavor = handle->at(0).jets().at(i)->partonFlavour();
 					double SF =0,SFup=0,SFdown=0,eff=0;
@@ -90,7 +98,8 @@ class NBTagFiller : public NtupleFillerBase {
 						SFup = reader_up->eval(BTagEntry::FLAV_B, eta, pt );
 						SFdown = reader_down->eval(BTagEntry::FLAV_B, eta, pt );
 						eff = 0.6829; 
-						if (doEff_ )eff = h2_EffMapB->GetBinContent( h2_EffMapB->GetXaxis()->FindBin(pt), h2_EffMapB->GetYaxis()->FindBin(fabs(eta)) );
+						if (doEff_ && top )eff = h2_TTEffMapB->GetBinContent( h2_TTEffMapB->GetXaxis()->FindBin(pt), h2_TTEffMapB->GetYaxis()->FindBin(fabs(eta)) );
+						else if (doEff_ )eff = h2_ZJetsEffMapB->GetBinContent( h2_ZJetsEffMapB->GetXaxis()->FindBin(pt), h2_ZJetsEffMapB->GetYaxis()->FindBin(fabs(eta)) );
 					}
 					else if (fabs(jetflavor) == 4) { 
 						//cout<< "Flavor 4" <<endl;
@@ -98,7 +107,8 @@ class NBTagFiller : public NtupleFillerBase {
 						SFup= reader_up->eval(BTagEntry::FLAV_C, eta, pt );
 						SFdown = reader_up->eval(BTagEntry::FLAV_C, eta, pt );
 						eff =0.18;
-						if (doEff_) eff = h2_EffMapC->GetBinContent( h2_EffMapC->GetXaxis()->FindBin(pt), h2_EffMapC->GetYaxis()->FindBin(fabs(eta)) );
+						if (doEff_&&top) eff = h2_TTEffMapC->GetBinContent( h2_TTEffMapC->GetXaxis()->FindBin(pt), h2_TTEffMapC->GetYaxis()->FindBin(fabs(eta)) );
+						else if (doEff_) eff = h2_ZJetsEffMapC->GetBinContent( h2_ZJetsEffMapC->GetXaxis()->FindBin(pt), h2_ZJetsEffMapC->GetYaxis()->FindBin(fabs(eta)) );
 					}  
 					else {
 						//cout<< "Flavor UDSG" <<endl;
@@ -107,20 +117,31 @@ class NBTagFiller : public NtupleFillerBase {
 						SFdown = reader_light_down->eval(BTagEntry::FLAV_UDSG, eta, pt );
 						//cout<< "Flavor UDSG: SF" <<endl;
 						eff =0.012;
-						if (doEff_) eff = h2_EffMapUDSG->GetBinContent( h2_EffMapUDSG->GetXaxis()->FindBin(pt), h2_EffMapUDSG->GetYaxis()->FindBin(fabs(eta)) );
+						if (doEff_&&top ) eff = h2_TTEffMapUDSG->GetBinContent( h2_TTEffMapUDSG->GetXaxis()->FindBin(pt), h2_TTEffMapUDSG->GetYaxis()->FindBin(fabs(eta)) );
+						else if (doEff_) eff = h2_ZJetsEffMapUDSG->GetBinContent( h2_ZJetsEffMapUDSG->GetXaxis()->FindBin(pt), h2_ZJetsEffMapUDSG->GetYaxis()->FindBin(fabs(eta)) );
 						//cout<< "Flavor UDSG: EFF" <<endl;
 					}
 					//cout<< "after SF: " <<SF<<endl;
 					//cout<< "after eff: " <<eff<<endl;
 
+					//std::cout<<"pt: "<<pt<<std::endl;
+					//std::cout<<"flavor: "<<fabs(jetflavor)<<std::endl;
+					//std::cout<<"SF: "<<SF<<std::endl;
+					//std::cout<<"eff: "<<eff<<std::endl;
 					btagged = applySF(pass, SF, eff);
 					btaggedup = applySF(pass, SFup, eff);
 					btaggeddown = applySF(pass, SFdown, eff);
 
 					//cout<< "Gets To Return" <<endl;
-					if (btagged) nbtags++;
-					if (btaggedup) nbtagsup++;
-					if (btaggeddown) nbtagsdown++;
+					if (handle->at(0).isData()){
+						if (pass) nbtags++;
+						//nosystematic shifts up and down
+					}
+					else{
+						if (btagged) nbtags++;
+						if (btaggedup) nbtagsup++;
+						if (btaggeddown) nbtagsdown++;
+					}
 				}//end for jets
 			}
 
@@ -138,9 +159,13 @@ class NBTagFiller : public NtupleFillerBase {
 		bool isEffFile_;
 		float* value;
 		TFile *f_EffMap;
-		TH2D *h2_EffMapB;
-		TH2D *h2_EffMapC;
-		TH2D *h2_EffMapUDSG;
+		TH2D *h2_TTEffMapB;
+		TH2D *h2_TTEffMapC;
+		TH2D *h2_TTEffMapUDSG;
+		TH2D *h2_ZJetsEffMapB;
+		TH2D *h2_ZJetsEffMapC;
+		TH2D *h2_ZJetsEffMapUDSG;
+
 
 		BTagCalibration *calib;
 		BTagCalibrationReader *reader;

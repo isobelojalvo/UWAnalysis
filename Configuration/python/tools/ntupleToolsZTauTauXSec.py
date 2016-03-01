@@ -92,7 +92,7 @@ def makeMuTauNBTag(sourceDiTaus):
    PSet = cms.PSet(
          pluginType  = cms.string("PATMuTauPairNBTagFiller"),
          src         = cms.InputTag(sourceDiTaus),
-         doEffMap      = cms.bool(False)
+         doEffMap      = cms.bool(True)
    )
    return PSet
 
@@ -188,15 +188,14 @@ def makeEleTauNBTag(sourceDiTaus):
    PSet = cms.PSet(
          pluginType  = cms.string("PATEleTauPairNBTagFiller"),
          src         = cms.InputTag(sourceDiTaus),
-         doEffMap      = cms.bool(False)
+         doEffMap      = cms.bool(True)
    )
    return PSet
 
 def makeEleTauEffCSV(sourceDiTaus):
    PSet = cms.PSet(
          pluginType  = cms.string("PATEleTauPairEffCSVFiller"),
-         src         = cms.InputTag(sourceDiTaus),
-         doEffMap      = cms.bool(False)
+         src         = cms.InputTag(sourceDiTaus)
    )
    return PSet
 
@@ -445,15 +444,15 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                                   leadingOnly=cms.untracked.bool(True)
                               ),#FILLED in higgs sample
 
-                              muTauLHEProduct = cms.PSet(
-                                  pluginType = cms.string("LHEProductFiller"),
-                                  src        = cms.InputTag("source"),
-                                  tag        = cms.string("LHEProduct"),
-                              ),
+                              #muTauLHEProduct = cms.PSet(
+                              #    pluginType = cms.string("LHEProductFiller"),
+                              #    src        = cms.InputTag("source"),
+                              #    tag        = cms.string("LHEProduct"),
+                              #),
                               muTauLHEProduct2 = cms.PSet(
                                   pluginType = cms.string("LHEProductFiller"),
                                   src        = cms.InputTag("externalLHEProducer"),
-                                  tag        = cms.string("LHEProduct2"),
+                                  tag        = cms.string("LHEProduct"),
                               ),
                               muTauEmbedPtWeight = cms.PSet(
                                   pluginType = cms.string("GenFilterInfoWeightFiller"),
@@ -521,7 +520,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
 
                               eTauEventWeight = makeEleTauEventWeight(src),#FILLED
                               eleTauNBTags = makeEleTauNBTag(src),#FILLED
-                              eleTauNEffCSV = makeEleTauEffCSV(src),#FILLED
+                              eleTauEffCSV = makeEleTauEffCSV(src),#FILLED
                               eTauGenMCMatch = makeEleTauGenMatch(src),#FILLED
 
                               muonsSizeET = makeCollSize(srcU,"tightMuons"),
@@ -756,15 +755,15 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
 
 
 
-                              eleTauLHEProduct = cms.PSet(
-                                  pluginType = cms.string("LHEProductFiller"),
-                                  src        = cms.InputTag("source"),
-                                  tag        = cms.string("LHEProduct"),
-                              ),#WHAT IS THIS
+                              #eleTauLHEProduct = cms.PSet(
+                              #    pluginType = cms.string("LHEProductFiller"),
+                              #    src        = cms.InputTag("source"),
+                              #    tag        = cms.string("LHEProduct"),
+                              #),
                               eleTauLHEProduct2 = cms.PSet(
                                   pluginType = cms.string("LHEProductFiller"),
                                   src        = cms.InputTag("externalLHEProducer"),
-                                  tag        = cms.string("LHEProduct2"),
+                                  tag        = cms.string("LHEProduct"),
                               ),#WHAT IS THIS
                               eleTauEmbedPtWeight = cms.PSet(
                                   pluginType = cms.string("GenFilterInfoWeightFiller"),

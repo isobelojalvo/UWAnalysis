@@ -94,7 +94,7 @@ def makeMuTauNBTag(sourceDiTaus):
    PSet = cms.PSet(
          pluginType  = cms.string("PATMuTauPairNBTagFiller"),
          src         = cms.InputTag(sourceDiTaus),
-         doEffMap      = cms.bool(False)
+         doEffMap      = cms.bool(True)
    )
    return PSet
 
@@ -186,15 +186,14 @@ def makeEleTauNBTag(sourceDiTaus):
    PSet = cms.PSet(
          pluginType  = cms.string("PATEleTauPairNBTagFiller"),
          src         = cms.InputTag(sourceDiTaus),
-         doEffMap      = cms.bool(False)
+         doEffMap      = cms.bool(True)
    )
    return PSet
 
 def makeEleTauEffCSV(sourceDiTaus):
    PSet = cms.PSet(
          pluginType  = cms.string("PATEleTauPairEffCSVFiller"),
-         src         = cms.InputTag(sourceDiTaus),
-         doEffMap      = cms.bool(False)
+         src         = cms.InputTag(sourceDiTaus)
    )
    return PSet
 
