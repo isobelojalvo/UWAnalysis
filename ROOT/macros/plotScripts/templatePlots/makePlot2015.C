@@ -6,6 +6,7 @@ void applyStyle(TH1F* h, Color_t fill, Color_t line,int fillStyle)
 	h->SetFillColor(fill);
 	h->SetLineColor(line);
 	h->SetFillStyle(fillStyle);
+	h->SetLineWidth(2);
 }
 
 
@@ -23,6 +24,7 @@ void applyDATAStyle(TH1F* h)
 	h->SetMarkerStyle(20.);
 	h->SetMarkerSize(1.0);
 	h->SetLineWidth(2.0);
+	h->SetLineColor(kBlack);
 }
 
 void convertToDNDM(TH1F* histo) {
@@ -89,17 +91,21 @@ makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString
 
 	if(doRatio){
 		TPad * plotPad = new TPad("pad1","",0.0,0.3,1.0,1.0);
+		plotPad->SetTicks(0,0);
 		plotPad->SetLeftMargin  (L/W);
 		plotPad->SetRightMargin (R/W);
 		plotPad->SetTopMargin   (T/H);
 		plotPad->SetBottomMargin(B_ratio/H); 
+		plotPad->SetFillColor(0);
+		plotPad->SetBottomMargin(0);
 
-		TPad * ratioPad = new TPad("pad2","",0.0,0.0,1.0,0.3);
+		TPad * ratioPad = new TPad("pad2","",0.0,0.0,1.0,0.31);
 		ratioPad->SetLeftMargin  (L/W);
 		ratioPad->SetRightMargin (R/W);
 		ratioPad->SetTopMargin   (T_ratio/H);
 		ratioPad->SetBottomMargin(B_ratio_label/H);
 		ratioPad->SetGridy(1);
+		ratioPad->SetFillColor(4000);
 	}
 	else{
 		TPad * plotPad = new TPad("pad1","",0.0,0.0,1.0,1.0);
@@ -118,12 +124,10 @@ makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString
 
 	TH1F * data = (TH1F*)(f->Get(dir+"/data_obs"));
 	if (dndm) convertToDNDM(data);
-
 	applyDATAStyle(data);
 
 	TH1F * QCD = (TH1F*)(f->Get(dir+"/QCD"));
 	if (dndm) convertToDNDM(QCD);
-
 	applyStyle(QCD,kMagenta-10,1,1001);
 
 	TH1F * ttbar = (TH1F*)(f->Get(dir+"/TT"));
@@ -134,7 +138,7 @@ makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString
 	TH1F * EWK = (TH1F*)(f->Get(dir+"/W"));
 	EWK->Add((TH1F*)(f->Get(dir+"/VV")));
 	if (dndm) convertToDNDM(EWK);
-	applyStyle(EWK,kRed+2,1,1001);
+	applyStyle(EWK,kRed-6,1,1001);
 
 	if(f->Get(dir+"/ZLL")!=0)
 		TH1F * ZEE = (TH1F*)(f->Get(dir+"/ZLL"));	  	
@@ -144,7 +148,7 @@ makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString
 		ZEE->Add((TH1F*)(f->Get(dir+"/ZJ")));
 
 	if (dndm) convertToDNDM(ZEE);
-	applyStyle(ZEE,kAzure+2,1,1001);	
+	applyStyle(ZEE,kAzure-9,1,1001);	
 
 
 	TH1F * ZTT = (TH1F*)(f->Get(dir+"/ZTT"));
@@ -159,10 +163,10 @@ makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString
 		TH1F * SM = (TH1F*)(f->Get(dir+"/ggH125"));
 		TH1F *sm = SM;
 		sm->Scale(100);//FIXME
-		TH1F * SM2 = (TH1F*)(f->Get(dir+"/qqH125"));
-		TH1F *sm2 = SM2;
-		sm2->Scale(100);//FIXME
-		sm->Add(sm2);
+	        //TH1F * SM2 = (TH1F*)(f->Get(dir+"/qqH125"));
+		//TH1F *sm2 = SM2;
+		//sm2->Scale(100);//FIXME
+		//sm->Add(sm2);
 		sm->SetLineStyle(11);
 		signal=sm;
 
@@ -172,6 +176,7 @@ makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString
 	}
 
 	THStack *hs = new THStack("hs","");
+	//hs->SetLineWidth(2);
 	hs->Add(ttbar);
 	hs->Add(QCD);
 	hs->Add(EWK);
@@ -228,7 +233,7 @@ makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString
 
 	hs->GetYaxis()->SetTitle("Events");
 	hs->GetYaxis()->SetTitleOffset(1);
-
+	
 	if(dndm)
 		hs->GetYaxis()->SetTitle("dN/d"+labelX);
 
@@ -262,15 +267,16 @@ makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString
 
 		data2->SetMarkerStyle(20);
 		data2->SetTitleSize  (0.12,"Y");
-		data2->SetTitleOffset(0.50,"Y");
+		data2->SetTitleOffset(0.40,"Y");
 		data2->SetTitleSize  (0.12,"X");
 		data2->SetLabelSize  (0.10,"X");
 		data2->SetLabelSize  (0.08,"Y");
-		data2->GetYaxis()->SetRangeUser(0.6,1.4);
+		data2->GetYaxis()->SetRangeUser(0.62,1.38);
 		data2->GetYaxis()->SetNdivisions(305);
-		data2->GetYaxis()->SetTitle("Data/MC");
+		data2->GetYaxis()->SetTitle("Obs/Exp   ");
 
 		//What does this do
+		//->this affects the stat box style
 		//gStyle->SetOptTitle(0);
 
 
@@ -287,25 +293,24 @@ makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString
 	c->cd();
 	plotPad->cd();  
 
-
-	TLegend *l = new TLegend(xR,0.6,xR+0.5,0.9);
+	TLegend *l = new TLegend(xR,0.55,xR+0.5,0.9);
 	l->AddEntry(data,"Observed","P");
 
-	l->AddEntry(ZTT,"Z#rightarrow #tau #tau","F");
+	l->AddEntry(ZTT,"Z#rightarrow#tau#tau","F");
+	if(channel == "#tau_{e}#tau_{h}") l->AddEntry(ZEE,"Z#rightarrowee","F");
+	if(channel == "#tau_{#mu}#tau_{h}") l->AddEntry(ZEE,"Z#rightarrow#mu#mu","F");
 	l->AddEntry(EWK,"Electroweak","F");
 	l->AddEntry(QCD,"QCD","F");
 	l->AddEntry(ttbar,"t#bar{t}","F");
-	if(channel == "#tau_{e}#tau_{h}") l->AddEntry(ZEE,"Z#rightarrow ee","F");
-	if(channel == "#tau_{#mu}#tau_{h}") l->AddEntry(ZEE,"Z#rightarrow #mu#mu","F");
 
 
 	if(log){
 		if(s==3)
-			l->AddEntry(signal,"SM H(125) #rightarrow #tau #tau x100","L");
+			l->AddEntry(signal,"100xSM H(125)#rightarrow#tau#tau","L");
 	}
 	else{
 		if(s==3)
-			l->AddEntry(signal,"SM H(125) #rightarrow #tau #tau x100","F");
+			l->AddEntry(signal,"100xSM H(125)#rightarrow#tau#tau","F");
 	}
 
 	l->SetBorderSize(0);
@@ -335,7 +340,6 @@ makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString
 
 	}
 
-
 	//now in CMS_lumi
 	/*
 	//TLatex latex;
@@ -350,7 +354,7 @@ makeLTauStack(TString name,TString file,TString dir,int s,TString labelX,TString
 	//latex.DrawLatex(0.20,0.94,"CMS Preliminary 2015D, ~130 pb^{-1}, #sqrt{s} = 13 TeV      "+channel);
 	*/
 	CMS_lumi(c,4,11);
-
+	plotPad->Draw();
 	if(log)
 		plotPad->SetLogy();
 
