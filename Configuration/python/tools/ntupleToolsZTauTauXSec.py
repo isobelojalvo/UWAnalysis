@@ -391,6 +391,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
 
 			      #Jets
                               muTauJetsPt20nbtag = makeMuTauJetCountPair(src,"nbtag",'pt()>20&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>.8'),
+                              muTauJetsPt30nbtag = makeMuTauJetCountPair(src,"nbtag30",'pt()>30&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>.8'),
                               muTauJetsPt30njets = makeMuTauJetCountPair(src,"njets",'pt()>30&&abs(eta)<4.7&&userFloat("idLoose")'),
                               muTauJetsPt20njets = makeMuTauJetCountPair(src,"njetspt20",'pt()>20&&abs(eta)<4.7&&userFloat("idLoose")'),
 
@@ -699,6 +700,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
 
 			      #Jets
                               eleTauJetsPt20nbtag = makeEleTauJetCountPair(src,"nbtag",'pt()>20&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8'),
+                              eleTauJetsPt30nbtag = makeEleTauJetCountPair(src,"nbtag30",'pt()>30&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8'),
                               eleTauJetsPt30njets = makeEleTauJetCountPair(src,"njets",'pt()>30&&abs(eta)<4.7&&userFloat("idLoose")'),
                               eleTauJetsPt20njets = makeEleTauJetCountPair(src,"njetspt20",'pt()>20&&abs(eta)<4.7&&userFloat("idLoose")'),
 

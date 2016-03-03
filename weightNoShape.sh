@@ -1,12 +1,12 @@
 #!/bin/sh
-mkdir /nfs_scratch/$USER/htt_weighted12
-cp /nfs_scratch/$USER/htt_unweighted12/* /nfs_scratch/$USER/htt_weighted12/.
+#mkdir /nfs_scratch/$USER/htt_weighted12
+#cp /nfs_scratch/$USER/htt_unweighted12/* /nfs_scratch/$USER/htt_weighted12/.
 cd /nfs_scratch/$USER/htt_weighted12/
 
 
-weight=1;
-weightH=1;
-weightZ=0;
+weight=0;
+weightH=0;
+weightZ=1;
 
 
 
@@ -22,8 +22,9 @@ fi
 
 if [ $weightZ -eq 1 ]
     then
-    EventWeightsIterativeZJets    weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
-    hadd ZJETS.root ZJets.root Z1Jets.root Z2Jets.root Z3Jets.root Z4Jets.root
+    EventWeightsIterativeGen outputFile='ZJets.root'  weight=6025.2     histoName='MT/results' sumHistoName='sumweights/genWeights'
+    #EventWeightsIterativeZJets    weight=1    histoName='MT/results' 
+    #hadd ZJETS.root ZJets_ext1.root Z1Jets.root Z2Jets.root Z3Jets.root Z4Jets.root
     #lowmass
  
 fi

@@ -34,12 +34,12 @@ class EffCSVFiller : public NtupleFillerBase {
 			src_(iC.consumes<std::vector<T> >(iConfig.getParameter<edm::InputTag>("src"))) 
 	{
 		value = new float[6];
-		t->Branch("EffCSVWeight1",&value[0],"EffCSVWeight1/F");
-		t->Branch("EffCSVWeight1Up",&value[1],"EffCSVWeight1Up/F");
-		t->Branch("EffCSVWeight1Down",&value[2],"EffCSVWeight1Down/F");
-		t->Branch("EffCSVWeight0",&value[3],"EffCSVWeight0/F");
-		t->Branch("EffCSVWeight0Up",&value[4],"EffCSVWeight0Up/F");
-		t->Branch("EffCSVWeight0Down",&value[5],"EffCSVWeight0Down/F");
+		t->Branch("EffCSVWeight0",&value[0],"EffCSVWeight0/F");
+		t->Branch("EffCSVWeight0Up",&value[1],"EffCSVWeight0Up/F");
+		t->Branch("EffCSVWeight0Down",&value[2],"EffCSVWeight0Down/F");
+		t->Branch("EffCSVWeight1",&value[3],"EffCSVWeight1/F");
+		t->Branch("EffCSVWeight1Up",&value[4],"EffCSVWeight1Up/F");
+		t->Branch("EffCSVWeight1Down",&value[5],"EffCSVWeight1Down/F");
 		calib=new BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_76.csv");
 		reader_light=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "central");
 		reader_light_up=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "up");
@@ -69,6 +69,7 @@ class EffCSVFiller : public NtupleFillerBase {
 					if(handle->at(0).jets().at(i)->pt()<30 && abs(handle->at(0).jets().at(i)->eta())>2.4 ) continue;
 					double pt = handle->at(0).jets().at(i)->pt();
 					double eta = handle->at(0).jets().at(i)->eta();
+					if (pt <30 || abs(eta)>2.4) continue;
 					int jetflavor = abs(handle->at(0).jets().at(i)->partonFlavour());
 					if (handle->at(0).jets().at(i)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.80){
 						//std::cout<< "Flavor: "<<jetflavor<<std::endl;

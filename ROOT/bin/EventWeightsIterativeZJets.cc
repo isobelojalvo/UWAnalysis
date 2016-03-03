@@ -1,6 +1,4 @@
 #include "PhysicsTools/FWLite/interface/CommandLineParser.h" 
-#include "PhysicsTools/Utilities/interface/Lumi3DReWeighting.h"
-#include "PhysicsTools/Utilities/interface/LumiReWeighting.h"
 #include "TFile.h"
 #include "TROOT.h"
 #include "TKey.h"
@@ -11,8 +9,6 @@
 
 std::vector<float> data;
 std::vector<float> mc;
-edm::Lumi3DReWeighting *LumiWeights;
-edm::LumiReWeighting *LumiWeightsOld;
 
 void readdir(TDirectory *dir,optutl::CommandLineParser parser,std::vector<float> ev); 
 
@@ -23,6 +19,7 @@ int main (int argc, char* argv[])
    optutl::CommandLineParser parser ("Sets Event Weights in the ntuple");
    parser.addOption("histoName",optutl::CommandLineParser::kString,"Counter Histogram Name","EventSummary");
    parser.addOption("weight",optutl::CommandLineParser::kDouble,"Weight to apply",1.0);
+   //parser.addOption("sumHistoName",optutl::CommandLineParser::kString,"Sum Histogram Name","EventSummary");
    parser.addOption("type",optutl::CommandLineParser::kInteger,"Type",0);
    parser.addOption("branch",optutl::CommandLineParser::kString,"Branch","__WEIGHT__");
 
@@ -33,49 +30,49 @@ int main (int argc, char* argv[])
    
 
  
-   TFile *w = new TFile("Z.root","UPDATE");
+   TFile *w = new TFile("ZJets_ext1.root","UPDATE");
 
    TH1F* evC  = (TH1F*)w->Get(parser.stringValue("histoName").c_str());
    float evW = evC->GetBinContent(1);
    
    w->Close();
-   
-   TFile *w1 = new TFile("Z1JETS.root","UPDATE");
+  
+   TFile *w1 = new TFile("Z1Jets.root","UPDATE");
 
    TH1F* evC1  = (TH1F*)w1->Get(parser.stringValue("histoName").c_str());
    float evW1 = evC1->GetBinContent(1);
    
    w1->Close();   
 
-   TFile *w2 = new TFile("Z2JETS.root","UPDATE");
+   TFile *w2 = new TFile("Z2Jets.root","UPDATE");
 
    TH1F* evC2  = (TH1F*)w2->Get(parser.stringValue("histoName").c_str());
    float evW2 = evC2->GetBinContent(1);
    
    w2->Close();
 
-   TFile *w3 = new TFile("Z3JETS.root","UPDATE");
+   TFile *w3 = new TFile("Z3Jets.root","UPDATE");
 
    TH1F* evC3  = (TH1F*)w3->Get(parser.stringValue("histoName").c_str());
    float evW3 = evC3->GetBinContent(1);
    
    w3->Close();
 
-   TFile *w4 = new TFile("Z4JETS.root","UPDATE");
+   TFile *w4 = new TFile("Z4Jets.root","UPDATE");
 
    TH1F* evC4  = (TH1F*)w4->Get(parser.stringValue("histoName").c_str());
    float evW4 = evC4->GetBinContent(1);
    
    w4->Close();
-
       
    printf("Found  %f Z Events\n",evW);
    printf("Found  %f Z+1Jet Events\n",evW1);
+ 
    printf("Found  %f Z+2Jet Events\n",evW2);
    printf("Found  %f Z+3Jet Events\n",evW3);
    printf("Found  %f Z+4Jet Events\n",evW4);
   
-   double LOtoNNLO=4954.0/6025.2;
+   double LOtoNNLO=6025.2/4954.0;
 
    double DYLo=evW/(LOtoNNLO*4954.0);
    double DYLo1=evW1/(LOtoNNLO*1012.5);
@@ -92,7 +89,7 @@ int main (int argc, char* argv[])
    ev.push_back(DYLo3);
    ev.push_back(DYLo4);
    
-   TFile *f0 = new TFile("ZJets.root","UPDATE");   
+   TFile *f0 = new TFile("ZJets_ext1.root","UPDATE");   
    readdir(f0,parser,ev);
    f0->Close();
    

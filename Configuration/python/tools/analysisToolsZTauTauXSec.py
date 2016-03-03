@@ -101,7 +101,8 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   tauOverloading(process,'triggeredPatTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   
   triLeptons(process)
-  jetOverloading(process,"slimmedJets")
+  jetCSVShaping(process,"slimmedJets")
+  jetOverloading(process,"jetCSVWeights")
   jetFilter(process,"patOverloadedJets")
 
   GenSumWeights(process)
@@ -132,6 +133,16 @@ def jetFilter(process,jets):
 
   process.jetFiltering = cms.Sequence(process.filteredJets)
   process.analysisSequence*=process.jetFiltering
+
+
+def jetCSVShaping(process,jets):
+
+  process.jetsCSVweighting = cms.EDProducer('MiniAODCSVReweighting',
+                                        src = cms.InputTag(jets)
+  )                                        
+
+  process.jetCSVWeights = cms.Sequence(process.jetsCSVweighting)
+  process.analysisSequence*=process.jetCSVWeights
 
 
 
