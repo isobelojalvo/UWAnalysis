@@ -101,8 +101,8 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   tauOverloading(process,'triggeredPatTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   
   triLeptons(process)
-  jetCSVShaping(process,"slimmedJets")
-  jetOverloading(process,"jetCSVWeights")
+  #jetCSVShaping(process,"slimmedJets")
+  jetOverloading(process,"slimmedJets")
   jetFilter(process,"patOverloadedJets")
 
   GenSumWeights(process)
@@ -143,6 +143,35 @@ def jetCSVShaping(process,jets):
 
   process.jetCSVWeights = cms.Sequence(process.jetsCSVweighting)
   process.analysisSequence*=process.jetCSVWeights
+
+def jetJECApplication(process,jets):
+
+  process.load('JetMETCorrections.Configuration.JetCorrectors_cff')
+  process.ak4PFchsCorrectedJets   = cms.EDProducer('CorrectedPFJetProducer',
+    src         = cms.InputTag('ak4PFchsJets'),
+    correctors  = cms.vstring('ak4PFCHSL1FastL2L3Corrector')
+  )
+  process.jetJECpath = cms.Sequence(process.ak4PFCHSL1FastL2L3CorrectorChain*process.ak4PFchsCorrectedJets)
+  process.analysisSequence *=process.jetJECpath
+
+
+def jetCSVShaping(process,jets):
+
+  process.jetsCSVweighting = cms.EDProducer('MiniAODCSVReweighting',
+                                        src = cms.InputTag(jets)
+  )                                        
+
+  process.jetCSVWeights = cms.Sequence(process.jetsCSVweighting)
+  process.analysisSequence*=process.jetCSVWeights
+
+
+  process.jetsJECApplicaiton = cms.EDProducer('MiniAODCSVReweighting',
+                                        src = cms.InputTag(jets)
+  )                                        
+
+  process.jetCSVWeights = cms.Sequence(process.jetsCSVweighting)
+  process.analysisSequence*=process.jetCSVWeights
+
 
 
 

@@ -68,8 +68,9 @@ void MiniAODCSVReweighting::produce(edm::Event& evt, const edm::EventSetup& es) 
 			//cout<< "Flavor UDSG" <<endl;
 			SF = reader->eval(BTagEntry::FLAV_UDSG, eta, pt ,csv );
 		}
-		CSVnew=SF*csv;
-		/*std::cout<<"Jet CSV Reshaper"<<std::endl;
+		CSVnew=SF;
+		/*std::cout<<"=======Jet CSV Reshaper========"<<std::endl;
+		std::cout<<"Jet Flavor: "<<fabs(jetflavor) <<std::endl;
 		std::cout<<"Jet Pt: "<<pt<<std::endl;
 		std::cout<<"Jet Eta: "<<eta<<std::endl;
 		std::cout<<"Jet CSV: "<<csv<<std::endl;

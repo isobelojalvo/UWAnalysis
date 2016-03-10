@@ -103,6 +103,14 @@ def makeMuTauEffCSV(sourceDiTaus):
    )
    return PSet
 
+def makeMuTauCSVShape(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATMuTauPairCSVReweightFiller"),
+         src         = cms.InputTag(sourceDiTaus)
+   )
+   return PSet
+
+
 
 
 
@@ -199,6 +207,13 @@ def makeEleTauEffCSV(sourceDiTaus):
    )
    return PSet
 
+def makeEleTauCSVShape(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATEleTauPairCSVReweightFiller"),
+         src         = cms.InputTag(sourceDiTaus)
+   )
+   return PSet
+
 
 
 
@@ -242,6 +257,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauGenMCMatch = makeMuTauGenMatch(src),#FILLED
                               muTauNBTags = makeMuTauNBTag(src),#FILLED
                               muTauEffCSV = makeMuTauEffCSV(src),#FILLED
+                              muTauCSVShape = makeMuTauCSVShape(src),#FILLED
                               muTauSize = makeCollSize(src,"nCands"),#FILLED
                               genTaus = makeCollSize("genTauCands","genTaus"), #FIXME
                               muMuSize = makeCollSize(srcLL,"diLeptons"),#CHECKME
@@ -522,6 +538,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               eTauEventWeight = makeEleTauEventWeight(src),#FILLED
                               eleTauNBTags = makeEleTauNBTag(src),#FILLED
                               eleTauEffCSV = makeEleTauEffCSV(src),#FILLED
+                              eleTauCSVShape = makeEleTauCSVShape(src),#FILLED
                               eTauGenMCMatch = makeEleTauGenMatch(src),#FILLED
 
                               muonsSizeET = makeCollSize(srcU,"tightMuons"),

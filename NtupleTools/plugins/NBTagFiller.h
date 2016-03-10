@@ -87,25 +87,48 @@ class NBTagFiller : public NtupleFillerBase {
 					bool btaggeddown = false;
 					bool pass = false;
 					double pt = handle->at(0).jets().at(i)->pt();
-					if (pt>670.) {pt=670.;}
-					else if (pt<30) {continue;}
 					double eta = handle->at(0).jets().at(i)->eta();
+					if (pt<20 || eta<2.4) {continue;}
+					else if (pt>1000.) {pt=999.;}
 					int jetflavor = handle->at(0).jets().at(i)->partonFlavour();
 					double SF =0,SFup=0,SFdown=0,eff=0;
 					if (handle->at(0).jets().at(i)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.80) pass =true;
 					if (fabs(jetflavor) == 5) {                // real b-jet
-						SF = reader->eval(BTagEntry::FLAV_B, eta, pt );
-						SFup = reader_up->eval(BTagEntry::FLAV_B, eta, pt );
-						SFdown = reader_down->eval(BTagEntry::FLAV_B, eta, pt );
+						if (pt<30){ 
+							SF = reader->eval(BTagEntry::FLAV_B, eta, 30. );
+							SFup = 2*reader_up->eval(BTagEntry::FLAV_B, eta, 30. );
+							SFdown = 2*reader_down->eval(BTagEntry::FLAV_B, eta, 30. );
+						}
+						else if (pt>670){ 
+							SF = reader->eval(BTagEntry::FLAV_B, eta, 669. );
+							SFup = 2*reader_up->eval(BTagEntry::FLAV_B, eta, 669. );
+							SFdown = 2*reader_down->eval(BTagEntry::FLAV_B, eta, 669. );
+						}
+						else{ 
+							SF = reader->eval(BTagEntry::FLAV_B, eta,pt );
+							SFup = reader_up->eval(BTagEntry::FLAV_B, eta,pt );
+							SFdown = reader_down->eval(BTagEntry::FLAV_B, eta,pt );
+						}
 						eff = 0.6829; 
 						if (doEff_ && top )eff = h2_TTEffMapB->GetBinContent( h2_TTEffMapB->GetXaxis()->FindBin(pt), h2_TTEffMapB->GetYaxis()->FindBin(fabs(eta)) );
 						else if (doEff_ )eff = h2_ZJetsEffMapB->GetBinContent( h2_ZJetsEffMapB->GetXaxis()->FindBin(pt), h2_ZJetsEffMapB->GetYaxis()->FindBin(fabs(eta)) );
 					}
 					else if (fabs(jetflavor) == 4) { 
-						//cout<< "Flavor 4" <<endl;
-						SF = reader->eval(BTagEntry::FLAV_C, eta, pt );
-						SFup= reader_up->eval(BTagEntry::FLAV_C, eta, pt );
-						SFdown = reader_up->eval(BTagEntry::FLAV_C, eta, pt );
+						if (pt<30){ 
+							SF = reader->eval(BTagEntry::FLAV_C, eta, 30. );
+							SFup = 2*reader_up->eval(BTagEntry::FLAV_C, eta, 30. );
+							SFdown = 2*reader_down->eval(BTagEntry::FLAV_C, eta, 30. );
+						}
+						else if (pt>670){ 
+							SF = reader->eval(BTagEntry::FLAV_C, eta, 669. );
+							SFup = 2*reader_up->eval(BTagEntry::FLAV_C, eta, 669. );
+							SFdown = 2*reader_down->eval(BTagEntry::FLAV_C, eta, 669. );
+						}
+						else{ 
+							SF = reader->eval(BTagEntry::FLAV_C, eta,pt );
+							SFup = reader_up->eval(BTagEntry::FLAV_C, eta,pt );
+							SFdown = reader_down->eval(BTagEntry::FLAV_C, eta,pt );
+						}
 						eff =0.18;
 						if (doEff_&&top) eff = h2_TTEffMapC->GetBinContent( h2_TTEffMapC->GetXaxis()->FindBin(pt), h2_TTEffMapC->GetYaxis()->FindBin(fabs(eta)) );
 						else if (doEff_) eff = h2_ZJetsEffMapC->GetBinContent( h2_ZJetsEffMapC->GetXaxis()->FindBin(pt), h2_ZJetsEffMapC->GetYaxis()->FindBin(fabs(eta)) );
