@@ -81,14 +81,17 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   process.analysisSequence = cms.Sequence()
 
   #mvaMet(process)
-  mvaPairMet(process)
-  metSignificance(process)
+  #mvaPairMet(process)
 
   #Apply Tau Energy Scale Changes
   #EScaledTaus(process,False)
 
   MiniAODEleVIDEmbedder(process,"slimmedElectrons")  
   MiniAODMuonIDEmbedder(process,"slimmedMuons")  
+
+  mvaMet2(process)
+  metSignificance(process)
+
 
   #Add trigger Matching
   muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID")#NEW
@@ -170,6 +173,7 @@ def MiniAODEleVIDEmbedder(process, eles):
   id_modules = [
       'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_25ns_V1_cff',
       'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
+      'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV51_cff',
       'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_nonTrig_V1_cff']
   for idmod in id_modules:
       setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection,None,False)
@@ -253,6 +257,26 @@ def mvaMet(process):
    #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMVAMEtSequence*process.patMVAMet)
    process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.ak4PFL1FastL2L3CorrectorChain*process.pfMVAMEtSequence*process.patMVAMet)
 
+
+def mvaMet2(process):
+
+   from RecoMET.METPUSubtraction.MVAMETConfiguration_cff import runMVAMET
+
+   from RecoMET.METPUSubtraction.localSqlite import recorrectJets
+   recorrectJets(process, False)
+
+   runMVAMET( process, srcMuons = "slimmedMuons", srcElectrons = "slimmedElectrons", srcTaus="slimmedTaus",  jetCollectionPF = "patJetsReapplyJEC"  )
+   process.MVAMET.srcLeptons  = cms.VInputTag("slimmedMuons", "slimmedElectrons", "slimmedTaus")
+   process.MVAMET.requireOS = cms.bool(False)
+   #process.mvaMETTauL = cms.EDProducer('MVAMET',
+   #                          **process.MVAMET.parameters_())
+
+   #process.mvaMETTauL.srcLeptons  = cms.VInputTag("slimmedMuons", "slimmedElectrons", "slimmedTaus")
+   #process.mvaMETTauL.requireOS = cms.bool(False)
+   #process.mvaMETTauL.debug = cms.bool(True)
+
+
+   process.analysisSequence = cms.Sequence(process.analysisSequence*process.MVAMET)
 
 def mvaPairMet(process):
    #I added
