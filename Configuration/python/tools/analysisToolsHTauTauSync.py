@@ -119,10 +119,11 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
 def jetOverloading(process,jets):
 
   process.patOverloadedJets = cms.EDProducer('PATJetOverloader',
-                                        src = cms.InputTag(jets),
-                                        genJets = cms.InputTag("slimmedGenJets")#One collections of gen jets is saved, slimmedGenJets, made from ak4GenJets
-  )                                        
-
+                                           #src = cms.InputTag(jets),
+                                           src = cms.InputTag("patJetsReapplyJEC"), #jets
+                                           genJets = cms.InputTag("slimmedGenJets")#One collections of gen jets is saved, slimmedGenJets, made from ak4GenJets
+     )                                        
+   
   process.jetOverloading = cms.Sequence(process.patOverloadedJets)
   process.analysisSequence*=process.jetOverloading
 

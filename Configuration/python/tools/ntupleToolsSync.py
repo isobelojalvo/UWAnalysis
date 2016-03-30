@@ -305,9 +305,9 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
 
                               muTauMT = makeMuTauPair(src,"mt12","mt12MET"),#FILLED
                               muTauMT1 = makeMuTauPair(src,"mt_1","mt1MET"),#FILLED
-                              muTaupfMT1 = makeMuTauPair(src,"pfmt_1","mt1MET"),#FILLED
+                              #muTaupfMT1 = makeMuTauPair(src,"pfmt_1","mt1MET"),#FILLED
                               muTauMT2 = makeMuTauPair(src,"mt_2","mt2MET"),#FILLED
-                              muTaupfMT2 = makeMuTauPair(src,"pfmt_2","mt2MET"),#FILLED
+                              #muTaupfMT2 = makeMuTauPair(src,"pfmt_2","mt2MET"),#FILLED
                               
 		              muTauTopGenPt = makeMuTauPair(src,"topGenPt","topGenPt"),#FIXME
 		              muTauAntiTopGenPt = makeMuTauPair(src,"antiTopGenPt","antiTopGenPt"),#FIXME
@@ -587,9 +587,9 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
 
                               eleTauMT = makeEleTauPair(src,"mt12","mt12MET"),
                               eleTauMT1 = makeEleTauPair(src,"mt_1","mt1MET"),
-                              eleTaupfMT1 = makeEleTauPair(src,"pfmt_1","mt1MET"),
+                              #eleTaupfMT1 = makeEleTauPair(src,"pfmt_1","mt1MET"),
                               eleTauMT2 = makeEleTauPair(src,"mt_2","mt2MET"),
-                              eleTaupfMT2 = makeEleTauPair(src,"pfmt_2","mt2MET"),
+                              #eleTaupfMT2 = makeEleTauPair(src,"pfmt_2","mt2MET"),
 
                               eleTauTopGenPt = makeEleTauPair(src,"topGenPt","topGenPt"),
                               eleTauAntiTopGenPt = makeEleTauPair(src,"antiTopGenPt","antiTopGenPt"),

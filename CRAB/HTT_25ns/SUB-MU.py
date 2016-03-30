@@ -3,7 +3,14 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_v13'
+#process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_v13'
+
+process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_RunIIFall15DR76_v1'
+
+
+process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
+process.options.allowUnscheduled = cms.untracked.bool(True)
+
 
 from UWAnalysis.Configuration.tools.analysisToolsHTauTauSync import *
 defaultReconstructionMC(process,'HLT',
