@@ -4,23 +4,17 @@ pushd $CMSSW_BASE/src
 
 git clone git@github.com:veelken/SVFit_standalone.git TauAnalysis/SVfitStandalone
 cd TauAnalysis/SVfitStandalone
-git checkout svFit_2015Apr03
+git checkout dd7cf43e3f930040959f7d700cef976307d7cec3
 pushd $CMSSW_BASE/src
 
 
 #MVA MET
-git cms-addpkg RecoMET/METPUSubtraction
+#git cms-addpkg RecoMET/METPUSubtraction
 cd RecoMET/METPUSubtraction/
-git clone https://github.com/rfriese/RecoMET-METPUSubtraction data -b 74X-13TeV-Summer15-July2015
-
-wget https://raw.githubusercontent.com/CMS-HTT/cmssw/587e58b7e3c5905fc8962c0c4ddbc1fb9776196f/RecoMET/METPUSubtraction/plugins/PFMETProducerMVATauTau.cc
-wget https://raw.githubusercontent.com/CMS-HTT/cmssw/587e58b7e3c5905fc8962c0c4ddbc1fb9776196f/RecoMET/METPUSubtraction/plugins/PFMETProducerMVATauTau.h
-mv PFMETProducerMVATauTau.cc plugins/.
-mv PFMETProducerMVATauTau.h plugins/.
-
-#
-# Edit mvaPFMet_cff.py to have the following:
-#
+git cms-addpkg RecoMET/METPUSubtraction
+git cms-addpkg DataFormats/METReco
+git remote add -f mvamet https://github.com/rfriese/cmssw.git
+git checkout MVAMET2_beta_0.6 -b mvamet
 
 pushd $CMSSW_BASE/src
 
