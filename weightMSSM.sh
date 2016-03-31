@@ -1,7 +1,7 @@
 #!/bin/sh
 #mkdir /nfs_scratch/$USER/htt_weighted5
-#cp /nfs_scratch/$USER/htt_unweighted5/* /nfs_scratch/$USER/htt_weighted5/.
-cd /nfs_scratch/$USER/htt_weighted5/
+cp /nfs_scratch/$USER/htt_unweighted12_susy/* /nfs_scratch/$USER/htt_weighted12/.
+cd /nfs_scratch/$USER/htt_weighted12/
 
 
 weightGGA=1;

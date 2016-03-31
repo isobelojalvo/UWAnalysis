@@ -37,7 +37,7 @@ defaultReconstruction(process,'HLT',
                       
 
 #EventSelection
-process.load("UWAnalysis.Configuration.zTauTauXSec_data_cff")
+process.load("UWAnalysis.Configuration.zTauTauXSec_cff")
 
 process.metCalibration.applyCalibration = cms.bool(False)
 
@@ -47,12 +47,12 @@ process.eventSelectionET = cms.Path(process.selectionSequenceET)
 
 from UWAnalysis.Configuration.tools.ntupleToolsZTauTauXSec import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
-addMuTauEventTree(process,'muTauEventTreeFinal','muTausOS','osDiMuons')
+addMuTauEventTree(process,'muTauEventTreeFinal','muTausOS','diMuonsOSSorted')
 
 
 from UWAnalysis.Configuration.tools.ntupleToolsZTauTauXSec import addEleTauEventTree
 addEleTauEventTree(process,'eleTauEventTree')
-addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','osDiElectrons')
+addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','diElectronsOSSorted')
 
 addEventSummary(process,False,'MT','eventSelectionMT')
 addEventSummary(process,False,'ET','eventSelectionET')

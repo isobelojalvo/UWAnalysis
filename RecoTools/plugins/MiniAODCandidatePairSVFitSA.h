@@ -78,10 +78,11 @@ class MiniAODCandidatePairSVFitSA : public edm::EDProducer
 	    measuredTauLeptons.push_back(svFitStandalone::MeasuredTauLepton(svFitStandalone::kTauToHadDecay, compositePtrCandidate.leg2()->pt(),compositePtrCandidate.leg2()->eta(),compositePtrCandidate.leg2()->phi(),compositePtrCandidate.leg2()->mass(),compositePtrCandidate.leg2()->decayMode()));
 	    SVfitStandaloneAlgorithm algo(measuredTauLeptons, theMETP4_.px(), theMETP4_.py(), covMatrix_, 0);
 	    algo.addLogM(false);
-	    algo.integrate();
+            algo.integrateMarkovChain();
 	    double mass = algo.getMass();
 	    //double massErr = algo.massUncert(); 
-	    double pt = 0;//algo.pt(); 
+	    double pt = algo.pt(); 
+	    //double pt = 0;//algo.pt(); 
 	    //double ptErr = algo.ptUncert();
 
 	    compositePtrCandidate.setSVMass(mass);
