@@ -249,16 +249,16 @@ class CompositePtrCandidateT1T2MEtProducer : public edm::EDProducer
 						for (size_t i = 0; i < metCollection->size(); ++i) {
 							const pat::MET& met = (*metCollection)[i];
 							//for ( auto name : met.userCandNames() ) std::cout << name << std::endl;	
-	 						//double l1pt = (round(leg1Ptr->pt()*1000))/1000.0;
+	 						double l1pdg = leg1Ptr->pdgId();
 	 						double l1eta = (round(leg1Ptr->eta()*1000))/1000.0;
 	 						double l1phi = (round(leg1Ptr->phi()*1000))/1000.0;
-	 						//double l2pt = (round(leg2Ptr->pt()*1000))/1000.0;
+	 						double l2pdg = leg2Ptr->pdgId();
 	 						double l2eta = (round(leg2Ptr->eta()*1000))/1000.0;
 	 						double l2phi = (round(leg2Ptr->phi()*1000))/1000.0;
-	 						//double m1pt = (round(met.userCand("lepton1")->pt()*1000))/1000.0;
+	 						double m1pdg = met.userCand("lepton0")->pdgId();
 	 						double m1eta = (round(met.userCand("lepton0")->eta()*1000))/1000.0;
 	 						double m1phi = (round(met.userCand("lepton0")->phi()*1000))/1000.0;
-	 						//double m2pt = (round(met.userCand("lepton2")->pt()*1000))/1000.0;
+	 						double m2pdg = met.userCand("lepton1")->pdgId();
 	 						double m2eta = (round(met.userCand("lepton1")->eta()*1000))/1000.0;
 	 						double m2phi = (round(met.userCand("lepton1")->phi()*1000))/1000.0;
 							
@@ -271,7 +271,7 @@ class CompositePtrCandidateT1T2MEtProducer : public edm::EDProducer
 							if (l1pt == m2pt) {std::cout<<"NOTE: l1pt "<<l1pt<<" matches m2pt "<<m2pt<<std::endl;} 
 							*/
 
-							if ( l1phi == m1phi && l2phi == m2phi && l1eta==m1eta && l2eta==m2eta)
+							if ( l1pdg==m1pdg && l2pdg==m2pdg && l1phi == m1phi && l2phi == m2phi && l1eta==m1eta && l2eta==m2eta)
 							{ 
 								//std::cout<<"FOUND MET MATCH 1"<<std::endl;
 								metPtr = metCollection->ptrAt(i); 

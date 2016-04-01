@@ -36,9 +36,9 @@ class NBTagFiller : public NtupleFillerBase {
 			doEff_(iConfig.getParameter<bool>("doEffMap"))
 	{
 		value = new float[3];
-		t->Branch("NBtagPD",&value[0],"NBtagPD/F");
-		t->Branch("NBtagPDUp",&value[1],"NBtagPDUp/F");
-		t->Branch("NBtagPDDown",&value[2],"NBtagPDDown/F");
+		t->Branch("nbtag",&value[0],"nbtag/F");
+		t->Branch("nbtagUp",&value[1],"nbtagUp/F");
+		t->Branch("nbtagDown",&value[2],"nbtagDown/F");
 		calib=new BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_76.csv");
 		reader_light=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "central");
 		reader_light_up=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "up");
@@ -104,7 +104,8 @@ class NBTagFiller : public NtupleFillerBase {
 					else if (pt>1000.) {pt=999.;}
 					int jetflavor = handle->at(0).jets().at(i)->partonFlavour();
 					double SF =0,SFup=0,SFdown=0,eff=0;
-					if (handle->at(0).jets().at(i)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.80) pass =true;
+					if (handle->at(0).jets().at(i)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.80&&handle->at(0).jets().at(i)->userFloat("idLoose")) pass =true;
+					//if (handle->at(0).jets().at(i)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.80) pass =true;
 					if (fabs(jetflavor) == 5) {                // real b-jet
 						//std::cout<<"=====Jet Flavor B====="<<std::endl;
 						if (pt<30){ 
@@ -181,9 +182,10 @@ class NBTagFiller : public NtupleFillerBase {
 					//std::cout<<"flavor: "<<fabs(jetflavor)<<std::endl;
 					//std::cout<<"SF: "<<SF<<std::endl;
 					//std::cout<<"eff: "<<eff<<std::endl;
-					btagged = applySF(pass, SF, eff);
-					btaggedup = applySF(pass, SFup, eff);
-					btaggeddown = applySF(pass, SFdown, eff);
+					int seed = (int)((eta+5)*100000);
+					btagged = applySF(pass, SF, eff,seed);
+					btaggedup = applySF(pass, SFup, eff,seed);
+					btaggeddown = applySF(pass, SFdown, eff,seed);
 
 					//std::cout<< "Gets To Return" <<std::endl;
 					if (handle->at(0).isData()){
@@ -228,9 +230,10 @@ class NBTagFiller : public NtupleFillerBase {
 		BTagCalibrationReader *reader_light_up;
 		BTagCalibrationReader *reader_light_down;
 
-		bool applySF(bool& isBTagged, float Btag_SF, float Btag_eff){
+		bool applySF(bool& isBTagged, float Btag_SF, float Btag_eff,int seed){
 			TRandom3 * rand_;
 			rand_ = new TRandom3(0);
+			rand_->SetSeed(seed);
 			//rand_ = new TRandom3(12345);
 
 			bool newBTag = isBTagged;

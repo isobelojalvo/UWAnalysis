@@ -34,11 +34,12 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   process.analysisSequence = cms.Sequence()
 
   #mvaMet(process)
-  mvaPairMet(process)
-  metSignificance(process)
-
   MiniAODEleVIDEmbedder(process,"slimmedElectrons")  
   MiniAODMuonIDEmbedder(process,"slimmedMuons")  
+
+  mvaMet2(process, True) #isData
+  metSignificance(process)
+
 
   #Add trigger Matching
   muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID") 
@@ -50,7 +51,8 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   tauOverloading(process,'triggeredPatTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   
   triLeptons(process)
-  jetOverloading(process,"slimmedJets")
+  jetOverloading(process,"patJetsReapplyJEC") #"slimmedJets")
+  #jetOverloading(process,"slimmedJets")#slimmedJets
   jetFilter(process,"patOverloadedJets")
 
 
@@ -89,7 +91,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   MiniAODEleVIDEmbedder(process,"slimmedElectrons")  
   MiniAODMuonIDEmbedder(process,"slimmedMuons")  
 
-  mvaMet2(process)
+  mvaMet2(process,False)
   metSignificance(process)
 
 
@@ -104,7 +106,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   tauOverloading(process,'triggeredPatTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   
   triLeptons(process)
-  jetOverloading(process,"slimmedJets")
+  jetOverloading(process,"patJetsReapplyJEC") #"slimmedJets")
   jetFilter(process,"patOverloadedJets")
 
   #GenSumWeights(process)
@@ -119,8 +121,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
 def jetOverloading(process,jets):
 
   process.patOverloadedJets = cms.EDProducer('PATJetOverloader',
-                                           #src = cms.InputTag(jets),
-                                           src = cms.InputTag("patJetsReapplyJEC"), #jets
+                                           src = cms.InputTag(jets),
                                            genJets = cms.InputTag("slimmedGenJets")#One collections of gen jets is saved, slimmedGenJets, made from ak4GenJets
      )                                        
    
@@ -163,7 +164,6 @@ def MiniAODMuonIDEmbedder(process,muons):
 def MiniAODEleVIDEmbedder(process, eles):
   #Turn on versioned cut-based ID
   from PhysicsTools.SelectorUtils.tools.vid_id_tools import setupAllVIDIdsInModule, setupVIDElectronSelection, switchOnVIDElectronIdProducer, DataFormat, setupVIDSelection
-  #from PhysicsTools.SelectorUtils.tools.vid_id_tools import  setupAllVIDIdsInModule, setupVIDElectronSelection, switchOnVIDElectronIdProducer, DataFormat
   switchOnVIDElectronIdProducer(process, DataFormat.MiniAOD)
   process.load("RecoEgamma.ElectronIdentification.egmGsfElectronIDs_cfi")
   process.egmGsfElectronIDs.physicsObjectSrc = cms.InputTag(eles)
@@ -173,11 +173,12 @@ def MiniAODEleVIDEmbedder(process, eles):
   process.egmGsfElectronIDSequence = cms.Sequence(process.electronMVAValueMapProducer+process.egmGsfElectronIDs)
   id_modules = [
       'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_25ns_V1_cff',
+      #'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV51_cff',
       'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
-      'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV51_cff',
       'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_nonTrig_V1_cff']
   for idmod in id_modules:
-      setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection,None,False)
+      setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
+      #setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection,None,False)
   
   IDLabels = ["eleMVAIDnonTrig80", "eleMVAIDnonTrig90","CBIDVeto", "CBIDLoose", "CBIDMedium", "CBIDTight","eleHEEPid"] # keys of based id user floats
   IDTags = [
@@ -259,16 +260,17 @@ def mvaMet(process):
    process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.ak4PFL1FastL2L3CorrectorChain*process.pfMVAMEtSequence*process.patMVAMet)
 
 
-def mvaMet2(process):
+def mvaMet2(process, bool isData):
 
    from RecoMET.METPUSubtraction.MVAMETConfiguration_cff import runMVAMET
 
    from RecoMET.METPUSubtraction.localSqlite import recorrectJets
-   recorrectJets(process, False)
+   recorrectJets(process, isData)
 
-   runMVAMET( process, srcMuons = "slimmedMuons", srcElectrons = "slimmedElectrons", srcTaus="slimmedTaus",  jetCollectionPF = "patJetsReapplyJEC"  )
+   runMVAMET( process, jetCollectionPF = "patJetsReapplyJEC"  )
    process.MVAMET.srcLeptons  = cms.VInputTag("slimmedMuons", "slimmedElectrons", "slimmedTaus")
    process.MVAMET.requireOS = cms.bool(False)
+   process.MVAMET.debug = cms.bool(True)
    #process.mvaMETTauL = cms.EDProducer('MVAMET',
    #                          **process.MVAMET.parameters_())
 

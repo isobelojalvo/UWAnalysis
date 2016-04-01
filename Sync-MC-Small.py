@@ -10,7 +10,7 @@ process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 process.options.allowUnscheduled = cms.untracked.bool(True)
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1000)
+    input = cms.untracked.int32(30)
 )
 
 
@@ -89,3 +89,5 @@ addMuTauEventTree(process,'muTauEventTree')
 addEventSummary(process,True,'MT','eventSelectionMT')
 #addEventSummary(process,True,'ET','eventSelectionET')
 
+dump_file = open('dump.py','w')
+dump_file.write(process.dumpPython())

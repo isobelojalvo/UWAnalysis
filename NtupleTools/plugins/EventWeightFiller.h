@@ -30,7 +30,7 @@ class EventWeightFiller : public NtupleFillerBase {
 			isMu_(iConfig.getParameter<bool>("isMuon"))
 	{
 		value = new float[3];
-		t->Branch("idweight_1",&value[0],"idweight_1/F");
+		t->Branch("idisoweight_1",&value[0],"idisoweight_1/F");
 		t->Branch("trigweight_1",&value[1],"trigweight_1/F");
 		t->Branch((tag_+"EffWeight").c_str(),&value[2],(tag_+"EffWeight/F").c_str());
 	}
@@ -43,14 +43,10 @@ class EventWeightFiller : public NtupleFillerBase {
 		void fill(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 		{
 			std::string base = std::getenv("CMSSW_BASE");
-			std::string fMuonIsolation =   "/src/HTT-utilities/LepEffInterface/data/Muon/Muon_IdIso0p10_eff.root";
-			//std::string fMuonIsolation =   "/src/HTT-utilities/LepEffInterface/data/Muon/Muon_IdIso0p10_eff.root";
-			std::string fMuonTrigger =   "/src/HTT-utilities/LepEffInterface/data/Muon/Muon_SingleMu_eff.root";
-			//std::string fMuonTrigger =   "/src/HTT-utilities/LepEffInterface/data/Muon/Muon_SingleMu_eff.root";
-			std::string fEleIsolation =   "/src/HTT-utilities/LepEffInterface/data/Electron/Electron_IdIso0p10_eff.root";
-			//std::string fEleIsolation =   "/src/HTT-utilities/LepEffInterface/data/Electron/Electron_IdIso0p1_eff.root";
-			std::string fEleTrigger =   "/src/HTT-utilities/LepEffInterface/data/Electron/Electron_SingleEle_eff.root";
-			//std::string fEleTrigger =   "/src/HTT-utilities/LepEffInterface/data/Electron/Electron_SingleEle_eff.root";
+			std::string fMuonIsolation =   "/src/HTT-utilities/LepEffInterface/data/Muon/Muon_IdIso0p1_fall15.root";
+			std::string fMuonTrigger =   "/src/HTT-utilities/LepEffInterface/data/Muon/Muon_IsoMu18_fall15.root";
+			std::string fEleIsolation =   "/src/HTT-utilities/LepEffInterface/data/Electron/Electron_IdIso0p1_fall15.root";
+			std::string fEleTrigger =   "/src/HTT-utilities/LepEffInterface/data/Electron/Electron_Ele23_fall15.root";
 			std::string fileIso;
 			std::string fileTrig;
 			if (isMu_) {
