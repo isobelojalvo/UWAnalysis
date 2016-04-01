@@ -14,6 +14,7 @@
 #include "FWCore/ParameterSet/interface/FileInPath.h"
 
 #include "TauAnalysis/SVfitStandalone/interface/SVfitStandaloneAlgorithm.h"
+#include "HTT-utilities/RecoilCorrections/interface/RecoilCorrector.h"
 
 #include "TFile.h"
 #include "TTree.h"
@@ -81,6 +82,12 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
       dirsav->cd();
     }
     else if(obj->IsA()->InheritsFrom(TTree::Class())) {
+      // use this RooT file when running on aMC@NLO DY and W+Jets MC samples
+      RecoilCorrector recoilMvaMetCorrector("HTT-utilities/RecoilCorrections/data/recoilMvaMEt_76X_newTraining.root"); // for amc@NLO
+
+      // use this RooT file when running on MG5 DY and W+Jets MC samples or Higgs MC samples
+      //RecoilCorrector recoilMvaMetCorrector("HTT-utilities/RecoilCorrections/data/recoilMvaMEt_76X_newTraining_MG5.root"); // for MG5 and Higgs
+
       TTree *t = (TTree*)obj;
       float svFitMass = -10;
       float svFitPt = -10;

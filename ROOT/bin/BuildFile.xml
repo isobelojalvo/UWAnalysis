@@ -6,6 +6,7 @@
 <use   name="TauAnalysis/SVfitStandalone"/> 
 <use   name="roofit"/>
 <use   name="roostats"/>
+<use   name="HTT-utilities/RecoilCorrections"/>
 <!--<use   name="roottmva"/>0-->
 
 
