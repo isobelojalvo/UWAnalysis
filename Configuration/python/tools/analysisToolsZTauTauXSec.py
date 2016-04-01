@@ -34,6 +34,7 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   process.analysisSequence = cms.Sequence()
 
   #mvaMet(process)
+  mvaPairMet(process)
   metSignificance(process)
 
   MiniAODEleVIDEmbedder(process,"slimmedElectrons")  
@@ -80,6 +81,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   process.analysisSequence = cms.Sequence()
 
   #mvaMet(process)
+  mvaPairMet(process)
   metSignificance(process)
 
   #Apply Tau Energy Scale Changes
@@ -99,6 +101,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   tauOverloading(process,'triggeredPatTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   
   triLeptons(process)
+  #jetCSVShaping(process,"slimmedJets")
   jetOverloading(process,"slimmedJets")
   jetFilter(process,"patOverloadedJets")
 
@@ -130,6 +133,45 @@ def jetFilter(process,jets):
 
   process.jetFiltering = cms.Sequence(process.filteredJets)
   process.analysisSequence*=process.jetFiltering
+
+
+def jetCSVShaping(process,jets):
+
+  process.jetsCSVweighting = cms.EDProducer('MiniAODCSVReweighting',
+                                        src = cms.InputTag(jets)
+  )                                        
+
+  process.jetCSVWeights = cms.Sequence(process.jetsCSVweighting)
+  process.analysisSequence*=process.jetCSVWeights
+
+def jetJECApplication(process,jets):
+
+  process.load('JetMETCorrections.Configuration.JetCorrectors_cff')
+  process.ak4PFchsCorrectedJets   = cms.EDProducer('CorrectedPFJetProducer',
+    src         = cms.InputTag('ak4PFchsJets'),
+    correctors  = cms.vstring('ak4PFCHSL1FastL2L3Corrector')
+  )
+  process.jetJECpath = cms.Sequence(process.ak4PFCHSL1FastL2L3CorrectorChain*process.ak4PFchsCorrectedJets)
+  process.analysisSequence *=process.jetJECpath
+
+
+def jetCSVShaping(process,jets):
+
+  process.jetsCSVweighting = cms.EDProducer('MiniAODCSVReweighting',
+                                        src = cms.InputTag(jets)
+  )                                        
+
+  process.jetCSVWeights = cms.Sequence(process.jetsCSVweighting)
+  process.analysisSequence*=process.jetCSVWeights
+
+
+  process.jetsJECApplicaiton = cms.EDProducer('MiniAODCSVReweighting',
+                                        src = cms.InputTag(jets)
+  )                                        
+
+  process.jetCSVWeights = cms.Sequence(process.jetsCSVweighting)
+  process.analysisSequence*=process.jetCSVWeights
+
 
 
 
@@ -215,24 +257,6 @@ def EScaledTaus(process,smearing):  #second arg is bool
   process.analysisSequence*=process.EScaledTaus
 
 
-#process.load("RecoJets.JetProducers.ak4PFJets_cfi")
-#process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
-#process.ak4PFJets.doAreaFastjet = cms.bool(True)
-#
-#from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFJetsL1FastL2L3
-#
-#process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
-##process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
-#process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
-#process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
-#
-#process.puJetIdForPFMVAMEt.jec =  cms.string('AK4PF')
-##process.puJetIdForPFMVAMEt.jets = cms.InputTag("ak4PFJets")
-#process.puJetIdForPFMVAMEt.vertexes = cms.InputTag("offlineSlimmedPrimaryVertices")
-#process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
-
-
-
 
 def mvaMet(process):
    #I added
@@ -248,7 +272,10 @@ def mvaMet(process):
    process.load("JetMETCorrections.Configuration.DefaultJEC_cff")
    
    process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
-   #process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
+   #process.pfMVAMEt.srcLeptons = cms.VInputTag(
+   #   cms.InputTag("slimmedTaus", "", ""),
+   #   cms.InputTag("slimmedMuons", "", ""),
+   #)
    process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
    process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
    
@@ -264,6 +291,54 @@ def mvaMet(process):
 
    #process.analysisSequence = cms.Sequence(process.analysisSequence*process.pfMVAMEtSequence*process.patMVAMet)
    process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.ak4PFL1FastL2L3CorrectorChain*process.pfMVAMEtSequence*process.patMVAMet)
+
+
+def mvaPairMet(process):
+   #I added
+   process.load("PhysicsTools.PatAlgos.producersLayer1.metProducer_cfi")  
+
+   from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFL1Fastjet
+   process.load("RecoJets.JetProducers.ak4PFJets_cfi")
+   process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
+   process.ak4PFJets.doAreaFastjet = cms.bool(True)
+   process.load('JetMETCorrections.Configuration.JetCorrectors_cff')
+  
+   process.load("JetMETCorrections.Configuration.DefaultJEC_cff")
+   
+   
+   process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
+   process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
+   process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
+
+   process.puJetIdForPFMVAMEt.jec =  cms.string('AK4PF')
+   process.puJetIdForPFMVAMEt.vertexes = cms.InputTag("offlineSlimmedPrimaryVertices")
+   process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
+ 
+   process.mvaMETTauMu = cms.EDProducer('PFMETProducerMVATauTau', 
+                             **process.pfMVAMEt.parameters_())
+
+   process.mvaMETTauMu.srcPFCandidates = cms.InputTag("packedPFCandidates")
+   process.mvaMETTauMu.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
+   process.mvaMETTauMu.srcRho = cms.InputTag("fixedGridRhoFastjetAll")
+   process.mvaMETTauMu.srcLeptons = cms.VInputTag(
+      cms.InputTag("slimmedMuons"), 
+      cms.InputTag("slimmedTaus")
+   )
+   process.mvaMETTauMu.permuteLeptons = cms.bool(True)
+
+   process.mvaMETTauEle = cms.EDProducer('PFMETProducerMVATauTau', 
+                             **process.pfMVAMEt.parameters_())
+
+   process.mvaMETTauEle.srcPFCandidates = cms.InputTag("packedPFCandidates")
+   process.mvaMETTauEle.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
+   process.mvaMETTauEle.srcRho = cms.InputTag("fixedGridRhoFastjetAll")
+   process.mvaMETTauEle.srcLeptons = cms.VInputTag(
+      cms.InputTag("slimmedElectrons"), 
+      cms.InputTag("slimmedTaus")
+   )
+   process.mvaMETTauEle.permuteLeptons = cms.bool(True)
+
+   process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.ak4PFL1FastL2L3CorrectorChain*process.pfMVAMEtSequence*process.mvaMETTauMu*process.mvaMETTauEle)
 
 
 
@@ -314,7 +389,6 @@ def triLeptons(process):
   						
   process.TightMuons = cms.EDFilter("PATMuonSelector",
   							src = cms.InputTag("miniAODMuonID"),
-  							#userInt("mediumID"),
   							cut = cms.string('pt>10&&abs(eta)<2.4&&abs(userFloat("dZ"))<0.2&&abs(userFloat("dXY"))<0.045&&isMediumMuon>0&&userFloat("dBRelIso03")<0.3'),
   							filter = cms.bool(False)
   						)
@@ -341,35 +415,27 @@ def kineWeightsEmbMT(process):
   						
 
   						
-def applyDefaultSelectionsPT(process):#FIXME THISWILL HVAE TO CHANGE
+def applyDefaultSelectionsPT(process):#FIXME THISWILL HVAE TO CHANGE-- not cureently used!!!
   #DONT CHANGE THOSE HERE:: THEY ARE NOT USED FOR YOUR SELECTIONS!!!
   #ONLY FOR SYSTEMATICS . PLEASE CHANGE THEM in YOUR CFG FILE IF REALLY NEEDED
   process.selectedPatTaus = cms.EDFilter("PATTauSelector",
-                                           src = cms.InputTag("slimmedTaus"),
-                                           cut = cms.string('pt>15'),
-                                           #cut = cms.string('pt>15&&tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<3&&tauID("againstElectronVLooseMVA6")&&tauID("againstMuonLoose3")'),
+                                           src = cms.InputTag("patOverloadedTaus"),
+                                           cut = cms.string('pt>15&&tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")<3&&tauID("decayModeFindingNewDMs")&&tauID("againstElectronVLooseMVA6")&&tauID("againstMuonLoose3")'),
                                            filter = cms.bool(False)
   										)  
   process.selectedPatElectrons = cms.EDFilter("PATElectronSelector",
-                                           src = cms.InputTag("slimmedElectrons"),
-                                           #src = cms.InputTag("miniAODElectronVID"),
-                                           cut = cms.string('pt>10'),
-                                           #cut = cms.string('pt>10&&userFloat("eleMVAIDnonTrig90")>0&&userFloat("dBRelIso03")<0.3'),
+                                           src = cms.InputTag("miniAODElectronVID"),
+                                           cut = cms.string('pt>10&&userFloat("eleMVAIDnonTrig90")>0&&userFloat("dBRelIso03")<0.3'),
                                            filter = cms.bool(False)
   										)
   process.selectedPatMuons = cms.EDFilter("PATMuonSelector",
-                                           src = cms.InputTag("slimmedMuons"),
-                                           #src = cms.InputTag("miniAODMuonID"),
-                                           cut = cms.string('pt>10'),
-                                           #cut = cms.string('pt>10&&userInt("mediumID")&&userFloat("dBRelIso03")<0.3'),
+                                           src = cms.InputTag("miniAODMuonID"),
+                                           cut = cms.string('pt>10&&isMediumMuon>0&&userFloat("dBRelIso03")<0.3'),
                                            filter = cms.bool(False)
   										) 
   process.cleanPatJets = cms.EDProducer("PATJetCleaner",
-                                           src = cms.InputTag("slimmedJets"),#"patMVAEmbeddedJets"
-                                           #src = cms.InputTag("filteredJets"),#"patMVAEmbeddedJets"
-                                           #src = cms.InputTag("patOverloadedJets"),#"patMVAEmbeddedJets"
-                                           #preselection = cms.string('abs(eta)<4.7&&pt>10&&userFloat("idLoose")'),
-                                           preselection = cms.string('abs(eta)<4.7&&pt>10'),
+                                           src = cms.InputTag("filteredJets"),#"patMVAEmbeddedJets"
+                                           preselection = cms.string('abs(eta)<4.7&&pt>10&&userFloat("idLoose")'),
                                            checkOverlaps = cms.PSet(),
                                            finalCut = cms.string('')
   										)								 									  
@@ -530,7 +596,7 @@ def createGeneratedParticles(process,name,commands):
   refObjects = cms.EDProducer("GenParticlePruner",
     src = cms.InputTag("prunedGenParticles"),
     select = cms.vstring(
-    "keep  *  " 
+    "drop * " 
     )
    )
   refObjects.select.extend(commands)

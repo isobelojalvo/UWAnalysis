@@ -1,20 +1,20 @@
 #!/bin/sh
-mkdir /nfs_scratch/$USER/htt_weighted5
-cp /nfs_scratch/$USER/htt_unweighted5/* /nfs_scratch/$USER/htt_weighted5/.
-cd /nfs_scratch/$USER/htt_weighted5/
+mkdir /nfs_scratch/$USER/htt_weighted8
+cp /nfs_scratch/$USER/htt_unweighted8/* /nfs_scratch/$USER/htt_weighted8/.
+cd /nfs_scratch/$USER/htt_weighted8/
 
 
 weight=1;
 weightH=1;
-weightZ=1;
+weightZ=0;
 
 
 
 if [ $weightH -eq 1 ]
     then
     EventWeightsIterativeGen outputFile='ggH120.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
-    EventWeightsIterativeGen outputFile='ggH125.root'     weight=2.7757    histoName='MT/results' sumHistoName='sumweights/genWeights'
-    EventWeightsIterativeGen outputFile='vbfH125.root'     weight=0.2368    histoName='MT/results' sumHistoName='sumweights/genWeights'
+    EventWeightsIterativeGen outputFile='ggH125.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
+    EventWeightsIterativeGen outputFile='vbfH125.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='vbfH130.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
 fi
 
@@ -24,7 +24,7 @@ if [ $weightZ -eq 1 ]
     EventWeightsIterativeGen outputFile='Z2Jets.root'     weight=331.4    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='Z3Jets.root'     weight=96.36    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='Z4Jets.root'     weight=51.4    histoName='MT/results' sumHistoName='sumweights/genWeights'
-    hadd ZJetsStitched.root Z*Jets.root
+    #hadd ZJetsStitched.root Z*Jets.root
     #lowmass
     #EventWeightsIterativeGen outputFile='ZJets1050.root'     weight=18610    histoName='MT/results' sumHistoName='sumweights/genWeights'
     #EventWeightsIterativeGen outputFile='Z2Jets1050.root'     weight=184.3    histoName='MT/results' sumHistoName='sumweights/genWeights'
@@ -34,7 +34,7 @@ fi
 
 if [ $weight -eq 1 ]
     then
-    #EventWeightsIterativeGen outputFile='ZJets.root'     weight=6025.2    histoName='MT/results' sumHistoName='sumweights/genWeights' #Z in in Z
+    EventWeightsIterativeGen outputFile='ZJets.root'     weight=6025.2    histoName='MT/results' sumHistoName='sumweights/genWeights' #Z in in Z
     EventWeightsIterativeGen outputFile='TTJets.root'  weight=831.76     histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='TT.root'  weight=831.76     histoName='MT/results' sumHistoName='sumweights/genWeights'
 

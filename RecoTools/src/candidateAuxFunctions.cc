@@ -168,7 +168,7 @@ reco::Candidate::LorentzVector getVisMomentum(const reco::GenParticle* genLeg, c
   std::vector<const reco::GenParticle*> stableDaughters;
   findDaughters(genLeg, stableDaughters, 1);
 
-  reco::Candidate::LorentzVector p4Vis = getVisMomentum(stableDaughters);
+  reco::Candidate::LorentzVector p4Vis = getVisMomentum(stableDaughters,-1);
 
   return p4Vis;
 }

@@ -84,7 +84,9 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   double x1gen() const { return ( p4Leg1gen_.energy() > 0. ) ? p4VisLeg1gen_.energy()/p4Leg1gen_.energy() : -1.; }
   double x2gen() const { return ( p4Leg2gen_.energy() > 0. ) ? p4VisLeg2gen_.energy()/p4Leg2gen_.energy() : -1.; }
 
+  float isData() const {return data_;}
   //Top Gen Pt
+  float isTop() const {return top_;}
   float topGenPt() const {return topGenPt_;}
   float antiTopGenPt() const {return antiTopGenPt_;}
 
@@ -209,6 +211,8 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   double recoilDPhi() const {return recoilDPhi_;}
   double EventBTag() const {return EventBTag_;}
   double NBTags() const {return NBTags_;}
+  double NBTagsUp() const {return NBTagsUp_;}
+  double NBTagsDown() const {return NBTagsDown_;}
   TMatrixD covMatrix() const {return covMatrix_;}
 
 
@@ -340,7 +344,9 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   void setSFCSVT1err(double SFCSVT1err) { SFCSVT1err_ = SFCSVT1err; }
   void setSFCSVT2err(double SFCSVT2err) { SFCSVT2err_ = SFCSVT2err; }
 
+  void setIsData(bool data){data_ = data;}
   ///set top pt
+  void setIsTop(bool top){top_ = top;}
   void setTopGenPt(float topGenPt){topGenPt_ = topGenPt;}
   void setAntiTopGenPt(float antiTopGenPt){antiTopGenPt_ = antiTopGenPt;}
 
@@ -456,6 +462,8 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   void setRecoilDPhi(double recoilDPhi) { recoilDPhi_ = recoilDPhi; }
   void setEventBTag(bool EventBTag) { EventBTag_ = EventBTag; }
   void setNBTags(int NBTags) { NBTags_ = NBTags; }
+  void setNBTagsUp(int NBTagsUp) { NBTagsUp_ = NBTagsUp; }
+  void setNBTagsDown(int NBTagsDown) { NBTagsDown_ = NBTagsDown; }
 
 
   //jet variables
@@ -476,6 +484,9 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   reco::Candidate::LorentzVector metOld_;
   reco::Candidate::LorentzVector calibratedMET_;
 
+  bool data_;
+
+  bool top_;
   float topGenPt_;
   float antiTopGenPt_;
 
@@ -587,6 +598,8 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   double recoilDPhi_;
   bool EventBTag_;
   int NBTags_;
+  int NBTagsUp_;
+  int NBTagsDown_;
 
   //jets
   std::vector<JetPtr> jets_;
