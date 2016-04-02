@@ -289,7 +289,7 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 	  measuredMETx = met*TMath::Cos(metphi);
 	  measuredMETy = met*TMath::Sin(metphi);
 	  //Recoil Correction time
-	  if(recoilType != 0)
+	  if(recoilType != 0){
 	    recoilMvaMetCorrector.CorrectByMeanResolution(measuredMETx, // uncorrected mva met px (float)
 							  measuredMETy, // uncorrected mva met py (float)
 							  genPx, // generator Z/W/Higgs px (float)
@@ -299,7 +299,13 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 							  njets,  // number of jets (hadronic jet multiplicity) (int)
 							  mvametcorr_ex, // corrected met px (float)
 							  mvametcorr_ey  // corrected met py (float)
-							  );
+							  );}
+	  else{
+	    mvametcorr_ex = measuredMETx;
+	    mvametcorr_ey = measuredMETy;
+	  }
+
+
 	  if(channel=="et" || channel=="mt"){
 	    mass2 = m2;
 	    if(decayMode==0)
