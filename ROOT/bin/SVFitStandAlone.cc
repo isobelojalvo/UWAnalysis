@@ -20,8 +20,12 @@
 #include "TTree.h"
 #include "TH1.h"
 
+//If recoilType 0 then don't do recoil
+//              1 then aMC@NLO DY and W+Jets MC samples
+//              2 MG5 DY and W+Jets MC samples or Higgs MC samples
+
 void copyFiles( optutl::CommandLineParser parser, TFile* fOld, TFile* fNew) ;
-void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]) ;
+void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[], int recoilType) ;
 void CopyFile(const char *fname, optutl::CommandLineParser parser);
 void CopyDir(TDirectory *source,optutl::CommandLineParser parser);
 void runSVFit(std::vector<svFitStandalone::MeasuredTauLepton> & measuredTauLeptons, double measuredMETx, double measuredMETy, TMatrixD &covMET, float num, float &svFitMass, float& svFitPt, float &svFitEta, float &svFitPhi, float &svFitMET);
@@ -32,6 +36,7 @@ int main (int argc, char* argv[])
    parser.addOption("branch",optutl::CommandLineParser::kString,"Branch","__svFit__");
    parser.addOption("newFile",optutl::CommandLineParser::kString,"newFile","newFile");
    parser.addOption("newOutputFile",optutl::CommandLineParser::kDouble,"New Output File",0.0);
+   parser.addOption("recoilType",optutl::CommandLineParser::kDouble,"recoilType",0.0);
 
    parser.parseArguments (argc, argv);
    
@@ -49,13 +54,13 @@ int main (int argc, char* argv[])
      fProduce = new TFile(newFileName.c_str(),"UPDATE");
      std::cout<<"listing the directories================="<<std::endl;
      fProduce->ls();
-     readdir(fProduce,parser,TreeToUse);
+     readdir(fProduce,parser,TreeToUse,parser.doubleValue("recoilType"));
      fProduce->Close();
      f->Close();
    }
    else{
      TFile *f = new TFile(parser.stringValue("outputFile").c_str(),"UPDATE");
-     readdir(f,parser,TreeToUse);
+     readdir(f,parser,TreeToUse,parser.doubleValue("recoilType"));
      f->Close();
    }
 
@@ -63,8 +68,14 @@ int main (int argc, char* argv[])
 } 
 
 
-void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]) 
+void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[], int recoilType) 
 {
+  std::string recoilFileName = "";
+  if(recoilType == 1) //amc@nlo
+    recoilFileName = "HTT-utilities/RecoilCorrections/data/recoilMvaMEt_76X_newTraining.root";
+  if(recoilType == 2) //MG5
+    recoilFileName = "HTT-utilities/RecoilCorrections/data/recoilMvaMEt_76X_newTraining_MG5.root";
+
   TDirectory *dirsav = gDirectory;
   TIter next(dir->GetListOfKeys());
   TKey *key;
@@ -78,15 +89,12 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
       dir->cd(key->GetName());
       TDirectory *subdir = gDirectory;
       sprintf(TreeToUse,"%s",key->GetName());
-      readdir(subdir,parser,TreeToUse);
+      readdir(subdir,parser,TreeToUse,parser.doubleValue("recoilType"));
       dirsav->cd();
     }
     else if(obj->IsA()->InheritsFrom(TTree::Class())) {
       // use this RooT file when running on aMC@NLO DY and W+Jets MC samples
-      RecoilCorrector recoilMvaMetCorrector("HTT-utilities/RecoilCorrections/data/recoilMvaMEt_76X_newTraining.root"); // for amc@NLO
-
-      // use this RooT file when running on MG5 DY and W+Jets MC samples or Higgs MC samples
-      //RecoilCorrector recoilMvaMetCorrector("HTT-utilities/RecoilCorrections/data/recoilMvaMEt_76X_newTraining_MG5.root"); // for MG5 and Higgs
+      RecoilCorrector recoilMvaMetCorrector(recoilFileName);
 
       TTree *t = (TTree*)obj;
       float svFitMass = -10;
@@ -94,6 +102,7 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
       float svFitEta = -10;
       float svFitPhi = -10;
       float svFitMET = -10;
+
       float mvametcorr_ex=-10; // corrected met px (float)
       float mvametcorr_ey=10;  // corrected met py (float)
 
@@ -104,8 +113,8 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
       TBranch *newBranch4 = t->Branch("phi_sv", &svFitPhi, "phi_sv/F");
       TBranch *newBranch5 = t->Branch("met_sv", &svFitMET, "met_sv/F");
 
-      TBranch *newBranch6 = t->Branch("mvametcorr_ex", mvametcorr_ex&, "mvametcorr_ex/F");
-      TBranch *newBranch7 = t->Branch("mvametcorr_ey", mvametcorr_ey&, "mvametcorr_ey/F");
+      TBranch *newBranch6 = t->Branch("mvametcorr_ex", &mvametcorr_ex, "mvametcorr_ex/F");
+      TBranch *newBranch7 = t->Branch("mvametcorr_ey", &mvametcorr_ey, "mvametcorr_ey/F");
 
       unsigned int evt, run, lumi;
       float pt1;
@@ -123,11 +132,11 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
       float covMatrix11;
       float mvamet_ex, // uncorrected mva met px (float)
 	    mvamet_ey, // uncorrected mva met py (float)
-	    genPx, // generator Z/W/Higgs px (float)
-	    genPy, // generator Z/W/Higgs py (float)
-	    visPx, // generator visible Z/W/Higgs px (float)
-	    visPy, // generator visible Z/W/Higgs py (float)
-	njets;  // number of jets (hadronic jet multiplicity) (int)
+	    genPx    , // generator Z/W/Higgs px (float)
+	    genPy    , // generator Z/W/Higgs py (float)
+	    visPx    , // generator visible Z/W/Higgs px (float)
+	    visPy    , // generator visible Z/W/Higgs py (float)
+	    njets    ;  // number of jets (hadronic jet multiplicity) (int)
 
       // define MET
       double measuredMETx;
@@ -262,17 +271,35 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
         t->SetBranchAddress("mvamet",&met);
         t->SetBranchAddress("mvametphi",&metphi);
       }
-      
+      //Check me mvamet_ex?
+      t->SetBranchAddress( "mvamet_ex",&mvamet_ex);
+      t->SetBranchAddress( "mvamet_ey",&mvamet_ey);
+      t->SetBranchAddress( "genPx", &genPx);
+      t->SetBranchAddress( "genPy", &genPy);
+      t->SetBranchAddress( "visPx", &visPx);
+      t->SetBranchAddress( "visPy", &visPy);
+      t->SetBranchAddress( "njets", &njets);
+
       printf("Found tree -> weighting\n");
       for(Int_t i=0;i<t->GetEntries();++i)
 	{
 	  t->GetEntry(i);
-
 	  TMet.SetPtEtaPhiM(met,0,metphi,0);
 	  
 	  measuredMETx = met*TMath::Cos(metphi);
 	  measuredMETy = met*TMath::Sin(metphi);
-
+	  //Recoil Correction time
+	  if(recoilType != 0)
+	    recoilMvaMetCorrector.CorrectByMeanResolution(measuredMETx, // uncorrected mva met px (float)
+							  measuredMETy, // uncorrected mva met py (float)
+							  genPx, // generator Z/W/Higgs px (float)
+							  genPy, // generator Z/W/Higgs py (float)
+							  visPx, // generator visible Z/W/Higgs px (float)
+							  visPy, // generator visible Z/W/Higgs py (float)
+							  njets,  // number of jets (hadronic jet multiplicity) (int)
+							  mvametcorr_ex, // corrected met px (float)
+							  mvametcorr_ey  // corrected met py (float)
+							  );
 	  if(channel=="et" || channel=="mt"){
 	    mass2 = m2;
 	    if(decayMode==0)
@@ -297,7 +324,8 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 	  	  svFitStandalone::MeasuredTauLepton(decayType2,  pt2, eta2, phi2,  mass2, decayMode)
 	  				 ); // tau -> 1prong0pi0 hadronic decay (Pt, eta, phi, mass, pat::Tau.decayMode())
 	    std::cout<< "evt: "<<evt<<" run: "<<run<<" lumi: "<<lumi<< " pt1 " << pt1 << " mass1 " << mass1 << " pt2: "<< pt2<< " mass2: "<< mass2 <<std::endl;        
-	    runSVFit(measuredTauLeptons, measuredMETx, measuredMETy, covMET, 0, svFitMass, svFitPt, svFitEta, svFitPhi, svFitMET);
+	    //modified
+	    runSVFit(measuredTauLeptons, mvametcorr_ex, mvametcorr_ey, covMET, 0, svFitMass, svFitPt, svFitEta, svFitPhi, svFitMET);
 	    std::cout<<"finished runningSVFit"<<std::endl;
 	    /*
 	    SVfitStandaloneAlgorithm algo(measuredTauLeptons, measuredMETx, measuredMETy, covMET, 0);
@@ -383,6 +411,8 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 	  newBranch3->Fill();
 	  newBranch4->Fill();
 	  newBranch5->Fill();
+	  newBranch6->Fill();
+	  newBranch7->Fill();
 	}
       dir->cd();
       t->Write("",TObject::kOverwrite);
