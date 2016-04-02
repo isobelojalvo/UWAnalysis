@@ -94,12 +94,19 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
       float svFitEta = -10;
       float svFitPhi = -10;
       float svFitMET = -10;
+      float mvametcorr_ex=-10; // corrected met px (float)
+      float mvametcorr_ey=10;  // corrected met py (float)
+
       //TBranch *newBranch = t->Branch(parser.stringValue("branch").c_str(),&svFitMass,(parser.stringValue("branch")+"/F").c_str());
       TBranch *newBranch1 = t->Branch("m_sv", &svFitMass, "m_sv/F");
       TBranch *newBranch2 = t->Branch("p_sv", &svFitPt, "pt_sv/F");
       TBranch *newBranch3 = t->Branch("eta_sv", &svFitEta, "eta_sv/F");
       TBranch *newBranch4 = t->Branch("phi_sv", &svFitPhi, "phi_sv/F");
       TBranch *newBranch5 = t->Branch("met_sv", &svFitMET, "met_sv/F");
+
+      TBranch *newBranch6 = t->Branch("mvametcorr_ex", mvametcorr_ex&, "mvametcorr_ex/F");
+      TBranch *newBranch7 = t->Branch("mvametcorr_ey", mvametcorr_ey&, "mvametcorr_ey/F");
+
       unsigned int evt, run, lumi;
       float pt1;
       float eta1;
@@ -114,6 +121,14 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
       float covMatrix10;
       float covMatrix01;
       float covMatrix11;
+      float mvamet_ex, // uncorrected mva met px (float)
+	    mvamet_ey, // uncorrected mva met py (float)
+	    genPx, // generator Z/W/Higgs px (float)
+	    genPy, // generator Z/W/Higgs py (float)
+	    visPx, // generator visible Z/W/Higgs px (float)
+	    visPy, // generator visible Z/W/Higgs py (float)
+	njets;  // number of jets (hadronic jet multiplicity) (int)
+
       // define MET
       double measuredMETx;
       double measuredMETy;
@@ -183,6 +198,7 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
         t->SetBranchAddress("t2Phi",&phi2);
         t->SetBranchAddress("t1DecayMode",&decayMode);
         t->SetBranchAddress("t2DecayMode",&decayMode2);/*
+
         t->SetBranchAddress("mvaMetCov00",&covMatrix00);
         t->SetBranchAddress("mvaMetCov01",&covMatrix01);
         t->SetBranchAddress("mvaMetCov10",&covMatrix10);
