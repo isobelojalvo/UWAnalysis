@@ -70,7 +70,7 @@ int main (int argc, char* argv[])
 
 void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[], int recoilType) 
 {
-  std::string recoilFileName = "";
+  std::string recoilFileName = "HTT-utilities/RecoilCorrections/data/recoilMvaMEt_76X_newTraining.root";
   if(recoilType == 1) //amc@nlo
     recoilFileName = "HTT-utilities/RecoilCorrections/data/recoilMvaMEt_76X_newTraining.root";
   if(recoilType == 2) //MG5
@@ -93,8 +93,6 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
       dirsav->cd();
     }
     else if(obj->IsA()->InheritsFrom(TTree::Class())) {
-      // use this RooT file when running on aMC@NLO DY and W+Jets MC samples
-      RecoilCorrector recoilMvaMetCorrector(recoilFileName);
 
       TTree *t = (TTree*)obj;
       float svFitMass = -10;
@@ -279,6 +277,9 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
       t->SetBranchAddress( "visPx", &visPx);
       t->SetBranchAddress( "visPy", &visPy);
       t->SetBranchAddress( "njets", &njets);
+      // use this RooT file when running on aMC@NLO DY and W+Jets MC samples
+      RecoilCorrector* recoilMvaMetCorrector = new RecoilCorrector(recoilFileName);
+      std::cout<<"recoiltype "<<recoilType<<" recoilFileName "<<recoilFileName<<std::endl;
 
       printf("Found tree -> weighting\n");
       for(Int_t i=0;i<t->GetEntries();++i)
@@ -290,7 +291,9 @@ void readdir(TDirectory *dir, optutl::CommandLineParser parser, char TreeToUse[]
 	  measuredMETy = met*TMath::Sin(metphi);
 	  //Recoil Correction time
 	  if(recoilType != 0){
-	    recoilMvaMetCorrector.CorrectByMeanResolution(measuredMETx, // uncorrected mva met px (float)
+
+	    //RecoilCorrector recoilMvaMetCorrector(recoilFileName);
+	    recoilMvaMetCorrector->CorrectByMeanResolution(measuredMETx, // uncorrected mva met px (float)
 							  measuredMETy, // uncorrected mva met py (float)
 							  genPx, // generator Z/W/Higgs px (float)
 							  genPy, // generator Z/W/Higgs py (float)
