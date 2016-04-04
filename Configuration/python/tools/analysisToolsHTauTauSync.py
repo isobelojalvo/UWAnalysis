@@ -260,7 +260,7 @@ def mvaMet(process):
    process.analysisSequence = cms.Sequence(process.analysisSequence*process.ak4PFJets*process.ak4PFL1FastL2L3CorrectorChain*process.pfMVAMEtSequence*process.patMVAMet)
 
 
-def mvaMet2(process, bool isData):
+def mvaMet2(process, isData):
 
    from RecoMET.METPUSubtraction.MVAMETConfiguration_cff import runMVAMET
 
@@ -270,7 +270,7 @@ def mvaMet2(process, bool isData):
    runMVAMET( process, jetCollectionPF = "patJetsReapplyJEC"  )
    process.MVAMET.srcLeptons  = cms.VInputTag("slimmedMuons", "slimmedElectrons", "slimmedTaus")
    process.MVAMET.requireOS = cms.bool(False)
-   process.MVAMET.debug = cms.bool(True)
+   process.MVAMET.debug = cms.bool(False)
    #process.mvaMETTauL = cms.EDProducer('MVAMET',
    #                          **process.MVAMET.parameters_())
 

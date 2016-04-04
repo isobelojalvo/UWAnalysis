@@ -56,6 +56,9 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   reco::Candidate::LorentzVector p4gen() const { return p4Leg1gen() + p4Leg2gen(); }
   reco::Candidate::LorentzVector p4VisGen() const { return p4VisLeg1gen() + p4VisLeg2gen(); }
 
+  reco::Candidate::LorentzVector p4GenBoson() const { return p4Boson_; }
+  reco::Candidate::LorentzVector p4GenBosonVis() const { return p4BosonVis_; }
+
   /// access to gen. mother particles
   /// (undecayed tau leptons)
   const reco::Candidate::LorentzVector& p4Leg1gen() const { return p4Leg1gen_; }
@@ -359,6 +362,8 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   void setPdg1(int pdg) {pdg1_ = pdg;}
   void setPdg2(int pdg) {pdg2_ = pdg;}
   void setGenBosonMass(float genBosonMass) { genBosonMass_ = genBosonMass; }
+  void setGenBosonP4(const reco::Candidate::LorentzVector& p4) { p4Boson_ = p4; }
+  void setGenBosonP4Vis(const reco::Candidate::LorentzVector& p4) { p4BosonVis_ = p4; }
 
   /// set decay statusFlag
   void setIsPrompt1(int isPrompt1) { isPrompt1_=isPrompt1; } //genLeg1->statusFlags().isPrompt());
@@ -495,6 +500,8 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   reco::Candidate::LorentzVector p4Leg2gen_;
   reco::Candidate::LorentzVector p4VisLeg1gen_;
   reco::Candidate::LorentzVector p4VisLeg2gen_;
+  reco::Candidate::LorentzVector p4Boson_;
+  reco::Candidate::LorentzVector p4BosonVis_;
 
 
   //gen Pdg Id

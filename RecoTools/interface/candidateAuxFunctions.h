@@ -37,6 +37,11 @@ void findDaughters(const reco::GenParticle*, std::vector<const reco::GenParticle
 reco::Candidate::Point getDecayVertex(const reco::GenParticle*);
 
 bool isNeutrino(const reco::GenParticle*);
+bool isEleMu(const reco::GenParticle*);
+
+reco::Candidate::LorentzVector getGenBosonP4(const reco::GenParticleCollection& genParticles);
+reco::Candidate::LorentzVector getGenBosonP4Vis(const reco::GenParticleCollection& genParticles);
+
 
 reco::Candidate::LorentzVector getVisMomentum(const std::vector<const reco::GenParticle*>&, int = 1);
 reco::Candidate::LorentzVector getVisMomentum(const reco::GenParticle*, const reco::GenParticleCollection*);

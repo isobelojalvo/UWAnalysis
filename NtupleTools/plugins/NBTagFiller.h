@@ -231,17 +231,15 @@ class NBTagFiller : public NtupleFillerBase {
 		BTagCalibrationReader *reader_light_down;
 
 		bool applySF(bool& isBTagged, float Btag_SF, float Btag_eff,int seed){
-			TRandom3 * rand_;
-			rand_ = new TRandom3(0);
-			rand_->SetSeed(seed);
-			//rand_ = new TRandom3(12345);
+			TRandom3 rand_;
+			rand_ = TRandom3(seed);
 
 			bool newBTag = isBTagged;
 
 			if (Btag_SF == 1) return newBTag; //no correction needed 
 
 			//throw die
-			float coin = rand_->Uniform();    
+			float coin = rand_.Uniform();    
 			//std::cout<<"Uniform coin: "<<coin<<std::endl;
 
 			if(Btag_SF > 1){  // use this if SF>1

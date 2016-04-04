@@ -313,6 +313,8 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               #muTauMETPhi = makeMuTauPair(src,"metphi","metPhi"),#FILLED
 
                               muTauMET = makeMuTauPair(src,"mvamet","met.pt()"),#FILLED
+                              muTauMETx = makeMuTauPair(src,"mvamet_ex","met.px()"),#FILLED
+                              muTauMETy = makeMuTauPair(src,"mvamet_ey","met.py()"),#FILLED
                               muTauMETPhi = makeMuTauPair(src,"mvametphi","met.phi()"),#FILLED
                               muTauMvaCovMat00 = makeMuTauPair(src,"mvacov00","covMatrix00"),#FIXME
                               muTauMvaCovMat10 = makeMuTauPair(src,"mvacov10","covMatrix10"),#FIXME
@@ -342,7 +344,8 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
 
                               #Muon IDs and Isolation
                               muTauRelPFIsoDB03 = makeMuTauPair(src,"iso_1",'leg1.userFloat("dBRelIso03")'),
-                              muTauRel2PFIsoDB03 = makeMuTauPair(src,"iso_2",'-1'),
+                              muTauRel2PFIsoDB03 = makeMuTauPair(src,"iso_2",'leg2.tauID("byIsolationMVArun2v1DBoldDMwLTraw")'),
+
                               muTauRelPFIsoDB04 = makeMuTauPair(src,"iso04_1",'leg1.userFloat("dBRelIso")'),
 
                               muTauLooseID = makeMuTauPair(src,"id_m_loose_1",'leg1.isLooseMuon()'),
@@ -392,6 +395,10 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauGenVisMass = makeMuTauPair(src,"genVisMass",'p4VisGen().M()'),
                               muTauGenMassMatched = makeMuTauPair(src,"genFullMassMatched",'p4gen().M()'),
                               muTauGenMass = makeMuTauPair(src,"fullGenMass",'genBosonMass()'),
+                              muTauGenBosonPx = makeMuTauPair(src,"genpX",'p4GenBoson().px()'),
+                              muTauGenBosonPy = makeMuTauPair(src,"genpY",'p4GenBoson().py()'),
+                              muTauGenBosonVisPx = makeMuTauPair(src,"vispX",'p4GenBosonVis().px()'),
+                              muTauGenBosonVisPy = makeMuTauPair(src,"vispY",'p4GenBosonVis().py()'),
 
                               muTauGenIsPrompt1 = makeMuTauPair(src,"isPrompt1",'isPrompt1()'),
                               muTauGenIsPromptFS1 = makeMuTauPair(src,"isPromptFS1",'isPromptFS1()'),
@@ -406,8 +413,8 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
 
 
 			      #Jets
-                              muTauJetsPt20nbtag = makeMuTauJetCountPair(src,"nbtag",'pt()>20&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>.8'),
-                              muTauJetsPt30nbtag = makeMuTauJetCountPair(src,"nbtag30",'pt()>30&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>.8'),
+                              muTauJetsPt20nbtag = makeMuTauJetCountPair(src,"nbtagNoSF",'pt()>20&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>.8'),
+                              muTauJetsPt30nbtag = makeMuTauJetCountPair(src,"nbtag30NOSF",'pt()>30&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>.8'),
                               muTauJetsPt30njets = makeMuTauJetCountPair(src,"njets",'pt()>30&&abs(eta)<4.7&&userFloat("idLoose")'),
                               muTauJetsPt20njets = makeMuTauJetCountPair(src,"njetspt20",'pt()>20&&abs(eta)<4.7&&userFloat("idLoose")'),
 
@@ -591,6 +598,8 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               #eleTauMET = makeEleTauPair(src,"met","calibratedMET.pt()"),#currently identical
                               #eleTauMETPhi = makeEleTauPair(src,"metphi","metPhi"),
                               eleTauMET = makeEleTauPair(src,"mvamet","met.pt()"),
+                              eleTauMETx = makeEleTauPair(src,"mvamet_ex","met.px()"),
+                              eleTauMETy = makeEleTauPair(src,"mvamet_ey","met.py()"),
                               eleTauMETPhi = makeEleTauPair(src,"mvametphi","met.phi()"),
                               eleTauCovMat00 = makeEleTauPair(src,"mvacov00","covMatrix00"),
                               eleTauCovMat10 = makeEleTauPair(src,"mvacov10","covMatrix10"),
@@ -633,7 +642,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
 
                               #Ele IDs and Isolation
                               eleTauRelPFIsoDB03 = makeEleTauPair(src,"iso_1",'leg1.userFloat("dBRelIso03")'),
-                              eleTauRel2PFIsoDB03 = makeEleTauPair(src,"iso_2",'-1'),
+			      eleTauRel2PFIsoDB03 = makeEleTauPair(src,"iso_2",'leg2.tauID("byIsolationMVArun2v1DBoldDMwLTraw")'),
                               eleTauRelPFIsoDB04 = makeEleTauPair(src,"iso04_1",'leg1.userFloat("dBRelIso")'),
                               eleTauEleIsoChHadIso = makeEleTauPair(src,"eleIsoChHadIso",'leg1.userFloat("eleIsoChHadIso")'),
                               eleTauEleIsoPUChHadIso = makeEleTauPair(src,"eleIsoPUChHadIso",'leg1.userFloat("eleIsoPUChHadIso")'),
@@ -702,6 +711,10 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               eleTauVisGenPt2 = makeEleTauPair(src,"genVisPt2",'p4VisLeg2gen().pt()'),
                               eleTauGenVisMass = makeEleTauPair(src,"genVisMass",'p4VisGen().M()'),
                               eleTauGenMassMatched = makeEleTauPair(src,"genFullMassMatched",'p4gen().M()'),
+                              eleTauGenBosonPx = makeEleTauPair(src,"genpX",'p4GenBoson().px()'),
+                              eleTauGenBosonPy = makeEleTauPair(src,"genpY",'p4GenBoson().py()'),
+                              eleTauGenBosonVisPx = makeEleTauPair(src,"vispX",'p4GenBosonVis().px()'),
+                              eleTauGenBosonVisPy = makeEleTauPair(src,"vispY",'p4GenBosonVis().py()'),
                               eleTauGenMass = makeEleTauPair(src,"fullGenMass",'genBosonMass()'),
 
                               eleTauGenIsPrompt1 = makeEleTauPair(src,"isPrompt1",'isPrompt1()'),
@@ -716,8 +729,8 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
 
 
 			      #Jets
-                              eleTauJetsPt20nbtag = makeEleTauJetCountPair(src,"nbtag",'pt()>20&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8'),
-                              eleTauJetsPt30nbtag = makeEleTauJetCountPair(src,"nbtag30",'pt()>30&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8'),
+                              eleTauJetsPt20nbtag = makeEleTauJetCountPair(src,"nbtagNoSF",'pt()>20&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8'),
+                              eleTauJetsPt30nbtag = makeEleTauJetCountPair(src,"nbtag30NoSF",'pt()>30&&abs(eta)<2.4&&userFloat("idLoose")&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8'),
                               eleTauJetsPt30njets = makeEleTauJetCountPair(src,"njets",'pt()>30&&abs(eta)<4.7&&userFloat("idLoose")'),
                               eleTauJetsPt20njets = makeEleTauJetCountPair(src,"njetspt20",'pt()>20&&abs(eta)<4.7&&userFloat("idLoose")'),
 

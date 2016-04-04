@@ -11,7 +11,7 @@ ETanalysisConfigurator = CutSequenceProducer(initialCounter  = 'initialEventsET'
 
 #ESTausID
 #ETanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','filteredJets','patMVAMet','ET')
-ETanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','filteredJets','mvaMETTauEle','ET')
+ETanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','filteredJets','MVAMET:MVAMET','ET')
 #ETanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','filteredJets','slimmedMETs','ET')
 #ETanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','filteredJets','slimmedMETsNoHF','ET')
 
@@ -51,7 +51,7 @@ MTanalysisConfigurator = CutSequenceProducer(initialCounter  = 'initialEventsMT'
 
 #Add smearing
 #MTanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','filteredJets','patMVAMet','MT')
-MTanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','filteredJets','mvaMETTauMu','MT')
+MTanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','filteredJets','MVAMET:MVAMET','MT')
 #MTanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','filteredJets','slimmedMETs','MT')
 #MTanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','filteredJets','slimmedMETsNoHF','MT')
 

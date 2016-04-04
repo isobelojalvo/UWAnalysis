@@ -312,7 +312,7 @@ def mvaMet2(process, isData):
    runMVAMET( process, jetCollectionPF = "patJetsReapplyJEC"  )
    process.MVAMET.srcLeptons  = cms.VInputTag("slimmedMuons", "slimmedElectrons", "slimmedTaus")
    process.MVAMET.requireOS = cms.bool(False)
-   process.MVAMET.debug = cms.bool(True)
+   process.MVAMET.debug = cms.bool(False)
    #process.mvaMETTauL = cms.EDProducer('MVAMET',
    #                          **process.MVAMET.parameters_())
 

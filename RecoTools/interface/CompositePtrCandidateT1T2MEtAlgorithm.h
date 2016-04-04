@@ -484,6 +484,8 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 
 	  float genBosonMass = getGenBosonMass(*genParticles);
 	  compositePtrCandidate.setGenBosonMass(genBosonMass);
+	  compositePtrCandidate.setGenBosonP4(getGenBosonP4(*genParticles));
+	  compositePtrCandidate.setGenBosonP4Vis(getGenBosonP4Vis(*genParticles));
   }
 
 

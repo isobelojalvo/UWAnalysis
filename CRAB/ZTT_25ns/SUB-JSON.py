@@ -3,7 +3,14 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-process.GlobalTag.globaltag = '76X_dataRun2_v15'
+
+process.GlobalTag.globaltag = '76X_dataRun2_16Dec2015_v0'
+
+
+process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
+process.options.allowUnscheduled = cms.untracked.bool(True)
+
+
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
