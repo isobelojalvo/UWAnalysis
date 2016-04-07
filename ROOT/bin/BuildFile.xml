@@ -6,12 +6,18 @@
 <use   name="TauAnalysis/SVfitStandalone"/> 
 <use   name="roofit"/>
 <use   name="roostats"/>
+<use   name="HTT-utilities/RecoilCorrections"/>
+
 <!--<use   name="roottmva"/>0-->
 
 
 <bin   name="SVFitStandAlone" file="SVFitStandAlone.cc">
 </bin>
+<bin   name="SVFitStandAloneRecoil" file="SVFitStandAloneRecoil.cc">
+</bin>
 
+<bin   name="SVFitStandAloneRecoilSync" file="SVFitStandAloneRecoilSync.cc">
+</bin>
 <bin   name="GetErrors" file="GetErrors.cc">
 </bin>
 <bin   name="MVATrainer" file="MVATrainer.cc">
