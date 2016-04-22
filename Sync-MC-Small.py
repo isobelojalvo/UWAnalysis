@@ -10,7 +10,7 @@ process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 process.options.allowUnscheduled = cms.untracked.bool(True)
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(1000)
 )
 
 
@@ -50,10 +50,9 @@ defaultReconstructionMC(process,'HLT',
 process.load("UWAnalysis.Configuration.hTauTauSync_cff")
 
 process.metCalibration.applyCalibration = cms.bool(False)
-#process.recoildCorrections.applyCorrectinos = cms.bool(True)
 
 process.eventSelectionMT = cms.Path(process.selectionSequenceMT)
-#process.eventSelectionET = cms.Path(process.selectionSequenceET)
+process.eventSelectionET = cms.Path(process.selectionSequenceET)
 
 createGeneratedParticles(process,
                          'genDaughters',
@@ -83,11 +82,11 @@ createGeneratedParticles(process,
 from UWAnalysis.Configuration.tools.ntupleToolsSync import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
 
-#from UWAnalysis.Configuration.tools.ntupleToolsSync import addEleTauEventTree
-#addEleTauEventTree(process,'eleTauEventTree')
+from UWAnalysis.Configuration.tools.ntupleToolsSync import addEleTauEventTree
+addEleTauEventTree(process,'eleTauEventTree')
 
 addEventSummary(process,True,'MT','eventSelectionMT')
-#addEventSummary(process,True,'ET','eventSelectionET')
+addEventSummary(process,True,'ET','eventSelectionET')
 
 dump_file = open('dump.py','w')
 dump_file.write(process.dumpPython())
