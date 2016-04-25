@@ -134,6 +134,7 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   double mJJReg() const { return mJJReg_; }
   double mJJHMassSort() const { return mJJHMassSort_; }
 
+  double lVeto() const { return lVeto_; }
 
   /// get "pseudo" four-momentum computed by CDF method
   /// (for a description of the method, see e.g. CDF note 8972)
@@ -290,6 +291,7 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   }
 
 
+  void setLVeto(double LVeto) { lVeto_ = LVeto; }
   void setSVMass(double svMass) { svMass_ = svMass; }
   void setSVPt(double svPt) { svPt_ = svPt; }
 
@@ -627,6 +629,8 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   double vbfC2_;
   int vbfNJetsGap20_;
   int vbfNJetsGap30_;
+
+  double lVeto_;
 
   double svMass_;
   double svPt_;

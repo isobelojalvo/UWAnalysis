@@ -150,38 +150,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     //iif(IsRealData){
     //  isdata=1;
     //}
-
-/*    for(unsigned int k=0; k<cleanedJets.size();k++){
-	    bool btagged = false;
-	    bool btaggedup = false;
-	    bool btaggeddown = false;
-	    if(cleanedJets.at(k)->pt()>30&&fabs(cleanedJets.at(k)->eta())<2.4){
-		    //SF = btag_reader.eval(BTagEntry::FLAV_B, eta, pt );
-		    //SFup = btag_reader_up.eval(BTagEntry::FLAV_B, eta, pt );
-		    //SFdown = btag_reader_down.eval(BTagEntry::FLAV_B, eta, pt );
-		    double jetpt = cleanedJets.at(k)->pt();
-		    double jeteta = cleanedJets.at(k)->eta();
-		    double jetcsv = cleanedJets.at(k)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
-		    int jetflavor = cleanedJets.at(k)->partonFlavour();
-		    //btagged = btsf_->applySF(isb,sf,eff);
-
-		    btagged = btsf_->isbtagged(jetpt<670. ? jetpt : 670., jeteta ,jetcsv ,jetflavor, isdata , 0, 0, true);
-		    btaggedup = btsf_->isbtaggedup(jetpt<670. ? jetpt : 670., jeteta ,jetcsv ,jetflavor, isdata , 0, 0, true);
-		    btaggeddown = btsf_->isbtaggeddown(jetpt<670. ? jetpt : 670., jeteta ,jetcsv ,jetflavor, isdata , 0, 0, true);
-
-	    }
-
-
-	    if(btagged){
-		    bTagEvent=true;
-		    nbtags +=1;
-	    }
-	    if (btaggedup) nbtagsup+=1;
-	    if (btaggeddown) nbtagsdown+=1;
-
-    }
-*/
-
+    //
     compositePtrCandidate.setEventBTag(bTagEvent);
     compositePtrCandidate.setNBTags(nbtags);
     compositePtrCandidate.setNBTagsUp(nbtagsup);
