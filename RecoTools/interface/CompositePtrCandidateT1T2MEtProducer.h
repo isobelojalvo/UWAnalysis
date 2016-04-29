@@ -38,7 +38,6 @@
 
 #include "UWAnalysis/RecoTools/interface/CompositePtrCandidateT1T2MEtAlgorithm.h"
 #include "UWAnalysis/RecoTools/interface/CompositePtrCandidateT1T2MEtVertexAlgorithm.h"
-#include "UWAnalysis/RecoTools/interface/METCalibrator.h"
 
 #include "DataFormats/HepMCCandidate/interface/GenParticleFwd.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
@@ -74,14 +73,6 @@ class CompositePtrCandidateT1T2MEtProducer : public edm::EDProducer
 		recoMode_ = cfg.getParameter<std::string>("recoMode");
 		verbosity_ = cfg.getUntrackedParameter<int>("verbosity", 0);
 		minPt_ = cfg.getUntrackedParameter<double>("minJetPt", 20.0);
-
-
-		//met calibration
-
-		edm::ParameterSet calibrationSet =cfg.getParameter<edm::ParameterSet>("metCalibration"); 
-		calibrator_ = new METCalibrator(calibrationSet);
-		algorithm_.setMETCalibrator(calibrator_);
-
 
 
 		//--- check that InputTag for MET collection has been defined,
@@ -330,7 +321,6 @@ class CompositePtrCandidateT1T2MEtProducer : public edm::EDProducer
 	int cfgError_;
 
 
-	METCalibrator *calibrator_;
 
 };
 

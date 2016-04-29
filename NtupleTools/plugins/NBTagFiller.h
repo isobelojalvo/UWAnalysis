@@ -90,7 +90,7 @@ class NBTagFiller : public NtupleFillerBase {
 			if( iEvent.getByToken(src_,handle)){
 
 				if (handle->at(0).isTop()){top =true;}
-				for ( int i=0;i<handle->at(0).jets().size();i++){
+				for ( unsigned int i=0;i<handle->at(0).jets().size();i++){
 					bool btagged = false;
 					bool btaggedup = false;
 					bool btaggeddown = false;

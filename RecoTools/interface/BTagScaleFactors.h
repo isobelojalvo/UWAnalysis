@@ -1,6 +1,3 @@
-//#ifndef RecoTools_METCalibrator
-//#define RecoTools_METCalibrator
-
 // system include files
 #include <memory>
 

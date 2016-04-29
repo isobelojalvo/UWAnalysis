@@ -29,7 +29,6 @@
 #include "DataFormats/HepMCCandidate/interface/GenStatusFlags.h"
 
 #include "UWAnalysis/RecoTools/interface/candidateAuxFunctions.h"
-#include "UWAnalysis/RecoTools/interface/METCalibrator.h"
 #include "UWAnalysis/RecoTools/interface/VBFMVA.h"
 
 #include "RecoVertex/VertexPrimitives/interface/TransientVertex.h"
@@ -73,7 +72,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
   ~CompositePtrCandidateT1T2MEtAlgorithm() {}
 
 
-  void setMETCalibrator(METCalibrator * calibrator) {calibrator_ = calibrator;}
   void setBTagScaleFactor(BTagScaleFactors * bFactors) {bFactors_ = bFactors;}
   //void setBTSF(BtagSFV * btsf) {btsf_=  btsf;}
 
@@ -199,14 +197,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     compositePtrCandidate.setMETold(correctedMET);            
 
     edm::Ptr<reco::MET> metPtr(met);
-
-    if(calibrator_!=0)
-	    correctedMET = calibrator_->calibrate(correctedMET,
-			    leg1->p4(),
-			    leg2->p4(),
-			    genParticles,
-			    njets30,
-			    njetsW30);
 
 
     //--- compute quantities that do dependent on MET
@@ -740,7 +730,7 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 		  dijetpt = diJet.pt();
 		  ditaupt = diTau.pt();
 		  dphihj = fabs(deltaPhi(diTau.phi(), diJet.phi()));
-		  c1 = min(fabs(diTauVis.Eta() - jets.at(0)->eta()), fabs(diTauVis.Eta() - jets.at(1)->eta()));
+		  c1 = std::min(fabs(diTauVis.Eta() - jets.at(0)->eta()), fabs(diTauVis.Eta() - jets.at(1)->eta()));
 		  c2 = diTauVis.pt();
 		  float maxEta = std::max(jets.at(0)->eta(),jets.at(1)->eta());
 		  float minEta = std::min(jets.at(0)->eta(),jets.at(1)->eta());
@@ -771,7 +761,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
   std::string recoMode_;
   int verbosity_;
 
-  METCalibrator *calibrator_;
   BTagScaleFactors * bFactors_;
   //BtagSFV* btsf_; 
 

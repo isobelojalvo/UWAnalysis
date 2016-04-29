@@ -34,7 +34,6 @@
 #include "UWAnalysis/DataFormats/interface/CompositePtrCandidateTMEt.h"
 #include "UWAnalysis/DataFormats/interface/CompositePtrCandidateTMEtFwd.h"
 #include "UWAnalysis/RecoTools/interface/CompositePtrCandidateTMEtAlgorithm.h"
-#include "UWAnalysis/RecoTools/interface/METCalibrator.h"
 
 #include <string>
 
@@ -60,13 +59,6 @@ class CompositePtrCandidateTMEtProducer : public edm::EDProducer
     verbosity_ = cfg.getUntrackedParameter<int>("verbosity", 0);
     srcGenParticles_ = ( cfg.exists("srcGenParticles") ) ? cfg.getParameter<edm::InputTag>("srcGenParticles") : edm::InputTag();
     produces<CompositePtrCandidateCollection>("");
-
-    //met calibration
-
-    edm::ParameterSet calibrationSet =cfg.getParameter<edm::ParameterSet>("metCalibration");
-    calibrator_ = new METCalibrator(calibrationSet);
-    algorithm_.setMETCalibrator(calibrator_);
-
 
 
   }
@@ -151,7 +143,6 @@ class CompositePtrCandidateTMEtProducer : public edm::EDProducer
   edm::InputTag srcGenParticles_;
   int verbosity_;
 
-  METCalibrator *calibrator_;
 
 
 };
