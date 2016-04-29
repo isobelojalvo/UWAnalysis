@@ -31,10 +31,11 @@ void
 EventCounter::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
    using namespace edm;
-   if(evCount)
+   if(evCount&&evCount->kind()==MonitorElement::DQM_KIND_REAL)
      {
        evCount->Fill(evCount->getFloatValue()+1.0);
      }
+ 
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"
