@@ -11,9 +11,10 @@ process.options.allowUnscheduled = cms.untracked.bool(True)
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-'file:/hdfs/store/data/Run2015D/SingleElectron/MINIAOD/16Dec2015-v1/10000/00006301-CAA8-E511-AD39-549F35AD8BC9.root'
-#'file:/hdfs/store/data/Run2015D/SingleElectron/MINIAOD/16Dec2015-v1/60000/C65C50B9-DDB3-E511-A8B2-002590D0B06E.root'
+'file:/hdfs/store/data/Run2015D/SingleElectron/MINIAOD/16Dec2015-v1/20000/001E76A5-D3A6-E511-BC32-008CFA05E874.root'
 		),
+		firstEvent = cms.untracked.uint32(104795092),
+		firstRun = cms.untracked.uint32(258741),
 		inputCommands=cms.untracked.vstring(
 						'keep *',
 						'keep *_l1extraParticles_*_*',
@@ -26,7 +27,7 @@ process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/C
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(10000)
 )
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
@@ -63,18 +64,6 @@ process.metCalibration.applyCalibration = cms.bool(False)
 process.eventSelectionMT = cms.Path(process.selectionSequenceMT)
 process.eventSelectionET = cms.Path(process.selectionSequenceET)
 
-#Systematic Shifts 1sigma
-#process.eventSelectionMTTauUp    = createSystematics(process,process.selectionSequenceMT,'TauUp',1.0,1.0,1.03,0,1.0)
-#process.eventSelectionMTTauDown  = createSystematics(process,process.selectionSequenceMT,'TauDown',1.0,1.0,0.97,0,1.0)
-#process.eventSelectionMTJetUp    = createSystematics(process,process.selectionSequenceMT,'JetUp',1.0,1.0,1.0,1,1.0)
-#process.eventSelectionMTJetDown  = createSystematics(process,process.selectionSequenceMT,'JetDown',1.0,1.0,1.0,-1,1.0)
-
-#process.eventSelectionETTauUp    = createSystematics(process,process.selectionSequenceET,'TauUp',1.00,1.0,1.03,0,1.0)
-#process.eventSelectionETTauDown  = createSystematics(process,process.selectionSequenceET,'TauDown',1.0,1.0,0.97,0,1.0)
-#process.eventSelectionETJetUp    = createSystematics(process,process.selectionSequenceET,'JetUp',1.0,1.0,1.0,1,1.0)
-#process.eventSelectionETJetDown  = createSystematics(process,process.selectionSequenceET,'JetDown',1.0,1.0,1.0,-1,1.0)
-
-
 from UWAnalysis.Configuration.tools.ntupleToolsZTauTauXSec import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
 addMuTauEventTree(process,'muTauEventTreeFinal','muTausOS','diMuonsOSSorted')
@@ -86,25 +75,3 @@ addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','diElectronsOSSort
 addEventSummary(process,True,'MT','eventSelectionMT')
 addEventSummary(process,True,'ET','eventSelectionET')
 
-
-
-##Final trees afor shapes after shifts
-#addMuTauEventTree(process,'muTauEventTreeTauUp','muTausSortedTauUp','osDiMuonsTauUp')
-#addMuTauEventTree(process,'muTauEventTreeTauDown','muTausSortedTauDown','osDiMuonsTauDown')
-#addMuTauEventTree(process,'muTauEventTreeFinalTauUp','muTausOSTauUp','osDiMuonsTauUp')
-#addMuTauEventTree(process,'muTauEventTreeFinalTauDown','muTausOSTauDown','osDiMuonsTauDown')
-#addMuTauEventTree(process,'muTauEventTreeJetUp','muTausSortedJetUp','osDiMuonsJetUp')
-#addMuTauEventTree(process,'muTauEventTreeJetDown','muTausSortedJetDown','osDiMuonsJetDown')
-#addMuTauEventTree(process,'muTauEventTreeFinalJetUp','muTausOSJetUp','osDiMuonsJetUp')
-#addMuTauEventTree(process,'muTauEventTreeFinalJetDown','muTausOSJetDown','osDiMuonsJetDown')
-#
-#addEleTauEventTree(process,'eleTauEventTreeTauUp','eleTausSortedTauUp','osDiElectronsTauUp')
-#addEleTauEventTree(process,'eleTauEventTreeTauDown','eleTausSortedTauDown','osDiElectronsTauDown')
-#addEleTauEventTree(process,'eleTauEventTreeFinalTauUp','eleTausOSTauUp','osDiElectronsTauUp')
-#addEleTauEventTree(process,'eleTauEventTreeFinalTauDown','eleTausOSTauDown','osDiElectronsTauDown')
-#addEleTauEventTree(process,'eleTauEventTreeJetUp','eleTausSortedJetUp','osDiElectronsJetUp')
-#addEleTauEventTree(process,'eleTauEventTreeJetDown','eleTausSortedJetDown','osDiElectronsJetDown')
-#addEleTauEventTree(process,'eleTauEventTreeFinalJetUp','eleTausOSJetUp','osDiElectronsJetUp')
-#addEleTauEventTree(process,'eleTauEventTreeFinalJetDown','eleTausOSJetDown','osDiElectronsJetDown')
-#
-#

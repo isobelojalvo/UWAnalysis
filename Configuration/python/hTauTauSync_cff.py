@@ -33,6 +33,7 @@ ETanalysisConfigurator.addSelector('eleTausEleVertices','PATEleTauPairSelector',
 ETanalysisConfigurator.addSelector('eleTausDecayFound','PATEleTauPairSelector','abs(leg2.userFloat("taudZ"))<0.2&&leg2.tauID("decayModeFinding")>0.5','ETTauDecayFound',1)
 ETanalysisConfigurator.addSelector('eleTausChargeNot2','PATEleTauPairSelector','abs(leg2.charge())==1','ETChargeIsABS1',1)
 #ETanalysisConfigurator.addEleTauSVFitSA('eleTausSVFit')
+ETanalysisConfigurator.addEleTauLVeto('eleTausLVeto','TightElectrons','TightMuons')
 ETanalysisConfigurator.addSorter('eleTausSorted','PATEleTauPairSorterByIso')
 
 #create the sequence
@@ -66,9 +67,9 @@ MTanalysisConfigurator.addSelector('muTausMuonPtEta','PATMuTauPairSelector','leg
 MTanalysisConfigurator.addSelector('muTausTauPtEta','PATMuTauPairSelector','leg2.pt()>20&&abs(leg2.eta())<2.3','MTTauPtEta',1)
 MTanalysisConfigurator.addSelector('muTausMuonVertices','PATMuTauPairSelector','abs(leg1.userFloat("dZ"))<0.2&&abs(leg1.userFloat("dXY"))<0.045','MuonVertices',1)
 MTanalysisConfigurator.addSelector('muTausDecayFound','PATMuTauPairSelector','abs(leg2.userFloat("taudZ"))<0.2&&leg2.tauID("decayModeFinding")>0.5','MTTauDecayFound',1)
-#MTanalysisConfigurator.addSelector('muTausDecayFound','PATMuTauPairSelector','abs(leg2.userFloat("taudZ"))<0.2&&leg2.tauID("decayModeFindingNewDMs")>0.5','MTTauDecayFound',1)
 MTanalysisConfigurator.addSelector('muTausChargeNot2','PATMuTauPairSelector','abs(leg2.charge())==1','MTChargeIsABS1',1)
 #MTanalysisConfigurator.addMuTauSVFitSA('muTausSVFit')
+MTanalysisConfigurator.addMuTauLVeto('muTausLVeto','TightElectrons','TightMuons')
 MTanalysisConfigurator.addSorter('muTausSorted','PATMuTauPairSorterByIso')
 
 #create the sequence

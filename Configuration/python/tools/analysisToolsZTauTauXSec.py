@@ -14,16 +14,14 @@ import sys
 
 def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu9','HLT_Mu11_PFTau15_v1'],HLT = 'TriggerResults'):
   process.load("UWAnalysis.Configuration.startUpSequence_cff")
-  #process.load("Configuration.Geometry.GeometryIdeal_cff")
-  #process.load("Configuration.StandardSequences.MagneticField_cff")
   process.load("Configuration.StandardSequences.Services_cff")
   process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
   process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
-  process.load("DQMServices.Core.DQM_cfg")
-  process.load("DQMServices.Components.DQMEnvironment_cfi")
+  #process.load("DQMServices.Core.DQM_cfg")
+  #process.load("DQMServices.Components.DQMEnvironment_cfi")
   process.load('Configuration.StandardSequences.Services_cff')
   process.load('Configuration.EventContent.EventContent_cff')
-  process.load('SimGeneral.MixingModule.mixNoPU_cfi')
+  #process.load('SimGeneral.MixingModule.mixNoPU_cfi')
   process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
   process.load('Configuration.StandardSequences.MagneticField_38T_cff')
   process.load('Configuration.StandardSequences.EndOfProcess_cff')
@@ -83,10 +81,6 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   global TriggerPaths
   TriggerPaths= triggerPaths
   process.analysisSequence = cms.Sequence()
-
-  #mvaMet(process)
-  #mvaPairMet(process)
-  #metSignificance(process)
 
   #Apply Tau Energy Scale Changes
   #EScaledTaus(process,False)

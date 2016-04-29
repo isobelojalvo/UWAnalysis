@@ -337,7 +337,46 @@ class CutSequenceProducer(cms._ParameterTypeBase):
 			self.sequence*=dicand
 			self.input=moduleName
                
+ 
+                   
+################################################################################
+#####		Extra Lepton Veto	               		################
+################################################################################
+#currently used
+
+    def addMuTauLVeto(self,moduleName,srcEle,srcMu):
+			dicand  = cms.EDProducer('PATMuTauLVeto')
+			dicand.src = cms.InputTag(self.input)
+			dicand.srcE = cms.InputTag(srcEle)
+			dicand.srcM = cms.InputTag(srcMu)
+			dicand.hasMu = cms.bool(True)
+			
+			pyModule = sys.modules[self.pyModuleName[0]]
+			if pyModule is None:
+			 raise ValueError("'pyModuleName' Parameter invalid")
+			setattr(pyModule,moduleName,dicand)
+			self.sequence*=dicand
+			self.input=moduleName
+
+               
+    def addEleTauLVeto(self,moduleName,srcEle,srcMu):
+			dicand  = cms.EDProducer('PATElecTauLVeto')
+			dicand.src = cms.InputTag(self.input)
+			dicand.srcE = cms.InputTag(srcEle)
+			dicand.srcM = cms.InputTag(srcMu)
+			dicand.hasMu = cms.bool(False)
+			
+			pyModule = sys.modules[self.pyModuleName[0]]
+			if pyModule is None:
+			 raise ValueError("'pyModuleName' Parameter invalid")
+			setattr(pyModule,moduleName,dicand)
+			self.sequence*=dicand
+			self.input=moduleName
+               
                   
+
+
+                 
 
 
     def setSRC(self,src):
