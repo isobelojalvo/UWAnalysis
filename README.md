@@ -7,11 +7,11 @@ H->tautau (+ many other) Final States! : )
 #Set Up instructions:
 
 ```
-cmsrel CMSSW_7_6_3 #for 2016 analysis
-cd CMSSW_7_6_3/src/
+cmsrel CMSSW_8_0_5 #for 2016 analysis
+cd CMSSW_8_0_5/src/
 cmsenv
 git cms-init 
-git clone --recursive -b 763_dev https://github.com/lmdodd/UWAnalysis.git   
+git clone --recursive -b 80X_dev https://github.com/lmdodd/UWAnalysis.git   
 cd UWAnalysis
 source recipe13TeV.sh
 export USER_CXXFLAGS="-Wno-delete-non-virtual-dtor -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=sign-compare -Wno-error=reorder"
@@ -56,10 +56,6 @@ Major Changes/Issues detailed in table
 | Kind Of Issue  | Issue Detail |
 | ------------- | ------------- |
 | StatTools Not Included  | StatTools is left behind in 715X because HiggsCombine is stuck there. StatTools can be found https://github.com/lmdodd/UWAnalysis/tree/stattools.  |
-| MVAMet qnd plain MET at same time | No solution yet. Needed for svFit. Include leptons and pairwise MVA MET |
-| Efficiencies Application | Add Efficiencies into Ntuples, rather than computing afterwards !! TODO|
-| Electron Efficiencies | Add Efficiencies into Ntuples, rather than computing afterwards !! TODO|
-| Muon Efficiencies | Add Efficiencies into Ntuples, rather than computing afterwards !! TODO|
 | Muon and Electron Scalings | Add Efficiencies into Ntuples, rather than computing afterwards !! TODO|
 | ESscaling | Edited file to add pt2ES. |
 | no particle embedding yet | TBC |
