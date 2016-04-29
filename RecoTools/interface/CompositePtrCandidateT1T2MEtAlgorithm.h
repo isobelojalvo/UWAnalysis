@@ -137,18 +137,12 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     }
 
     // Memory leak here
+    compositePtrCandidate.setIsData(IsRealData);
     bool bTagEvent = false;
     int nbtags = 0;
     int nbtagsup = 0;
     int nbtagsdown = 0;
-    int isdata = 0;
-    compositePtrCandidate.setIsData(IsRealData);
-    // Memory leak here
     //Can implement new btag thing here when time comes
-    //iif(IsRealData){
-    //  isdata=1;
-    //}
-    //
     compositePtrCandidate.setEventBTag(bTagEvent);
     compositePtrCandidate.setNBTags(nbtags);
     compositePtrCandidate.setNBTagsUp(nbtagsup);

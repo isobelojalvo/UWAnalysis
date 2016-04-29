@@ -16,7 +16,7 @@ class NtupleFillerBase {
 
  public:
   NtupleFillerBase() {}
-  NtupleFillerBase(const edm::ParameterSet&,TTree*,edm::ConsumesCollector) {}
+  NtupleFillerBase(const edm::ParameterSet&,TTree*,edm::ConsumesCollector&) {}
 
   ~NtupleFillerBase(){}
 
