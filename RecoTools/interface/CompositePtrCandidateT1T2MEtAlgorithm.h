@@ -269,11 +269,11 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     float antiTopGenPt = -1;
     if(genParticles!=0&& genParticles->size()>0)
 	    for(reco::GenParticleCollection::const_iterator i = genParticles->begin(); i!=genParticles->end(); ++i){ 
-		    if(i->pdgId()==6){
+		    if(i->pdgId()==6&&i->statusFlags().fromHardProcess()&&i->statusFlags().isLastCopy()){
 			    topGenPt = i->pt(); 
 			    top = true;
 		    }
-		    if(i->pdgId()==-6){
+		    if(i->pdgId()==-6&&i->statusFlags().fromHardProcess()&&i->statusFlags().isLastCopy()){
 			    antiTopGenPt = i->pt(); 
 			    top = true;
 		    }
