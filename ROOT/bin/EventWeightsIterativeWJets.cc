@@ -87,25 +87,9 @@ int main (int argc, char* argv[])
    ev.push_back(WLo3);
    ev.push_back(WLo4);
    
-   TFile *f0 = new TFile("WJetsMLM.root","UPDATE");   
+   TFile *f0 = new TFile("TT_ext4.root","UPDATE");   
    readdir(f0,parser,ev);
    f0->Close();
-   
-   TFile *f1 = new TFile("W1Jets.root","UPDATE");   
-   readdir(f1,parser,ev);
-   f1->Close();
-   
-   TFile *f2 = new TFile("W2Jets.root","UPDATE");   
-   readdir(f2,parser,ev);
-   f2->Close();
-   
-   TFile *f3 = new TFile("W3Jets.root","UPDATE");   
-   readdir(f3,parser,ev);
-   f3->Close();
-   
-   TFile *f4 = new TFile("W4Jets.root","UPDATE");   
-   readdir(f4,parser,ev);
-   f4->Close();
  
   } 
 
@@ -134,7 +118,7 @@ void readdir(TDirectory *dir,optutl::CommandLineParser parser,std::vector<float>
       TBranch *newBranch = t->Branch(parser.stringValue("branch").c_str(),&weight,(parser.stringValue("branch")+"/F").c_str());
       TBranch *typeBranch = t->Branch("TYPE",&type,"TYPE/I");
       int LHEProduct=0;
-      t->SetBranchAddress("LHEProductnjets",&LHEProduct); //NJets
+      t->SetBranchAddress("LHEProductnjet",&LHEProduct); //NJets
       //t->SetBranchAddress("LHEProduct_njets",&LHEProduct); //NJets
       //t->SetBranchAddress("LHEProduct_mll",&LHEProduct); //InvMass
 

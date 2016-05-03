@@ -1,7 +1,7 @@
 #!/bin/sh
-#mkdir /nfs_scratch/$USER/htt_weighted5
-cp /nfs_scratch/$USER/htt_unweighted12_susy/* /nfs_scratch/$USER/htt_weighted12/.
-cd /nfs_scratch/$USER/htt_weighted12/
+mkdir /nfs_scratch/$USER/htt_weighted17
+cp /nfs_scratch/$USER/htt_unweighted17_susy/* /nfs_scratch/$USER/htt_weighted17/.
+cd /nfs_scratch/$USER/htt_weighted17/
 
 
 weightGGA=1;
@@ -55,7 +55,7 @@ if [ $weightBBA -eq 1 ]
     EventWeightsIterativeGen outputFile='susybbH_140.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='susybbH_160.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='susybbH_180.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
-    #EventWeightsIterativeGen outputFile='susybbH_200.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
+    EventWeightsIterativeGen outputFile='susybbH_200.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='susybbH_250.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='susybbH_300.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='susybbH_350.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
@@ -64,16 +64,16 @@ if [ $weightBBA -eq 1 ]
     EventWeightsIterativeGen outputFile='susybbH_500.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='susybbH_600.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='susybbH_700.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
-    #EventWeightsIterativeGen outputFile='susybbH_800.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
+    EventWeightsIterativeGen outputFile='susybbH_800.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='susybbH_900.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='susybbH_1000.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='susybbH_1200.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
-    #EventWeightsIterativeGen outputFile='susybbH_1400.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
+    EventWeightsIterativeGen outputFile='susybbH_1400.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='susybbH_1500.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='susybbH_1600.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='susybbH_1800.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='susybbH_2000.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
-    #EventWeightsIterativeGen outputFile='susybbH_2300.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
+    EventWeightsIterativeGen outputFile='susybbH_2300.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='susybbH_2600.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='susybbH_2900.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='susybbH_3200.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
