@@ -67,15 +67,19 @@ void readdir(TDirectory *dir,optutl::CommandLineParser parser, TH2D* hist)
 		else if(obj->IsA()->InheritsFrom(TTree::Class())) {
 			TTree *t = (TTree*)obj;
 			float weight;
+			float weight2;
 
 
 			TBranch *newBranch = t->Branch(parser.stringValue("branch").c_str(),&weight,(parser.stringValue("branch")+"/F").c_str());
+			TBranch *newBranch2 = t->Branch("highTauEffi",&weight2,"highTauEffi/F");
 			int mLL=0;
 			float genPx=0;
 			float genPy=0;
+			float genTauPt=0;
 			t->SetBranchAddress("LHEProduct_mll",&mLL); //InvMass
 			t->SetBranchAddress("genpX",&genPx); //genPx
 			t->SetBranchAddress("genpY",&genPy); //genPy
+			t->SetBranchAddress("genPt2",&genTauPt); //genPy
 
 			printf("Found tree -> weighting\n");
 			for(Int_t i=0;i<t->GetEntries();++i){
@@ -84,8 +88,10 @@ void readdir(TDirectory *dir,optutl::CommandLineParser parser, TH2D* hist)
 				//printf("Found genPt -> %f,\n",genPt);
 				weight = hist->GetBinContent(hist->GetXaxis()->FindBin(mLL),hist->GetYaxis()->FindBin(genPt));
 				//printf("Found Zweight -> %f,\n",weight);
+				weight2 = 0.2 * genTauPt/1000.; 
 
 				newBranch->Fill();
+				newBranch2->Fill();
 			}
 			t->Write("",TObject::kOverwrite);
 		}

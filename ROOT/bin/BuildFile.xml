@@ -37,6 +37,8 @@
 </bin>
 <bin   name="EventWeightsIterativeGen" file="EventWeightsIterativeGen.cc">
 </bin>
+<bin   name="EventWeightsIterativeGenTauPt" file="EventWeightsIterativeGenTauPt.cc">
+</bin>
 <bin   name="EventWeightsIterativeGenPU" file="EventWeightsIterativeGenPU.cc">
 </bin>
 <bin   name="EventWeightsIterative" file="EventWeightsIterative.cc">
