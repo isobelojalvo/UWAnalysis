@@ -89,7 +89,8 @@ class EventTreeMaker : public edm::EDAnalyzer {
 			for(unsigned int i=0;i<fillers.size();++i)
 			{
 				if(fillers[i]!=0)
-					delete fillers[i];
+					//delete fillers[i];
+					std::cout<<"MUST DELETE THE FILLERS!!!!!"<<std::endl;
 			}
 			fillers.clear();
 		}

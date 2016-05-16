@@ -48,7 +48,7 @@ class LHEProductFiller : public NtupleFillerBase {
 					if (lheeventinfo->hepeup().ISTUP[i] == 1 && (abs(lheeventinfo->hepeup().IDUP[i])<6||lheeventinfo->hepeup().IDUP[i]==21 )) {
 						++NParton;	
 					}
-					if (lheeventinfo->hepeup().ISTUP[i] == 1 && abs(lheeventinfo->hepeup().IDUP[i])==11||abs(lheeventinfo->hepeup().IDUP[i])==13||abs(lheeventinfo->hepeup().IDUP[i])==15 ) {
+					if (lheeventinfo->hepeup().ISTUP[i] == 1 && (abs(lheeventinfo->hepeup().IDUP[i])==11||abs(lheeventinfo->hepeup().IDUP[i])==13||abs(lheeventinfo->hepeup().IDUP[i])==15 )) {
 						l += TLorentzVector(lheeventinfo->hepeup().PUP[i].x[0], lheeventinfo->hepeup().PUP[i].x[1], lheeventinfo->hepeup().PUP[i].x[2], lheeventinfo->hepeup().PUP[i].x[3]);	   
 						++NL;
 					}

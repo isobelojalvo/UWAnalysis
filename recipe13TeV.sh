@@ -10,11 +10,11 @@ pushd $CMSSW_BASE/src
 
 #MVA MET
 #git cms-addpkg RecoMET/METPUSubtraction
-cd RecoMET/METPUSubtraction/
-git cms-addpkg RecoMET/METPUSubtraction
-git cms-addpkg DataFormats/METReco
-git remote add -f mvamet https://github.com/rfriese/cmssw.git
-git checkout MVAMET2_beta_0.6 -b mvamet
+#cd RecoMET/METPUSubtraction/
+#git cms-addpkg RecoMET/METPUSubtraction
+#git cms-addpkg DataFormats/METReco
+#git remote add -f mvamet https://github.com/rfriese/cmssw.git
+#git checkout MVAMET2_beta_0.6 -b mvamet
 
 pushd $CMSSW_BASE/src
 git clone https://github.com/CMS-HTT/LeptonEff-interface.git HTT-utilities 
@@ -28,5 +28,5 @@ scram b
 pushd $CMSSW_BASE/src
 
 #METSignificance
-git cms-addpkg RecoMET/METProducers
+#git cms-addpkg RecoMET/METProducers
 
