@@ -35,13 +35,19 @@
 </bin>
 <bin   name="EventWeightsIterativeGen" file="EventWeightsIterativeGen.cc">
 </bin>
+<bin   name="EventWeightsIterativeGenTauPt" file="EventWeightsIterativeGenTauPt.cc">
+</bin>
 <bin   name="EventWeightsIterativeGenPU" file="EventWeightsIterativeGenPU.cc">
 </bin>
 <bin   name="EventWeightsIterative" file="EventWeightsIterative.cc">
 </bin>
+<bin   name="EventWeightsIterativeTT" file="EventWeightsIterativeTT.cc">
+</bin>
 <bin   name="EventWeightsIterativeWJets" file="EventWeightsIterativeWJets.cc">
 </bin>
 <bin   name="EventWeightsIterativeZJets" file="EventWeightsIterativeZJets.cc">
+</bin>
+<bin   name="EventWeightsIterativeZPt" file="EventWeightsIterativeZPt.cc">
 </bin>
 
 <bin   name="EventWeightsKFactorsHRes" file="EventWeightsKFactorsHRes.cc">

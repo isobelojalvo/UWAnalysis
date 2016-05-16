@@ -19,7 +19,6 @@ int main (int argc, char* argv[])
    optutl::CommandLineParser parser ("Sets Event Weights in the ntuple");
    parser.addOption("histoName",optutl::CommandLineParser::kString,"Counter Histogram Name","EventSummary");
    parser.addOption("weight",optutl::CommandLineParser::kDouble,"Weight to apply",1.0);
-   parser.addOption("type",optutl::CommandLineParser::kInteger,"Type",0);
    parser.addOption("branch",optutl::CommandLineParser::kString,"Branch","__WEIGHT__");
 
    
@@ -106,7 +105,7 @@ int main (int argc, char* argv[])
    TFile *f4 = new TFile("W4Jets.root","UPDATE");   
    readdir(f4,parser,ev);
    f4->Close();
- 
+
   } 
 
 
@@ -128,13 +127,10 @@ void readdir(TDirectory *dir,optutl::CommandLineParser parser,std::vector<float>
     else if(obj->IsA()->InheritsFrom(TTree::Class())) {
       TTree *t = (TTree*)obj;
       float weight;
-      int   type = parser.integerValue("type");
-
 
       TBranch *newBranch = t->Branch(parser.stringValue("branch").c_str(),&weight,(parser.stringValue("branch")+"/F").c_str());
-      TBranch *typeBranch = t->Branch("TYPE",&type,"TYPE/I");
       int LHEProduct=0;
-      t->SetBranchAddress("LHEProductnjets",&LHEProduct); //NJets
+      t->SetBranchAddress("LHEProductnjet",&LHEProduct); //NJets
       //t->SetBranchAddress("LHEProduct_njets",&LHEProduct); //NJets
       //t->SetBranchAddress("LHEProduct_mll",&LHEProduct); //InvMass
 
@@ -156,7 +152,6 @@ void readdir(TDirectory *dir,optutl::CommandLineParser parser,std::vector<float>
 	  	weight = parser.doubleValue("weight")/(ev[0]);
 	  	
 	  newBranch->Fill();
-	  typeBranch->Fill();
 	}
       t->Write("",TObject::kOverwrite);
     }
