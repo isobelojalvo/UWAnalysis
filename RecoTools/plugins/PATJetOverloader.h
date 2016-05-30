@@ -36,7 +36,6 @@ class PATJetOverloader : public edm::EDProducer {
    public:
   
   
-  //vector<reco::GenJet>                  "ak5GenJets" 
   explicit PATJetOverloader(const edm::ParameterSet& iConfig):
     src_(consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("src"))),
     genJets_(consumes<reco::GenJetCollection>(iConfig.getParameter<edm::InputTag>("genJets")))
