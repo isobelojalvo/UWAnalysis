@@ -31,13 +31,11 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   TriggerPaths= triggerPaths
   process.analysisSequence = cms.Sequence()
 
-  #mvaPairMet(process)
-  #metSignificance(process)
-
   MiniAODEleVIDEmbedder(process,"slimmedElectrons")  
   MiniAODMuonIDEmbedder(process,"slimmedMuons")  
 
   #mvaMet2(process, True) #isData
+  #metSignificance(process)
 
 
   #Add trigger Matching
@@ -87,7 +85,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   MiniAODMuonIDEmbedder(process,"slimmedMuons")  
 
   #mvaMet2(process, False) #isData
-  #metSignificance(process)
+  metSignificance(process)
 
 
   #Add trigger Matching
@@ -382,7 +380,11 @@ def metSignificance(process):
        srcPfJets            = cms.InputTag('slimmedJets'),
        srcMet               = cms.InputTag('slimmedMETs'),
        srcPFCandidates      = cms.InputTag('packedPFCandidates'),
-    
+       srcJetSF             = cms.string('AK4PFchs'),
+       srcJetResPt          = cms.string('AK4PFchs_pt'),
+       srcJetResPhi         = cms.string('AK4PFchs_phi'),
+       srcRho               = cms.InputTag('fixedGridRhoAll'),
+ 
        parameters = METSignificanceParams
    )
    process.analysisSequence *= process.METSignificance

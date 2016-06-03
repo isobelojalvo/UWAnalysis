@@ -4,7 +4,7 @@ process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
 
-process.GlobalTag.globaltag = '76X_dataRun2_16Dec2015_v0'
+process.GlobalTag.globaltag = '80X_dataRun2_Prompt_v8'
 
 
 process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
@@ -22,7 +22,7 @@ process.source = cms.Source("PoolSource",
 )
 
 import FWCore.PythonUtilities.LumiList as LumiList
-process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_v2.txt').getVLuminosityBlockRange()
+process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-273730_13TeV_PromptReco_Collisions16_JSON.txt').getVLuminosityBlockRange()
 
 
 process.maxEvents = cms.untracked.PSet(
@@ -31,20 +31,38 @@ process.maxEvents = cms.untracked.PSet(
 
 
 #added in etau and mutau triggers
-from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
+from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import *
 defaultReconstruction(process,'HLT',
                       [
-						'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v1',#etau
-						'HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1', #etau
-						'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v2'#muTau
-						'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v1', #mutau
-                                                'HLT_IsoMu24_eta2p1_IterTrk02_v1' #mutau
+			'HLT_IsoMu18_v', 
+			'HLT_IsoMu20_v', 
+			'HLT_IsoMu22_v', 
+			'HLT_IsoMu22_eta2p1_v', 
+			'HLT_IsoMu24_v', 
+			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v',
+			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_SingleL1_v',
+			'HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v',
+			'HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v',
+			'HLT_IsoMu21_eta2p1_LooseIsoPFTau20_SingleL1_v',
+		        'HLT_Ele22_eta2p1_WPLoose_LooseIsoPFTau20_v',
+		        'HLT_Ele22_eta2p1_WPLoose_LooseIsoPFTau20_SingleL1_v',
+			'HLT_Ele23_WPLoose_Gsf_v',
+		        'HLT_Ele24_eta2p1_WPLoose_Gsf_v',
+		        'HLT_Ele24_eta2p1_WPLoose_LooseIsoPFTau20_v',
+		        'HLT_Ele24_eta2p1_WPLoose_LooseIsoPFTau20_SingleL1_v',
+			'HLT_Ele24_WPLoose_Gsf_v',
+			'HLT_Ele25_eta2p1_WPLoose_Gsf_v',
+			'HLT_Ele25_eta2p1_WPTight_Gsf_v',	
+			'HLT_Ele27_WPLoose_Gsf_v',
+			'HLT_Ele27_WPTight_Gsf_v',
+			'HLT_Ele27_eta2p1_WPLoose_Gsf_v',
+			'HLT_Ele27_eta2p1_WPTight_Gsf_v'
                       ])
 
                       
 
 #EventSelection
-process.load("UWAnalysis.Configuration.zTauTauXSec_cff")
+process.load("UWAnalysis.Configuration.hTauTau_cff")
 
 process.metCalibration.applyCalibration = cms.bool(False)
 
@@ -52,12 +70,12 @@ process.eventSelectionMT = cms.Path(process.selectionSequenceMT)
 process.eventSelectionET = cms.Path(process.selectionSequenceET)
 
 
-from UWAnalysis.Configuration.tools.ntupleToolsZTauTauXSec import addMuTauEventTree
+from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
 addMuTauEventTree(process,'muTauEventTreeFinal','muTausOS','diMuonsOSSorted')
 
 
-from UWAnalysis.Configuration.tools.ntupleToolsZTauTauXSec import addEleTauEventTree
+from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addEleTauEventTree
 addEleTauEventTree(process,'eleTauEventTree')
 addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','diElectronsOSSorted')
 

@@ -11,13 +11,13 @@
 // class decleration
 //
 
-class CollectionSizeVetoFiller : public NtupleFillerBase {
+class OSCollectionSizeFiller : public NtupleFillerBase {
  public:
-    CollectionSizeVetoFiller(){
+    OSCollectionSizeFiller(){
     }
 
 
-    CollectionSizeVetoFiller(const edm::ParameterSet& iConfig, TTree* t, edm::ConsumesCollector && iC):
+    OSCollectionSizeFiller(const edm::ParameterSet& iConfig, TTree* t, edm::ConsumesCollector && iC):
       src_(iC.consumes<edm::View<reco::Candidate> >(iConfig.getParameter<edm::InputTag>("src"))),
       size_(iConfig.getUntrackedParameter<double>("size",0.)),
       tag_(iConfig.getParameter<std::string>("tag"))
@@ -27,7 +27,7 @@ class CollectionSizeVetoFiller : public NtupleFillerBase {
 	}
 
 
-  ~CollectionSizeVetoFiller()
+  ~OSCollectionSizeFiller()
     { 
 
     }
@@ -36,10 +36,11 @@ class CollectionSizeVetoFiller : public NtupleFillerBase {
   void fill(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   {
     edm::Handle<edm::View<reco::Candidate> > handle;
-    value=0; //do not veto
+    value=0; //initially false
     if(iEvent.getByToken(src_,handle)) {
-      if (handle->size()>size_)
-	value=1;//veto if size is larger than expected
+      int charge = handle->at(0).charge();
+      if (charge==size_)
+	value=1;//set to one if size is expected
     }
   }
   

@@ -644,13 +644,13 @@ class CutSequenceProducer(cms._ParameterTypeBase):
           self.sequence*=smearedMET
 
 
-    def addHLT(self,path,triggerProcess,summaryText = ''):
+    def addHLT(self,path,triggerProcess,summaryText = ''): # THIS IS A TRAP> NOT CURRENTLY USED ANYWHERE! CHECK NTPLES FOR TRIGGERFILLER
                hltSkimmer = cms.EDFilter("HLTHighLevel",
                           TriggerResultsTag = cms.InputTag("TriggerResults","",triggerProcess),
                           HLTPaths = cms.vstring(path),           # provide list of HLT paths (or patterns) you want
                           eventSetupPathsKey = cms.string(''), # not empty => use read paths from AlCaRecoTriggerBitsRcd via this key
                           andOr = cms.bool(True),             # how to deal with multiple triggers: True (OR) accept if ANY is true, False (AND) accept if ALL are true
-                          throw = cms.bool(True)    # throw exception on unknown path names
+                          throw = cms.bool(False)    # throw exception on unknown path names
                )
 
                pyModule = sys.modules[self.pyModuleName[0]]

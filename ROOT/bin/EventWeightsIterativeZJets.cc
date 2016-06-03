@@ -28,7 +28,8 @@ int main (int argc, char* argv[])
    
 
  
-   TFile *w = new TFile("ZJets_ext1.root","UPDATE");
+   TFile *w = new TFile("ZJets.root","UPDATE");
+   //TFile *w = new TFile("ZJets_ext1.root","UPDATE");
 
    TH1F* evC  = (TH1F*)w->Get(parser.stringValue("histoName").c_str());
    float evW = evC->GetBinContent(1);
@@ -36,10 +37,8 @@ int main (int argc, char* argv[])
    w->Close();
   
    TFile *w1 = new TFile("Z1Jets.root","UPDATE");
-
    TH1F* evC1  = (TH1F*)w1->Get(parser.stringValue("histoName").c_str());
    float evW1 = evC1->GetBinContent(1);
-   
    w1->Close();   
 
    TFile *w2 = new TFile("Z2Jets.root","UPDATE");
@@ -56,12 +55,12 @@ int main (int argc, char* argv[])
    
    w3->Close();
 
-   TFile *w4 = new TFile("Z4Jets.root","UPDATE");
+   //TFile *w4 = new TFile("Z4Jets.root","UPDATE");
 
-   TH1F* evC4  = (TH1F*)w4->Get(parser.stringValue("histoName").c_str());
-   float evW4 = evC4->GetBinContent(1);
-   
-   w4->Close();
+   //TH1F* evC4  = (TH1F*)w4->Get(parser.stringValue("histoName").c_str());
+   //float evW4 = evC4->GetBinContent(1);
+   float evW4 = 0.0; 
+   //w4->Close();
  
    TFile *w5 = new TFile("ZJets_150.root","UPDATE");
 
@@ -95,7 +94,8 @@ int main (int argc, char* argv[])
    ev.push_back(DYLo4);
    ev.push_back(DYLo5);
    
-   TFile *f0 = new TFile("ZJets_ext1.root","UPDATE");   
+   //TFile *f0 = new TFile("ZJets_ext1.root","UPDATE");   
+   TFile *f0 = new TFile("ZJets.root","UPDATE");   
    readdir(f0,parser,ev);
    f0->Close();
    
@@ -111,9 +111,9 @@ int main (int argc, char* argv[])
    readdir(f3,parser,ev);
    f3->Close();
    
-   TFile *f4 = new TFile("Z4Jets.root","UPDATE");   
-   readdir(f4,parser,ev);
-   f4->Close();
+   //TFile *f4 = new TFile("Z4Jets.root","UPDATE");   
+   //readdir(f4,parser,ev);
+   //f4->Close();
  
    TFile *f5 = new TFile("ZJets_150.root","UPDATE");   
    readdir(f5,parser,ev);
