@@ -7,7 +7,7 @@
 
 #include "UWAnalysis/NtupleTools/interface/NtupleFillerBase.h"
 #include "DataFormats/VertexReco/interface/Vertex.h"
-#include "HTT-utilities/LepEffInterface/interface/ScaleFactor.h" //HTT Weights
+//#include "HTT-utilities/LepEffInterface/interface/ScaleFactor.h" //HTT Weights
 
 #include "CommonTools/Utils/interface/StringObjectFunction.h"
 #include "boost/filesystem.hpp"
