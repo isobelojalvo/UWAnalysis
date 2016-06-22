@@ -86,7 +86,7 @@ def makeMuTauPtPair(sourceDiTaus,tagName,cutName,methodName,rank):
 
 def makeMuTauEventWeight(sourceDiTaus):
    PSet = cms.PSet(
-         pluginType  = cms.string("PATMuTauPairWeightFiller"),
+         pluginType  = cms.string("PATMuTauPairWeightFillerTmp"),
          src         = cms.InputTag(sourceDiTaus),
          tag         = cms.string("Mu"),
          isMuon      = cms.bool(True)
@@ -190,7 +190,7 @@ def makeEleTauJetCountPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
    return PSet
 def makeEleTauEventWeight(sourceDiTaus):
    PSet = cms.PSet(
-         pluginType  = cms.string("PATEleTauPairWeightFiller"),
+         pluginType  = cms.string("PATEleTauPairWeightFillerTmp"),
          src         = cms.InputTag(sourceDiTaus),
          tag         = cms.string("Ele"),
          isMuon      = cms.bool(False)
@@ -264,7 +264,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                                   tag        = cms.string("vertices")
                               ),#FILLED
  
-                              #muTauEventWeight = makeMuTauEventWeight(src),#FILLED
+                              muTauEventWeight = makeMuTauEventWeight(src),#FILLED
                               muTauGenMCMatch = makeMuTauGenMatch(src),#FILLED
                               #muTauNBTags = makeMuTauNBTag(src),#FILLED
                               muTauEffCSV = makeMuTauEffCSV(src),#FILLED
@@ -358,8 +358,6 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
 
                               #Muon IDs and Isolation
                               muTauRelPFIsoDB03 = makeMuTauPair(src,"iso_1",'leg1.userFloat("dBRelIso03")'),
-                              muTauRel2PFIsoDB03 = makeMuTauPair(src,"iso_2",'leg2.tauID("byIsolationMVArun2v1DBoldDMwLTraw")'),
-
                               muTauRelPFIsoDB04 = makeMuTauPair(src,"iso04_1",'leg1.userFloat("dBRelIso")'),
 
                               muTauLooseID = makeMuTauPair(src,"id_m_loose_1",'leg1.isLooseMuon()'),
@@ -381,6 +379,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauTauDZ = makeMuTauPair(src,"dZ_2","leg2.userFloat('taudZ')"),
                               muTauMuDXY = makeMuTauPair(src,"d0_1","leg1.userFloat('dXY')"),
                               muTauTauDXY = makeMuTauPair(src,"d0_2","leg2.userFloat('taudXY')"),
+
 
 			      #tauIDs
                               muTauByCombIsoDBRaw3 = makeMuTauPair(src,"byCombinedIsolationDeltaBetaCorrRaw3Hits_2",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
@@ -565,7 +564,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
                               ),
 
 
-                              #eTauEventWeight = makeEleTauEventWeight(src),#FILLED
+                              eTauEventWeight = makeEleTauEventWeight(src),#FILLED
                               #eleTauNBTags = makeEleTauNBTag(src),#FILLED
                               eleTauEffCSV = makeEleTauEffCSV(src),#FILLED
                               eleTauCSVShape = makeEleTauCSVShape(src),#FILLED
@@ -668,6 +667,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
 
                               #Ele IDs and Isolation
                               eleTauRelPFIsoDB03 = makeEleTauPair(src,"iso_1",'leg1.userFloat("dBRelIso03")'),
+                              muTauRel2PFIsoDB03 = makeMuTauPair(src,"iso_2",'leg2.tauID("byIsolationMVArun2v1DBoldDMwLTraw")'),
 			      eleTauRel2PFIsoDB03 = makeEleTauPair(src,"iso_2",'leg2.tauID("byIsolationMVArun2v1DBoldDMwLTraw")'),
                               eleTauRelPFIsoDB04 = makeEleTauPair(src,"iso04_1",'leg1.userFloat("dBRelIso")'),
                               eleTauEleIsoChHadIso = makeEleTauPair(src,"eleIsoChHadIso",'leg1.userFloat("eleIsoChHadIso")'),

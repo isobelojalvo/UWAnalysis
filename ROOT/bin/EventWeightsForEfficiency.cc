@@ -20,7 +20,7 @@ void readdir(TDirectory *dir,TFile * corrs,optutl::CommandLineParser parser);
 int main (int argc, char* argv[]) 
 {
    optutl::CommandLineParser parser ("Sets Event Weights in the ntuple");
-   parser.addOption("branch",optutl::CommandLineParser::kString,"Branch","__HLT__");
+   parser.addOption("branch",optutl::CommandLineParser::kString,"Branch","__TAGPROBE__");
    parser.addOption("file",optutl::CommandLineParser::kString,"File","corrections.root");
    parser.addOption("correctors",optutl::CommandLineParser::kStringVector,"Correctors");
    parser.addOption("weights",optutl::CommandLineParser::kDoubleVector,"weights");

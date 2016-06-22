@@ -80,17 +80,15 @@ void createVertexDistribution_OfficialPU(){
  		0.0,
 		0.0};
 
-  TH1D* Shape1 = new TH1D("Nominal1","Nominal1",80,0,80);
-  for (i=1;i<81;i++){
-     float bc =0.0;
-     if (i<51) bc=MC[i-1];
-     Shape1->SetBinContent(i,bc);
+  TH1D* Shape1 = new TH1D("Nominal1","Nominal1",50,0,50);
+
+  for (i=1;i<53;i++){
+     Shape1->SetBinContent(i,MC[i-1]);
   }
 
   Shape1->Scale(1/Shape1->Integral());
 
   TFile f2("vertices.root","RECREATE");
-  //f2->cd();
   Shape1->Write("pileup",TObject::kOverwrite);//"vertices",TObject::kOverwrite);
 
 }
