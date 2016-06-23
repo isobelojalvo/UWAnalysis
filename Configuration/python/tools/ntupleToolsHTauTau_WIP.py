@@ -368,7 +368,9 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauDecayFoundOld = makeMuTauPair(src,"decayModeFindingOldDMs_2",'leg2.tauID("decayModeFinding")'),
                               muTauDecayFoundNew = makeMuTauPair(src,"decayModeFindingNewDMs_2",'leg2.tauID("decayModeFindingNewDMs")'),
                               muTauProngs = makeMuTauPair(src,"tauProngs",'leg2.signalChargedHadrCands.size()'),#see Decay Modes
-                              #muTauMuTriggerMatch = makeMuTauPair(src,"lTrigger",'leg1.userFloat("hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09")'),
+                              muTauMuTriggerMatch = makeMuTauPair(src,"lTrigger",'leg1.userFloat("hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09")'),
+                              muTauMuTriggerMatchTau = makeMuTauPair(src,"lt1Trigger",'leg1.userFloat("hltOverlapFilterSingleIsoMu19LooseIsoPFTau20")'),
+                              muTauMuTriggerMatchTau1 = makeMuTauPair(src,"lt2Trigger",'leg1.userFloat("hltL3crIsoL1sSingleMu18erIorSingleMu20erL1f0L2f10QL3f19QL3trkIsoFiltered0p09")'),
                               muTauPzeta = makeMuTauPair(src,"pZeta",'pZeta-1.5*pZetaVis'),
                               muTauPZ = makeMuTauPair(src,"pZ",'pZeta'),
                               muTauPZV = makeMuTauPair(src,"pzetavis",'pZetaVis'),
@@ -662,7 +664,10 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
                               eleTauPZV = makeEleTauPair(src,"pzetavis",'pZetaVis'),#EO
 
 			      #Trigger
-                              #eleTauEleTriggerMatch2015D = makeEleTauPair(src,"lTrigger",'leg1.userFloat("hltEle23WPLooseGsfTrackIsoFilter")'),
+                              eleTauEleTriggerMatch2016_25 = makeEleTauPair(src,"lTrigger25",'leg1.userFloat("hltEle25erWPTightGsfTrackIsoFilter")'),
+                              eleTauEleTriggerMatch2016_27 = makeEleTauPair(src,"lTrigger27",'leg1.userFloat("hltEle27erWPLooseGsfTrackIsoFilter")'),
+                              eleTauEleTriggerMatch2016_1 = makeEleTauPair(src,"lt1Trigger",'leg1.userFloat("hltOverlapFilterIsoEle24WPLooseGsfLooseIsoPFTau20")'),
+                              eleTauEleTriggerMatch2016_2 = makeEleTauPair(src,"lt2Trigger",'leg1.userFloat("hltEle24WPLooseL1SingleIsoEG22erGsfTrackIsoFilter")'),
 
 
                               #Ele IDs and Isolation
@@ -717,6 +722,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
                               eleTauConversion = makeEleTauPair(src,"eleConversion","leg1.userInt('eleConversion')"),
                               eleTauPassConversion = makeEleTauPair(src,"ePassConversion",'leg1.passConversionVeto()'),
                               eleTauAgainstEleMVA6raw = makeEleTauPair(src,"againstElectronMVA6Raw",'leg2.tauID("againstElectronMVA6Raw")'),
+                              eleTauAgainstElectronVTightMVA6 = makeEleTauPair(src,"againstElectronVTightMVA6_2",'leg2.tauID("againstElectronVTightMVA6")'),
                               eleTauAgainstElectronTightMVA6 = makeEleTauPair(src,"againstElectronTightMVA6_2",'leg2.tauID("againstElectronTightMVA6")'),
                               eleTauAgainstElectronMediumMVA6 = makeEleTauPair(src,"againstElectronMediumMVA6_2",'leg2.tauID("againstElectronMediumMVA6")'),
                               eleTauAgainstElectronVLooseMVA6 = makeEleTauPair(src,"againstElectronVLooseMVA6_2",'leg2.tauID("againstElectronVLooseMVA6")'),

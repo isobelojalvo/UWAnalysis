@@ -39,14 +39,13 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   #mvaMet2(process, True) #isData
   metSignificance(process)
 
-  #No Trigger Matching here!!
-  #muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID") 
-  #electronTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODElectronVID") 
+  muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID") 
+  electronTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODElectronVID") 
   #tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"slimmedTaus") #ESTaus
   
   #Build good vertex collection
   #goodVertexFilter(process)  
-  tauOverloading(process,'slimmedTaus','miniAODMuonID','offlineSlimmedPrimaryVertices')
+  tauOverloading(process,'slimmedTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   
   triLeptons(process)
   #jetOverloading(process,"slimmedJets",True)
@@ -94,14 +93,14 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
 
 
   #no trigger here!!!  
-  #muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID")#NEW
-  #electronTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODElectronVID")#NEW
+  muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID")#NEW
+  electronTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODElectronVID")#NEW
   #tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"ESTausID") #slimmedTaus")
   #tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"slimmedTaus")
   
   #Build good vertex collection
   #goodVertexFilter(process)  
-  tauOverloading(process,'slimmedTaus','miniAODMuonID','offlineSlimmedPrimaryVertices')
+  tauOverloading(process,'slimmedTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   
   triLeptons(process)
   #jetCSVShaping(process,"slimmedJets")
@@ -414,18 +413,12 @@ def muonTriggerMatchMiniAOD(process,triggerProcess,HLT,srcMuon):
                                             src = cms.InputTag(srcMuon),#"miniAODMuonID"
                                             trigEvent = cms.InputTag(HLT),
                                             filters = cms.vstring(
-						'hltL3crIsoL1sMu16erTauJet20erL1f0L2f10QL3f17QL3trkIsoFiltered0p09',
-						'hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09',
-						'hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09', #2015D
-						'hltL3crIsoL1sSingleMu16erL1f0L2f10QL3f17QL3trkIsoFiltered0p09', #2015D Sync
-						'hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09' #2015D IsoMu18
+						'hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09', #2016B
+						'hltOverlapFilterSingleIsoMu19LooseIsoPFTau20' #2016B HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v2
                                             ),
 					    filtersAND = cms.vstring(
-					    	'hltOverlapFilterIsoMu17LooseIsoPFTau20',
-						'hltL3crIsoL1sMu20Eta2p1L1f0L2f10QL3f24QL3trkIsoFiltered0p09', 
-						'hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09', #2015D Sync
-						'hltL3crIsoL1sSingleMu16erL1f0L2f10QL3f17QL3trkIsoFiltered0p09', #2015D Sync
-						'hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09' #2015D IsoMu18
+						'hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09', #2016D IsoMu18
+						'hltL3crIsoL1sSingleMu18erIorSingleMu20erL1f0L2f10QL3f19QL3trkIsoFiltered0p09' #2016B HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v2
 					    ),
                                             bits = cms.InputTag("TriggerResults","","HLT"),
                                             prescales = cms.InputTag("patTrigger"),
@@ -441,24 +434,14 @@ def electronTriggerMatchMiniAOD(process,triggerProcess,HLT,srcEle):
                                             src = cms.InputTag(srcEle),#"miniAODElectronVID"
                                             trigEvent = cms.InputTag(HLT),#unused
                                             filters = cms.vstring(
-						'hltEle22WP75L1IsoEG20erTau20erGsfTrackIsoFilter', #spring15 ETau
-						'hltEle22WPLooseL1IsoEG20erTau20erGsfTrackIsoFilter', #2015D ETau
-					        'hltSingleEle22WPLooseGsfTrackIsoFilter', #2015B ETau
-						'hltEle32WP75GsfTrackIsoFilter', #Spring15 E
- 						'hltSingleEle22WP75GsfTrackIsoFilter', #SYNC v2
-						'hltEle32WPTightGsfTrackIsoFilter', #2015B, 2015D single E
-						'hltSingleEle22WPTightGsfTrackIsoFilter', #2015D single E
-						'hltEle23WPLooseGsfTrackIsoFilter' #2015D single E
+						'hltOverlapFilterIsoEle24WPLooseGsfLooseIsoPFTau20', #2016 ETau HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v2
+						'hltEle25erWPTightGsfTrackIsoFilter', #spring15 ETau
+						'hltEle27erWPLooseGsfTrackIsoFilter' #2015D ETau
                                             ),
 					    filtersAND = cms.vstring(
-						'hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20', #spring15 ETau 
-						'hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20', #2015D ETau
-						'hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20', #2015B ETau
- 						'hltEle32WP75GsfTrackIsoFilter', #spring15 E
- 						'hltSingleEle22WP75GsfTrackIsoFilter', #SYNC v2
- 						'hltEle32WPTightGsfTrackIsoFilter', #2015B, 2015D single E 
- 						'hltSingleEle22WPTightGsfTrackIsoFilter', #2015D single E 
-						'hltEle23WPLooseGsfTrackIsoFilter' #2015D single E
+						'hltEle24WPLooseL1SingleIsoEG22erGsfTrackIsoFilter', #2016 ETau HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v2
+ 						'hltEle25erWPTightGsfTrackIsoFilter', #2015D single E 
+						'hltEle27erWPLooseGsfTrackIsoFilter' #15D single E
 					    ),
                                             bits = cms.InputTag("TriggerResults","","HLT"),
                                             prescales = cms.InputTag("patTrigger"),

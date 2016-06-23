@@ -37,7 +37,7 @@ class EventWeightFillerTmp : public NtupleFillerBase {
 		t->Branch((tag_+"EffWeight").c_str(),&value[2],(tag_+"EffWeight/F").c_str());
 		std::string base = std::getenv("CMSSW_BASE");
 		std::string fMuonTrigger =   "/src/UWAnalysis/Configuration/data/IsoMu22.root";
-		std::string fEleTrigger =   "/src/UWAnalysis/Configuration/data/IsoEle25WPTight.root";
+		std::string fEleTrigger =   "/src/UWAnalysis/Configuration/data/EleSoup.root";
 		std::string fileTrig;
 		if (isMu_) {
 			fileTrig= base+fMuonTrigger;
