@@ -271,6 +271,6 @@ class NBTagFiller : public NtupleFillerBase {
 
 typedef NBTagFiller<PATMuTauPair> PATMuTauPairNBTagFiller;
 typedef NBTagFiller<PATElecTauPair> PATEleTauPairNBTagFiller;
-
+typedef NBTagFiller<PATDiTauPair> PATDiTauPairNBTagFiller;
 
 

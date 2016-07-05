@@ -4,6 +4,7 @@
 
 DEFINE_EDM_PLUGIN(NtupleFillerFactory, PATMuTauPairPtJetPairVarFiller, "PATMuTauPairPtJetPairVarFiller");
 DEFINE_EDM_PLUGIN(NtupleFillerFactory, PATEleTauPairPtJetPairVarFiller, "PATEleTauPairPtJetPairVarFiller");
+DEFINE_EDM_PLUGIN(NtupleFillerFactory, PATDiTauPairPtJetPairVarFiller, "PATDiTauPairPtJetPairVarFiller");
 
 
 
