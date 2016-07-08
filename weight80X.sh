@@ -1,11 +1,11 @@
 #!/bin/sh
-mkdir /nfs_scratch/$USER/80X_ztt_weighted7
-cp /nfs_scratch/$USER/80X_ztt_unweighted7/* /nfs_scratch/$USER/80X_ztt_weighted7/.
-cd /nfs_scratch/$USER/80X_ztt_weighted7/
+mkdir /nfs_scratch/$USER/80X_ztt_weighted8
+cp /nfs_scratch/$USER/80X_ztt_unweighted8/* /nfs_scratch/$USER/80X_ztt_weighted8/.
+cd /nfs_scratch/$USER/80X_ztt_weighted8/
 
 
 weight=1;
-weightH=1;
+weightH=0;
 weightW=1;
 weightZ=1;
 

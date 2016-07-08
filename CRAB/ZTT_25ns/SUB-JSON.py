@@ -4,7 +4,8 @@ process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
 
-process.GlobalTag.globaltag = '80X_dataRun2_Prompt_v8'
+process.GlobalTag.globaltag = '80X_dataRun2_Prompt_ICHEP16JEC_v0'
+#process.GlobalTag.globaltag = '80X_dataRun2_Prompt_v9'
 
 
 process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
@@ -48,8 +49,8 @@ defaultReconstruction(process,'HLT',
 		        'HLT_Ele22_eta2p1_WPLoose_LooseIsoPFTau20_SingleL1_v',
 			'HLT_Ele23_WPLoose_Gsf_v',
 		        'HLT_Ele24_eta2p1_WPLoose_Gsf_v',
-		        'HLT_Ele24_eta2p1_WPLoose_LooseIsoPFTau20_v',
-		        'HLT_Ele24_eta2p1_WPLoose_LooseIsoPFTau20_SingleL1_v',
+		        'HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v',
+		        'HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v',
 			'HLT_Ele24_WPLoose_Gsf_v',
 			'HLT_Ele25_eta2p1_WPLoose_Gsf_v',
 			'HLT_Ele25_eta2p1_WPTight_Gsf_v',	

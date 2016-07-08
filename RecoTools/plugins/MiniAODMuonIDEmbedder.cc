@@ -85,7 +85,7 @@ void MiniAODMuonIDEmbedder::produce(edm::Event& evt, const edm::EventSetup& es) 
                 //std::cout<<"     iso_1: "<<muIso03<<std::endl;
 
 		int muId = 0; 
-		if (muon.isLooseMuon()&&(((muon.isGlobalMuon()&&muon.globalTrack()->normalizedChi2()<3&&muon.combinedQuality().chi2LocalPosition<12&&muon.combinedQuality().trkKink<20)&&(muon.innerTrack()->validFraction()>=0.8&&muon.segmentCompatibility()>=0.303))||(!(muon.isGlobalMuon()&&muon.globalTrack()->normalizedChi2()<3&&muon.combinedQuality().chi2LocalPosition<12&&muon.combinedQuality().trkKink<20)&&(muon.innerTrack()->validFraction()>=0.8&&muon.segmentCompatibility()>=0.451))))
+		if (muon.isLooseMuon()&&muon.innerTrack()->validFraction()>0.49&&((muon.isGlobalMuon()&&muon.globalTrack()->normalizedChi2()<3&&muon.combinedQuality().chi2LocalPosition<12&&muon.combinedQuality().trkKink<20&&muon.segmentCompatibility()>0.303)||(muon.segmentCompatibility()>0.451)))
 		{
 			muId=1;
 		}
