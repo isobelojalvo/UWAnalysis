@@ -53,7 +53,7 @@ class CSVReweightFiller : public NtupleFillerBase {
 		t->Branch("CSVShapeWeightDownLFStats2",&value[16],"CSVShapeWeightDownLFStats2/F");
 		t->Branch("CSVShapeWeightDownCFErr1",&value[17],"CSVShapeWeightDownCFErr1/F");
 		t->Branch("CSVShapeWeightDownCFErr2",&value[18],"CSVShapeWeightDownCFErr2/F");
-		calib=new BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_76.csv");
+	        calib=new BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_4invfb_systJuly15.csv");
 		reader=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "central");
 		//JES applicable for bottom and light
 		reader_up_jes=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "up_jes");  // sys up
@@ -72,10 +72,10 @@ class CSVReweightFiller : public NtupleFillerBase {
 		reader_down_hf=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "down_hf");  // sys up
 		//LFstats1 Linear and quadratic statistical fluctuations
 		//LFstats2 Linear and quadratic statistical fluctuations
-		reader_up_lfstats1=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "up_hfstats1");  // sys up
-		reader_down_lfstats1=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "down_hfstats1");  // sys up
-		reader_up_lfstats2=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "up_hfstats2");  // sys up
-		reader_down_lfstats2=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "down_hfstats2");  // sys up
+		reader_up_lfstats1=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "up_lfstats1");  // sys up
+		reader_down_lfstats1=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "down_lfstats1");  // sys up
+		reader_up_lfstats2=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "up_lfstats2");  // sys up
+		reader_down_lfstats2=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "down_lfstats2");  // sys up
 		//charm jet uncertantites
 		reader_up_cferr1=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "up_cferr1");  // sys up
 		reader_down_cferr1=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "down_cferr1");  // sys up

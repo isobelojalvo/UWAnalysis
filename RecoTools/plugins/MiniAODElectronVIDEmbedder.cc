@@ -119,6 +119,7 @@ void MiniAODElectronVIDEmbedder::produce(edm::Event& iEvent, const edm::EventSet
 					eptr->pfIsolationVariables().sumPhotonEt - 0.5 * eptr->pfIsolationVariables().sumPUPt, 0.0)) / ei->pt(); 
                 //std::cout<<"electron Isolation03: "<<eleIso03<<std::endl;
 		out->back().addUserFloat(eleIsoLabel_, eleIso04);
+		out->back().addUserFloat("iso", eleIso03);
 		out->back().addUserFloat("dBRelIso03", eleIso03);
 
 		out->back().addUserFloat("eleIsoChHadIso", ei->chargedHadronIso()); 

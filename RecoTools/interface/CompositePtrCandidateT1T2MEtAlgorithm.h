@@ -388,8 +388,17 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 	  pdgIds.push_back(15);
 	  pdgIds.push_back(-15);
 
+          std::vector<int> pdgIdsEMU;
 
-	  const reco::GenParticle* genLeg1 = findGenParticle(compositePtrCandidate.leg1()->p4(), *genParticles, 0.2, -1);
+	  pdgIdsEMU.push_back(13);
+	  pdgIdsEMU.push_back(-13);
+	  pdgIdsEMU.push_back(-11);
+	  pdgIdsEMU.push_back(11);
+
+
+
+	  const reco::GenParticle* genLeg1 = findGenParticle(compositePtrCandidate.leg1()->p4(), *genParticles, 0.2, -1,&pdgIdsEMU,true);
+	  //const reco::GenParticle* genLeg1 = findGenParticle(compositePtrCandidate.leg1()->p4(), *genParticles, 0.2, -1);
 	  const reco::GenParticle* genTau1 = findGenParticle(compositePtrCandidate.leg1()->p4(), *genParticles, 0.2, -1,&pdgIds,true);
 	  if ( genLeg1 ) {
 		  //std::cout << "genLeg1: Pt = " << genLeg1->pt() << ", eta = " << genLeg1->eta() << ", pdgId = " << genLeg1->pdgId() 
@@ -415,7 +424,8 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 		  compositePtrCandidate.setP4VisLeg1gen(getVisMomentum(genTau1, genParticles));
 
 	  }    
-	  const reco::GenParticle* genLeg2 = findGenParticle(compositePtrCandidate.leg2()->p4(), *genParticles, 0.2, -1);
+	  const reco::GenParticle* genLeg2 = findGenParticle(compositePtrCandidate.leg2()->p4(), *genParticles, 0.2, -1,&pdgIdsEMU,true);
+	  //const reco::GenParticle* genLeg2 = findGenParticle(compositePtrCandidate.leg2()->p4(), *genParticles, 0.2, -1);
 	  const reco::GenParticle* genTau2 = findGenParticle(compositePtrCandidate.leg2()->p4(), *genParticles, 0.2, -1,&pdgIds,true);    
 	  if ( genLeg2 ) {
 		  //  std::cout << "genLeg2: Pt = " << genLeg2->pt() << ", eta = " << genLeg2->eta() << ", pdgId = " << genLeg2->pdgId() << std::endl;

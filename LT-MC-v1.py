@@ -3,10 +3,11 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_miniAODv2'
+process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
 
 
 
+#process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 process.options.allowUnscheduled = cms.untracked.bool(True)
 
@@ -15,7 +16,11 @@ process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(-1)
 )
 
+
+# Make the framework shut up.
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
+process.MessageLogger.cerr.FwkReport.reportEvery = 100
+
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
@@ -28,12 +33,6 @@ process.source = cms.Source("PoolSource",
 )
 
 process.dump=cms.EDAnalyzer('EventContentAnalyzer')
-
-_messageSettings = cms.untracked.PSet(
-                reportEvery = cms.untracked.int32(10),
-                            optionalPSet = cms.untracked.bool(True),
-                            limit = cms.untracked.int32(10000000)
-                        )
 
 
 #added in etau and mutau triggers

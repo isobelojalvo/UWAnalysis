@@ -48,13 +48,13 @@ class EffCSVFiller : public NtupleFillerBase {
 		t->Branch("EffCSVWeight1Down",&value[11],"EffCSVWeight1Down/F");
 		t->Branch("EffCSVWeight1DownHF",&value[12],"EffCSVWeight1DownHF/F");
 		t->Branch("EffCSVWeight1DownLF",&value[13],"EffCSVWeight1DownLF/F");
-		calib=new BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_76.csv");
+	        calib=new BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_4invfb_systJuly15.csv");
 		reader_light=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "central");
 		reader_light_up=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "up");
 		reader_light_down=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "down");
-		reader=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "mujets", "central");
-		reader_up=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "mujets", "up");  // sys up
-		reader_down=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "mujets", "down");  // sys down
+		reader=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "comb", "central");
+		reader_up=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "comb", "up");  // sys up
+		reader_down=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "comb", "down");  // sys down
 	}
 
 

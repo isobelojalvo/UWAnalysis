@@ -43,10 +43,10 @@ class EventWeightFiller : public NtupleFillerBase {
 		void fill(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 		{
 			std::string base = std::getenv("CMSSW_BASE");
-			std::string fMuonIsolation =   "/src/HTT-utilities/LepEffInterface/data/Muon/Muon_IdIso0p1_fall15.root";
-			std::string fMuonTrigger =   "/src/HTT-utilities/LepEffInterface/data/Muon/Muon_IsoMu18_fall15.root";
-			std::string fEleIsolation =   "/src/HTT-utilities/LepEffInterface/data/Electron/Electron_IdIso0p1_fall15.root";
-			std::string fEleTrigger =   "/src/HTT-utilities/LepEffInterface/data/Electron/Electron_Ele23_fall15.root";
+			std::string fMuonIsolation =   "/src/HTT-utilities/LepEffInterface/data/Muon/Muon_IdIso_eff_Spring16.root";
+			std::string fMuonTrigger =   "/src/HTT-utilities/LepEffInterface/data/Muon/Muon_IsoMu20_eff_Spring16.root";
+			std::string fEleIsolation =   "/src/HTT-utilities/LepEffInterface/data/Electron/Electron_IdIso_eff_Spring16.root";
+			std::string fEleTrigger =   "/src/HTT-utilities/LepEffInterface/data/Electron/Electron_SingleEle23_eff_Spring16.root";
 			std::string fileIso;
 			std::string fileTrig;
 			if (isMu_) {
@@ -79,7 +79,7 @@ class EventWeightFiller : public NtupleFillerBase {
 			//double efficiency_data = myScaleFactorIso->get_EfficiencyData(pt, eta);
 			//double efficiency_MC = myScaleFactorIso->get_EfficiencyMC(pt,eta);
 			double scaleFactorIso = myScaleFactorIso->get_ScaleFactor(pt,eta);
-			double scaleFactorTrig = myScaleFactorTrig->get_ScaleFactor(pt,eta);
+			double scaleFactorTrig = myScaleFactorTrig->get_EfficiencyData(pt,eta);
 
 			value[0]=scaleFactorIso;
 			value[1]=scaleFactorTrig;

@@ -84,7 +84,25 @@ def makeMuTauPtPair(sourceDiTaus,tagName,cutName,methodName,rank):
    )
    return PSet
 
+def makeMuTauMET(sourceDiTaus, sourceMET, prefix):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATMuTauPairMETFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         met         = cms.InputTag(sourceMET),
+         tag         = cms.string(prefix)
+   )
+   return PSet
+
 def makeMuTauEventWeight(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATMuTauPairWeightFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string("Mu"),
+         isMuon      = cms.bool(True)
+   )
+   return PSet
+
+def makeMuTauEventWeightTmp(sourceDiTaus):
    PSet = cms.PSet(
          pluginType  = cms.string("PATMuTauPairWeightFillerTmp"),
          src         = cms.InputTag(sourceDiTaus),
@@ -188,7 +206,27 @@ def makeEleTauJetCountPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
          leadingOnly = cms.untracked.bool(leadingOnly)
    )
    return PSet
+
+def makeEleTauMET(sourceDiTaus, sourceMET, prefix):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATEleTauPairMETFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         met         = cms.InputTag(sourceMET),
+         tag         = cms.string(prefix)
+   )
+   return PSet
+
+
 def makeEleTauEventWeight(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATEleTauPairWeightFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string("Ele"),
+         isMuon      = cms.bool(False)
+   )
+   return PSet
+
+def makeEleTauEventWeightTmp(sourceDiTaus):
    PSet = cms.PSet(
          pluginType  = cms.string("PATEleTauPairWeightFillerTmp"),
          src         = cms.InputTag(sourceDiTaus),
@@ -254,17 +292,16 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               PVsSync = cms.PSet(
                                   pluginType = cms.string("VertexSizeFiller"),
                                   src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
-                                  #src        = cms.InputTag("primaryVertexFilter"),
                                   tag        = cms.string("npv")
                               ),#FILLED
                               PVs = cms.PSet(
                                   pluginType = cms.string("VertexSizeFiller"),
                                   src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
-                                  #src        = cms.InputTag("primaryVertexFilter"),
                                   tag        = cms.string("vertices")
                               ),#FILLED
  
                               muTauEventWeight = makeMuTauEventWeight(src),#FILLED
+                              muTauEventWeightTmp = makeMuTauEventWeightTmp(src),#FILLED
                               muTauGenMCMatch = makeMuTauGenMatch(src),#FILLED
                               #muTauNBTags = makeMuTauNBTag(src),#FILLED
                               muTauEffCSV = makeMuTauEffCSV(src),#FILLED
@@ -323,7 +360,10 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
 
                               #muTauMETCal = makeMuTauPair(src,"metCal","calibratedMET.pt()"),#NOLONGLERUSED
                               #muTauMETPhi = makeMuTauPair(src,"metphi","metPhi"),#NOLONGERUSED
-
+                              #muTauMET1 = makeMuTauMET(src,"slimmedMETs","pf"),#FILLED
+                              #muTauMET2 = makeMuTauMET(src,"slimmedMETsPuppi","puppi"),#FILLED
+ 
+                              #muTauGenMET = makeMuTauPair(src,"genMET","met.genMET().pt"),#FILLED
                               muTauMET = makeMuTauPair(src,"met","met.pt()"),#FILLED
                               muTauMETPhi = makeMuTauPair(src,"metphi","met.phi()"),#FILLED
                               #muTauMET = makeMuTauPair(src,"mvamet","met.pt()"),#FILLED
@@ -623,6 +663,11 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
                               #eleTauMETUnc = makeEleTauPair(src,"metUnc","met.pt()"),#curretnly identical
                               #eleTauMET = makeEleTauPair(src,"met","calibratedMET.pt()"),#currently identical
                               #eleTauMETPhi = makeEleTauPair(src,"metphi","metPhi"),
+                              #eleTauGenMET = makeEleTauPair(src,"genMET","met.genMET()"),
+
+			      #eleTauMET1 = makeEleTauMET(src,"slimmedMETs",""),#FILLED
+			      #eleTauMET2 = makeEleTauMET(src,"slimmedMETsPuppi","puppi"),#FILLED
+        
                               eleTauMET = makeEleTauPair(src,"met","met.pt()"),
                               eleTauMETPhi = makeEleTauPair(src,"metphi","met.phi()"),
                               #eleTauMET = makeEleTauPair(src,"mvamet","met.pt()"),
