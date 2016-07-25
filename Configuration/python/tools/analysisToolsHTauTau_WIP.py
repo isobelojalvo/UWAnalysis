@@ -36,7 +36,7 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
 
   recorrectJets(process, True) #adds patJetsReapplyJEC
   
-  #mvaMet2(process, True) #isData
+  mvaMet2(process, True) #isData
   metSignificance(process)
 
   muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID") 
@@ -88,7 +88,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
 
   #reapplyPUJetID(process) 
   recorrectJets(process, False) #adds patJetsReapplyJEC
-  #mvaMet2(process, False) #isData
+  mvaMet2(process, False) #isData
   metSignificance(process)
 
 

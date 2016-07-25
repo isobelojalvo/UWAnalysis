@@ -364,7 +364,7 @@ def applyDefaultSelectionsPT(process):#FIXME THISWILL HVAE TO CHANGE-- not curee
   										)
   process.selectedPatMuons = cms.EDFilter("PATMuonSelector",
                                            src = cms.InputTag("miniAODMuonID"),
-                                           cut = cms.string('pt>10&&userInt("mediumID")>0&&userFloat("dBRelIso03")<0.3'),
+                                           cut = cms.string('pt>10&&userInt("mediumID")>0&&userFloat("dBRelIso")<0.3'),
                                            filter = cms.bool(False)
   										) 
   process.cleanPatJets = cms.EDProducer("PATJetCleaner",

@@ -32,8 +32,8 @@ class EventWeightFillerTmp : public NtupleFillerBase {
 			isMu_(iConfig.getParameter<bool>("isMuon"))
 	{
 		value = new float[3];
-		t->Branch("idisoweight_1",&value[0],"idisoweight_1/F");
-		t->Branch("trigweight_1",&value[1],"trigweight_1/F");
+		t->Branch("myisoweight_1",&value[0],"myisoweight_1/F");
+		t->Branch("myweight_1",&value[1],"mytrigweight_1/F");
 		t->Branch((tag_+"EffWeight").c_str(),&value[2],(tag_+"EffWeight/F").c_str());
 		std::string base = std::getenv("CMSSW_BASE");
 		std::string fMuonTrigger =   "/src/UWAnalysis/Configuration/data/IsoMu22.root";

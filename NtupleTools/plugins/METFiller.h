@@ -55,12 +55,52 @@ class METFiller : public NtupleFillerBase {
 			//function_pt = new StringObjectFunction<T>("leg1.pt");
 			//function_eta = new StringObjectFunction<T>("leg1.eta");
 			//
+			//
+
 			edm::Handle<std::vector<T>> handle;
 			edm::Handle<edm::View<pat::MET>> metHandle;
 			if( iEvent.getByToken(src_,handle) &&iEvent.getByToken(met_,metHandle)){
+				//std::cout<<"Met Size: "<<metHandle->size()<<std::endl;
 
+				bool foundMET=false; 
 				const pat::MET *pfMET = 0;
-				pfMET = &(metHandle->front());
+				if (metHandle->size()==1){
+					pfMET = &(metHandle->front());
+					foundMET=true;
+				}
+				else{
+					for (size_t i = 0; i < metHandle->size(); ++i) {
+						const pat::MET& met = (*metHandle)[i];
+						//for ( auto name : met.userCandNames() ) std::cout << name << std::endl;	
+						double l1pdg = handle->at(0).leg1()->pdgId();
+						double l1eta = (round(handle->at(0).leg1()->eta()*1000))/1000.0;
+						double l1phi = (round(handle->at(0).leg1()->phi()*1000))/1000.0;
+						double l2pdg = handle->at(0).leg2()->pdgId();
+						double l2eta = (round(handle->at(0).leg2()->eta()*1000))/1000.0;
+						double l2phi = (round(handle->at(0).leg2()->phi()*1000))/1000.0;
+						double m1pdg = met.userCand("lepton0")->pdgId();
+						double m1eta = (round(met.userCand("lepton0")->eta()*1000))/1000.0;
+						double m1phi = (round(met.userCand("lepton0")->phi()*1000))/1000.0;
+						double m2pdg = met.userCand("lepton1")->pdgId();
+						double m2eta = (round(met.userCand("lepton1")->eta()*1000))/1000.0;
+						double m2phi = (round(met.userCand("lepton1")->phi()*1000))/1000.0;
+
+						if ( l1pdg==m1pdg && l2pdg==m2pdg && l1phi == m1phi && l2phi == m2phi && l1eta==m1eta && l2eta==m2eta)
+						{ 
+							//std::cout<<"FOUND MET MATCH"<<std::endl;
+							pfMET = &(metHandle->at(i)); 
+							foundMET=true;
+							break;
+						}
+					}//end met loop
+				}//end else
+
+				if(!foundMET) {	
+					std::cout<<"===============MET NOT FOUND============="<<std::endl;
+					
+				}
+
+
 
 				double et_leg1 = handle->at(0).leg1()->et();
 				double et_leg2 = handle->at(0).leg2()->et();
@@ -68,11 +108,17 @@ class METFiller : public NtupleFillerBase {
 				double px_leg2 = handle->at(0).leg2()->px();
 				double py_leg1 = handle->at(0).leg1()->py();
 				double py_leg2 = handle->at(0).leg2()->py();
+				double metPt = 0;
+				double metPhi = -999;
+				double metPx = 0;
+				double metPy = 0;
+				if(foundMET){
+					metPt = pfMET->pt();
+					metPhi = pfMET->phi();
+					metPx = pfMET->px();
+					metPy = pfMET->py();
+				}
 
-				double metPt = pfMET->pt();
-				double metPhi = pfMET->phi();
-				double metPx = pfMET->px();
-				double metPy = pfMET->py();
 				/*
 				   if (doGen_) {
 				   double et_leg1 = handle->at(0).p4Leg1gen()->et();

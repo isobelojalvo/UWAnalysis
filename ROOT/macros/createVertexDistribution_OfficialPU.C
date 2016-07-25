@@ -80,9 +80,9 @@ void createVertexDistribution_OfficialPU(){
  		0.0,
 		0.0};
 
-  TH1D* Shape1 = new TH1D("Nominal1","Nominal1",50,0,50);
+  TH1D* Shape1 = new TH1D("Nominal1","Nominal1",90,0,90);
 
-  for (i=1;i<53;i++){
+  for (int i=1;i<51;i++){
      Shape1->SetBinContent(i,MC[i-1]);
   }
 

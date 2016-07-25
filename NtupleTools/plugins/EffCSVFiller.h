@@ -48,7 +48,7 @@ class EffCSVFiller : public NtupleFillerBase {
 		t->Branch("EffCSVWeight1Down",&value[11],"EffCSVWeight1Down/F");
 		t->Branch("EffCSVWeight1DownHF",&value[12],"EffCSVWeight1DownHF/F");
 		t->Branch("EffCSVWeight1DownLF",&value[13],"EffCSVWeight1DownLF/F");
-	        calib=new BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_4invfb_systJuly15.csv");
+	        calib=new BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_ichep.csv");
 		reader_light=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "central");
 		reader_light_up=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "up");
 		reader_light_down=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "down");

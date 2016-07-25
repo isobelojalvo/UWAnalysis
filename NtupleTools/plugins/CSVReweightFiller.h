@@ -53,7 +53,7 @@ class CSVReweightFiller : public NtupleFillerBase {
 		t->Branch("CSVShapeWeightDownLFStats2",&value[16],"CSVShapeWeightDownLFStats2/F");
 		t->Branch("CSVShapeWeightDownCFErr1",&value[17],"CSVShapeWeightDownCFErr1/F");
 		t->Branch("CSVShapeWeightDownCFErr2",&value[18],"CSVShapeWeightDownCFErr2/F");
-	        calib=new BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_4invfb_systJuly15.csv");
+	        calib=new BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_ichep.csv");
 		reader=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "central");
 		//JES applicable for bottom and light
 		reader_up_jes=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "up_jes");  // sys up
