@@ -38,8 +38,7 @@
 
 #include "TRandom3.h"
 #include "CondFormats/BTauObjects/interface/BTagCalibration.h"
-#include "CondFormats/BTauObjects/interface/BTagCalibrationReader.h"
-#include "UWAnalysis/RecoTools/plugins/BTagCalibrationStandalone.h"
+#include "CondTools/BTau/interface/BTagCalibrationReader.h"
 #include "CommonTools/Utils/interface/StringObjectFunction.h"
 #include "boost/filesystem.hpp"
 
@@ -54,13 +53,11 @@ class PATJetOverloader : public edm::EDProducer {
 	{
 		produces<pat::JetCollection>();
 
-		calib=new BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_ichep.csv");
-		reader_light=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "central");
-		reader_light_up=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "up");
-		reader_light_down=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "down");
-		reader=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "comb", "central");
-		reader_up=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "comb", "up");  // sys up
-		reader_down=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "comb", "down");  // sys down
+		calib=BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_ichep.csv");
+		reader=BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central",{"up","down"});
+		reader.load(calib, BTagEntry::FLAV_B, "comb");
+		reader.load(calib, BTagEntry::FLAV_C, "comb");
+		reader.load(calib, BTagEntry::FLAV_UDSG, "incl");
 
 		std::string base = std::getenv("CMSSW_BASE");
 		std::string fEff =   "/src/UWAnalysis/Configuration/data/tagging_efficiencies.root";
@@ -88,13 +85,8 @@ class PATJetOverloader : public edm::EDProducer {
 		TH2D *h2_EffMapC;
 		TH2D *h2_EffMapUDSG;
 
-		BTagCalibration *calib;
-		BTagCalibrationReader *reader;
-		BTagCalibrationReader *reader_up;
-		BTagCalibrationReader *reader_down;
-		BTagCalibrationReader *reader_light;
-		BTagCalibrationReader *reader_light_up;
-		BTagCalibrationReader *reader_light_down;
+		BTagCalibration calib;
+		BTagCalibrationReader reader;
 
 		bool applySF(bool& isBTagged, float Btag_SF, float Btag_eff,int seed){
 			TRandom3 rand_;
@@ -216,7 +208,6 @@ class PATJetOverloader : public edm::EDProducer {
 					//std::cout<<" jet.eta() "<< beta<<std::endl;
 					//std::cout<<" std::abs(jet.eta()) "<< std::abs(beta)<<std::endl;
 					if (!(bpt<20 || beta>2.4 || !loose )) {
-						if (bpt>1000.) {bpt=999.;}
 						if (bcsv>0.80) pass =true;
 						int jetflavor = jet.partonFlavour();
 						double SF =0,SFup=0,SFdown=0,eff=0;
@@ -230,53 +221,25 @@ class PATJetOverloader : public edm::EDProducer {
 						else{
 							if (fabs(jetflavor) == 5) {                // real b-jet
 								//std::cout<<"=====Jet Flavor B====="<<std::endl;
-								if (bpt<30){
-									//std::cout<<"=====Jet SF"<<std::endl;
-									SF = reader->eval(BTagEntry::FLAV_B, beta, 30. );
-									SFup = 2*reader_up->eval(BTagEntry::FLAV_B, beta, 30. );
-									SFdown = 2*reader_down->eval(BTagEntry::FLAV_B, beta, 30. );
-								}
-								else if (bpt>670){
-									//std::cout<<"=====Jet SF"<<std::endl;
-									SF = reader->eval(BTagEntry::FLAV_B, beta, 669. );
-									SFup = 2*reader_up->eval(BTagEntry::FLAV_B, beta, 669. );
-									SFdown = 2*reader_down->eval(BTagEntry::FLAV_B, beta, 669. );
-								}
-								else{
-									//std::cout<<"=====Jet SF"<<std::endl;
-									SF = reader->eval(BTagEntry::FLAV_B, beta,bpt );
-									SFup = reader_up->eval(BTagEntry::FLAV_B, beta,bpt );
-									SFdown = reader_down->eval(BTagEntry::FLAV_B, beta,bpt );
-								}
+								//std::cout<<"=====Jet SF"<<std::endl;
+								SF = reader.eval_auto_bounds("central",BTagEntry::FLAV_B, beta,bpt );
+								SFup = reader.eval_auto_bounds("up",BTagEntry::FLAV_B, beta,bpt );
+								SFdown = reader.eval_auto_bounds("down",BTagEntry::FLAV_B, beta,bpt );
 								eff = h2_EffMapB->GetBinContent( h2_EffMapB->GetXaxis()->FindBin(bpt), h2_EffMapB->GetYaxis()->FindBin(beta) );
 							}
 							else if (fabs(jetflavor) == 4){
-								if (bpt<30){
-									//std::cout<<"=====Jet SF"<<std::endl;
-									SF = reader->eval(BTagEntry::FLAV_C, beta, 30. );
-									SFup = 2*reader_up->eval(BTagEntry::FLAV_C, beta, 30. );
-									SFdown = 2*reader_down->eval(BTagEntry::FLAV_C, beta, 30. );
-								}
-								else if (pt>670){
-									//std::cout<<"=====Jet SF"<<std::endl;
-									SF = reader->eval(BTagEntry::FLAV_C, beta, 669. );
-									SFup = 2*reader_up->eval(BTagEntry::FLAV_C, beta, 669. );
-									SFdown = 2*reader_down->eval(BTagEntry::FLAV_C, beta, 669. );
-								}
-								else{
-									SF = reader->eval(BTagEntry::FLAV_C, beta,bpt );
-									SFup = reader_up->eval(BTagEntry::FLAV_C, beta,bpt );
-									SFdown = reader_down->eval(BTagEntry::FLAV_C, beta,bpt );
-								}
+								SF = reader.eval_auto_bounds("central",BTagEntry::FLAV_C, beta,bpt );
+								SFup = reader.eval_auto_bounds("up",BTagEntry::FLAV_C, beta,bpt );
+								SFdown = reader.eval_auto_bounds("down",BTagEntry::FLAV_C, beta,bpt );
 								//std::cout<<"=====Jet EFF"<<std::endl;
 								eff = h2_EffMapC->GetBinContent( h2_EffMapC->GetXaxis()->FindBin(bpt), h2_EffMapC->GetYaxis()->FindBin(beta) );
 							}
 							else {
 								//std::cout<<"=====Jet Flavor UDSG====="<<std::endl;
 								//std::cout<<"=====Jet SF"<<std::endl;
-								SF = reader_light->eval(BTagEntry::FLAV_UDSG, beta, bpt );
-								SFup = reader_light_up->eval(BTagEntry::FLAV_UDSG, beta, bpt );
-								SFdown = reader_light_down->eval(BTagEntry::FLAV_UDSG, beta, bpt );
+								SF = reader.eval_auto_bounds("central",BTagEntry::FLAV_UDSG, beta, bpt );
+								SFup = reader.eval_auto_bounds("up",BTagEntry::FLAV_UDSG, beta, bpt );
+								SFdown = reader.eval_auto_bounds("down",BTagEntry::FLAV_UDSG, beta, bpt );
 								//std::cout<<"=====Jet EFF"<<std::endl;
 								eff = h2_EffMapUDSG->GetBinContent( h2_EffMapUDSG->GetXaxis()->FindBin(bpt), h2_EffMapUDSG->GetYaxis()->FindBin(beta) );
 

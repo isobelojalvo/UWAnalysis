@@ -12,9 +12,7 @@
 #include "UWAnalysis/NtupleTools/interface/NtupleFillerBase.h"
 
 #include "CondFormats/BTauObjects/interface/BTagCalibration.h"
-#include "CondFormats/BTauObjects/interface/BTagCalibrationReader.h"
-
-#include "UWAnalysis/RecoTools/plugins/BTagCalibrationStandalone.h"
+#include "CondTools/BTau/interface/BTagCalibrationReader.h"
 
 #include "DataFormats/PatCandidates/interface/Jet.h"
 #include "Math/GenVector/VectorUtil.h" 
@@ -48,13 +46,12 @@ class EffCSVFiller : public NtupleFillerBase {
 		t->Branch("EffCSVWeight1Down",&value[11],"EffCSVWeight1Down/F");
 		t->Branch("EffCSVWeight1DownHF",&value[12],"EffCSVWeight1DownHF/F");
 		t->Branch("EffCSVWeight1DownLF",&value[13],"EffCSVWeight1DownLF/F");
-	        calib=new BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_ichep.csv");
-		reader_light=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "central");
-		reader_light_up=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "up");
-		reader_light_down=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "down");
-		reader=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "comb", "central");
-		reader_up=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "comb", "up");  // sys up
-		reader_down=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "comb", "down");  // sys down
+		calib=BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_ichep.csv");
+		//reader=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "comb", "central");
+		reader=BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central",{"up","down"});
+		reader.load(calib, BTagEntry::FLAV_B, "comb");
+		reader.load(calib, BTagEntry::FLAV_C, "comb");
+		reader.load(calib, BTagEntry::FLAV_UDSG, "incl");
 	}
 
 
@@ -72,6 +69,7 @@ class EffCSVFiller : public NtupleFillerBase {
 
 			std::vector<double> SF,SFup,SFdown;
 			std::vector<double> SFupHF,SFdownHF,SFupLF,SFdownLF;
+			//std::vector<double> SFupLF,SFdownLF;
 
 			if( iEvent.getByToken(src_,handle)){
 				for( unsigned int i=0; i<handle->at(0).jets().size(); i++){
@@ -79,84 +77,29 @@ class EffCSVFiller : public NtupleFillerBase {
 					double pt = handle->at(0).jets().at(i)->pt();
 					double eta = handle->at(0).jets().at(i)->eta();
 					if (pt <20 || abs(eta)>2.4) continue;
-				  	if (pt>1000) pt =999.;
 					int jetflavor = abs(handle->at(0).jets().at(i)->partonFlavour());
 					if (handle->at(0).jets().at(i)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.80){
 						//std::cout<< "Flavor: "<<jetflavor<<std::endl;
-						if (pt<30){
-                                                       if (jetflavor==5){
-                                                                SF.push_back(reader->eval(BTagEntry::FLAV_B, eta, 30. ));
-                                                                SFup.push_back(2*(reader_up->eval(BTagEntry::FLAV_B, eta, 30.)));
-                                                                SFupHF.push_back(2*(reader_up->eval(BTagEntry::FLAV_B, eta, 30.)));
-                                                                SFdown.push_back(2*(reader_down->eval(BTagEntry::FLAV_B, eta, 30. )));
-                                                                SFdownHF.push_back(2*(reader_down->eval(BTagEntry::FLAV_B, eta, 30. )));
-                                                        }
-                                                        else if (jetflavor==4) {
-                                                                SF.push_back(reader->eval(BTagEntry::FLAV_C, eta, 30. ));
-                                                                SFup.push_back(2*(reader_up->eval(BTagEntry::FLAV_C, eta, 30. )));
-                                                                SFupHF.push_back(2*(reader_up->eval(BTagEntry::FLAV_C, eta, 30. )));
-                                                                SFdown.push_back(2*(reader_down->eval(BTagEntry::FLAV_C, eta, 30. )));
-                                                                SFdownHF.push_back(2*(reader_down->eval(BTagEntry::FLAV_C, eta, 30. )));
-                                                        }
-                                                        else { //Light jets go down to 20 and up to 1000 
-                                                                SF.push_back(reader_light->eval(BTagEntry::FLAV_UDSG, eta, pt ));
-                                                                SFup.push_back(reader_light_up->eval(BTagEntry::FLAV_UDSG, eta, pt ));
-                                                                SFupLF.push_back(reader_light_up->eval(BTagEntry::FLAV_UDSG, eta, pt ));
-                                                                SFdown.push_back(reader_light_down->eval(BTagEntry::FLAV_UDSG, eta, pt ));
-                                                                SFdownLF.push_back(reader_light_down->eval(BTagEntry::FLAV_UDSG, eta, pt ));
-                                                        }
-
+						BTagEntry::JetFlavor jf= BTagEntry::FLAV_B;
+						if (jetflavor==4) jf = BTagEntry::FLAV_C;
+						else jf = BTagEntry::FLAV_UDSG; 
+						if (jetflavor==5||jetflavor==4){
+							SF.push_back(reader.eval_auto_bounds("central",jf, eta, pt ));
+							SFup.push_back(reader.eval_auto_bounds("up",jf, eta, pt ));
+							SFupHF.push_back(reader.eval_auto_bounds("up",jf, eta, pt ));
+							SFdown.push_back(reader.eval_auto_bounds("down",jf, eta, pt ));
+							SFdownHF.push_back(reader.eval_auto_bounds("down",jf, eta, pt ));
 						}
-						else if (pt>670){
-                                                       if (jetflavor==5){
-                                                                SF.push_back(reader->eval(BTagEntry::FLAV_B, eta, 669. ));
-                                                                SFup.push_back(2*(reader_up->eval(BTagEntry::FLAV_B, eta, 669.)));
-                                                                SFupHF.push_back(2*(reader_up->eval(BTagEntry::FLAV_B, eta, 669.)));
-                                                                SFdown.push_back(2*(reader_down->eval(BTagEntry::FLAV_B, eta, 669. )));
-                                                                SFdownHF.push_back(2*(reader_down->eval(BTagEntry::FLAV_B, eta, 669. )));
-                                                        }
-                                                        else if (jetflavor==4) {
-                                                                SF.push_back(reader->eval(BTagEntry::FLAV_C, eta, 669. ));
-                                                                SFup.push_back(2*(reader_up->eval(BTagEntry::FLAV_C, eta, 669. )));
-                                                                SFupHF.push_back(2*(reader_up->eval(BTagEntry::FLAV_C, eta, 669. )));
-                                                                SFdown.push_back(2*(reader_down->eval(BTagEntry::FLAV_C, eta, 669. )));
-                                                                SFdownHF.push_back(2*(reader_down->eval(BTagEntry::FLAV_C, eta, 669. )));
-                                                        }
-                                                        else { //Light jets go down to 20 and up to 1000 
-                                                                SF.push_back(reader_light->eval(BTagEntry::FLAV_UDSG, eta, pt ));
-                                                                SFup.push_back(reader_light_up->eval(BTagEntry::FLAV_UDSG, eta, pt ));
-                                                                SFupLF.push_back(reader_light_up->eval(BTagEntry::FLAV_UDSG, eta, pt ));
-                                                                SFdown.push_back(reader_light_down->eval(BTagEntry::FLAV_UDSG, eta, pt ));
-                                                                SFdownLF.push_back(reader_light_down->eval(BTagEntry::FLAV_UDSG, eta, pt ));
-                                                        }
-
-						}
-						else{
-							if (jetflavor==5){
-								SF.push_back(reader->eval(BTagEntry::FLAV_B, eta, pt ));
-								SFup.push_back(reader_up->eval(BTagEntry::FLAV_B, eta, pt ));
-								SFupHF.push_back(reader_up->eval(BTagEntry::FLAV_B, eta, pt ));
-								SFdown.push_back(reader_down->eval(BTagEntry::FLAV_B, eta, pt ));
-								SFdownHF.push_back(reader_down->eval(BTagEntry::FLAV_B, eta, pt ));
-							}
-							else if (jetflavor==4) {
-								SF.push_back(reader->eval(BTagEntry::FLAV_C, eta, pt ));
-								SFup.push_back(reader_up->eval(BTagEntry::FLAV_C, eta, pt ));
-								SFupHF.push_back(reader_up->eval(BTagEntry::FLAV_C, eta, pt ));
-								SFdown.push_back(reader_down->eval(BTagEntry::FLAV_C, eta, pt ));
-								SFdownHF.push_back(reader_down->eval(BTagEntry::FLAV_C, eta, pt ));
-							}
-							else {
-								SF.push_back(reader_light->eval(BTagEntry::FLAV_UDSG, eta, pt ));
-								SFup.push_back(reader_light_up->eval(BTagEntry::FLAV_UDSG, eta, pt ));
-								SFupLF.push_back(reader_light_up->eval(BTagEntry::FLAV_UDSG, eta, pt ));
-								SFdown.push_back(reader_light_down->eval(BTagEntry::FLAV_UDSG, eta, pt ));
-								SFdownLF.push_back(reader_light_down->eval(BTagEntry::FLAV_UDSG, eta, pt ));
-							}
+						else {
+							SF.push_back(reader.eval_auto_bounds("central",jf, eta, pt ));
+							SFup.push_back(reader.eval_auto_bounds("up",jf, eta, pt ));
+							SFupLF.push_back(reader.eval_auto_bounds("up",jf, eta, pt ));
+							SFdown.push_back(reader.eval_auto_bounds("down",jf, eta, pt ));
+							SFdownLF.push_back(reader.eval_auto_bounds("down",jf, eta, pt ));
 						}
 					}//end pass btag
 				}//end for jets
-			}
+			}//end handle
 
 
 
@@ -214,13 +157,8 @@ class EffCSVFiller : public NtupleFillerBase {
 		std::string tag_;
 		float* value;
 
-		BTagCalibration *calib;
-		BTagCalibrationReader *reader;
-		BTagCalibrationReader *reader_up;
-		BTagCalibrationReader *reader_down;
-		BTagCalibrationReader *reader_light;
-		BTagCalibrationReader *reader_light_up;
-		BTagCalibrationReader *reader_light_down;
+		BTagCalibration calib;
+		BTagCalibrationReader reader;
 
 };
 

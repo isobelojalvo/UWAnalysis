@@ -23,6 +23,7 @@
   <use   name="UWAnalysis/NtupleTools"/>
   <use   name="UWAnalysis/DataFormats"/>
   <use   name="HTT-utilities/LepEffInterface"/>
+  <use   name="CondTools/BTau"/>
   <use   name="CommonTools/UtilAlgos"/>
   <use   name="root"/>
 </library>
