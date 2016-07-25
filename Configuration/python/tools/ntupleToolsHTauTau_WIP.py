@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import TriggerPaths
+#from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import TriggerPaths
 
 
 
@@ -41,6 +41,111 @@ def makeLTauGeneric(plugin,sourceDiTaus,tagName,methodName):
    )
    return PSet
 
+def makeMuTauPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATMuTauPairFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         method      = cms.string(methodName),
+         leadingOnly = cms.untracked.bool(leadingOnly)
+   )
+   return PSet
+
+
+##start diTaus
+
+
+def makeDiTauPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         method      = cms.string(methodName),
+         leadingOnly = cms.untracked.bool(leadingOnly)
+   )
+   return PSet
+
+def makeDiTauCSVPair(sourceDiTaus,tagName,cutName,methodName,rank):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairCSVJetVarFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         cut         = cms.string(cutName),
+         method      = cms.string(methodName),
+         rank = cms.untracked.double(rank)
+   )
+   return PSet
+
+def makeDiTauPtNoPair(sourceDiTaus,tagName,cutName,methodName,rank):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairPtJetVarFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         cut         = cms.string(cutName),
+         method      = cms.string(methodName),
+         rank = cms.untracked.double(rank)
+   )
+   return PSet
+
+def makeDiTauPtPair(sourceDiTaus,tagName,cutName,methodName,rank):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairPtJetPairVarFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         cut         = cms.string(cutName),
+         method      = cms.string(methodName),
+         rank = cms.untracked.double(rank)
+   )
+   return PSet
+
+def makeDiTauEventWeight(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairWeightFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string("Mu"),
+         isMuon      = cms.bool(True)
+   )
+   return PSet
+def makeDiTauGenMatch(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairGenMCMatching"),
+         src         = cms.InputTag(sourceDiTaus)
+   )
+   return PSet
+def makeDiTauNBTag(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairNBTagFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         doEffMap      = cms.bool(True)
+   )
+   return PSet
+
+def makeDiTauEffCSV(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairEffCSVFiller"),
+         src         = cms.InputTag(sourceDiTaus)
+   )
+   return PSet
+
+def makeDiTauCSVShape(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairCSVReweightFiller"),
+         src         = cms.InputTag(sourceDiTaus)
+   )
+   return PSet
+
+
+def makeDiTauJetCountPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairJetCountFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         method      = cms.string(methodName),
+         leadingOnly = cms.untracked.bool(leadingOnly)
+   )
+   return PSet
+
+###finish ditaus
 def makeMuTauPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
    PSet = cms.PSet(
          pluginType  = cms.string("PATMuTauPairFiller"),
@@ -154,6 +259,7 @@ def makeMuTauJetCountPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
    )
    return PSet
 
+
 def makeEleTauPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
    PSet = cms.PSet(
          pluginType  = cms.string("PATEleTauPairFiller"),
@@ -263,21 +369,213 @@ def makeEleTauCSVShape(sourceDiTaus):
    return PSet
 
 
-
-
-
-
-def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorted', srcU='TightMuons', srcE='TightElectrons'):
+def addDiTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', srcU='TightMuons', srcE='TightElectrons'):
    process.TFileService = cms.Service("TFileService", fileName = cms.string("analysis.root") )
    eventTree = cms.EDAnalyzer('EventTreeMaker',
                               genEvent = cms.InputTag('generator'),
                               coreCollections = cms.InputTag(src),
-                              trigger = cms.PSet(
-                                  pluginType = cms.string("TriggerFiller"),
-				  src        = cms.InputTag("TriggerResults","","HLT"),
-				  prescales = cms.InputTag("patTrigger"),
-                                  paths      = cms.vstring(TriggerPaths)
+                              pu = cms.PSet(
+                                  pluginType = cms.string("PUFiller"),
+                                  src        = cms.InputTag("slimmedAddPileupInfo"),
+                                  tag        = cms.string("pu")
                               ),
+                              cov = cms.PSet(
+                                  pluginType = cms.string("METSignificanceFiller"),
+                                  src        = cms.InputTag("METSignificance"),
+                                  tag        = cms.string("metcov")
+                              ),
+                              PVsSync = cms.PSet(
+                                  pluginType = cms.string("VertexSizeFiller"),
+                                  src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
+                                  tag        = cms.string("npv")
+                              ),
+                              PVs = cms.PSet(
+                                  pluginType = cms.string("VertexSizeFiller"),
+                                  src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
+                                  tag        = cms.string("vertices")
+                              ),
+                              diTauGenMCMatch = makeDiTauGenMatch(src),
+
+                              diTauPt1 =  makeDiTauPair(src,"pt_1","leg1.pt"),
+                              diTauPt2 =  makeDiTauPair(src,"pt_2","leg2.pt"), 
+                              diTauEta1 = makeDiTauPair(src,"eta_1","leg1.eta"),
+                              diTauEta2 = makeDiTauPair(src,"eta_2","leg2.eta"),
+                              diTauPhi1 = makeDiTauPair(src,"phi_1","leg1.phi"),
+                              diTauPhi2 = makeDiTauPair(src,"phi_2","leg2.phi"),
+                              diTauCharge = makeDiTauPair(src,"charge","charge"),
+                              q_1 = makeDiTauPair(src,"q_1","leg1.charge"),
+                              q_2 = makeDiTauPair(src,"q_2","leg2.charge"),
+                              diTauPt = makeDiTauPair(src,"pth","pt"),#FILLED
+                              diTauHT = makeDiTauPair(src,"ht","ht"),#FILLED
+                              diTauMass = makeDiTauPair(src,"m_vis","mass"),#FILLED
+                              #diTauSVPt = makeDiTauPair(src,"pt_sv","svPt"),#FILLEDATLATERSTAGE
+                              #diTauSVMass = makeDiTauPair(src,"m_sv","svMass"),#FILLEDATLATERSTAGE
+			      diTaulVeto = makeDiTauPair(src,"lVeto","lVeto"),
+		              diTauTopGenPt = makeDiTauPair(src,"topGenPt","topGenPt"),#FIXME
+		              diTauAntiTopGenPt = makeDiTauPair(src,"antiTopGenPt","antiTopGenPt"),#FIXM
+
+                              diTauFullPt = makeDiTauPair(src,"fullPt","fullPt"),#FILLED
+                              diTauEta = makeDiTauPair(src,"fullEta","fullEta"),#FILLED
+                              diTauPhi = makeDiTauPair(src,"fullPhi","fullPhi"),#FILLED
+                              diTauE = makeDiTauPair(src,"fullEnergy","fullEnergy"),#FILLED
+                              diTauMET = makeDiTauPair(src,"met","met.pt()"),#FILLED
+                              diTauMETPhi = makeDiTauPair(src,"metphi","met.phi()"),#FILLED
+
+                              diTauMT = makeDiTauPair(src,"mt12","mt12MET"),#FILLED
+                              diTauMT1 = makeDiTauPair(src,"mt_1","mt1MET"),#FILLED
+                              diTaupfMT1 = makeDiTauPair(src,"pfmt_1","mt1MET"),#FILLED
+                              diTauMT2 = makeDiTauPair(src,"mt_2","mt2MET"),#FILLED
+                              diTaupfMT2 = makeDiTauPair(src,"pfmt_2","mt2MET"),#FILLED
+                              
+
+			      diTauMassLL = makeLTauGeneric("PATMuPairFiller",srcLL,"LLmass","mass"),
+                              diTauPt1LL =  makeLTauGeneric("PATMuPairFiller",srcLL,"LLpt_1","leg1.pt"), #FILLED
+                              diTauPt2LL =  makeLTauGeneric("PATMuPairFiller",srcLL,"LLpt_2","leg2.pt"), #FILLED
+                              diTauEta1LL = makeLTauGeneric("PATMuPairFiller",srcLL,"LLeta_1","leg1.eta"),#FILLED
+                              diTauEta2LL = makeLTauGeneric("PATMuPairFiller",srcLL,"LLeta_2","leg2.eta"),#FILLED
+                              diTauPhi1LL = makeLTauGeneric("PATMuPairFiller",srcLL,"LLphi_1","leg1.phi"),#FILLED
+                              diTauPhi2LL = makeLTauGeneric("PATMuPairFiller",srcLL,"LLphi_2","leg2.phi"),#FILLED
+
+                              diTauEffCSV = makeDiTauEffCSV(src),
+                              diTauCSVShape = makeDiTauCSVShape(src),
+                              diTauSize = makeCollSize(src,"nCands"),
+                              diTauOS = makeCollSizeOS(src,0,"os"),
+                              genTaus = makeCollSize("genTauCands","genTaus"), 
+                              muMuSize = makeCollSize(srcLL,"diLeptons"),#CHECKME
+                              muMuSizeVeto = makeCollSizeVeto(srcLL,0,"dilepton_veto"),#CHECKME
+                              muonsSizeMT = makeCollSize(srcU,"tightMuons"),#FILLED
+                              muonsSizeMTVeto = makeCollSizeVeto(srcU,1,"extramuon_veto"),#FILLED
+                              electronsSizeMT = makeCollSize(srcE,"tightElectrons"),#FILLED
+                              electronsSizeMTVeto = makeCollSizeVeto(srcE,0,"extraelec_veto"),#FILLED
+                              #tauNIsoTracks =  makeDiTauPair(src,"tauNIsoTracks","leg2.userFloat('nIsoTracks')"), #FILLED
+                              #tauNMatchedSeg =  makeDiTauPair(src,"tauMuonNMatchedSeg","leg2.userFloat('muonNMatchedSeg')"),#FILLED
+                              #tauTauHadMatched = makeDiTauPair(src,"tauMuonMatched","leg2.userFloat('muonTauHadMatched')"),#FILLED
+                              #tauLeadChargedHadrTrackPt = makeDiTauPair(src,"tauLeadChargedHadrTrackPt","leg2.userFloat('leadChargedHadrTrackPt')"),
+                              diTauAgainstMuonTight3 = makeDiTauPair(src,"againstMuonTight3_2",'leg2.tauID("againstMuonTight3")'),
+                              diTauAgainstMuonLoose3 = makeDiTauPair(src,"againstMuonLoose3_2",'leg2.tauID("againstMuonLoose3")'),
+                              diTauAgainstEleVLooseMVA6 = makeDiTauPair(src,"againstElectronVLooseMVA6_2",'leg2.tauID("againstElectronVLooseMVA6")'),
+                              diTauAgainstEleMVA6raw = makeDiTauPair(src,"againstElectronMVA6Raw",'leg2.tauID("againstElectronMVA6Raw")'),
+                              diTauVTightIsoLeg1 = makeDiTauPair(src,"iso_1",'leg1.tauID("byVTightIsolationMVArun2v1DBoldDMwLT")'),
+                              diTauVTightIsoLeg2 = makeDiTauPair(src,"iso_2",'leg2.tauID("byVTightIsolationMVArun2v1DBoldDMwLT")'),
+                              diTauGenPt1 = makeDiTauPair(src,"genPt1",'p4Leg1gen().pt()'),
+                              diTauGenPt2 = makeDiTauPair(src,"genPt2",'p4Leg2gen().pt()'),
+                              diTauPdg1 = makeDiTauPair(src,"pdg1",'genPdg1()'),
+                              diTauPdg2 = makeDiTauPair(src,"pdg2",'genPdg2()'),
+                              diTauVisGenPt1 = makeDiTauPair(src,"genVisPt1",'p4VisLeg1gen().pt()'),
+                              diTauVisGenPt2 = makeDiTauPair(src,"genVisPt2",'p4VisLeg2gen().pt()'),
+                              diTauGenVisMass = makeDiTauPair(src,"genVisMass",'p4VisGen().M()'),
+                              diTauGenMassMatched = makeDiTauPair(src,"genFullMassMatched",'p4gen().M()'),
+                              diTauGenMass = makeDiTauPair(src,"fullGenMass",'genBosonMass()'),
+                              diTauGenBosonPt = makeDiTauPair(src,"genpT",'p4GenBoson().pt()'),
+                              diTauGenBosonMass = makeDiTauPair(src,"genMass",'p4GenBoson().M()'),
+                              diTauGenBosonPx = makeDiTauPair(src,"genpX",'p4GenBoson().px()'),
+                              diTauGenBosonPy = makeDiTauPair(src,"genpY",'p4GenBoson().py()'),
+                              diTauGenBosonVisPx = makeDiTauPair(src,"vispX",'p4GenBosonVis().px()'),
+                              diTauGenBosonVisPy = makeDiTauPair(src,"vispY",'p4GenBosonVis().py()'),
+                              #Jets
+                              ##FIX ME apply loose ID
+                              #diTauJetsPt20nbtag = makeDiTauJetCountPair(src,"nbtag",'userFloat("isbtagged")&&pt()>20&&abs(eta)<2.4&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>.8'),
+                              diTauJetsPt20nbtagLoose = makeDiTauJetCountPair(src,"nbtagLooseNoSF",'pt()>20&&abs(eta)<2.4&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>.46'),
+                              diTauJetsPt20nbtagNoSF = makeDiTauJetCountPair(src,"nbtagNoSF",'pt()>20&&abs(eta)<2.4&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>.8'),
+                              #diTauJetsPt30nbtagNoSf = makeDiTauJetCountPair(src,"nbtag30",'userFloat("isbtagged")&&pt()>30&&abs(eta)<2.4&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>.8'),
+                              diTauJetsPt30nbtag = makeDiTauJetCountPair(src,"nbtag30",'pt()>30&&abs(eta)<2.4&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>.8'),
+
+                              diTauJetsPt30njets = makeDiTauJetCountPair(src,"njets",'pt()>30&&abs(eta)<4.7'),
+                              #diTauJetsPt30njetsnopu = makeDiTauJetCountPair(src,"njetspuID",'pt()>30&&abs(eta)<4.7&&!userFloat("puIDLoose")'),
+                              diTauJetsPt20njets = makeDiTauJetCountPair(src,"njetspt20",'pt()>20&&abs(eta)<4.7'),
+                              #diTauJetsPt20njetsnopu = makeDiTauJetCountPair(src,"njetspt20puID",'pt()>20&&abs(eta)<4.7&&!userFloat("puIDLoose")'),
+
+
+                              diTauJet1PtPtSort = makeDiTauPtPair(src,"jpt_1",'abs(eta())<4.7&&pt()>20','pt()',0),
+                              diTauJet2PtPtSort = makeDiTauPtPair(src,"jpt_2",'abs(eta())<4.7&&pt()>20','pt()',1),
+                              #diTauJet1PFIDPtSort = makeDiTauPtPair(src,"jpfid_1",'abs(eta())<4.7&&pt()>20','userFloat("idLoose")',0),
+                              #diTauJet2PFIDPtSort = makeDiTauPtPair(src,"jpfid_2",'abs(eta())<4.7&&pt()>20','userFloat("idLoose")',1),
+                              #diTauJet1PUIDPtSort = makeDiTauPtPair(src,"jpuid_1",'abs(eta())<4.7&&pt()>20','userFloat("puID")',0),
+                              #diTauJet2PUIDPtSort = makeDiTauPtPair(src,"jpuid_2",'abs(eta())<4.7&&pt()>20','userFloat("puID")',1),
+                              #diTauJet1MVAPtSort = makeDiTauPtPair(src,"jmva_1",'abs(eta())<4.7&&pt()>20',"userFloat('pileupJetId:fullDiscriminant')",0),
+                              #diTauJet2MVAPtSort = makeDiTauPtPair(src,"jmva_2",'abs(eta())<4.7&&pt()>20',"userFloat('pileupJetId:fullDiscriminant')",1),
+                              diTauJet1EtaPtSort = makeDiTauPtPair(src,"jeta_1",'abs(eta())<4.7&&pt()>20','eta()',0),
+                              diTauJet2EtaPtSort = makeDiTauPtPair(src,"jeta_2",'abs(eta())<4.7&&pt()>20','eta()',1),
+                              diTauJet1PhiPtSort = makeDiTauPtPair(src,"jphi_1",'abs(eta())<4.7&&pt()>20','phi()',0),
+                              diTauJet2PhiPtSort = makeDiTauPtPair(src,"jphi_2",'abs(eta())<4.7&&pt()>20','phi()',1),
+                              diTauJet1CSVPtSort = makeDiTauPtPair(src,"jcsv_1",'abs(eta())<2.4&&pt()>20','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',0),
+                              diTauJet2CSVPtSort = makeDiTauPtPair(src,"jcsv_2",'abs(eta())<2.4&&pt()>20','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',1),
+                              #diTauJet1MedIdPtSort = makeDiTauPtPair(src,"jtlvID_1",'','userFloat("idTightLepVeto")',0),
+                              #diTauJet2MedIdPtSort = makeDiTauPtPair(src,"jtlvID_2",'','userFloat("idTightLepVeto")',1),
+                              #diTauJet1TightIdPtSort = makeDiTauPtPair(src,"jtightID_1",'','userFloat("idTight")',0),
+                              #diTauJet2TightIdPtSort = makeDiTauPtPair(src,"jtightID_2",'','userFloat("idTight")',1),
+
+                              diTauBJet1PtPtSort = makeDiTauPtPair(src,"bpt_1",'abs(eta())<2.4&&pt()>20&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8','pt()',0),
+                              diTauBJet2PtPtSort = makeDiTauPtPair(src,"bpt_2",'abs(eta())<2.4&&pt()>20&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8','pt()',1),
+                              #diTauBJet1MVAPtSort = makeDiTauPtPair(src,"bmva_1",'abs(eta())<2.4&&pt()>20&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8',"userFloat('pileupJetId:fullDiscriminant')",0),
+                              #diTauBJet2MVAPtSort = makeDiTauPtPair(src,"bmva_2",'abs(eta())<2.4&&pt()>20&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8',"userFloat('pileupJetId:fullDiscriminant')",1),
+                              #diTauBJet1PFIDPtSort = makeDiTauPtPair(src,"bpfid_1",'abs(eta())<2.4&&pt()>20&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8','userFloat("idLoose")',0),
+                              #diTauBJet2PFIDPtSort = makeDiTauPtPair(src,"bpfid_2",'abs(eta())<2.4&&pt()>20&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8','userFloat("idLoose")',1),
+                              #diTauBJet1PUIDPtSort = makeDiTauPtPair(src,"bpuid_1",'abs(eta())<2.4&&pt()>20&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8','userFloat("puID")',0),
+                              #diTauBJet2PUIDPtSort = makeDiTauPtPair(src,"bpuid_2",'abs(eta())<2.4&&pt()>20&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8','userFloat("puID")',1),
+                              diTauBJet1EtaPtSort = makeDiTauPtPair(src,"beta_1",'abs(eta())<2.4&&pt>20&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8','eta()',0),
+                              diTauBJet2EtaPtSort = makeDiTauPtPair(src,"beta_2",'abs(eta())<2.4&&pt>20&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8','eta()',1),
+                              diTauBJet1PhiPtSort = makeDiTauPtPair(src,"bphi_1",'abs(eta())<2.4&&pt>20&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8','phi()',0),
+                              diTauBJet2PhiPtSort = makeDiTauPtPair(src,"bphi_2",'abs(eta())<2.4&&pt>20&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.8','phi()',1),
+                              diTauBJet1CSVPtSort = makeDiTauPtPair(src,"bcsv_1",'abs(eta())<2.4&&pt()>20&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>.8','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',0),
+                              diTauBJet2CSVPtSort = makeDiTauPtPair(src,"bcsv_2",'abs(eta())<2.4&&pt()>20&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>.8','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',1),
+
+                              diTauJetsPt20TagMatch = makeDiTauJetCountPair(src,"nTaggableJetsPt20Matched",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5'),
+                              diTauJetsPt20TagNoMatch = makeDiTauJetCountPair(src,"nTaggableJetsPt20NotMatched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
+                              #diTauFirstJetShape = makeLTauGeneric("PATDiTauPairHighestPtJetVarFiller",src,"highestJetShape",'userFloat("ptRMS")'),
+                              diTauFirstJetCSV = makeLTauGeneric("PATDiTauPairHighestPtJetVarFiller",src,"highestJetBTagCSV",'bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")'),
+                              higgsPt = cms.PSet(
+                                  pluginType = cms.string("PATGenParticleFiller"),
+                                  src        = cms.InputTag("genDaughters"),
+                                  tag        = cms.string("higgsPt"),
+                                  method     = cms.string('pt()'),
+                                  leadingOnly=cms.untracked.bool(True)
+                              ),
+                              diTauLHEProduct2 = cms.PSet(
+                                  pluginType = cms.string("LHEProductFiller"),
+                                  src        = cms.InputTag("externalLHEProducer"),
+                                  tag        = cms.string("LHEProduct"),
+                              ),
+                              diTauEmbedPtWeight = cms.PSet(
+                                  pluginType = cms.string("GenFilterInfoWeightFiller"),
+                                  src        = cms.InputTag("generator"),
+                                  #src        = cms.InputTag("generator","EmbWeight"),
+                                  tag        = cms.string("aMCNLO_weight"),
+                              ),#FIXME #CHECKME
+                              diTauEmbedPt = cms.PSet(
+                                  pluginType = cms.string("PATGenParticleFiller"),
+                                  src        = cms.InputTag("genDaughters"),
+                                  tag        = cms.string("embeddedPt"),#CHECKME
+                                  method     = cms.string("pt"),
+                                  leadingOnly=cms.untracked.bool(False)
+                              ),#FIXME #CHECKME
+                              diTauEmbedEta = cms.PSet(
+                                  pluginType = cms.string("PATGenParticleFiller"),
+                                  src        = cms.InputTag("genDaughters"),
+                                  tag        = cms.string("embeddedEta"),
+                                  method     = cms.string("eta"),
+                                  leadingOnly=cms.untracked.bool(False)
+                              )
+                              
+
+                              )
+   setattr(process, name, eventTree)
+   p = cms.Path(getattr(process,name))
+   setattr(process, name+'Path', p)
+
+
+
+def addMuTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', srcU='TightMuons', srcE='TightElectrons'):
+   process.TFileService = cms.Service("TFileService", fileName = cms.string("analysis.root") )
+   eventTree = cms.EDAnalyzer('EventTreeMaker',
+                              genEvent = cms.InputTag('generator'),
+                              coreCollections = cms.InputTag(src),
+                              #trigger = cms.PSet(
+                              #    pluginType = cms.string("TriggerFiller"),
+		#		  src        = cms.InputTag("TriggerResults","","HLT"),
+		#		  prescales = cms.InputTag("patTrigger"),
+                #                  paths      = cms.vstring(TriggerPaths)
+                 #             ),
 
                               pu = cms.PSet(
                                   pluginType = cms.string("PUFiller"),
@@ -576,12 +874,12 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
    eventTree = cms.EDAnalyzer('EventTreeMaker',
                               genEvent = cms.InputTag('generator'),
                               coreCollections = cms.InputTag(src),
-                              trigger = cms.PSet(
-                                  pluginType = cms.string("TriggerFiller"),
-                                  src        = cms.InputTag("TriggerResults","","HLT"),
-				  prescales = cms.InputTag("patTrigger"),
-				  paths      = cms.vstring(TriggerPaths)
-                              ),
+                             # trigger = cms.PSet(
+                             #     pluginType = cms.string("TriggerFiller"),
+                             #     src        = cms.InputTag("TriggerResults","","HLT"),
+		#		  prescales = cms.InputTag("patTrigger"),
+	#			  paths      = cms.vstring(TriggerPaths)
+         #                     ),
                               pu = cms.PSet(
                                   pluginType = cms.string("PUFiller"),
                                   src        = cms.InputTag("slimmedAddPileupInfo"),

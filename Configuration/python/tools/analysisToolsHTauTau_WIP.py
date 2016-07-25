@@ -104,7 +104,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   
   triLeptons(process)
   #jetCSVShaping(process,"slimmedJets")
-  #jetOverloading(process,"slimmedJets",False)
+  jetOverloading(process,"slimmedJets",False)
   jetOverloading(process,"patJetsReapplyJEC",False)
 
   jetFilter(process,"patOverloadedJets")
@@ -317,7 +317,7 @@ def triLeptons(process):
 
   process.TightElectrons = cms.EDFilter("PATElectronSelector",
   							src = cms.InputTag("miniAODElectronVID"),
-  							cut = cms.string('pt>10&&abs(eta)<2.5&&abs(userFloat("dZ"))<0.2&&abs(userFloat("dXY"))<0.045&&userFloat("dBRelIso03")<0.3&&userFloat("eleMVAIDnonTrig90")>0&&userInt("eleConversion")==0'),
+  							cut = cms.string('pt>10&&abs(eta)<2.5&&abs(userFloat("dXY"))<0.045&&abs(userFloat("dZ"))<0.2&&userFloat("eleMVAIDnonTrig90")>0&&userInt("eleConversion")==0&&userFloat("dBRelIso03")<0.3'),
   							filter = cms.bool(False)
   						)
   						
@@ -453,7 +453,6 @@ def electronTriggerMatchMiniAOD(process,triggerProcess,HLT,srcEle):
 
 
 def tauOverloading(process,src, muons, vtxSrc):
-
 
   process.patOverloadedTaus = cms.EDProducer('PATTauOverloader',
                                         src = cms.InputTag(src),

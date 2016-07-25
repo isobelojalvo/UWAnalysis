@@ -7,7 +7,7 @@
 
 #include "UWAnalysis/NtupleTools/interface/NtupleFillerBase.h"
 #include "DataFormats/VertexReco/interface/Vertex.h"
-#include "HTT-utilities/LepEffInterface/interface/ScaleFactor.h" //HTT Weights
+//#include "HTT-utilities/LepEffInterface/interface/ScaleFactor.h" //HTT Weights
 
 #include "CommonTools/Utils/interface/StringObjectFunction.h"
 #include "boost/filesystem.hpp"
@@ -96,6 +96,7 @@ float* value;
 
 typedef GenMCMatching<PATMuTauPair> PATMuTauPairGenMCMatching;
 typedef GenMCMatching<PATElecTauPair> PATEleTauPairGenMCMatching;
+typedef GenMCMatching<PATMuTauPair> PATDiTauPairGenMCMatching;
 
 
 
