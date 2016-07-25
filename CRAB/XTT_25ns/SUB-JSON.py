@@ -60,6 +60,8 @@ defaultReconstruction(process,'HLT',
 			'HLT_Ele27_eta2p1_WPTight_Gsf_v',
 			'HLT_VLooseIsoPFTau140_Trk50_eta2p1_v',
 			'HLT_VLooseIsoPFTau120_Trk50_eta2p1_v',
+			'HLT_PFMET170_NoiseCleaned',
+			'HLT_PFMET90_PFMHT90_IDTight',
 			'HLT_CaloJet500_NoJetID',
 			'HLT_ECALHT800'
 			])

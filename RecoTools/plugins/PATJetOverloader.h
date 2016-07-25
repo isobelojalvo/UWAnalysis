@@ -53,7 +53,7 @@ class PATJetOverloader : public edm::EDProducer {
 	{
 		produces<pat::JetCollection>();
 
-		calib=BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_4invfb_systJuly15.csv");
+		calib=BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_ichep.csv");
 		reader=BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central",{"up","down"});
 		reader.load(calib, BTagEntry::FLAV_B, "comb");
 		reader.load(calib, BTagEntry::FLAV_C, "comb");

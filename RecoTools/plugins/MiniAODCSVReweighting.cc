@@ -34,7 +34,7 @@ class MiniAODCSVReweighting : public edm::EDProducer {
 MiniAODCSVReweighting::MiniAODCSVReweighting(const edm::ParameterSet& pset) {
 	src_ = consumes<pat::JetCollection>(pset.getParameter<edm::InputTag>("src"));
 	produces<pat::JetCollection>();
-	calib=BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_4invfb_systJuly15.csv");
+	calib=BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_ichep.csv");
 	reader=BTagCalibrationReader(BTagEntry::OP_RESHAPING, "central",{"up_jes","down_jes","up_hfstats1","down_hfstats1","up_hfstats2","down_hfstats2","up_hf","down_hf","up_lfstats1","down_lfstats1","up_lfstats2","down_lfstats2","up_cferr1","down_cferr1","up_cferr2","down_cferr2"});
 	reader.load(calib, BTagEntry::FLAV_B, "iterativefit");
 	reader.load(calib, BTagEntry::FLAV_C, "iterativefit");

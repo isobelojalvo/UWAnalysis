@@ -51,7 +51,7 @@ class CSVReweightFiller : public NtupleFillerBase {
 		t->Branch("CSVShapeWeightDownLFStats2",&value[16],"CSVShapeWeightDownLFStats2/F");
 		t->Branch("CSVShapeWeightDownCFErr1",&value[17],"CSVShapeWeightDownCFErr1/F");
 		t->Branch("CSVShapeWeightDownCFErr2",&value[18],"CSVShapeWeightDownCFErr2/F");
-	        calib=BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_4invfb_systJuly15.csv");
+	        calib=BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_ichep.csv");
 		reader=BTagCalibrationReader(BTagEntry::OP_RESHAPING, "central",{"up_jes","down_jes","up_hfstats1","down_hfstats1","up_hfstats2","down_hfstats2","up_hf","down_hf","up_lfstats1","down_lfstats1","up_lfstats2","down_lfstats2","up_cferr1","down_cferr1","up_cferr2","down_cferr2"});
 		reader.load(calib, BTagEntry::FLAV_B, "iterativefit");
 		reader.load(calib, BTagEntry::FLAV_C, "iterativefit");
@@ -80,7 +80,6 @@ class CSVReweightFiller : public NtupleFillerBase {
 					double pt = handle->at(0).jets().at(i)->pt();
 					double eta = handle->at(0).jets().at(i)->eta();
 					if (pt <20 || abs(eta)>2.4) continue;
-					if( pt > 1000 ) pt = 999.;
 					double csv = handle->at(0).jets().at(i)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
 					int flavor = abs(handle->at(0).jets().at(i)->partonFlavour());
 					BTagEntry::JetFlavor jf = BTagEntry::FLAV_UDSG;

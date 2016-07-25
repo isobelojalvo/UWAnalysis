@@ -106,7 +106,7 @@ def makeMuTauEventWeightTmp(sourceDiTaus):
    PSet = cms.PSet(
          pluginType  = cms.string("PATMuTauPairWeightFillerTmp"),
          src         = cms.InputTag(sourceDiTaus),
-         tag         = cms.string("Mu"),
+         tag         = cms.string("MyMu"),
          isMuon      = cms.bool(True)
    )
    return PSet
@@ -230,7 +230,7 @@ def makeEleTauEventWeightTmp(sourceDiTaus):
    PSet = cms.PSet(
          pluginType  = cms.string("PATEleTauPairWeightFillerTmp"),
          src         = cms.InputTag(sourceDiTaus),
-         tag         = cms.string("Ele"),
+         tag         = cms.string("MyEle"),
          isMuon      = cms.bool(False)
    )
    return PSet
@@ -360,8 +360,9 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
 
                               #muTauMETCal = makeMuTauPair(src,"metCal","calibratedMET.pt()"),#NOLONGLERUSED
                               #muTauMETPhi = makeMuTauPair(src,"metphi","metPhi"),#NOLONGERUSED
-                              #muTauMET1 = makeMuTauMET(src,"slimmedMETs","pf"),#FILLED
-                              #muTauMET2 = makeMuTauMET(src,"slimmedMETsPuppi","puppi"),#FILLED
+                              muTauMET1 = makeMuTauMET(src,"slimmedMETs","pf"),#FILLED
+                              muTauMET2 = makeMuTauMET(src,"slimmedMETsPuppi","puppi"),#FILLED
+                              muTauMET3 = makeMuTauMET(src,"MVAMET:MVAMET","mva"),#FILLED
  
                               #muTauGenMET = makeMuTauPair(src,"genMET","met.genMET().pt"),#FILLED
                               muTauMET = makeMuTauPair(src,"met","met.pt()"),#FILLED
@@ -377,9 +378,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
 
                               muTauMT = makeMuTauPair(src,"mt12","mt12MET"),#FILLED
                               muTauMT1 = makeMuTauPair(src,"mt_1","mt1MET"),#FILLED
-                              muTaupfMT1 = makeMuTauPair(src,"pfmt_1","mt1MET"),#FILLED
                               muTauMT2 = makeMuTauPair(src,"mt_2","mt2MET"),#FILLED
-                              muTaupfMT2 = makeMuTauPair(src,"pfmt_2","mt2MET"),#FILLED
                               
 		              muTauTopGenPt = makeMuTauPair(src,"topGenPt","topGenPt"),#FIXME
 		              muTauAntiTopGenPt = makeMuTauPair(src,"antiTopGenPt","antiTopGenPt"),#FIXME
@@ -608,6 +607,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
 
 
                               eTauEventWeight = makeEleTauEventWeight(src),#FILLED
+                              eTauEventWeightTmp = makeEleTauEventWeightTmp(src),#FILLED
                               #eleTauNBTags = makeEleTauNBTag(src),#FILLED
                               eleTauEffCSV = makeEleTauEffCSV(src),#FILLED
                               eleTauCSVShape = makeEleTauCSVShape(src),#FILLED
@@ -665,8 +665,9 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
                               #eleTauMETPhi = makeEleTauPair(src,"metphi","metPhi"),
                               #eleTauGenMET = makeEleTauPair(src,"genMET","met.genMET()"),
 
-			      #eleTauMET1 = makeEleTauMET(src,"slimmedMETs",""),#FILLED
-			      #eleTauMET2 = makeEleTauMET(src,"slimmedMETsPuppi","puppi"),#FILLED
+			      eleTauMET1 = makeEleTauMET(src,"slimmedMETs","pf"),#FILLED
+			      eleTauMET2 = makeEleTauMET(src,"slimmedMETsPuppi","puppi"),#FILLED
+			      eleTauMET3 = makeEleTauMET(src,"MVAMET:MVAMET","mva"),#FILLED
         
                               eleTauMET = makeEleTauPair(src,"met","met.pt()"),
                               eleTauMETPhi = makeEleTauPair(src,"metphi","met.phi()"),
@@ -681,9 +682,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
 
                               eleTauMT = makeEleTauPair(src,"mt12","mt12MET"),
                               eleTauMT1 = makeEleTauPair(src,"mt_1","mt1MET"),
-                              eleTaupfMT1 = makeEleTauPair(src,"pfmt_1","mt1MET"),
                               eleTauMT2 = makeEleTauPair(src,"mt_2","mt2MET"),
-                              eleTaupfMT2 = makeEleTauPair(src,"pfmt_2","mt2MET"),
 
                               eleTauTopGenPt = makeEleTauPair(src,"topGenPt","topGenPt"),
                               eleTauAntiTopGenPt = makeEleTauPair(src,"antiTopGenPt","antiTopGenPt"),
