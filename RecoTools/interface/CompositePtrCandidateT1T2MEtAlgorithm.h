@@ -43,11 +43,6 @@
 #include "Geometry/TrackerGeometryBuilder/interface/GluedGeomDet.h"
 #include "DataFormats/Math/interface/LorentzVector.h"
 
-#include "UWAnalysis/RecoTools/interface/BTagScaleFactors.h"
-//#include "UWAnalysis/RecoTools/interface/BTagPromoteDemote.h"
-//#include "CondFormats/BTauObjects/interface/BTagCalibration.h"
-//#include "CondFormats/BTauObjects/interface/BTagCalibrationReader.h"
-
 #include <TFile.h>
 #include <TH1F.h>
 #include <TMath.h>
@@ -72,7 +67,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
   ~CompositePtrCandidateT1T2MEtAlgorithm() {}
 
 
-  void setBTagScaleFactor(BTagScaleFactors * bFactors) {bFactors_ = bFactors;}
   //void setBTSF(BtagSFV * btsf) {btsf_=  btsf;}
 
   TMatrixD convert_matrix(const ROOT::Math::SMatrix<double,2>& mat) const {
@@ -317,59 +311,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 
     if(cleanedJets20.size()>1)
 	    compositePtrCandidate.setmJJHMassSort((cleanedJets20.at(HMassJets.first)->p4()+cleanedJets20.at(HMassJets.second)->p4()).M());
-
-
-    std::pair<double,double> CSVL1 = std::make_pair(1,0);
-    std::pair<double,double> CSVL1atl = std::make_pair(1,0);
-    std::pair<double,double> CSVM1 = std::make_pair(1,0);
-    std::pair<double,double> CSVT1 = std::make_pair(1,0);
-
-    std::pair<double,double> CSVL2 = std::make_pair(1,0);
-    std::pair<double,double> CSVM2 = std::make_pair(1,0);
-    std::pair<double,double> CSVT2 = std::make_pair(1,0);
-
-    std::pair<double,double> CSVL2atl = std::make_pair(1,0);
-    std::pair<double,double> CSVM2atl = std::make_pair(1,0);
-
-    if(cleanedJets.size()>0){
-	    CSVL1 = bFactors_->getCSVL1( cleanedJets );
-	    CSVL1atl = bFactors_->getCSVL1( cleanedJetsCSVsorted  );
-	    CSVM1 = bFactors_->getCSVM1( cleanedJets );
-	    CSVT1 = bFactors_->getCSVT1( cleanedJets );
-
-	    if(cleanedJets.size()>1){
-		    CSVL2 = bFactors_->getCSVL2( cleanedJets );
-		    CSVL2atl = bFactors_->getCSVL2( cleanedJetsCSVsorted );
-		    CSVM2 = bFactors_->getCSVM2( cleanedJets);
-		    CSVM2atl = bFactors_->getCSVM2( cleanedJetsCSVsorted  );
-		    CSVT2 = bFactors_->getCSVT2( cleanedJets );
-
-		    //cout << "Light2 SF " << CSVL2atl.first << " Light err " << CSVL2atl.second << " second CSV: " << cleanedJetsCSVsorted.at(1)->pt() << " second eta:" << cleanedJetsCSVsorted.at(1)->pt() << "second CSV:"<<cleanedJetsCSVsorted.at(1)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") <<endl;	
-	    }
-
-	    /////////////CSV stuff
-	    //cout << "Light1 SF " << CSVL1atl.first << " Light err " << CSVL1atl.second << "lead CSV:" << cleanedJetsCSVsorted.at(0)->pt() << "lead eta:" << cleanedJetsCSVsorted.at(0)->pt() << "lead CSV:"<<cleanedJetsCSVsorted.at(0)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") <<endl;
-
-
-    }
-    /////////////CSV stuff
-    compositePtrCandidate.setSFCSVL1(CSVL1atl.first);
-    compositePtrCandidate.setSFCSVL1err(CSVL1atl.second);
-
-    compositePtrCandidate.setSFCSVL2(CSVL2atl.first);
-    compositePtrCandidate.setSFCSVL2err(CSVL2atl.second);
-
-    compositePtrCandidate.setSFCSVM1(CSVM1.first);
-    compositePtrCandidate.setSFCSVM1err(CSVM1.second);
-
-    compositePtrCandidate.setSFCSVM2(CSVM2atl.first);
-    compositePtrCandidate.setSFCSVM2err(CSVM2atl.second);
-
-    compositePtrCandidate.setSFCSVT1(CSVT1.first);
-    compositePtrCandidate.setSFCSVT1err(CSVT1.second);
-
-    compositePtrCandidate.setSFCSVT2(CSVT2.first);
-    compositePtrCandidate.setSFCSVT2err(CSVT2.second);
 
 
     //Calculate HT
@@ -765,8 +706,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
   std::string recoMode_;
   int verbosity_;
 
-  BTagScaleFactors * bFactors_;
-  //BtagSFV* btsf_; 
 
 
 
