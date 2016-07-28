@@ -17,7 +17,7 @@
 #include "DataFormats/PatCandidates/interface/MET.h"
 
 //
-// class decleration
+// class declaration
 //
 
 

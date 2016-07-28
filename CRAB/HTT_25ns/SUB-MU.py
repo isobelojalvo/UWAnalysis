@@ -5,7 +5,7 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 
 #process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_v13'
 
-process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_RunIIFall15DR76_v1'
+process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
 
 
 process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))

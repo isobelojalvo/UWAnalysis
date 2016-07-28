@@ -70,7 +70,7 @@ int main (int argc, char* argv[])
    printf("Found  %f W+3Jet Events\n",evW3);
    printf("Found  %f W+4Jet Events\n",evW4);
   
-   double LOtoNNLO=615266.7/50380;
+   double LOtoNNLO=61526.7/50380;
 
    double WLo=evW/(LOtoNNLO*50380.0);
    double WLo1=evW1/(LOtoNNLO*9644.5);
@@ -85,7 +85,13 @@ int main (int argc, char* argv[])
    ev.push_back(WLo2);
    ev.push_back(WLo3);
    ev.push_back(WLo4);
+   printf("Found  %f  0 Jet Weight \n",1/ev[0]);
+   printf("Found  %f W+1Jet Weight\n",1/(ev[0]+ev[1]));
+   printf("Found  %f W+2Jet Weight\n",1/(ev[0]+ev[2]));
+   printf("Found  %f W+3Jet Weight\n",1/(ev[0]+ev[3]));
+   printf("Found  %f W+4Jet Weight\n",1/(ev[0]+ev[4]));
    
+
    TFile *f0 = new TFile("WJetsMLM.root","UPDATE");   
    readdir(f0,parser,ev);
    f0->Close();
@@ -130,9 +136,7 @@ void readdir(TDirectory *dir,optutl::CommandLineParser parser,std::vector<float>
 
       TBranch *newBranch = t->Branch(parser.stringValue("branch").c_str(),&weight,(parser.stringValue("branch")+"/F").c_str());
       int LHEProduct=0;
-      t->SetBranchAddress("LHEProductnjet",&LHEProduct); //NJets
-      //t->SetBranchAddress("LHEProduct_njets",&LHEProduct); //NJets
-      //t->SetBranchAddress("LHEProduct_mll",&LHEProduct); //InvMass
+      t->SetBranchAddress("LHEProduct_njet",&LHEProduct); //NJets
 
       printf("Found tree -> weighting\n");
       for(Int_t i=0;i<t->GetEntries();++i){
@@ -148,8 +152,6 @@ void readdir(TDirectory *dir,optutl::CommandLineParser parser,std::vector<float>
 	  	weight = parser.doubleValue("weight")/(ev[0]+ev[3]);
 	  else if(LHEProduct==4)
 	  	weight = parser.doubleValue("weight")/(ev[0]+ev[4]);
-	  else 
-	  	weight = parser.doubleValue("weight")/(ev[0]);
 	  	
 	  newBranch->Fill();
 	}

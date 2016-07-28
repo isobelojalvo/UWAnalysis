@@ -12,9 +12,7 @@
 #include "UWAnalysis/NtupleTools/interface/NtupleFillerBase.h"
 
 #include "CondFormats/BTauObjects/interface/BTagCalibration.h"
-#include "CondFormats/BTauObjects/interface/BTagCalibrationReader.h"
-
-#include "UWAnalysis/RecoTools/plugins/BTagCalibrationStandalone.h"
+#include "CondTools/BTau/interface/BTagCalibrationReader.h"
 
 #include "DataFormats/PatCandidates/interface/Jet.h"
 #include "Math/GenVector/VectorUtil.h" 
@@ -53,34 +51,11 @@ class CSVReweightFiller : public NtupleFillerBase {
 		t->Branch("CSVShapeWeightDownLFStats2",&value[16],"CSVShapeWeightDownLFStats2/F");
 		t->Branch("CSVShapeWeightDownCFErr1",&value[17],"CSVShapeWeightDownCFErr1/F");
 		t->Branch("CSVShapeWeightDownCFErr2",&value[18],"CSVShapeWeightDownCFErr2/F");
-		calib=new BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_76.csv");
-		reader=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "central");
-		//JES applicable for bottom and light
-		reader_up_jes=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "up_jes");  // sys up
-		reader_down_jes=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "down_jes");  // sys up
-		//LF light flavor contamination for b jets
-		reader_up_lf=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "up_lf");  // sys up
-		reader_down_lf=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "down_lf");  // sys up
-		//HFstats1 Linear and quadratic statistical fluctuations
-		reader_up_hfstats1=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "up_hfstats1");  // sys up
-		reader_down_hfstats1=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "down_hfstats1");  // sys up
-		//HFstats2 Linear and quadratic statistical fluctuations
-		reader_up_hfstats2=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "up_hfstats2");  // sys up
-		reader_down_hfstats2=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "down_hfstats2");  // sys up
-		//hf contamination- for light jets
-		reader_up_hf=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "up_hf");  // sys up
-		reader_down_hf=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "down_hf");  // sys up
-		//LFstats1 Linear and quadratic statistical fluctuations
-		//LFstats2 Linear and quadratic statistical fluctuations
-		reader_up_lfstats1=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "up_hfstats1");  // sys up
-		reader_down_lfstats1=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "down_hfstats1");  // sys up
-		reader_up_lfstats2=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "up_hfstats2");  // sys up
-		reader_down_lfstats2=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "down_hfstats2");  // sys up
-		//charm jet uncertantites
-		reader_up_cferr1=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "up_cferr1");  // sys up
-		reader_down_cferr1=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "down_cferr1");  // sys up
-		reader_up_cferr2=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "up_cferr2");  // sys up
-		reader_down_cferr2=new BTagCalibrationReader(calib, BTagEntry::OP_RESHAPING, "iterativefit", "down_cferr2");  // sys up
+	        calib=BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_ichep.csv");
+		reader=BTagCalibrationReader(BTagEntry::OP_RESHAPING, "central",{"up_jes","down_jes","up_hfstats1","down_hfstats1","up_hfstats2","down_hfstats2","up_hf","down_hf","up_lfstats1","down_lfstats1","up_lfstats2","down_lfstats2","up_cferr1","down_cferr1","up_cferr2","down_cferr2"});
+		reader.load(calib, BTagEntry::FLAV_B, "iterativefit");
+		reader.load(calib, BTagEntry::FLAV_C, "iterativefit");
+		reader.load(calib, BTagEntry::FLAV_UDSG, "iterativefit");
 	}
 
 
@@ -105,7 +80,6 @@ class CSVReweightFiller : public NtupleFillerBase {
 					double pt = handle->at(0).jets().at(i)->pt();
 					double eta = handle->at(0).jets().at(i)->eta();
 					if (pt <20 || abs(eta)>2.4) continue;
-					if( pt > 1000 ) pt = 999.;
 					double csv = handle->at(0).jets().at(i)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
 					int flavor = abs(handle->at(0).jets().at(i)->partonFlavour());
 					BTagEntry::JetFlavor jf = BTagEntry::FLAV_UDSG;
@@ -113,35 +87,35 @@ class CSVReweightFiller : public NtupleFillerBase {
 					if (csv>0.80){
 						if( flavor ==5 ) { 
 							jf = BTagEntry::FLAV_B;
-							SFupJes.push_back(reader_up_jes->eval(jf, eta, pt,csv ));
-							SFdownJes.push_back(reader_down_jes->eval(jf, eta, pt,csv ));
-							SFupLF.push_back(reader_up_lf->eval(jf, eta, pt,csv ));
-							SFdownLF.push_back(reader_down_lf->eval(jf, eta, pt,csv ));
-							SFupHFstats1.push_back(reader_up_hfstats2->eval(jf, eta, pt,csv ));
-							SFdownHFstats1.push_back(reader_down_hfstats2->eval(jf, eta, pt,csv ));
-							SFupHFstats2.push_back(reader_up_hfstats2->eval(jf, eta, pt,csv ));
-							SFdownHFstats2.push_back(reader_down_hfstats2->eval(jf, eta, pt,csv ));
+							SFupJes.push_back(reader.eval_auto_bounds("up_jes",jf, eta, pt,csv ));
+							SFdownJes.push_back(reader.eval_auto_bounds("down_jes",jf, eta, pt,csv ));
+							SFupLF.push_back(reader.eval_auto_bounds("up_lf",jf, eta, pt,csv ));
+							SFdownLF.push_back(reader.eval_auto_bounds("down_lf",jf, eta, pt,csv ));
+							SFupHFstats1.push_back(reader.eval_auto_bounds("up_hfstats1",jf, eta, pt,csv ));
+							SFdownHFstats1.push_back(reader.eval_auto_bounds("down_hfstats1",jf, eta, pt,csv ));
+							SFupHFstats2.push_back(reader.eval_auto_bounds("up_hfstats2",jf, eta, pt,csv ));
+							SFdownHFstats2.push_back(reader.eval_auto_bounds("down_hfstats2",jf, eta, pt,csv ));
 
 						}
 						else if(flavor ==4 ){
 							jf = BTagEntry::FLAV_C;
-							SFupCFErr1.push_back(reader_up_cferr1->eval(jf, eta, pt,csv ));
-							SFdownCFErr1.push_back(reader_down_cferr1->eval(jf, eta, pt,csv ));
-							SFupCFErr2.push_back(reader_up_cferr2->eval(jf, eta, pt,csv ));
-							SFdownCFErr2.push_back(reader_down_cferr2->eval(jf, eta, pt,csv ));
+							SFupCFErr1.push_back(reader.eval_auto_bounds("up_cferr1",jf, eta, pt,csv ));
+							SFdownCFErr1.push_back(reader.eval_auto_bounds("down_cferr1",jf, eta, pt,csv ));
+							SFupCFErr2.push_back(reader.eval_auto_bounds("up_cferr2",jf, eta, pt,csv ));
+							SFdownCFErr2.push_back(reader.eval_auto_bounds("down_cferr2",jf, eta, pt,csv ));
 						}
 						else {
 							jf = BTagEntry::FLAV_UDSG;
-							SFupJes.push_back(reader_up_jes->eval(jf, eta, pt,csv ));
-							SFdownJes.push_back(reader_down_jes->eval(jf, eta, pt,csv ));
-							SFupHF.push_back(reader_up_hf->eval(jf, eta, pt,csv ));
-							SFdownHF.push_back(reader_down_hf->eval(jf, eta, pt,csv ));
-							SFupLFstats1.push_back(reader_up_lfstats1->eval(jf, eta, pt,csv ));
-							SFdownLFstats1.push_back(reader_down_lfstats1->eval(jf, eta, pt,csv ));
-							SFupLFstats2.push_back(reader_up_lfstats2->eval(jf, eta, pt,csv ));
-							SFdownLFstats2.push_back(reader_down_lfstats2->eval(jf, eta, pt,csv ));
+							SFupJes.push_back(reader.eval_auto_bounds("up_jes",jf, eta, pt,csv ));
+							SFdownJes.push_back(reader.eval_auto_bounds("down_jes",jf, eta, pt,csv ));
+							SFupHF.push_back(reader.eval_auto_bounds("up_hf",jf, eta, pt,csv ));
+							SFdownHF.push_back(reader.eval_auto_bounds("down_hf",jf, eta, pt,csv ));
+							SFupLFstats1.push_back(reader.eval_auto_bounds("up_lfstats1",jf, eta, pt,csv ));
+							SFdownLFstats1.push_back(reader.eval_auto_bounds("down_lfstats1",jf, eta, pt,csv ));
+							SFupLFstats2.push_back(reader.eval_auto_bounds("up_lfstats2",jf, eta, pt,csv ));
+							SFdownLFstats2.push_back(reader.eval_auto_bounds("down_lfstats2",jf, eta, pt,csv ));
 						}
-						SF.push_back(reader->eval(jf, eta, pt,csv ));
+						SF.push_back(reader.eval_auto_bounds("central",jf, eta, pt,csv ));
 					}//end if CSV
 				}//end for jets
 			}//handle
@@ -194,26 +168,8 @@ class CSVReweightFiller : public NtupleFillerBase {
 		std::string tag_;
 		float* value;
 
-		BTagCalibration *calib;
-		BTagCalibrationReader *reader;
-		BTagCalibrationReader *reader_up_jes;
-		BTagCalibrationReader *reader_down_jes;
-		BTagCalibrationReader *reader_up_hf;
-		BTagCalibrationReader *reader_down_hf;
-		BTagCalibrationReader *reader_up_lf;
-		BTagCalibrationReader *reader_down_lf;
-		BTagCalibrationReader *reader_up_hfstats1;
-		BTagCalibrationReader *reader_down_hfstats1;
-		BTagCalibrationReader *reader_up_hfstats2;
-		BTagCalibrationReader *reader_down_hfstats2;
-		BTagCalibrationReader *reader_up_lfstats1;
-		BTagCalibrationReader *reader_down_lfstats1;
-		BTagCalibrationReader *reader_up_lfstats2;
-		BTagCalibrationReader *reader_down_lfstats2;
-		BTagCalibrationReader *reader_up_cferr1;
-		BTagCalibrationReader *reader_down_cferr1;
-		BTagCalibrationReader *reader_up_cferr2;
-		BTagCalibrationReader *reader_down_cferr2;
+		BTagCalibration calib;
+		BTagCalibrationReader reader;
 
 
 

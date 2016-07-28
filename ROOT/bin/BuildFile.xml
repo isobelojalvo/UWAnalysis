@@ -61,8 +61,14 @@
 
 <bin   name="EventWeightsForEfficiency" file="EventWeightsForEfficiency.cc">
 </bin>
+<bin   name="EventWeightsForEfficiencyTagAndProbe" file="EventWeightsForEfficiencyTagAndProbe.cc">
+</bin>
 
-<bin   name="EventWeightsForEfficiencyFast" file="EventWeightsForEfficiencyFast.cc">
+<bin   name="EventWeightsForEfficiencyFastTnP_Ele" file="EventWeightsForEfficiencyFastTnP_Ele.cc">
+</bin>
+
+
+<bin   name="EventWeightsForEfficiencyFastTnP" file="EventWeightsForEfficiencyFastTnP.cc">
 </bin>
 
 <bin   name="EventWeightsForEfficiencyFastWJets" file="EventWeightsForEfficiencyFastWJets.cc">

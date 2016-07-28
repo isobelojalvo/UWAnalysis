@@ -40,7 +40,8 @@ const reco::GenParticle* findGenParticle(const reco::Candidate::LorentzVector& d
     }
     
    
-    if ( abs(genParticle->pdgId()) == 12 || abs(genParticle->pdgId()) == 14 || abs(genParticle->pdgId()) == 16 || abs(genParticle->pdgId()) == 22 || abs(genParticle->pdgId()) == 23 ) continue;
+    //if ( abs(genParticle->pdgId()) == 12 || abs(genParticle->pdgId()) == 14 || abs(genParticle->pdgId()) == 16 || abs(genParticle->pdgId()) == 22 || abs(genParticle->pdgId()) == 23 ) continue;
+    if ( abs(genParticle->pdgId()) == 12 || abs(genParticle->pdgId()) == 14 || abs(genParticle->pdgId()) == 16 || abs(genParticle->pdgId()) == 22 || abs(genParticle->pdgId()) == 23 || abs(genParticle->pdgId()) == 211) continue;
     
     // If we require strict PDG id checking, skip it if it doesn't match
     if ( pdgIds && !matchesPdgId && pdgIdStrict ) continue;
@@ -201,6 +202,7 @@ reco::Candidate::LorentzVector getVisMomentum(const reco::GenParticle* genLeg, c
 	std::vector<const reco::GenParticle*> stableDaughters;
 	findDaughters(genLeg, stableDaughters, 1);
 
+	//reco::Candidate::LorentzVector p4Vis = getVisMomentum(stableDaughters,0);
 	reco::Candidate::LorentzVector p4Vis = getVisMomentum(stableDaughters,-1);
 
 	return p4Vis;
@@ -373,7 +375,7 @@ std::string getTauDecayModeName(int tauDecayMode)
 //
 //-------------------------------------------------------------------------------
 //
-
+/*
 const reco::Candidate* getDistPion(const pat::Tau& recTauJet)
 {
 	if ( !recTauJet.isPFTau() ) {
@@ -392,15 +394,6 @@ const reco::Candidate* getDistPion(const pat::Tau& recTauJet)
 		return recTauJet.leadPFChargedHadrCand().get();
 	} else if ( recTauJetChargedConstituents.size() == 3 ) {
 		double recTauJetCharge = recTauJet.charge();
-		/*
-		   for ( reco::PFCandidateRefVector::const_iterator recTauJetChargedConstituent = recTauJetChargedConstituents.begin();
-		   recTauJetChargedConstituent != recTauJetChargedConstituents.end(); ++recTauJetChargedConstituent ) {
-	//--- tau- --> three-prong case (in particular a1- --> pi- pi+ pi-);
-	//    the "distinguishable" pion is the pion of charge opposite to the tau-jet charge
-	if ( (*recTauJetChargedConstituent)->charge()*recTauJetCharge < 0 ) {
-	return recTauJetChargedConstituent->get();
-	}
-	}*/
 	} else {
 		//edm::LogWarning ("getDistPion")
 		//  << " Unsupported rec. tau decay mode = " << recTauJet.decayMode() << " --> returning NULL pointer !!";
@@ -411,7 +404,7 @@ const reco::Candidate* getDistPion(const pat::Tau& recTauJet)
 	//  << " Failed to identify 'distinguishable' rec. pion --> returning NULL pointer !!";
 	return 0;
 }
-
+*/
 const reco::Candidate* getDistPion(const reco::GenJet& genTauJet)
 {
 	std::string genTauDecayMode = JetMCTagUtils::genTauDecayMode(genTauJet);

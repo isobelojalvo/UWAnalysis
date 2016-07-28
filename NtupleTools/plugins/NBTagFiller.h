@@ -13,9 +13,7 @@
 #include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
 
 #include "CondFormats/BTauObjects/interface/BTagCalibration.h"
-#include "CondFormats/BTauObjects/interface/BTagCalibrationReader.h"
-
-#include "UWAnalysis/RecoTools/plugins/BTagCalibrationStandalone.h"
+#include "CondTools/BTau/interface/BTagCalibrationReader.h"
 
 #include "CommonTools/Utils/interface/StringObjectFunction.h"
 #include "boost/filesystem.hpp"
@@ -39,13 +37,11 @@ class NBTagFiller : public NtupleFillerBase {
 		t->Branch("nbtag",&value[0],"nbtag/F");
 		t->Branch("nbtagUp",&value[1],"nbtagUp/F");
 		t->Branch("nbtagDown",&value[2],"nbtagDown/F");
-		calib=new BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_76.csv");
-		reader_light=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "central");
-		reader_light_up=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "up");
-		reader_light_down=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "down");
-		reader=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "mujets", "central");
-		reader_up=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "mujets", "up");  // sys up
-		reader_down=new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "mujets", "down");  // sys down
+	        calib=BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_ichep.csv");
+		reader= BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central",{"up","down"});
+                reader.load(calib,BTagEntry::FLAV_UDSG,"incl");
+                reader.load(calib,BTagEntry::FLAV_B,"comb");
+                reader.load(calib,BTagEntry::FLAV_C,"comb");
 
 		std::string base = std::getenv("CMSSW_BASE");
 		std::string fEff =   "/src/UWAnalysis/Configuration/data/tagging_efficiencies.root";
@@ -61,14 +57,6 @@ class NBTagFiller : public NtupleFillerBase {
 			h2_ZJetsEffMapB    = (TH2D*)f_EffMap->Get("btag_eff_b");
 			h2_ZJetsEffMapC    = (TH2D*)f_EffMap->Get("btag_eff_c");
 			h2_ZJetsEffMapUDSG = (TH2D*)f_EffMap->Get("btag_eff_oth");
-			/*
-			h2_TTEffMapB    = (TH2D*)f_EffMap->Get("TT_effi/efficiency_b");
-			h2_TTEffMapC    = (TH2D*)f_EffMap->Get("TT_effi/efficiency_c");
-			h2_TTEffMapUDSG = (TH2D*)f_EffMap->Get("TT_effi/efficiency_udsg");
-			h2_ZJetsEffMapB    = (TH2D*)f_EffMap->Get("ZJets_effi/efficiency_b");
-			h2_ZJetsEffMapC    = (TH2D*)f_EffMap->Get("ZJets_effi/efficiency_c");
-			h2_ZJetsEffMapUDSG = (TH2D*)f_EffMap->Get("ZJets_effi/efficiency_udsg");
-			*/
 		}
 		else { std::cout<<"WARNING::NBTagFiller No efficiency file found!!!"<<std::endl;}
 
@@ -101,31 +89,29 @@ class NBTagFiller : public NtupleFillerBase {
 					//std::cout<<"Jet Pt: "<<pt<<std::endl;
 					//std::cout<<"Jet Eta: "<<eta<<std::endl;
 					if (pt<20 || std::abs(eta)>2.4) {continue;}
-					else if (pt>1000.) {pt=999.;}
 					int jetflavor = handle->at(0).jets().at(i)->partonFlavour();
 					double SF =0,SFup=0,SFdown=0,eff=0;
 					if (handle->at(0).jets().at(i)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.80&&handle->at(0).jets().at(i)->userFloat("idLoose")) pass =true;
-					//if (handle->at(0).jets().at(i)->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>0.80) pass =true;
 					if (fabs(jetflavor) == 5) {                // real b-jet
+
+
 						//std::cout<<"=====Jet Flavor B====="<<std::endl;
-						if (pt<30){ 
-							//std::cout<<"=====Jet SF"<<std::endl;
-							SF = reader->eval(BTagEntry::FLAV_B, eta, 30. );
-							SFup = 2*reader_up->eval(BTagEntry::FLAV_B, eta, 30. );
-							SFdown = 2*reader_down->eval(BTagEntry::FLAV_B, eta, 30. );
-						}
-						else if (pt>670){ 
-							//std::cout<<"=====Jet SF"<<std::endl;
-							SF = reader->eval(BTagEntry::FLAV_B, eta, 669. );
-							SFup = 2*reader_up->eval(BTagEntry::FLAV_B, eta, 669. );
-							SFdown = 2*reader_down->eval(BTagEntry::FLAV_B, eta, 669. );
-						}
-						else{ 
-							//std::cout<<"=====Jet SF"<<std::endl;
-							SF = reader->eval(BTagEntry::FLAV_B, eta,pt );
-							SFup = reader_up->eval(BTagEntry::FLAV_B, eta,pt );
-							SFdown = reader_down->eval(BTagEntry::FLAV_B, eta,pt );
-						}
+						//std::cout<<"=====Jet SF"<<std::endl;
+						SF = reader.eval_auto_bounds(
+								"central", 
+								BTagEntry::FLAV_B, 
+								eta, 
+								pt );
+						SFup = reader.eval_auto_bounds(
+								"up",
+								BTagEntry::FLAV_B, 
+								eta, 
+								pt );
+						SFdown = reader.eval_auto_bounds(
+								"down",
+								BTagEntry::FLAV_B, 
+								eta, 
+								pt );
 						eff = 0.6829; 
 						//std::cout<<"=====Jet EFF"<<std::endl;
 						if (doEff_ && top )eff = h2_TTEffMapB->GetBinContent( h2_TTEffMapB->GetXaxis()->FindBin(pt), h2_TTEffMapB->GetYaxis()->FindBin(eta) );
@@ -133,23 +119,23 @@ class NBTagFiller : public NtupleFillerBase {
 					}
 					else if (fabs(jetflavor) == 4) { 
 						//std::cout<<"=====Jet Flavor C====="<<std::endl;
-						if (pt<30){ 
-							//std::cout<<"=====Jet SF"<<std::endl;
-							SF = reader->eval(BTagEntry::FLAV_C, eta, 30. );
-							SFup = 2*reader_up->eval(BTagEntry::FLAV_C, eta, 30. );
-							SFdown = 2*reader_down->eval(BTagEntry::FLAV_C, eta, 30. );
-						}
-						else if (pt>670){ 
-							//std::cout<<"=====Jet SF"<<std::endl;
-							SF = reader->eval(BTagEntry::FLAV_C, eta, 669. );
-							SFup = 2*reader_up->eval(BTagEntry::FLAV_C, eta, 669. );
-							SFdown = 2*reader_down->eval(BTagEntry::FLAV_C, eta, 669. );
-						}
-						else{ 
-							SF = reader->eval(BTagEntry::FLAV_C, eta,pt );
-							SFup = reader_up->eval(BTagEntry::FLAV_C, eta,pt );
-							SFdown = reader_down->eval(BTagEntry::FLAV_C, eta,pt );
-						}
+						//std::cout<<"=====Jet SF"<<std::endl;
+						//
+						SF = reader.eval_auto_bounds(
+								"central", 
+								BTagEntry::FLAV_C, 
+								eta, 
+								pt );
+						SFup = reader.eval_auto_bounds(
+								"up",
+								BTagEntry::FLAV_C, 
+								eta, 
+								pt );
+						SFdown = reader.eval_auto_bounds(
+								"down",
+								BTagEntry::FLAV_C, 
+								eta, 
+								pt );
 						eff =0.18;
 						//std::cout<<"=====Jet EFF"<<std::endl;
 						if (doEff_&&top) eff = h2_TTEffMapC->GetBinContent( h2_TTEffMapC->GetXaxis()->FindBin(pt), h2_TTEffMapC->GetYaxis()->FindBin(eta) );
@@ -158,9 +144,21 @@ class NBTagFiller : public NtupleFillerBase {
 					else {
 						//std::cout<<"=====Jet Flavor UDSG====="<<std::endl;
 						//std::cout<<"=====Jet SF"<<std::endl;
-						SF = reader_light->eval(BTagEntry::FLAV_UDSG, eta, pt );
-						SFup = reader_light_up->eval(BTagEntry::FLAV_UDSG, eta, pt );
-						SFdown = reader_light_down->eval(BTagEntry::FLAV_UDSG, eta, pt );
+						SF = reader.eval_auto_bounds(
+								"central", 
+								BTagEntry::FLAV_C, 
+								eta, 
+								pt );
+						SFup = reader.eval_auto_bounds(
+								"up",
+								BTagEntry::FLAV_C, 
+								eta, 
+								pt );
+						SFdown = reader.eval_auto_bounds(
+								"down",
+								BTagEntry::FLAV_C, 
+								eta, 
+								pt );					
 						eff =0.012;
 						//std::cout<<"=====Jet EFF"<<std::endl;
 						if (doEff_&&top ){ 
@@ -222,13 +220,8 @@ class NBTagFiller : public NtupleFillerBase {
 		TH2D *h2_ZJetsEffMapUDSG;
 
 
-		BTagCalibration *calib;
-		BTagCalibrationReader *reader;
-		BTagCalibrationReader *reader_up;
-		BTagCalibrationReader *reader_down;
-		BTagCalibrationReader *reader_light;
-		BTagCalibrationReader *reader_light_up;
-		BTagCalibrationReader *reader_light_down;
+		BTagCalibration calib;
+		BTagCalibrationReader reader;
 
 		bool applySF(bool& isBTagged, float Btag_SF, float Btag_eff,int seed){
 			TRandom3 rand_;
