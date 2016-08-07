@@ -4,7 +4,6 @@
 // user include files
 #include <TTree.h>
 #include "SimDataFormats/GeneratorProducts/interface/LHEEventProduct.h"
-
 #include "UWAnalysis/NtupleTools/interface/NtupleFillerBase.h"
 
 //
@@ -23,8 +22,10 @@ class LHEProductFiller : public NtupleFillerBase {
 	{
 		value1 = 0;
 		value2 = 0;
+		value3 = 0;
 		t->Branch((tag_+"_njet").c_str(),&value1,(tag_+"_njet/I").c_str());
 		t->Branch((tag_+"_mll").c_str(),&value2,(tag_+"_mll/I").c_str());
+		t->Branch((tag_+"_ht").c_str(),&value3,(tag_+"_ht/F").c_str());
 	}
 
 
@@ -39,8 +40,12 @@ class LHEProductFiller : public NtupleFillerBase {
 			edm::Handle<LHEEventProduct> lheeventinfo;
 			value1=0;
 			value2=0;
+			value3=0;
 			int NParton=0;
 			int NL=0;
+			float HT=0;
+
+
 			TLorentzVector l;
 			if(iEvent.getByToken(src_,lheeventinfo)) {
 				int nup = lheeventinfo->hepeup().NUP;
@@ -53,13 +58,24 @@ class LHEProductFiller : public NtupleFillerBase {
 						++NL;
 					}
 
+					//calculate MAdgraph HT
+					int absPdgId = TMath::Abs(lheeventinfo->hepeup().IDUP[i]);
+					if (lheeventinfo->hepeup().ISTUP[i]==1&&((absPdgId >= 1 && absPdgId <= 6) || absPdgId == 21) ) { // quarks and gluons
+						HT += TMath::Sqrt(TMath::Power(lheeventinfo->hepeup().PUP[i].x[0], 2.) + TMath::Power(lheeventinfo->hepeup().PUP[i].x[1], 2.)); // first entry is px, second py
+
+					}
+
 				}
 			}
-			
+
 
 			value1 = NParton;
 			if (NL==2) value2 = l.M();
-			
+			value3 = HT;
+			//std::cout<<"HT :"<<HT<<std::endl;
+
+
+
 		}
 
 
@@ -68,6 +84,7 @@ class LHEProductFiller : public NtupleFillerBase {
 		std::string tag_;
 		int value1;
 		int value2;
+		float value3;
 
 
 };

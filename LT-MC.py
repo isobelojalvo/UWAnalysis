@@ -3,27 +3,13 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-
-process.GlobalTag.globaltag = '80X_dataRun2_Prompt_ICHEP16JEC_v0'
-#process.GlobalTag.globaltag = '80X_dataRun2_Prompt_v9'
+process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
 
 
+
+#process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 process.options.allowUnscheduled = cms.untracked.bool(True)
-
-
-
-process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring(
-		$inputFileNames
-		),
-		inputCommands=cms.untracked.vstring(
-						'keep *',
-		)
-)
-
-import FWCore.PythonUtilities.LumiList as LumiList
-process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-276811_13TeV_PromptReco_Collisions16_JSON.txt').getVLuminosityBlockRange()
 
 
 process.maxEvents = cms.untracked.PSet(
@@ -31,16 +17,34 @@ process.maxEvents = cms.untracked.PSet(
 )
 
 
+# Make the framework shut up.
+process.load("FWCore.MessageLogger.MessageLogger_cfi")
+process.MessageLogger.cerr.FwkReport.reportEvery = 100
+
+
+process.source = cms.Source("PoolSource",
+    fileNames = cms.untracked.vstring(
+'/store/mc/RunIISpring16MiniAODv2/DYJetsToLL_M-50_HT-400to600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0_ext1-v1/40000/00523438-F829-E611-A908-0025905A6138.root'
+		),
+		inputCommands=cms.untracked.vstring(
+						'keep *',
+						'keep *_l1extraParticles_*_*',
+		)
+)
+
+#process.dump=cms.EDAnalyzer('EventContentAnalyzer')
+
+
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import *
-defaultReconstruction(process,'HLT',
+defaultReconstructionMC(process,'HLT',
                       [
 			'HLT_IsoMu18_v', 
 			'HLT_IsoMu20_v', 
 			'HLT_IsoMu22_v', 
 			'HLT_IsoMu22_eta2p1_v', 
-                        'HLT_IsoTkMu22_v',
-                        'HLT_IsoTkMu22_eta2p1_v',
+			'HLT_IsoTkMu22_eta2p1_v',
+			'HLT_IsoTkMu22_v',
 			'HLT_IsoMu24_v', 
 			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v',
 			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_SingleL1_v',
@@ -66,31 +70,56 @@ defaultReconstruction(process,'HLT',
 			'HLT_PFMET90_PFMHT90_IDTight',
 			'HLT_CaloJet500_NoJetID',
 			'HLT_ECALHT800'
-			])
+                      ])
 
 
+                      
 
 #EventSelection
-process.load("UWAnalysis.Configuration.xTauTau_cff")
+process.load("UWAnalysis.Configuration.hTauTau_cff")
 
 process.metCalibration.applyCalibration = cms.bool(False)
 
 process.eventSelectionMT = cms.Path(process.selectionSequenceMT)
 process.eventSelectionET = cms.Path(process.selectionSequenceET)
 
+createGeneratedParticles(process,
+                         'genDaughters',
+                          [
+                           "keep++ pdgId = {Z0}",
+                           "keep pdgId = {tau+}",
+                           "keep pdgId = {tau-}",
+                           "keep pdgId = {mu+}",
+                           "keep pdgId = {mu-}",
+                           "keep pdgId = 6",
+                           "keep pdgId = -6",
+                           "keep pdgId = 11",
+                           "keep pdgId = -11",
+                           "keep pdgId = 25",
+                           "keep pdgId = 35",
+                           "keep pdgId = 37",
+                           "keep pdgId = 36"
+                          ]
+)
+
+
+createGeneratedParticles(process,
+                         'genTauCands',
+                          [
+                           "keep pdgId = {tau+} & mother.pdgId()= {Z0}",
+                           "keep pdgId = {tau-} & mother.pdgId() = {Z0}"
+                          ]
+)
+
 
 from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addMuTauEventTree
 addMuTauEventTree(process,'muTauEventTree')
 addMuTauEventTree(process,'muTauEventTreeFinal','muTausOS','diMuonsOSSorted')
 
-
 from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addEleTauEventTree
 addEleTauEventTree(process,'eleTauEventTree')
 addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','diElectronsOSSorted')
 
-addEventSummary(process,False,'MT','eventSelectionMT')
-addEventSummary(process,False,'ET','eventSelectionET')
-
-
-process.TFileService.fileName=cms.string("$outputFileName")
+addEventSummary(process,True,'MT','eventSelectionMT')
+addEventSummary(process,True,'ET','eventSelectionET')
 

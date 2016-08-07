@@ -1,5 +1,4 @@
 #include "PhysicsTools/FWLite/interface/CommandLineParser.h" 
-#include "PhysicsTools/Utilities/interface/Lumi3DReWeighting.h"
 #include "PhysicsTools/Utilities/interface/LumiReWeighting.h"
 #include "TFile.h"
 #include "TROOT.h"
@@ -11,56 +10,37 @@
 using std::cout;
 using std::endl;
 
-void readdir(TDirectory *dir,optutl::CommandLineParser parser,float ev,TH1F* puWeight); 
+std::vector<float> data;
+std::vector<float> mc;
+edm::LumiReWeighting *LumiWeights;
+
+
+void readdir(TDirectory *dir,optutl::CommandLineParser parser); 
 
 
 int main (int argc, char* argv[]) 
 {
    optutl::CommandLineParser parser ("Sets Event Weights in the ntuple");
-   parser.addOption("histoName",optutl::CommandLineParser::kString,"Counter Histogram Name","EventSummary");
-   parser.addOption("weight",optutl::CommandLineParser::kDouble,"Weight to apply",1.0);
-   parser.addOption("branch",optutl::CommandLineParser::kString,"Branch","__WEIGHT__");
-
+   parser.addOption("branch",optutl::CommandLineParser::kString,"Branch","__PUWEIGHT__");
    
    parser.parseArguments (argc, argv);
-   
 
- 
    TFile *g = new TFile(parser.stringValue("outputFile").c_str(),"UPDATE");
-
-   TH1F* evC  = (TH1F*)g->Get(parser.stringValue("histoName").c_str());
-   float ev = evC->GetBinContent(1);
-   
 
    g->Close();
    
-   printf("Found  %f Events Counted\n",ev);
-   
    TFile *f = new TFile(parser.stringValue("outputFile").c_str(),"UPDATE");   
    
-   TFile *fPileUp    = new TFile("vertices.root","UPDATE");
-   TH1F* puWeight = 0;
-   if(fPileUp!=0 && fPileUp->IsOpen()) {
-     puWeight = (TH1F*)fPileUp->Get("vertices");;
-     printf("ENABLING PU WEIGHTING USING VERTICES\n");
-   }  
-   else{
-     cout<<"ERROR!!! EXITING!!"<<endl;
-     return 0;
-   }
-     
-   cout<<"Bin content of bin with 12 vertices "<<puWeight->GetBinContent(puWeight->FindBin(9))<<endl;
+   LumiWeights = new edm::LumiReWeighting("../PileUp/MC_Spring16.root","../PileUp/Data_Pileup.root","pileup","pileup");     
 
-   readdir(f,parser,ev,puWeight);
+   readdir(f,parser);
 
    f->Close();
-   if(fPileUp!=0 && fPileUp->IsOpen())
-     fPileUp->Close();
 
 } 
 
 
-void readdir(TDirectory *dir,optutl::CommandLineParser parser,float ev,TH1F* puWeight) 
+void readdir(TDirectory *dir,optutl::CommandLineParser parser) 
 {
   TDirectory *dirsav = gDirectory;
   TIter next(dir->GetListOfKeys());
@@ -78,30 +58,20 @@ void readdir(TDirectory *dir,optutl::CommandLineParser parser,float ev,TH1F* puW
 	  if (obj->IsA()->InheritsFrom(TDirectory::Class())) {
 		  dir->cd(key->GetName());
 		  TDirectory *subdir = gDirectory;
-		  readdir(subdir,parser,ev, puWeight);
+		  readdir(subdir,parser);
 		  dirsav->cd();
 	  }
 	  else if(obj->IsA()->InheritsFrom(TTree::Class())) {
-		  int vertices;
-		  float weight = parser.doubleValue("weight")/(ev);
-
+		  float bx=0;
+	          float weight=1.0;
 		  TTree *t = (TTree*)obj;
 		  TBranch *newBranch = t->Branch(parser.stringValue("branch").c_str(),&weight,(parser.stringValue("branch")+"/F").c_str());
-		  t->SetBranchAddress("vertices",&vertices);
-
+        	  t->SetBranchAddress("puTruth",&bx);
 		  printf("Found tree -> weighting\n");
 		  for(Int_t i=0;i<t->GetEntries();++i)
 		  {
 			  t->GetEntry(i);
-			  //cout<<"nVertices "<<vertices<<endl;
-			  //cout<< "i "<< i <<" bin "<<puWeight->FindBin(vertices)<<endl;
-			  int bin=puWeight->FindBin(vertices);
-
-			  weight = parser.doubleValue("weight")/(ev);
-			  weight*=puWeight->GetBinContent(bin);
-
-			  if(i==1)
-				  printf("PU WEIGHT = %f\n",puWeight->GetBinContent(puWeight->FindBin(vertices)));
+                          weight*=LumiWeights->weight(bx);
 
 			  newBranch->Fill();
 		  }

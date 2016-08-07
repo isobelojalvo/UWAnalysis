@@ -26,6 +26,7 @@
 #include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/VertexReco/interface/VertexFwd.h"
 
+#include "UWAnalysis/RecoTools/interface/PATTauClusterVariables.h"
 
 #include "Math/GenVector/VectorUtil.h"
 //
@@ -80,58 +81,68 @@ class PATTauOverloader : public edm::EDProducer {
 
 	tau.addUserFloat("zIP",z_2);
 
-        //Against Electron 
-        //NOw use tau.tauID("") to access everything!!!
-        //tau.addUserInt("againstElectronVLooseMVA5",tau.tauID("againstElectronVLooseMVA5"));
-        //tau.addUserInt("againstElectronVLooseMVA6",tau.tauID("againstElectronVLooseMVA6"));
-        //tau.addUserInt("againstElectronTightMVA5",tau.tauID("againstElectronTightMVA5"));
-        //tau.addUserInt("againstElectronTightMVA6",tau.tauID("againstElectronTightMVA6"));
-    
-        //Against Muon 
-        //tau.addUserInt("againstMuTight3",tau.tauID("againstMuonTight3"));
-        //tau.addUserInt("againstMuTight4",tau.tauID("againstMuonTight4"));
-        //tau.addUserInt("againstMuLoose3",tau.tauID("againstMuonLoose3"));
+	//Tau shape variables
+	int dm = tau.decayMode();
+	//float EMratio = tau.emFraction();
+        //std::cout<<"emfraction: "<<EMratio<<std::endl;
+	float pt_weighted_dr_signal = tau_pt_weighted_dr_signal(tau,dm); 
+	tau.addUserFloat("tau_pt_weighted_dr_signal", pt_weighted_dr_signal);
+	float pt_weighted_deta_strip = tau_pt_weighted_deta_strip(tau,dm);
+	tau.addUserFloat("tau_pt_weighted_deta_strip", pt_weighted_deta_strip);
+	float pt_weighted_dphi_strip = tau_pt_weighted_dphi_strip(tau,dm);
+	tau.addUserFloat("tau_pt_weighted_dphi_strip", pt_weighted_dphi_strip);
+	float pt_weighted_dr_iso = tau_pt_weighted_dr_iso(tau,dm);
+	tau.addUserFloat("tau_pt_weighted_dr_iso",pt_weighted_dr_iso);
+	float n_photons_total= tau_n_photons_total(tau);
+	tau.addUserFloat("n_photons_total",n_photons_total);
+	
+        //std::cout<<"n_photons_total "<<n_photons_total<<std::endl;
+
+	float nMatchedSegments = -1;
+	float muonMatched = 0;
+	float leadChargedHadrTrackPt = -1;
+	float leadChargedHadrTrackPtErr = -1;
+	float nIsoTracks=-1;
+	float nIsoNeutral=-1;
+	float nIsoGamma=-1;
+	nIsoTracks = tau.isolationChargedHadrCands().size();
+	nIsoNeutral = tau.isolationNeutrHadrCands().size();
+	nIsoGamma = tau.isolationGammaCands().size();
+
+	pat::PackedCandidate const* packedLeadTauCand = dynamic_cast<pat::PackedCandidate const*>(tau.leadChargedHadrCand().get());
+
+	if(tau.leadChargedHadrCand().isNonnull()){
+		leadChargedHadrTrackPt = tau.leadChargedHadrCand()->pt();
+		//leadChargedHadrTrackPtErr = tau.leadChargedHadrCand()->ptError();
+		dZ = packedLeadTauCand->dz();
+		dXY = packedLeadTauCand->dxy();
+		//std::cout<<"Sync Tau dZ is "<<dZ<<std::endl; 
+		if(iEvent.getByToken(muons_,muons)){
+			for(unsigned int k =0; k!=muons->size();k++){
+				if(ROOT::Math::VectorUtil::DeltaR(muons->at(k).p4(),tau.leadChargedHadrCand()->p4())<0.15){
+					if(muons->at(k).numberOfMatches()>nMatchedSegments){
+						nMatchedSegments = muons->at(k).numberOfMatches();
+						//std::cout<<"====IN MUON LOOP: Matched Segments ======"<<std::endl;
+						//std::cout<<" matched muon N Seg: "<<nMatchedSegments<<std::endl;
+					}
+					muonMatched=1;
+				}
+			}
+		}
+	}
 
 
-        float nMatchedSegments = -1;
-        float muonMatched = 0;
-        float leadChargedHadrTrackPt = -1;
-        float leadChargedHadrTrackPtErr = -1;
-        float nIsoTracks=-1;
-        nIsoTracks = tau.isolationChargedHadrCands().size();
-
-        pat::PackedCandidate const* packedLeadTauCand = dynamic_cast<pat::PackedCandidate const*>(tau.leadChargedHadrCand().get());
-
-        if(tau.leadChargedHadrCand().isNonnull()){
-	        leadChargedHadrTrackPt = tau.leadChargedHadrCand()->pt();
-	        //leadChargedHadrTrackPtErr = tau.leadChargedHadrCand()->ptError();
-	        dZ = packedLeadTauCand->dz();
-	        dXY = packedLeadTauCand->dxy();
-                //std::cout<<"Sync Tau dZ is "<<dZ<<std::endl; 
-	        if(iEvent.getByToken(muons_,muons)){
-		    for(unsigned int k =0; k!=muons->size();k++){
-			    if(ROOT::Math::VectorUtil::DeltaR(muons->at(k).p4(),tau.leadChargedHadrCand()->p4())<0.15){
-				    if(muons->at(k).numberOfMatches()>nMatchedSegments){
-					    nMatchedSegments = muons->at(k).numberOfMatches();
-                                            //std::cout<<"====IN MUON LOOP: Matched Segments ======"<<std::endl;
-					    //std::cout<<" matched muon N Seg: "<<nMatchedSegments<<std::endl;
-				    }
-				    muonMatched=1;
-			    }
-		    }
-	        }
-        }
-
-
-        tau.addUserFloat("nIsoTracks",nIsoTracks);
-        tau.addUserFloat("leadChargedHadrTrackPt",leadChargedHadrTrackPt);
-        tau.addUserFloat("leadChargedHadrTrackPtErr",leadChargedHadrTrackPtErr);
+	tau.addUserFloat("nIsoTracks",nIsoTracks);
+	tau.addUserFloat("nIsoNeutral",nIsoNeutral);
+	tau.addUserFloat("nIsoGamma",nIsoGamma);
+	tau.addUserFloat("leadChargedHadrTrackPt",leadChargedHadrTrackPt);
+	tau.addUserFloat("leadChargedHadrTrackPtErr",leadChargedHadrTrackPtErr);
 	tau.addUserFloat("taudZ",dZ);
 	tau.addUserFloat("taudXY",dXY);
-        tau.addUserFloat("muonNMatchedSeg",nMatchedSegments);
-        tau.addUserFloat("muonTauHadMatched",muonMatched);
+	tau.addUserFloat("muonNMatchedSeg",nMatchedSegments);
+	tau.addUserFloat("muonTauHadMatched",muonMatched);
 
-        taus->push_back(tau);
+	taus->push_back(tau);
       }
     iEvent.put(taus);
   } 

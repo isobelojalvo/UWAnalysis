@@ -24,7 +24,8 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-'/store/mc/RunIISpring16MiniAODv1/GluGluHToTauTau_M125_13TeV_powheg_pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/10000/0ED0E553-8025-E611-B561-0002C94D5752.root'
+#'file:tester.root'
+'/store/mc/RunIISpring16MiniAODv2/ZprimeToA0hToA0chichihtautau_2HDM_MZp-600_MA0-400_13TeV-madgraph/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/20000/20EC6D85-8D3A-E611-BB26-0025905B85DE.root'
 		),
 		inputCommands=cms.untracked.vstring(
 						'keep *',
@@ -32,23 +33,42 @@ process.source = cms.Source("PoolSource",
 		)
 )
 
-process.dump=cms.EDAnalyzer('EventContentAnalyzer')
+#process.dump=cms.EDAnalyzer('EventContentAnalyzer')
 
 
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import *
-defaultReconstructionMC(process,'HLT',
+defaultReconstructionMC(process,'HLT2',
                       [
-                        'HLT_IsoMu22_v',
-                        'HLT_IsoMu24_v',
-                        'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v',
-                        'HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v',
-                        'HLT_Ele24_eta2p1_WPLoose_Gsf_v',
-                        'HLT_Ele24_eta2p1_WPLoose_LooseIsoPFTau20_v',
-                        'HLT_Ele24_WPLoose_Gsf_v',
-                        'HLT_Ele23_WPLoose_Gsf_v',
-                        'HLT_Ele22_WPLoose_Gsf_v',
-                        'HLT_Ele25_eta2p1_WPLoose_Gsf_v'
+			'HLT_IsoMu18_v', 
+			'HLT_IsoMu20_v', 
+			'HLT_IsoMu22_v', 
+			'HLT_IsoMu22_eta2p1_v', 
+			'HLT_IsoMu24_v', 
+			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v',
+			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_SingleL1_v',
+			'HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v',
+			'HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v',
+			'HLT_IsoMu21_eta2p1_LooseIsoPFTau20_SingleL1_v',
+		        'HLT_Ele22_eta2p1_WPLoose_LooseIsoPFTau20_v',
+		        'HLT_Ele22_eta2p1_WPLoose_LooseIsoPFTau20_SingleL1_v',
+			'HLT_Ele23_WPLoose_Gsf_v',
+		        'HLT_Ele24_eta2p1_WPLoose_Gsf_v',
+		        'HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v',
+		        'HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v',
+			'HLT_Ele24_WPLoose_Gsf_v',
+			'HLT_Ele25_eta2p1_WPLoose_Gsf_v',
+			'HLT_Ele25_eta2p1_WPTight_Gsf_v',	
+			'HLT_Ele27_WPLoose_Gsf_v',
+			'HLT_Ele27_WPTight_Gsf_v',
+			'HLT_Ele27_eta2p1_WPLoose_Gsf_v',
+			'HLT_Ele27_eta2p1_WPTight_Gsf_v',
+			'HLT_VLooseIsoPFTau140_Trk50_eta2p1_v',
+			'HLT_VLooseIsoPFTau120_Trk50_eta2p1_v',
+			'HLT_PFMET170_NoiseCleaned',
+			'HLT_PFMET90_PFMHT90_IDTight',
+			'HLT_CaloJet500_NoJetID',
+			'HLT_ECALHT800'
                       ])
 
 

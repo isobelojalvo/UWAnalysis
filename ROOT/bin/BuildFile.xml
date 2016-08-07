@@ -47,6 +47,8 @@
 </bin>
 <bin   name="EventWeightsIterativeZJets" file="EventWeightsIterativeZJets.cc">
 </bin>
+<bin   name="EventWeightsIterativeZNuNu" file="EventWeightsIterativeZNuNu.cc">
+</bin>
 <bin   name="EventWeightsIterativeZPt" file="EventWeightsIterativeZPt.cc">
 </bin>
 

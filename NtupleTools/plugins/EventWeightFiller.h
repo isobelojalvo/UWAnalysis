@@ -34,6 +34,32 @@ class EventWeightFiller : public NtupleFillerBase {
 		t->Branch("idisoweight_1",&value[0],"idisoweight_1/F");
 		t->Branch("trigweight_1",&value[1],"trigweight_1/F");
 		t->Branch((tag_+"EffWeight").c_str(),&value[2],(tag_+"EffWeight/F").c_str());
+		std::string base = std::getenv("CMSSW_BASE");
+		std::string fMuonIsolation =   "/src/HTT-utilities/LepEffInterface/data/Muon/Run2016BCD/Muon_IdIso0p15_eff.root";
+		std::string fMuonTrigger =   "/src/HTT-utilities/LepEffInterface/data/Muon/Run2016BCD/Muon_IsoMu22_OR_TkIsoMu22_eff.root";
+		std::string fEleIsolation =   "/src/HTT-utilities/LepEffInterface/data/Electron/Run2016BCD/Electron_IdIso0p10_eff.root";
+		std::string fEleTrigger =   "/src/HTT-utilities/LepEffInterface/data/Electron/Run2016BCD/Electron_Ele25eta2p1WPTight_eff.root";
+		std::string fileIso;
+		std::string fileTrig;
+		if (isMu_) {
+			fileIso= base+fMuonIsolation;
+			fileTrig= base+fMuonTrigger;
+			bool fis   = boost::filesystem::exists( fileTrig   ) && boost::filesystem::exists( fileIso ) ;
+			std::cout<<"file exist: "<<fis<<std::endl;
+		}
+		else {
+			fileIso= base+fEleIsolation;
+			fileTrig= base+fEleTrigger;
+			bool fis   = boost::filesystem::exists( fileTrig   ) && boost::filesystem::exists( fileIso ) ;
+			std::cout<<"file exist: "<<fis<<std::endl;
+
+		}
+		myScaleFactorIso = new ScaleFactor();
+		myScaleFactorTrig = new ScaleFactor();
+
+		myScaleFactorIso->init_ScaleFactor(fileIso);
+		myScaleFactorTrig->init_ScaleFactor(fileTrig);
+
 	}
 
 
@@ -43,29 +69,6 @@ class EventWeightFiller : public NtupleFillerBase {
 
 		void fill(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 		{
-			std::string base = std::getenv("CMSSW_BASE");
-			std::string fMuonIsolation =   "/src/HTT-utilities/LepEffInterface/data/Muon/Muon_IdIso_eff_Spring16.root";
-			std::string fMuonTrigger =   "/src/HTT-utilities/LepEffInterface/data/Muon/Muon_IsoMu20_eff_Spring16.root";
-			std::string fEleIsolation =   "/src/HTT-utilities/LepEffInterface/data/Electron/Electron_IdIso_eff_Spring16.root";
-			std::string fEleTrigger =   "/src/HTT-utilities/LepEffInterface/data/Electron/Electron_SingleEle23_eff_Spring16.root";
-			std::string fileIso;
-			std::string fileTrig;
-			if (isMu_) {
-				fileIso= base+fMuonIsolation;
-				fileTrig= base+fMuonTrigger;
-			}
-			else {
-				fileIso= base+fEleIsolation;
-				fileTrig= base+fEleTrigger;
-			}
-
-
-			ScaleFactor *myScaleFactorIso = new ScaleFactor();
-			ScaleFactor *myScaleFactorTrig = new ScaleFactor();
-
-			myScaleFactorIso->init_ScaleFactor(fileIso);
-			myScaleFactorTrig->init_ScaleFactor(fileTrig);
-
 			float pt = 0;
 			float eta = 0;
 
@@ -93,6 +96,9 @@ class EventWeightFiller : public NtupleFillerBase {
 		std::string tag_;
 		bool isMu_;
 		float* value;
+                ScaleFactor *myScaleFactorIso; 
+                ScaleFactor *myScaleFactorTrig;
+
 
 };
 

@@ -99,7 +99,6 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   tauOverloading(process,'triggeredPatTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   
   triLeptons(process)
-  #jetCSVShaping(process,"slimmedJets")
   #jetOverloading(process,"slimmedJets")
   jetOverloading(process,"patJetsReapplyJEC") #"slimmedJets")
 
@@ -134,16 +133,6 @@ def jetFilter(process,jets):
   process.jetFiltering = cms.Sequence(process.filteredJets)
   process.analysisSequence*=process.jetFiltering
 
-
-def jetCSVShaping(process,jets):
-
-  process.jetsCSVweighting = cms.EDProducer('MiniAODCSVReweighting',
-                                        src = cms.InputTag(jets)
-  )                                        
-
-  process.jetCSVWeights = cms.Sequence(process.jetsCSVweighting)
-  process.analysisSequence*=process.jetCSVWeights
-
 def jetJECApplication(process,jets):
 
   process.load('JetMETCorrections.Configuration.JetCorrectors_cff')
@@ -153,24 +142,6 @@ def jetJECApplication(process,jets):
   )
   process.jetJECpath = cms.Sequence(process.ak4PFCHSL1FastL2L3CorrectorChain*process.ak4PFchsCorrectedJets)
   process.analysisSequence *=process.jetJECpath
-
-
-def jetCSVShaping(process,jets):
-
-  process.jetsCSVweighting = cms.EDProducer('MiniAODCSVReweighting',
-                                        src = cms.InputTag(jets)
-  )                                        
-
-  process.jetCSVWeights = cms.Sequence(process.jetsCSVweighting)
-  process.analysisSequence*=process.jetCSVWeights
-
-
-  process.jetsJECApplicaiton = cms.EDProducer('MiniAODCSVReweighting',
-                                        src = cms.InputTag(jets)
-  )                                        
-
-  process.jetCSVWeights = cms.Sequence(process.jetsCSVweighting)
-  process.analysisSequence*=process.jetCSVWeights
 
 
 
@@ -490,7 +461,8 @@ def tauTriggerMatchMiniAOD(process,triggerProcess,HLT,srcTau):
                                                 'hltPFTau20TrackLooseIso',
                                                 'hltPFTau20TrackLooseIso'
                                             ),
-                                            bits = cms.InputTag("TriggerResults","","HLT"),
+                                            #bits = cms.InputTag("TriggerResults","","HLT"),
+                                            bits = cms.InputTag(HLT,"",triggerProcess),
                                             prescales = cms.InputTag("patTrigger"),
                                             objects = cms.InputTag("selectedPatTrigger"),
                                             ptCut = cms.int32(10) #too low to affect anything
@@ -518,7 +490,8 @@ def muonTriggerMatchMiniAOD(process,triggerProcess,HLT,srcMuon):
 						'hltL3crIsoL1sSingleMu16erL1f0L2f10QL3f17QL3trkIsoFiltered0p09', #2015D Sync
 						'hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09' #2015D IsoMu18
 					    ),
-                                            bits = cms.InputTag("TriggerResults","","HLT"),
+                                            #bits = cms.InputTag("TriggerResults","","HLT"),
+                                            bits = cms.InputTag(HLT,"",triggerProcess),
                                             prescales = cms.InputTag("patTrigger"),
                                             objects = cms.InputTag("selectedPatTrigger"),
                                             ptCut = cms.int32(0) 
@@ -551,7 +524,8 @@ def electronTriggerMatchMiniAOD(process,triggerProcess,HLT,srcEle):
  						'hltSingleEle22WPTightGsfTrackIsoFilter', #2015D single E 
 						'hltEle23WPLooseGsfTrackIsoFilter' #2015D single E
 					    ),
-                                            bits = cms.InputTag("TriggerResults","","HLT"),
+                                            #bits = cms.InputTag("TriggerResults","","HLT"),
+                                            bits = cms.InputTag(HLT,"",triggerProcess),
                                             prescales = cms.InputTag("patTrigger"),
                                             objects = cms.InputTag("selectedPatTrigger"),
                                             ptCut = cms.int32(0) 

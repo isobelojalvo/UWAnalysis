@@ -13,14 +13,14 @@ process.options.allowUnscheduled = cms.untracked.bool(True)
 
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import *
-defaultReconstructionMC(process,'HLT',
+defaultReconstructionMC(process,'HLT2',
                       [
 			'HLT_IsoMu18_v', 
 			'HLT_IsoMu20_v', 
 			'HLT_IsoMu22_v', 
 			'HLT_IsoMu22_eta2p1_v', 
-                        'HLT_IsoTkMu22_eta2p1_v',
                         'HLT_IsoTkMu22_v',
+                        'HLT_IsoTkMu22_eta2p1_v',
 			'HLT_IsoMu24_v', 
 			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v',
 			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_SingleL1_v',

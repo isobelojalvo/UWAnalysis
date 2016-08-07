@@ -26,7 +26,6 @@ git clone https://github.com/CMS-HTT/LeptonEfficiencies.git data
 
 pushd $CMSSW_BASE/src
 git clone https://github.com/CMS-HTT/RecoilCorrections.git  HTT-utilities/RecoilCorrections 
-scram b 
 
 pushd $CMSSW_BASE/src
 

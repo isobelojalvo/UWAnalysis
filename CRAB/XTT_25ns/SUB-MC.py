@@ -19,6 +19,8 @@ defaultReconstructionMC(process,'HLT',
 			'HLT_IsoMu20_v', 
 			'HLT_IsoMu22_v', 
 			'HLT_IsoMu22_eta2p1_v', 
+                        'HLT_IsoTkMu22_eta2p1_v',
+                        'HLT_IsoTkMu22_v',
 			'HLT_IsoMu24_v', 
 			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v',
 			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_SingleL1_v',
@@ -49,7 +51,7 @@ defaultReconstructionMC(process,'HLT',
                       
 
 #EventSelection
-process.load("UWAnalysis.Configuration.hTauTau_cff")
+process.load("UWAnalysis.Configuration.xTauTau_cff")
 
 process.metCalibration.applyCalibration = cms.bool(False)
 

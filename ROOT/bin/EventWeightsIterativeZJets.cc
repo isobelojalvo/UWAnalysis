@@ -55,12 +55,11 @@ int main (int argc, char* argv[])
    
    w3->Close();
 
-   //TFile *w4 = new TFile("Z4Jets.root","UPDATE");
+   TFile *w4 = new TFile("Z4Jets.root","UPDATE");
 
-   //TH1F* evC4  = (TH1F*)w4->Get(parser.stringValue("histoName").c_str());
-   //float evW4 = evC4->GetBinContent(1);
-   float evW4 = 0.0; 
-   //w4->Close();
+   TH1F* evC4  = (TH1F*)w4->Get(parser.stringValue("histoName").c_str());
+   float evW4 = evC4->GetBinContent(1);
+   w4->Close();
  
    TFile *w5 = new TFile("ZJets_150.root","UPDATE");
 
@@ -111,9 +110,9 @@ int main (int argc, char* argv[])
    readdir(f3,parser,ev);
    f3->Close();
    
-   //TFile *f4 = new TFile("Z4Jets.root","UPDATE");   
-   //readdir(f4,parser,ev);
-   //f4->Close();
+   TFile *f4 = new TFile("Z4Jets.root","UPDATE");   
+   readdir(f4,parser,ev);
+   f4->Close();
  
    TFile *f5 = new TFile("ZJets_150.root","UPDATE");   
    readdir(f5,parser,ev);

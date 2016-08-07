@@ -1,11 +1,11 @@
 #!/bin/sh
-mkdir /nfs_scratch/$USER/80X_ztt_weighted8
-cp /nfs_scratch/$USER/80X_ztt_unweighted8/* /nfs_scratch/$USER/80X_ztt_weighted8/.
-cd /nfs_scratch/$USER/80X_ztt_weighted8/
+mkdir /nfs_scratch/$USER/80X_ztt_weighted14
+cp /nfs_scratch/$USER/80X_ztt_unweighted14/* /nfs_scratch/$USER/80X_ztt_weighted14/.
+cd /nfs_scratch/$USER/80X_ztt_weighted14/
 
 
 weight=1;
-weightH=0;
+weightH=1;
 weightW=1;
 weightZ=1;
 
@@ -13,8 +13,8 @@ weightZ=1;
 
 if [ $weightH -eq 1 ]
     then
-    #EventWeightsIterativeGen outputFile='ggH120.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     echo 'weight higgs'
+    EventWeightsIterativeGen outputFile='ggH120.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     EventWeightsIterativeGen outputFile='ggH125.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     #EventWeightsIterativeGen outputFile='ggH130.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
     #EventWeightsIterativeGen outputFile='vbfH120.root'     weight=1    histoName='MT/results' sumHistoName='sumweights/genWeights'
@@ -26,7 +26,7 @@ if [ $weightZ -eq 1 ]
     then
     #make sure Zpt root file is around!!!
     EventWeightsIterativeZJets    weight=1    histoName='MT/results' 
-    hadd ZJETS.root ZJets_ext1.root Z1Jets.root Z2Jets.root Z3Jets.root ZJets_150.root
+    hadd ZJETS.root ZJets_ext1.root Z1Jets.root Z2Jets.root Z3Jets.root Z4Jets.root ZJets_150.root
     #EventWeightsIterativeZPt    weight=1    histoName='MT/results' 
      
 fi
@@ -45,6 +45,7 @@ if [ $weight -eq 1 ]
     then
     echo 'Weight TT'
     EventWeightsIterativeGen outputFile='TTJets.root'  weight=831.76     histoName='MT/results' sumHistoName='sumweights/genWeights'
+    EventWeightsIterativeGen outputFile='TT.root'  weight=831.76     histoName='MT/results' sumHistoName='sumweights/genWeights'
     #EventWeightsIterativeTT has top pt reweighting
     #EventWeightsIterativeTT outputFile='TT.root'  weight=831.76     histoName='MT/results' sumHistoName='sumweights/genWeights'
 
@@ -66,8 +67,8 @@ if [ $weight -eq 1 ]
 #add m_ll>30
 
     echo 'Weight WW to L1Nu QQ'
-    #EventWeightsIterativeGen outputFile='WWToLNuQQ.root'     weight=49.997    histoName='MT/results' sumHistoName='sumweights/genWeights'
-    EventWeightsIterativeGen outputFile='WWTo2L2Q.root'     weight=49.997    histoName='MT/results' sumHistoName='sumweights/genWeights'
+    EventWeightsIterativeGen outputFile='WWTo1L1Nu2Q.root'     weight=1.212     histoName='MT/results' sumHistoName='sumweights/genWeights'
+    #EventWeightsIterativeGen outputFile='WWTo2L2Q.root'     weight=49.997    histoName='MT/results' sumHistoName='sumweights/genWeights'
 
     echo 'Weight VV to 2L2Nu'
     EventWeightsIterativeGen outputFile='VVTo2L2Nu.root'     weight=11.95    histoName='MT/results' sumHistoName='sumweights/genWeights'

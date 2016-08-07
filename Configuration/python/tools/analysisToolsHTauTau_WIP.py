@@ -29,6 +29,11 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   #Make the TriggerPaths Global variable to be accesed by the ntuples
   global TriggerPaths
   TriggerPaths= triggerPaths
+  global TriggerProcess
+  TriggerProcess= triggerProcess
+  global TriggerRes
+  TriggerRes=HLT 
+  
   process.analysisSequence = cms.Sequence()
 
   MiniAODEleVIDEmbedder(process,"slimmedElectrons")  
@@ -78,6 +83,11 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   #Make the TriggerPaths Global variable to be accesed by the ntuples
   global TriggerPaths
   TriggerPaths= triggerPaths
+  global TriggerProcess
+  TriggerProcess= triggerProcess
+  global TriggerRes
+  TriggerRes=HLT 
+ 
   process.analysisSequence = cms.Sequence()
 
   #Apply Tau Energy Scale Changes
@@ -100,10 +110,10 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   
   #Build good vertex collection
   #goodVertexFilter(process)  
-  tauOverloading(process,'slimmedTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
+  tauEffi(process,'slimmedTaus')
+  tauOverloading(process,'tauTriggerEfficiencies','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   
   triLeptons(process)
-  #jetCSVShaping(process,"slimmedJets")
   #jetOverloading(process,"slimmedJets",False)
   jetOverloading(process,"patJetsReapplyJEC",False)
 
@@ -138,16 +148,6 @@ def jetFilter(process,jets):
 
   process.jetFiltering = cms.Sequence(process.filteredJets)
   process.analysisSequence*=process.jetFiltering
-
-
-def jetCSVShaping(process,jets):
-
-  process.jetsCSVweighting = cms.EDProducer('MiniAODCSVReweighting',
-                                        src = cms.InputTag(jets)
-  )                                        
-
-  process.jetCSVWeights = cms.Sequence(process.jetsCSVweighting)
-  process.analysisSequence*=process.jetCSVWeights
 
 
 def PATJetMVAEmbedder(process,jets):
@@ -398,7 +398,8 @@ def tauTriggerMatchMiniAOD(process,triggerProcess,HLT,srcTau):
                                                 'hltPFTau20TrackLooseIso',
                                                 'hltPFTau20TrackLooseIso'
                                             ),
-                                            bits = cms.InputTag("TriggerResults","","HLT"),
+                                            #bits = cms.InputTag("TriggerResults","","HLT"),
+                                            bits = cms.InputTag(HLT,"",triggerProcess),
                                             prescales = cms.InputTag("patTrigger"),
                                             objects = cms.InputTag("selectedPatTrigger"),
                                             ptCut = cms.int32(10) #too low to affect anything
@@ -414,13 +415,16 @@ def muonTriggerMatchMiniAOD(process,triggerProcess,HLT,srcMuon):
                                             trigEvent = cms.InputTag(HLT),
                                             filters = cms.vstring(
 						'hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09', #2016B
+						'hltL3fL1sMu20erL1f0Tkf22QL3trkIsoFiltered0p09', #2016B
 						'hltOverlapFilterSingleIsoMu19LooseIsoPFTau20' #2016B HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v2
                                             ),
 					    filtersAND = cms.vstring(
 						'hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09', #2016D IsoMu18
+						'hltL3fL1sMu20erL1f0Tkf22QL3trkIsoFiltered0p09', #2016B
 						'hltL3crIsoL1sSingleMu18erIorSingleMu20erL1f0L2f10QL3f19QL3trkIsoFiltered0p09' #2016B HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v2
 					    ),
-                                            bits = cms.InputTag("TriggerResults","","HLT"),
+                                            bits = cms.InputTag(HLT,"",triggerProcess),
+                                            #bits = cms.InputTag("TriggerResults","","HLT"),
                                             prescales = cms.InputTag("patTrigger"),
                                             objects = cms.InputTag("selectedPatTrigger"),
                                             ptCut = cms.int32(0) 
@@ -443,7 +447,8 @@ def electronTriggerMatchMiniAOD(process,triggerProcess,HLT,srcEle):
  						'hltEle25erWPTightGsfTrackIsoFilter', #2015D single E 
 						'hltEle27erWPLooseGsfTrackIsoFilter' #15D single E
 					    ),
-                                            bits = cms.InputTag("TriggerResults","","HLT"),
+                                            #bits = cms.InputTag("TriggerResults","","HLT"),
+                                            bits = cms.InputTag(HLT,"",triggerProcess),
                                             prescales = cms.InputTag("patTrigger"),
                                             objects = cms.InputTag("selectedPatTrigger"),
                                             ptCut = cms.int32(0) 
@@ -462,6 +467,19 @@ def tauOverloading(process,src, muons, vtxSrc):
   )                                        
 
   process.analysisSequence=cms.Sequence(process.analysisSequence*process.patOverloadedTaus)
+
+def tauEffi(process,src="slimmedTaus"):
+
+  Names = ["MediumIsoPFTau35_Trk_eta2p1","LooseIsoPFTau20_SingleL1","LooseIsoPFTau20"]
+
+  process.tauTriggerEfficiencies = cms.EDProducer('MiniAODTauEffi',
+                                        src = cms.InputTag(src),
+                                        pruned = cms.InputTag('prunedGenParticles'),
+                                        wps = cms.vstring(*Names),
+                                        jsonname = cms.string("TauTrigger.json")
+  )                                        
+  process.analysisSequence=cms.Sequence(process.analysisSequence*process.tauTriggerEfficiencies)
+
 
 
 def getAllEventCounters(process,path,onSkim = False):

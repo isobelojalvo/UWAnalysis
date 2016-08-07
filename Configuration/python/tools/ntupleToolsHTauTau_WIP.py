@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import TriggerPaths
+from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import TriggerPaths,TriggerRes,TriggerProcess
 
 
 
@@ -99,6 +99,14 @@ def makeMuTauEventWeight(sourceDiTaus):
          src         = cms.InputTag(sourceDiTaus),
          tag         = cms.string("Mu"),
          isMuon      = cms.bool(True)
+   )
+   return PSet
+
+def makeMuTauPOGSF(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATMuTauPairPOGSFsFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         isMu      = cms.bool(True)
    )
    return PSet
 
@@ -217,6 +225,15 @@ def makeEleTauMET(sourceDiTaus, sourceMET, prefix):
    return PSet
 
 
+def makeEleTauPOGSF(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATEleTauPairPOGSFsFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         isMu      = cms.bool(False)
+   )
+   return PSet
+
+
 def makeEleTauEventWeight(sourceDiTaus):
    PSet = cms.PSet(
          pluginType  = cms.string("PATEleTauPairWeightFiller"),
@@ -274,7 +291,8 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               coreCollections = cms.InputTag(src),
                               trigger = cms.PSet(
                                   pluginType = cms.string("TriggerFiller"),
-				  src        = cms.InputTag("TriggerResults","","HLT"),
+				  #src        = cms.InputTag("TriggerResults","","HLT"),
+                                  src = cms.InputTag(TriggerRes,"",TriggerProcess),
 				  prescales = cms.InputTag("patTrigger"),
                                   paths      = cms.vstring(TriggerPaths)
                               ),
@@ -300,6 +318,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                                   tag        = cms.string("vertices")
                               ),#FILLED
  
+                              muTauPOG = makeMuTauPOGSF(src),#FILLED
                               muTauEventWeight = makeMuTauEventWeight(src),#FILLED
                               muTauEventWeightTmp = makeMuTauEventWeightTmp(src),#FILLED
                               muTauGenMCMatch = makeMuTauGenMatch(src),#FILLED
@@ -317,7 +336,16 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               electronsSizeMT = makeCollSize(srcE,"tightElectrons"),#FILLED
                               electronsSizeMTVeto = makeCollSizeVeto(srcE,0,"extraelec_veto"),#FILLED
 
+                              muTauDR = makeMuTauPair(src,"dR","dR12"), 
+                              tauSingleL1 =  makeMuTauPair(src,"tauSingleL1_2","leg2.userFloat('LooseIsoPFTau20_SingleL1')"), 
+                              tauL1 =  makeMuTauPair(src,"tauL1_2","leg2.userFloat('LooseIsoPFTau20')"), 
+                              tauMediumL1 =  makeMuTauPair(src,"tauMediumL1_2","leg2.userFloat('MediumIsoPFTau35_Trk_eta2p1')"),
+
                               tauNIsoTracks =  makeMuTauPair(src,"tauNIsoTracks","leg2.userFloat('nIsoTracks')"), #FILLED
+                              muTaunIsoGamma = makeMuTauPair(src,"nIsoGamma",'leg2.userFloat("nIsoGamma")'),
+                              muTaunIsoNeutral = makeMuTauPair(src,"nIsoNeutral",'leg2.userFloat("nIsoNeutral")'),
+
+
                               tauNMatchedSeg =  makeMuTauPair(src,"tauMuonNMatchedSeg","leg2.userFloat('muonNMatchedSeg')"),#FILLED
                               tauTauHadMatched = makeMuTauPair(src,"tauMuonMatched","leg2.userFloat('muonTauHadMatched')"),#FILLED
                               tauLeadChargedHadrTrackPt = makeMuTauPair(src,"tauLeadChargedHadrTrackPt","leg2.userFloat('leadChargedHadrTrackPt')"),#FILLED
@@ -398,6 +426,15 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               #Muon IDs and Isolation
                               muTauRelPFIsoDB03 = makeMuTauPair(src,"iso_1",'leg1.userFloat("dBRelIso03")'),
                               muTauRelPFIsoDB04 = makeMuTauPair(src,"iso04_1",'leg1.userFloat("dBRelIso")'),
+                              muTausumCharged04 = makeMuTauPair(src,"sumChargedHadronPt04_1",'leg1.pfIsolationR04().sumChargedHadronPt'),
+                              muTausumNeutral04 = makeMuTauPair(src,"sumNeutralHadronPt04_1",'leg1.pfIsolationR04().sumNeutralHadronEt'),
+                              muTausumPhoton04 = makeMuTauPair(src,"sumPhotonPt04_1",'leg1.pfIsolationR04().sumPhotonEt'),
+                              muTausumPU04 = makeMuTauPair(src,"sumPUPt04_1",'leg1.pfIsolationR04().sumPUPt'),
+
+                              muTausumCharged03 = makeMuTauPair(src,"sumChargedHadronPt03_1",'leg1.pfIsolationR03().sumChargedHadronPt'),
+                              muTausumNeutral03 = makeMuTauPair(src,"sumNeutralHadronPt03_1",'leg1.pfIsolationR03().sumNeutralHadronEt'),
+                              muTausumPhoton03 = makeMuTauPair(src,"sumPhotonPt03_1",'leg1.pfIsolationR03().sumPhotonEt'),
+                              muTausumPU03 = makeMuTauPair(src,"sumPUPt03_1",'leg1.pfIsolationR03().sumPUPt'),
 
                               muTauLooseID = makeMuTauPair(src,"id_m_loose_1",'leg1.isLooseMuon()'),
                               #muTauMediumID = makeMuTauPair(src,"id_m_medium_1",'leg1.isMediumMuon()'),
@@ -422,7 +459,22 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauMuDXY = makeMuTauPair(src,"d0_1","leg1.userFloat('dXY')"),
                               muTauTauDXY = makeMuTauPair(src,"d0_2","leg2.userFloat('taudXY')"),
 
+                              muTauHaddxy = makeMuTauPair(src,"dxy_2",'leg2.dxy()'),
+                              muTauHaddxy_Sig = makeMuTauPair(src,"dxy_Sig_2",'leg2.dxy_Sig()'),
 
+                              muTauHadflightLengthx = makeMuTauPair(src,"flightLengthx_2",'leg2.flightLength().x()'),
+                              muTauHadflightLengthy = makeMuTauPair(src,"flightLengthy_2",'leg2.flightLength().y()'),
+                              muTauHadflightLengthz = makeMuTauPair(src,"flightLengthz_2",'leg2.flightLength().x()'),
+                              muTauHadflightLength = makeMuTauPair(src,"flightLength_2",'sqrt(leg2.flightLength().Mag2)'),
+                              muTauHadflightLengthSig = makeMuTauPair(src,"flightLengthSig_2",'leg2.flightLengthSig()'),
+                              muTauHadhasSecondaryVertex = makeMuTauPair(src,"hasSecondaryVertex_2",'leg2.hasSecondaryVertex()'),
+
+
+                              muTautau_pt_weighted_dr_signal = makeMuTauPair(src,"tau_pt_weighted_dr_signal",'leg2.userFloat("tau_pt_weighted_dr_signal")'),
+                              muTautau_pt_weighted_deta_strip = makeMuTauPair(src,"tau_pt_weighted_deta_strip",'leg2.userFloat("tau_pt_weighted_deta_strip")'),
+                              muTautau_pt_weighted_dphi_strip = makeMuTauPair(src,"tau_pt_weighted_dphi_strip",'leg2.userFloat("tau_pt_weighted_dphi_strip")'),
+                              muTautau_pt_weighted_dr_iso = makeMuTauPair(src,"tau_pt_weighted_dr_iso",'leg2.userFloat("tau_pt_weighted_dr_iso")'),
+                              muTaun_photons_total = makeMuTauPair(src,"n_photons_total",'leg2.userFloat("n_photons_total")'),
 			      #tauIDs
                               muTauByCombIsoDBRaw3 = makeMuTauPair(src,"byCombinedIsolationDeltaBetaCorrRaw3Hits_2",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
                               muTauByCombIsoLoose = makeMuTauPair(src,"tauIsoLoose",'leg2.tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits")'),
@@ -431,6 +483,9 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
 			      muTauByNewDMMVAIso = makeMuTauPair(src,"byIsolationMVArun2v1DBnewDMwLTraw_2",'leg2.tauID("byIsolationMVArun2v1DBnewDMwLTraw")'),
 			      muTauByOldDMMVAIso = makeMuTauPair(src,"byIsolationMVArun2v1DBoldDMwLTraw_2",'leg2.tauID("byIsolationMVArun2v1DBoldDMwLTraw")'),
                               muTauByOldDMMVAIsoTight = makeMuTauPair(src,"byTightIsolationMVArun2v1DBoldDMwLT_2",'leg2.tauID("byTightIsolationMVArun2v1DBoldDMwLT")'),
+                              muTaubyTightIsolationMVArun2v1DBdR03oldDMwLT = makeMuTauPair(src,"byTightIsolationMVArun2v1DBdR03oldDMwLT_2",'leg2.tauID("byTightIsolationMVArun2v1DBdR03oldDMwLT")'),
+                              muTaubyTightIsolationMVArun2v1PWdR03oldDMwLT = makeMuTauPair(src,"byTightIsolationMVArun2v1PWdR03oldDMwLT_2",'leg2.tauID("byTightIsolationMVArun2v1PWdR03oldDMwLT")'),
+                              muTaubyTightIsolationMVArun2v1PWoldDMwLT = makeMuTauPair(src,"byTightIsolationMVArun2v1PWoldDMwLT_2",'leg2.tauID("byTightIsolationMVArun2v1PWoldDMwLT")'),
                               muTauByOldDMMVAIsoMedium = makeMuTauPair(src,"byMediumIsolationMVArun2v1DBoldDMwLT_2",'leg2.tauID("byMediumIsolationMVArun2v1DBoldDMwLT")'),
                               muTauByOldDMMVAIsoLoose = makeMuTauPair(src,"byLooseIsolationMVArun2v1DBoldDMwLT_2",'leg2.tauID("byLooseIsolationMVArun2v1DBoldDMwLT")'),
                               muTauByCharged = makeMuTauPair(src,"chargedIsoPtSum_2",'leg2.tauID("chargedIsoPtSum")'),
@@ -439,7 +494,22 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauAgainstMuonTight3 = makeMuTauPair(src,"againstMuonTight3_2",'leg2.tauID("againstMuonTight3")'),
                               #muTauAgainstMuonTight4 = makeMuTauPair(src,"againstMuonTight4_2",'leg2.tauID("againstMuonTight4")'),
                               muTauAgainstEleVLooseMVA6 = makeMuTauPair(src,"againstElectronVLooseMVA6_2",'leg2.tauID("againstElectronVLooseMVA6")'),
-                              muTauAgainstEleMVA6raw = makeMuTauPair(src,"againstElectronMVA6Raw",'leg2.tauID("againstElectronMVA6Raw")'),
+                              muTauagainstElectronMVA6Raw = makeMuTauPair(src,"againstElectronMVA6Raw_2",'leg2.tauID("againstElectronMVA6Raw")'),
+                              muTauagainstElectronMVA6category = makeMuTauPair(src,"againstElectronMVA6category_2",'leg2.tauID("againstElectronMVA6category")'),
+                              muTauagainstElectronMediumMVA6 = makeMuTauPair(src,"againstElectronMediumMVA6_2",'leg2.tauID("againstElectronMediumMVA6")'),
+                              muTauagainstElectronTightMVA6 = makeMuTauPair(src,"againstElectronTightMVA6_2",'leg2.tauID("againstElectronTightMVA6")'),
+                              muTauagainstElectronVLooseMVA6 = makeMuTauPair(src,"againstElectronVLooseMVA6_2",'leg2.tauID("againstElectronVLooseMVA6")'),
+                              muTauagainstElectronVTightMVA6 = makeMuTauPair(src,"againstElectronVTightMVA6_2",'leg2.tauID("againstElectronVTightMVA6")'),
+                              muTaubyIsolationMVArun2v1DBdR03oldDMwLTraw = makeMuTauPair(src,"byIsolationMVArun2v1DBdR03oldDMwLTraw_2",'leg2.tauID("byIsolationMVArun2v1DBdR03oldDMwLTraw")'),
+                              muTaubyPhotonPtSumOutsideSignalCone = makeMuTauPair(src,"byPhotonPtSumOutsideSignalCone_2",'leg2.tauID("byPhotonPtSumOutsideSignalCone")'),
+                              muTauchargedIsoPtSumdR03 = makeMuTauPair(src,"chargedIsoPtSumdR03_2",'leg2.tauID("chargedIsoPtSumdR03")'),
+                              muTauneutralIsoPtSumWeight = makeMuTauPair(src,"neutralIsoPtSumWeight_2",'leg2.tauID("neutralIsoPtSumWeight")'),
+                              muTauneutralIsoPtSumWeightdR03 = makeMuTauPair(src,"neutralIsoPtSumWeightdR03_2",'leg2.tauID("neutralIsoPtSumWeightdR03")'),
+                              muTauneutralIsoPtSumdR03 = makeMuTauPair(src,"neutralIsoPtSumdR03_2",'leg2.tauID("neutralIsoPtSumdR03")'),
+                              muTauphotonPtSumOutsideSignalCone = makeMuTauPair(src,"photonPtSumOutsideSignalCone_2",'leg2.tauID("photonPtSumOutsideSignalCone")'),
+                              muTauphotonPtSumOutsideSignalConedR03 = makeMuTauPair(src,"photonPtSumOutsideSignalConedR03_2",'leg2.tauID("photonPtSumOutsideSignalConedR03")'),
+                              muTaufootprintCorrection = makeMuTauPair(src,"footprintCorrection_2",'leg2.tauID("footprintCorrection")'),
+                              muTaufootprintCorrectiondR03 = makeMuTauPair(src,"footprintCorrectiondR03_2",'leg2.tauID("footprintCorrectiondR03")'),
 
                               muTauGenPt1 = makeMuTauPair(src,"genPt1",'p4Leg1gen().pt()'),
                               muTauGenPt2 = makeMuTauPair(src,"genPt2",'p4Leg2gen().pt()'),
@@ -578,7 +648,8 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
                               coreCollections = cms.InputTag(src),
                               trigger = cms.PSet(
                                   pluginType = cms.string("TriggerFiller"),
-                                  src        = cms.InputTag("TriggerResults","","HLT"),
+                                  #src        = cms.InputTag("TriggerResults","","HLT"),
+                                  src = cms.InputTag(TriggerRes,"",TriggerProcess),
 				  prescales = cms.InputTag("patTrigger"),
 				  paths      = cms.vstring(TriggerPaths)
                               ),
@@ -606,6 +677,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
                               ),
 
 
+                              eTauPOG = makeEleTauPOGSF(src),#FILLED
                               eTauEventWeight = makeEleTauEventWeight(src),#FILLED
                               eTauEventWeightTmp = makeEleTauEventWeightTmp(src),#FILLED
                               #eleTauNBTags = makeEleTauNBTag(src),#FILLED
@@ -623,8 +695,19 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
                               eleEleSize = makeCollSize(srcLL,"diLeptons"),
                               eleEleSizeVeto = makeCollSizeVeto(srcLL,0,"dilepton_veto"),
                               genTaus = makeCollSize("genTauCands","genTaus"), #FIXME
- 
+
+                              eleTauDR = makeEleTauPair(src,"dR","dR12"), 
+                              
+                              tauSingleL1 =  makeEleTauPair(src,"tauSingleL1_2","leg2.userFloat('LooseIsoPFTau20_SingleL1')"), 
+                              tauL1 =  makeEleTauPair(src,"tauL1_2","leg2.userFloat('LooseIsoPFTau20')"), 
+                              tauMediumL1 =  makeEleTauPair(src,"tauMediumL1_2","leg2.userFloat('MediumIsoPFTau35_Trk_eta2p1')"),
+
+
                               tauNIsoTracks =  makeEleTauPair(src,"tauNIsoTracks","leg2.userFloat('nIsoTracks')"), #FILLED
+                              eleTaunIsoGamma = makeEleTauPair(src,"nIsoGamma",'leg2.userFloat("nIsoGamma")'),
+                              eleTaunIsoNeutral = makeEleTauPair(src,"nIsoNeutral",'leg2.userFloat("nIsoNeutral")'),
+
+
                               tauNMatchedSeg =  makeEleTauPair(src,"tauMuonNMatchedSeg","leg2.userFloat('muonNMatchedSeg')"), #FILLED
                               tauTauHadMatched = makeEleTauPair(src,"tauMuonMatched","leg2.userFloat('muonTauHadMatched')"),
                               tauLeadChargedHadrTrackPt = makeEleTauPair(src,"tauLeadChargedHadrTrackPt","leg2.userFloat('leadChargedHadrTrackPt')"),
@@ -717,7 +800,6 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
 
                               #Ele IDs and Isolation
                               eleTauRelPFIsoDB03 = makeEleTauPair(src,"iso_1",'leg1.userFloat("dBRelIso03")'),
-                              muTauRel2PFIsoDB03 = makeMuTauPair(src,"iso_2",'leg2.tauID("byIsolationMVArun2v1DBoldDMwLTraw")'),
 			      eleTauRel2PFIsoDB03 = makeEleTauPair(src,"iso_2",'leg2.tauID("byIsolationMVArun2v1DBoldDMwLTraw")'),
                               eleTauRelPFIsoDB04 = makeEleTauPair(src,"iso04_1",'leg1.userFloat("dBRelIso")'),
                               eleTauEleIsoChHadIso = makeEleTauPair(src,"eleIsoChHadIso",'leg1.userFloat("eleIsoChHadIso")'),
@@ -735,14 +817,34 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
                               eleTauDecayFoundNew = makeEleTauPair(src,"decayModeFindingNewDMs_2",'leg2.tauID("decayModeFindingNewDMs")'),
                               eleTauProngs = makeEleTauPair(src,"tauProngs",'leg2.signalChargedHadrCands.size()'),#see Decay Modes
                               eleTauHadMass = makeEleTauPair(src,"m_2",'leg2.mass()'),
+                              eleTauHaddxy = makeEleTauPair(src,"dxy_2",'leg2.dxy()'),
+                              eleTauHaddxy_Sig = makeEleTauPair(src,"dxy_Sig_2",'leg2.dxy_Sig()'),
+                              eleTauHadflightLengthx = makeEleTauPair(src,"flightLengthx_2",'leg2.flightLength().x()'),
+                              eleTauHadflightLengthy = makeEleTauPair(src,"flightLengthy_2",'leg2.flightLength().y()'),
+                              eleTauHadflightLengthz = makeEleTauPair(src,"flightLengthz_2",'leg2.flightLength().x()'),
+                              eleTauHadflightLength = makeEleTauPair(src,"flightLength_2",'sqrt(leg2.flightLength().Mag2)'),
+                              eleTauHadflightLengthSig = makeEleTauPair(src,"flightLengthSig_2",'leg2.flightLengthSig()'),
+                              eleTauHadhasSecondaryVertex = makeEleTauPair(src,"hasSecondaryVertex_2",'leg2.hasSecondaryVertex()'),
+
+
+
+                              eleTautau_pt_weighted_dr_signal = makeEleTauPair(src,"tau_pt_weighted_dr_signal",'leg2.userFloat("tau_pt_weighted_dr_signal")'),
+                              eleTautau_pt_weighted_deta_strip = makeEleTauPair(src,"tau_pt_weighted_deta_strip",'leg2.userFloat("tau_pt_weighted_deta_strip")'),
+                              eleTautau_pt_weighted_dphi_strip = makeEleTauPair(src,"tau_pt_weighted_dphi_strip",'leg2.userFloat("tau_pt_weighted_dphi_strip")'),
+                              eleTautau_pt_weighted_dr_iso = makeEleTauPair(src,"tau_pt_weighted_dr_iso",'leg2.userFloat("tau_pt_weighted_dr_iso")'),
+                              eleTaun_photons_total = makeEleTauPair(src,"n_photons_total",'leg2.userFloat("n_photons_total")'),
+			      #tauIDs
+
+
 
                               eleTauByCombIsoLoose = makeEleTauPair(src,"tauIsoLoose",'leg2.tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits")'),
                               eleTauByCombIsoMedium = makeEleTauPair(src,"tauIsoMedium",'leg2.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits")'),
                               eleTauByCombIsoTight = makeEleTauPair(src,"tauIsoTight",'leg2.tauID("byTightCombinedIsolationDeltaBetaCorr3Hits")'),
-			      eleTauByNewDMMVAIso = makeEleTauPair(src,"byIsolationMVArun2v1DBnewDMwLTraw_2",'leg2.tauID("byIsolationMVArun2v1DBnewDMwLTraw")'),
-			      eleTauByOldDMMVAIso = makeEleTauPair(src,"byIsolationMVArun2v1DBoldDMwLTraw_2",'leg2.tauID("byIsolationMVArun2v1DBoldDMwLTraw")'),
  
                               eleTauByOldDMMVAIsoTight = makeEleTauPair(src,"byTightIsolationMVArun2v1DBoldDMwLT_2",'leg2.tauID("byTightIsolationMVArun2v1DBoldDMwLT")'),
+                              eleTaubyTightIsolationMVArun2v1DBdR03oldDMwLT = makeEleTauPair(src,"byTightIsolationMVArun2v1DBdR03oldDMwLT_2",'leg2.tauID("byTightIsolationMVArun2v1DBdR03oldDMwLT")'),
+                              eleTaubyTightIsolationMVArun2v1PWoldDMwLT = makeEleTauPair(src,"byTightIsolationMVArun2v1PWoldDMwLT_2",'leg2.tauID("byTightIsolationMVArun2v1PWoldDMwLT")'),
+                              eleTaubyTightIsolationMVArun2v1PWdR03oldDMwLT = makeEleTauPair(src,"byTightIsolationMVArun2v1PWdR03oldDMwLT_2",'leg2.tauID("byTightIsolationMVArun2v1PWdR03oldDMwLT")'),
                               eleTauByOldDMMVAIsoMedium = makeEleTauPair(src,"byMediumIsolationMVArun2v1DBoldDMwLT_2",'leg2.tauID("byMediumIsolationMVArun2v1DBoldDMwLT")'),
                               eleTauByOldDMMVAIsoLoose = makeEleTauPair(src,"byLooseIsolationMVArun2v1DBoldDMwLT_2",'leg2.tauID("byLooseIsolationMVArun2v1DBoldDMwLT")'),
                               eleTauByCombIsoDBRaw3 = makeEleTauPair(src,"byCombinedIsolationDeltaBetaCorrRaw3Hits_2",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
@@ -752,6 +854,31 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
                               eleTauByPU = makeEleTauPair(src,"puCorrPtSum_2",'leg2.tauID("puCorrPtSum")'), 
                               eleTauAgainstMuonLoose3 = makeEleTauPair(src,"againstMuonLoose3_2",'leg2.tauID("againstMuonLoose3")'),
                               eleTauAgainstMuonTight3 = makeEleTauPair(src,"againstMuonTight3_2",'leg2.tauID("againstMuonTight3")'),
+
+                              eleTauagainstElectronMVA6Raw = makeEleTauPair(src,"againstElectronMVA6Raw_2",'leg2.tauID("againstElectronMVA6Raw")'),
+                              eleTauagainstElectronMVA6category = makeEleTauPair(src,"againstElectronMVA6category_2",'leg2.tauID("againstElectronMVA6category")'),
+                              eleTauAgainstEleVLooseMVA6 = makeEleTauPair(src,"againstElectronVLooseMVA6_2",'leg2.tauID("againstElectronVLooseMVA6")'),
+                              eleTauAgainstElectronLooseMVA6 = makeEleTauPair(src,"againstElectronLooseMVA6_2",'leg2.tauID("againstElectronLooseMVA6")'),
+                              eleTauagainstElectronMediumMVA6 = makeEleTauPair(src,"againstElectronMediumMVA6_2",'leg2.tauID("againstElectronMediumMVA6")'),
+                              eleTauagainstElectronTightMVA6 = makeEleTauPair(src,"againstElectronTightMVA6_2",'leg2.tauID("againstElectronTightMVA6")'),
+                              eleTauagainstElectronVTightMVA6 = makeEleTauPair(src,"againstElectronVTightMVA6_2",'leg2.tauID("againstElectronVTightMVA6")'),
+
+			      eleTauByNewDMMVAIso = makeEleTauPair(src,"byIsolationMVArun2v1DBnewDMwLTraw_2",'leg2.tauID("byIsolationMVArun2v1DBnewDMwLTraw")'),
+			      eleTauByOldDMMVAIso = makeEleTauPair(src,"byIsolationMVArun2v1DBoldDMwLTraw_2",'leg2.tauID("byIsolationMVArun2v1DBoldDMwLTraw")'),
+                              eleTaubyIsolationMVArun2v1DBdR03oldDMwLTraw = makeEleTauPair(src,"byIsolationMVArun2v1DBdR03oldDMwLTraw_2",'leg2.tauID("byIsolationMVArun2v1DBdR03oldDMwLTraw")'),
+                              eleTaubyIsolationMVArun2v1PWdR03oldDMwLTraw = makeEleTauPair(src,"byIsolationMVArun2v1PWdR03oldDMwLTraw_2",'leg2.tauID("byIsolationMVArun2v1PWdR03oldDMwLTraw")'),
+                              eleTaubyIsolationMVArun2v1PWoldDMwLTraw = makeEleTauPair(src,"byIsolationMVArun2v1PWoldDMwLTraw_2",'leg2.tauID("byIsolationMVArun2v1PWoldDMwLTraw")'),
+                              eleTaubyPhotonPtSumOutsideSignalCone = makeEleTauPair(src,"byPhotonPtSumOutsideSignalCone_2",'leg2.tauID("byPhotonPtSumOutsideSignalCone")'),
+                              eleTauchargedIsoPtSumdR03 = makeEleTauPair(src,"chargedIsoPtSumdR03_2",'leg2.tauID("chargedIsoPtSumdR03")'),
+                              eleTauneutralIsoPtSumWeight = makeEleTauPair(src,"neutralIsoPtSumWeight_2",'leg2.tauID("neutralIsoPtSumWeight")'),
+                              eleTauneutralIsoPtSumWeightdR03 = makeEleTauPair(src,"neutralIsoPtSumWeightdR03_2",'leg2.tauID("neutralIsoPtSumWeightdR03")'),
+                              eleTauneutralIsoPtSumdR03 = makeEleTauPair(src,"neutralIsoPtSumdR03_2",'leg2.tauID("neutralIsoPtSumdR03")'),
+                              eleTauphotonPtSumOutsideSignalCone = makeEleTauPair(src,"photonPtSumOutsideSignalCone_2",'leg2.tauID("photonPtSumOutsideSignalCone")'),
+                              eleTauphotonPtSumOutsideSignalConedR03 = makeEleTauPair(src,"photonPtSumOutsideSignalConedR03_2",'leg2.tauID("photonPtSumOutsideSignalConedR03")'),
+                              eleTaufootprintCorrection = makeEleTauPair(src,"footprintCorrection_2",'leg2.tauID("footprintCorrection")'),
+                              eleTaufootprintCorrectiondR03 = makeEleTauPair(src,"footprintCorrectiondR03_2",'leg2.tauID("footprintCorrectiondR03")'),
+
+
                               eleTauMVANonTrig80 = makeEleTauPair(src,"id_e_mva_nt_80_1",'leg1.userFloat("eleMVAIDnonTrig80")'),#CHECKME #rename
                               eleTauMVANonTrig90 = makeEleTauPair(src,"id_e_mva_nt_90_1",'leg1.userFloat("eleMVAIDnonTrig90")'),#CHECKME #rename
                               eleTauCBIDVeto = makeEleTauPair(src,"id_e_cut_veto_1",'leg1.userFloat("CBIDVeto")'),#CHECKME #rename
@@ -766,12 +893,6 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
                               eleTauTauDXY = makeEleTauPair(src,"d0_2","leg2.userFloat('taudXY')"),
                               eleTauConversion = makeEleTauPair(src,"eleConversion","leg1.userInt('eleConversion')"),
                               eleTauPassConversion = makeEleTauPair(src,"ePassConversion",'leg1.passConversionVeto()'),
-                              eleTauAgainstEleMVA6raw = makeEleTauPair(src,"againstElectronMVA6Raw",'leg2.tauID("againstElectronMVA6Raw")'),
-                              eleTauAgainstElectronVTightMVA6 = makeEleTauPair(src,"againstElectronVTightMVA6_2",'leg2.tauID("againstElectronVTightMVA6")'),
-                              eleTauAgainstElectronTightMVA6 = makeEleTauPair(src,"againstElectronTightMVA6_2",'leg2.tauID("againstElectronTightMVA6")'),
-                              eleTauAgainstElectronMediumMVA6 = makeEleTauPair(src,"againstElectronMediumMVA6_2",'leg2.tauID("againstElectronMediumMVA6")'),
-                              eleTauAgainstElectronVLooseMVA6 = makeEleTauPair(src,"againstElectronVLooseMVA6_2",'leg2.tauID("againstElectronVLooseMVA6")'),
-                              eleTauAgainstElectronLooseMVA6 = makeEleTauPair(src,"againstElectronLooseMVA6_2",'leg2.tauID("againstElectronLooseMVA6")'),
 
                               eleTauGenPt1 = makeEleTauPair(src,"genPt1",'p4Leg1gen().pt()'),
                               eleTauGenPt2 = makeEleTauPair(src,"genPt2",'p4Leg2gen().pt()'),
@@ -847,8 +968,8 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
 
 
 
-                              eleTauJetsPt20TagMatch = makeMuTauJetCountPair(src,"nTaggableJetsPt20Matched",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5'),
-                              eleTauJetsPt20TagNoMatch = makeMuTauJetCountPair(src,"nTaggableJetsPt20NotMatched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
+                              eleTauJetsPt20TagMatch = makeEleTauJetCountPair(src,"nTaggableJetsPt20Matched",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5'),
+                              eleTauJetsPt20TagNoMatch = makeEleTauJetCountPair(src,"nTaggableJetsPt20NotMatched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
                               eleTauFirstJetShape = makeLTauGeneric("PATEleTauPairHighestPtJetVarFiller",src,"highestJetShape",'userFloat("ptRMS")'),
                               eleTauFirstJetCSV = makeLTauGeneric("PATEleTauPairHighestPtJetVarFiller",src,"highestJetBTagCSV",'bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")'),
 

@@ -222,9 +222,6 @@ class CompositePtrCandidateT1T2MEtAlgorithm
     if ( genParticles ) {
 	    compGenQuantities(compositePtrCandidate, genParticles);
     }
-    else { std::cout<< "noGenParticles: "<<genParticles<<std::endl;}
-    //FIXME in pythia8
-    //
 
     //--- set compositePtr four-momentum
     //    (depending on recoMode configuration parameter)

@@ -1,6 +1,7 @@
 #ifndef UWAnalysis_NtupleTools_NtupleFillerBase_h 
 #define UWAnalysis_NtupleTools_NtupleFillerBase_h
 
+#include <iostream>
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "TBranch.h"

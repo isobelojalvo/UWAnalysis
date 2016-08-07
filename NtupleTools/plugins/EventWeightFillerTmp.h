@@ -33,11 +33,12 @@ class EventWeightFillerTmp : public NtupleFillerBase {
 	{
 		value = new float[3];
 		t->Branch("myisoweight_1",&value[0],"myisoweight_1/F");
-		t->Branch("myweight_1",&value[1],"mytrigweight_1/F");
+		t->Branch("mytrigweight_1",&value[1],"mytrigweight_1/F");
 		t->Branch((tag_+"EffWeight").c_str(),&value[2],(tag_+"EffWeight/F").c_str());
 		std::string base = std::getenv("CMSSW_BASE");
-		std::string fMuonTrigger =   "/src/UWAnalysis/Configuration/data/IsoMu22.root";
-		std::string fEleTrigger =   "/src/UWAnalysis/Configuration/data/EleSoup.root";
+		std::string fMuonTrigger =   "/src/UWAnalysis/Configuration/data/IsoMuSoup.root";
+		std::string fEleTrigger =   "/src/UWAnalysis/Configuration/data/2016_EleSoup.root";
+		//std::string fEleTrigger =   "/src/UWAnalysis/Configuration/data/EleSoup.root";
 		std::string fileTrig;
 		if (isMu_) {
 			fileTrig= base+fMuonTrigger;
@@ -50,7 +51,8 @@ class EventWeightFillerTmp : public NtupleFillerBase {
 		if (fis ){
 			std::cout<<"INFO::EffiTmpFiller using efficiency map"<<std::endl;
 			f_EffMap = new TFile(fileTrig.c_str(),"READONLY");
-			h2_Eff    = (TH2D*)f_EffMap->Get("probe_abseta_probe_pt_PLOT");
+			//h2_Eff    = (TH2D*)f_EffMap->Get("probe_abseta_probe_pt_PLOT");
+			h2_Eff    = (TH2D*)f_EffMap->Get("abseta_pt_PLOT");
 			if (!isMu_) h2_Eff    = (TH2D*)f_EffMap->Get("probe_sc_abseta_probe_sc_pt_PLOT");
 		}
 		else{
