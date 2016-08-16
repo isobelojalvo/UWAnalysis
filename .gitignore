@@ -2,3 +2,5 @@
 *.pyc
 *weights.xml
 *nohup.out
+*dump.py
+*analysis.root
