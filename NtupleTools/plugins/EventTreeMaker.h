@@ -20,6 +20,7 @@
 #include "UWAnalysis/NtupleTools/interface/NtupleFillerBase.h"
 
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
+#include "DataFormats/Scalers/interface/LumiScalers.h"
 
 #include "FWCore/Framework/interface/ConsumesCollector.h"
 #include "FWCore/Framework/interface/EDConsumerBase.h"
@@ -47,8 +48,10 @@ class EventTreeMaker : public edm::EDAnalyzer {
 			t->Branch("run",&RUN,"run/i");
 			t->Branch("LUMI",&LUMI,"LUMI/i");
 			t->Branch("lumi",&LUMI,"lumi/i");
+			//t->Branch("instlumi",&INSTLUMI,"instlumi/i");
 			t->Branch("GENWEIGHT",&GENWEIGHT,"GENWEIGHT/F"); 
  			src_ = consumes<GenEventInfoProduct>(iConfig.getParameter<edm::InputTag>("genEvent"));
+ 			//srcL_ = consumes<LumiScalersCollection>(iConfig.getParameter<edm::InputTag>("lumiscalars"));
 			coreColl = consumes<edm::View<reco::Candidate> >(iConfig.getParameter<edm::InputTag>("coreCollections"));
 
 			std::vector<std::string> branchNames = iConfig.getParameterNamesForType<edm::ParameterSet>();
@@ -104,36 +107,48 @@ class EventTreeMaker : public edm::EDAnalyzer {
 			LUMI   = iEvent.luminosityBlock();
 			edm::Handle<GenEventInfoProduct> genEvt;
  			GENWEIGHT = 1;
- 			if(iEvent.getByToken(src_,genEvt)) {
- 			  if (genEvt->weight()<0) GENWEIGHT=-1;
- 			}
+            if(iEvent.getByToken(src_,genEvt)) {
+                if (genEvt->weight()<0) GENWEIGHT=-1;
+            }
+            /*
+               edm::Handle<LumiScalersCollection> lumi;
+               INSTLUMI = 0;
+               if(iEvent.getByToken(srcL_,lumi)){
+               if ( lumi->size() > 0 ) {
+               INSTLUMI = lumi->begin()->instantLumi();
+               } else {
+               INSTLUMI = 0.;
+               }
+               }
+               */
+            bool doFill=false;
+            edm::Handle<edm::View<reco::Candidate> > handle;
+            if(iEvent.getByToken(coreColl,handle))
+                if(handle->size()>0)
+                    doFill=true;
 
-			bool doFill=false;
-			edm::Handle<edm::View<reco::Candidate> > handle;
-			if(iEvent.getByToken(coreColl,handle))
-				if(handle->size()>0)
-					doFill=true;
+            if(doFill) {
+                for(unsigned int i=0;i<fillers.size();++i)
+                    fillers.at(i)->fill(iEvent, iSetup);
 
-			if(doFill) {
-				for(unsigned int i=0;i<fillers.size();++i)
-					fillers.at(i)->fill(iEvent, iSetup);
+                t->Fill();
+            }
+        }
 
-				t->Fill();
-			}
-		}
+        // ----------member data ---------------------------
 
-		// ----------member data ---------------------------
+        TTree *t;
+        //add run event data
+        unsigned int EVENT;
+        unsigned int RUN;
+        unsigned int LUMI;
+        //unsigned int INSTLUMI;
+        float GENWEIGHT;
 
-		TTree *t;
-		//add run event data
-		unsigned int EVENT;
-		unsigned int RUN;
-		unsigned int LUMI;
-		float GENWEIGHT;
-
-		edm::EDGetTokenT<GenEventInfoProduct> src_;
-		edm::EDGetTokenT<edm::View<reco::Candidate> > coreColl;
-		std::vector<NtupleFillerBase*> fillers;
+        edm::EDGetTokenT<GenEventInfoProduct> src_;
+        //edm::EDGetTokenT<LumiScalersCollection> srcL_;
+        edm::EDGetTokenT<edm::View<reco::Candidate> > coreColl;
+        std::vector<NtupleFillerBase*> fillers;
 
 };	 
 

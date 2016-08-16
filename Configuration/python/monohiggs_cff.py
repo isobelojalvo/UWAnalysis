@@ -60,9 +60,7 @@ MTanalysisConfigurator.addSelector('diMuonsOS','PATMuPairSelector','leg1.isPFMuo
 MTanalysisConfigurator.addSorter('diMuonsOSSorted','PATMuPairSorter')
 
 #Make DiTaus   
-#MTanalysisConfigurator.addDiCandidateModule('muTaus','PATMuTauPairProducer','smearedMuonsMT','smearedTausMT','smearedMETMT','smearedTausMT','smearedJetsMT',1,9999,text='AtLeastOneDiTau',leadingObjectsOnly = False,dR = 0.5,recoMode ="",genParticles='prunedGenParticles')
 MTanalysisConfigurator.addDiCandidateModule('muTaus','PATMuTauPairProducer','smearedMuonsMT','smearedTausMT','smearedMETMT','smearedTausMT','smearedJetsMT',1,9999,text='AtLeastOneDiTau',leadingObjectsOnly = False,dR = 0.3,recoMode ="",genParticles='prunedGenParticles')
-#MTanalysisConfigurator.addSelector('muTausTausMuTrigMatch','PATMuTauPairSelector','leg1.userFloat("hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09")>0','MTMuTrigMatch',1)
 MTanalysisConfigurator.addSelector('muTausMuonPtEta','PATMuTauPairSelector','leg1.pt()>24&&abs(leg1.eta())<2.1','MTMuonPtEta',1)
 MTanalysisConfigurator.addSelector('muTausTauPtEta','PATMuTauPairSelector','leg2.pt()>20&&abs(leg2.eta())<2.3','MTTauPtEta',1)
 MTanalysisConfigurator.addSelector('muTausMuonMediumID','PATMuTauPairSelector','leg1.userInt("mediumID")>0','MTMuonMediumID',1)
@@ -86,3 +84,43 @@ MTanalysisConfigurator.addSelector('muTausOS','PATMuTauPairSelector','charge==0'
 
 #create the sequence
 selectionSequenceMT =MTanalysisConfigurator.returnSequence()
+
+
+###############################			Tau-Tau 		###################################
+TTanalysisConfigurator = CutSequenceProducer(initialCounter  = 'initialEventsTT',
+                                  pyModuleName = __name__,
+                                  pyNameSpace  = locals())
+
+TTanalysisConfigurator.addSmearing('patOverloadedTaus','triggeredPatMuons','triggeredPatElectrons','filteredJets','slimmedMETs','TT')
+
+#Make DiTaus
+TTanalysisConfigurator.addDiCandidateModule('diTaus','PATDiTauPairProducer','smearedTausTT','smearedTausTT','smearedMETTT','smearedTausTT','smearedJetsTT',1,9999,text = 'AtLeastOneDiTau',leadingObjectsOnly = False,dR = 0.3,recoMode = "",genParticles='prunedGenParticles')
+
+TTanalysisConfigurator.addSelector('diTausTau1PtEta','PATDiTauPairSelector','leg1.pt()>35&&abs(leg1.eta())<2.1','TTTau1PtEta',1)
+TTanalysisConfigurator.addSelector('diTausTau2PtEta','PATDiTauPairSelector','leg2.pt()>35&&abs(leg2.eta())<2.1','TTTau2PtEta',1)
+TTanalysisConfigurator.addSelector('diTaus1DecayFound','PATDiTauPairSelector','leg1.tauID("decayModeFinding")>0.5','TTTau1DecayFound',1)
+TTanalysisConfigurator.addSelector('diTaus2DecayFound','PATDiTauPairSelector','leg2.tauID("decayModeFinding")>0.5','TTTau2DecayFound',1)
+TTanalysisConfigurator.addSelector('diTaus1DecayVertex','PATDiTauPairSelector','abs(leg1.userFloat("taudZ"))<0.2','TTTau1VertexFound',1)
+TTanalysisConfigurator.addSelector('diTaus2DecayVertex','PATDiTauPairSelector','abs(leg2.userFloat("taudZ"))<0.2','TTTau2VertexFound',1)
+TTanalysisConfigurator.addSelector('diTaus1TauLooseIsolation','PATDiTauPairSelector','(leg1.tauID("chargedIsoPtSumdR03"))/(leg1.pt()) < 0.3','TTTauLooseIso1',1)
+TTanalysisConfigurator.addSelector('diTaus2TauLooseIsolation','PATDiTauPairSelector','(leg2.tauID("chargedIsoPtSumdR03"))/(leg1.pt()) < 0.3','TTTauLooseIso2',1)
+TTanalysisConfigurator.addSelector('diTausChargeNot2','PATDiTauPairSelector','abs(leg1.charge())==1&&abs(leg2.charge())==1','TTChargeIsABS1',1)
+TTanalysisConfigurator.addDiTauLVeto('diTausLVeto','TightElectrons','TightMuons')
+TTanalysisConfigurator.addSelector('diTausLeptVeto','PATDiTauPairSelector','lVeto==0','TTLVeto',1)
+TTanalysisConfigurator.addSorter('diTausSorted','PATDiTauPairSorter')
+
+TTanalysisConfigurator.addSelector('diTausTau1Isolation','PATDiTauPairSelector','(leg1.tauID("chargedIsoPtSumdR03"))/(leg2.pt()) < 0.15','TTTauMediumIso1',1)
+TTanalysisConfigurator.addSelector('diTausTau2Isolation','PATDiTauPairSelector','(leg2.tauID("chargedIsoPtSumdR03"))/(leg2.pt()) < 0.15','TTTauMediumIso2',1)
+TTanalysisConfigurator.addSelector('diTausTau1MuonVeto','PATDiTauPairSelector','leg1.tauID("againstMuonLoose3")','TTAgainstMuon1',1)
+TTanalysisConfigurator.addSelector('diTausTau2MuonVeto','PATDiTauPairSelector','leg2.tauID("againstMuonLoose3")','TTAgainstMuon2',1)
+TTanalysisConfigurator.addSelector('diTausTau1ElectronVeto','PATDiTauPairSelector','leg1.tauID("againstElectronVLooseMVA6")>0','TTAgainstElectron1',1)
+TTanalysisConfigurator.addSelector('diTausTau2ElectronVeto','PATDiTauPairSelector','leg2.tauID("againstElectronVLooseMVA6")>0','TTAgainstElectron2',1)
+TTanalysisConfigurator.addSelector('diTausOS','PATDiTauPairSelector','charge==0','TTOS',1)
+
+#create the sequence
+selectionSequenceTT =TTanalysisConfigurator.returnSequence()
+
+#
+
+
+

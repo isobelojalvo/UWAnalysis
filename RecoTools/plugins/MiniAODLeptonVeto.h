@@ -39,6 +39,7 @@ class MiniAODLeptonVeto : public edm::EDProducer
     srcM_    = consumes<std::vector<pat::Muon>>(cfg.getParameter<edm::InputTag>("srcM"));//Tight Muons
     srcE_    = consumes<std::vector<pat::Electron>>(cfg.getParameter<edm::InputTag>("srcE"));//Tight Electron
     mu_      = cfg.getParameter<bool>("hasMu");
+    ele_      = cfg.getParameter<bool>("hasEle");
 
 
     produces<CompositePtrCandidateCollection>();
@@ -73,7 +74,7 @@ class MiniAODLeptonVeto : public edm::EDProducer
 	      unsigned int maxMu=0;
 	      unsigned int maxEle=0;
 	      if (mu_){	maxMu=1;}
-	      else { maxEle=1;}
+          else if(ele_) { maxEle=1;}
 
 	      if (elesCollection->size()>maxEle) veto=1;
 	      if (muonsCollection->size()>maxMu) veto=1;
@@ -92,6 +93,7 @@ class MiniAODLeptonVeto : public edm::EDProducer
   edm::EDGetTokenT<std::vector<pat::Electron>> srcE_;
   //edm::InputTag src_;
   bool mu_;
+  bool ele_;
 
 };
 

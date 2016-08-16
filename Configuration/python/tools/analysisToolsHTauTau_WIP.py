@@ -41,8 +41,8 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
 
   recorrectJets(process, True) #adds patJetsReapplyJEC
   
-  mvaMet2(process, True) #isData
-  metSignificance(process)
+  #mvaMet2(process, True) #isData
+  #metSignificance(process)
 
   muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID") 
   electronTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODElectronVID") 
@@ -50,7 +50,9 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   
   #Build good vertex collection
   #goodVertexFilter(process)  
-  tauOverloading(process,'slimmedTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
+  tauEffi(process,'slimmedTaus',True)
+  tauOverloading(process,'tauTriggerEfficiencies','triggeredPatMuons','offlineSlimmedPrimaryVertices')
+  #tauOverloading(process,'slimmedTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   
   triLeptons(process)
   #jetOverloading(process,"slimmedJets",True)
@@ -98,8 +100,8 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
 
   #reapplyPUJetID(process) 
   recorrectJets(process, False) #adds patJetsReapplyJEC
-  mvaMet2(process, False) #isData
-  metSignificance(process)
+  #mvaMet2(process, False) #isData
+  #metSignificance(process)
 
 
   #no trigger here!!!  
@@ -110,7 +112,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   
   #Build good vertex collection
   #goodVertexFilter(process)  
-  tauEffi(process,'slimmedTaus')
+  tauEffi(process,'slimmedTaus',False)
   tauOverloading(process,'tauTriggerEfficiencies','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   
   triLeptons(process)
@@ -468,7 +470,7 @@ def tauOverloading(process,src, muons, vtxSrc):
 
   process.analysisSequence=cms.Sequence(process.analysisSequence*process.patOverloadedTaus)
 
-def tauEffi(process,src="slimmedTaus"):
+def tauEffi(process,src,isData):
 
   Names = ["MediumIsoPFTau35_Trk_eta2p1","LooseIsoPFTau20_SingleL1","LooseIsoPFTau20"]
 
@@ -476,7 +478,8 @@ def tauEffi(process,src="slimmedTaus"):
                                         src = cms.InputTag(src),
                                         pruned = cms.InputTag('prunedGenParticles'),
                                         wps = cms.vstring(*Names),
-                                        jsonname = cms.string("TauTrigger.json")
+                                        jsonname = cms.string("TauTrigger.json"),
+                                        data = cms.bool(isData)
   )                                        
   process.analysisSequence=cms.Sequence(process.analysisSequence*process.tauTriggerEfficiencies)
 

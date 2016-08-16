@@ -75,12 +75,13 @@ defaultReconstructionMC(process,'HLT2',
                       
 
 #EventSelection
-process.load("UWAnalysis.Configuration.hTauTau_cff")
+process.load("UWAnalysis.Configuration.monohiggs_cff")
 
 process.metCalibration.applyCalibration = cms.bool(False)
 
 process.eventSelectionMT = cms.Path(process.selectionSequenceMT)
 process.eventSelectionET = cms.Path(process.selectionSequenceET)
+process.eventSelectionTT = cms.Path(process.selectionSequenceTT)
 
 createGeneratedParticles(process,
                          'genDaughters',
@@ -119,6 +120,11 @@ from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addEleTauEvent
 addEleTauEventTree(process,'eleTauEventTree')
 addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','diElectronsOSSorted')
 
+from UWAnalysis.Configuration.tools.ntupleTools_monohiggs import addDiTauEventTree
+addDiTauEventTree(process,'diTauEventTree')
+addDiTauEventTree(process,'diTauEventTreeFinal','diTausOS')
+
 addEventSummary(process,True,'MT','eventSelectionMT')
 addEventSummary(process,True,'ET','eventSelectionET')
+addEventSummary(process,True,'TT','eventSelectionTT')
 

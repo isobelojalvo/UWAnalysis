@@ -153,22 +153,22 @@ class METFiller : public NtupleFillerBase {
 				value[3] = metPt;
 				value[4] = metPhi;
 			}
-			else{
-				std::cout<<"slimmedMETs not found for ntuple"<<std::endl;
-				value [0]= -999;
-				value [1]= -999;
-				value [2]= -999;
-				value [3]= -999;
-				value [4]= -999;
-			}
-		}
+            else{
+                //std::cout<<"slimmedMETs not found for ntuple"<<std::endl;
+                value [0]= -999;
+                value [1]= -999;
+                value [2]= -999;
+                value [3]= -999;
+                value [4]= -999;
+            }
+        }
 
-	private:
-		edm::EDGetTokenT<edm::View<pat::MET>> met_;
-		edm::EDGetTokenT<std::vector<T> > src_;
-		std::string tag_;
-		//bool doGen_;
-		float* value;
+    private:
+        edm::EDGetTokenT<edm::View<pat::MET>> met_;
+        edm::EDGetTokenT<std::vector<T> > src_;
+        std::string tag_;
+        //bool doGen_;
+        float* value;
 
 };
 
@@ -178,5 +178,6 @@ class METFiller : public NtupleFillerBase {
 
 typedef METFiller<PATMuTauPair> PATMuTauPairMETFiller;
 typedef METFiller<PATElecTauPair> PATEleTauPairMETFiller;
+typedef METFiller<PATDiTauPair> PATDiTauPairMETFiller;
 
 

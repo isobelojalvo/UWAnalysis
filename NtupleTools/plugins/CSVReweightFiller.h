@@ -181,6 +181,7 @@ class CSVReweightFiller : public NtupleFillerBase {
 
 typedef CSVReweightFiller<PATMuTauPair> PATMuTauPairCSVReweightFiller;
 typedef CSVReweightFiller<PATElecTauPair> PATEleTauPairCSVReweightFiller;
+typedef CSVReweightFiller<PATDiTauPair> PATDiTauPairCSVReweightFiller;
 
 
 

@@ -61,7 +61,7 @@ class METSignificanceFiller : public NtupleFillerBase {
 	}
     else
       {
-	  std::cout<<"METSignificance Not Found"<<std::endl;
+	  //std::cout<<"METSignificance Not Found"<<std::endl;
           value[0] = -999;	
       }
 
@@ -72,7 +72,7 @@ class METSignificanceFiller : public NtupleFillerBase {
         value[4] = (*covHandle)(1,1);
     }
     else{ 
-	std::cout<<"METcovariance Not Found"<<std::endl;
+	//std::cout<<"METcovariance Not Found"<<std::endl;
 	for (int i=1;i<5;i++) value[i] = -999;
     }
 

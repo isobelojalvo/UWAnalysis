@@ -42,7 +42,8 @@ class MiniAODTauEffi : public edm::EDProducer {
            src_(consumes<pat::TauCollection>(iConfig.getParameter<edm::InputTag>("src"))),
            prunedGenToken_(consumes<reco::GenParticleCollection >(iConfig.getParameter<edm::InputTag>("pruned"))),
            names(iConfig.getParameter<std::vector<std::string>>("wps")),
-           jsonname(iConfig.getParameter<std::string>("jsonname"))
+           jsonname(iConfig.getParameter<std::string>("jsonname")),
+           data_(iConfig.getParameter<bool>("data"))
            {
 
                //Get the Json! 
@@ -79,12 +80,13 @@ class MiniAODTauEffi : public edm::EDProducer {
 
                    std::vector<std::string> namesUserFloat = names;
                    std::vector<std::string> namesJson = names;
-                   
-                   bool match = matched(tau.p4(),*pruned);
-                   if (!match){
-                       for (unsigned int i=0; i<names.size();i++){
-                           std::string faketau = "Fake"+names[i];
-                           namesJson[i]=faketau;
+                   if (!data_){
+                       bool match = matched(tau.p4(),*pruned);
+                       if (!match){
+                           for (unsigned int i=0; i<names.size();i++){
+                               std::string faketau = "Fake"+names[i];
+                               namesJson[i]=faketau;
+                           }
                        }
                    }
                    std::vector<std::string> vars = {"m0","sigma","alpha","n","norm"};
@@ -95,7 +97,8 @@ class MiniAODTauEffi : public edm::EDProducer {
                            std::string get= namesJson[i]+"."+vars[v];
                            mode.push_back(json.get<float>(get));
                        }
-                       float value = __crystalball_fit(pt,mode);
+                       float value = -999;
+                       if (!data_) value = __crystalball_fit(pt,mode);
                        tau.addUserFloat(namesUserFloat[i],value);
                    }
 
@@ -110,6 +113,7 @@ class MiniAODTauEffi : public edm::EDProducer {
        std::vector<std::string> names;
        std::string jsonname;
        js::ptree json;
+       bool data_;
 
        bool matched(const reco::Candidate::LorentzVector& direction, const reco::GenParticleCollection& genParticles){
            for ( reco::GenParticleCollection::const_iterator genParticle = genParticles.begin();

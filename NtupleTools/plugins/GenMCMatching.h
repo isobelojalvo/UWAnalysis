@@ -96,6 +96,7 @@ float* value;
 
 typedef GenMCMatching<PATMuTauPair> PATMuTauPairGenMCMatching;
 typedef GenMCMatching<PATElecTauPair> PATEleTauPairGenMCMatching;
+typedef GenMCMatching<PATDiTauPair> PATDiTauPairGenMCMatching;
 
 
 

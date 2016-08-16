@@ -350,6 +350,7 @@ class CutSequenceProducer(cms._ParameterTypeBase):
 			dicand.srcE = cms.InputTag(srcEle)
 			dicand.srcM = cms.InputTag(srcMu)
 			dicand.hasMu = cms.bool(True)
+			dicand.hasEle = cms.bool(False)
 			
 			pyModule = sys.modules[self.pyModuleName[0]]
 			if pyModule is None:
@@ -365,6 +366,7 @@ class CutSequenceProducer(cms._ParameterTypeBase):
 			dicand.srcE = cms.InputTag(srcEle)
 			dicand.srcM = cms.InputTag(srcMu)
 			dicand.hasMu = cms.bool(False)
+			dicand.hasEle = cms.bool(True)
 			
 			pyModule = sys.modules[self.pyModuleName[0]]
 			if pyModule is None:
@@ -374,9 +376,22 @@ class CutSequenceProducer(cms._ParameterTypeBase):
 			self.input=moduleName
                
                   
-
-
-                 
+    
+    def addDiTauLVeto(self,moduleName,srcEle,srcMu):
+			dicand  = cms.EDProducer('PATDiTauLVeto')
+			dicand.src = cms.InputTag(self.input)
+			dicand.srcE = cms.InputTag(srcEle)
+			dicand.srcM = cms.InputTag(srcMu)
+			dicand.hasMu = cms.bool(False)
+			dicand.hasEle = cms.bool(False)
+			
+			pyModule = sys.modules[self.pyModuleName[0]]
+			if pyModule is None:
+			 raise ValueError("'pyModuleName' Parameter invalid")
+			setattr(pyModule,moduleName,dicand)
+			self.sequence*=dicand
+			self.input=moduleName
+               
 
 
     def setSRC(self,src):

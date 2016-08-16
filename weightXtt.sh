@@ -1,10 +1,11 @@
 #!/bin/sh
-cd /nfs_scratch/$USER/80X_charged_weighted/
+cd /nfs_scratch/$USER/80X_WJetsHT/
 
 
-weightZ=1;
-weightZinv=1;
-weightAh=1;
+weightZ=0;
+weightW=1;
+weightZinv=0;
+weightAh=0;
 
 
 if [ $weightZinv -eq 1 ]
@@ -62,5 +63,11 @@ if [ $weightZ -eq 1 ]
     EventWeightsIterativeZNuNu root200=ZnunuHT200.root root400=ZnunuHT400.root root600=ZnunuHT600.root root800=ZnunuHT800.root root1200=ZnunuHT1200.root root2500=ZnunuHT2500.root rootinf=ZnunuHTInf.root   weight=1    histoName='MT/results' 
     hadd Znunu.root ZnunuHT*root 
      
+fi
+
+if [ $weightW -eq 1 ]
+    then
+    EventWeightsIterativeWJetsHT  weight=1    histoName='MT/results' 
+    hadd WJETSHT.root WJets*root 
 fi
 

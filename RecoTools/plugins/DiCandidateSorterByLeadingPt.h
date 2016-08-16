@@ -87,7 +87,9 @@ class DiCandidateSorterByLeadingPt : public edm::EDProducer {
     {}
     bool operator()(T t1,T t2)
     {
-      return (t1.leg1()->pt()+t1.leg2()->pt()) > (t2.leg1()->pt()+t2.leg2()->pt());
+      if ((t1.leg1()->pt()+t1.leg2()->pt()) > (t2.leg1()->pt()+t2.leg2()->pt())) return true;
+      else if ((t1.leg1()->pt()+t1.leg2()->pt()) == (t2.leg1()->pt()+t2.leg2()->pt() && t1.leg1()->pt()>t2.leg1()->pt())) return true;
+	  else {return false;}
     } 
 };
 

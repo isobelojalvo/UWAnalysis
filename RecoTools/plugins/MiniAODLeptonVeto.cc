@@ -10,9 +10,11 @@
 
 typedef MiniAODLeptonVeto<pat::Muon, pat::Tau> PATMuTauLVeto;
 typedef MiniAODLeptonVeto<pat::Electron, pat::Tau> PATElecTauLVeto;
+typedef MiniAODLeptonVeto<pat::Tau, pat::Tau> PATDiTauLVeto;
 
 
 
 DEFINE_FWK_MODULE(PATMuTauLVeto);
 DEFINE_FWK_MODULE(PATElecTauLVeto);
+DEFINE_FWK_MODULE(PATDiTauLVeto);
 
