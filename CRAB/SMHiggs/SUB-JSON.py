@@ -34,43 +34,43 @@ process.maxEvents = cms.untracked.PSet(
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import *
 defaultReconstruction(process,'HLT',
-                      [
-			'HLT_IsoMu18_v', 
-			'HLT_IsoMu20_v', 
-			'HLT_IsoMu22_v', 
-			'HLT_IsoMu22_eta2p1_v', 
-                        'HLT_IsoTkMu22_v',
-                        'HLT_IsoTkMu22_eta2p1_v',
-			'HLT_IsoMu24_v', 
-			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v',
-			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_SingleL1_v',
-			'HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v',
-			'HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v',
-			'HLT_IsoMu21_eta2p1_LooseIsoPFTau20_SingleL1_v',
-		        'HLT_Ele22_eta2p1_WPLoose_LooseIsoPFTau20_v',
-		        'HLT_Ele22_eta2p1_WPLoose_LooseIsoPFTau20_SingleL1_v',
-			'HLT_Ele23_WPLoose_Gsf_v',
-		        'HLT_Ele24_eta2p1_WPLoose_Gsf_v',
-		        'HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v',
-		        'HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v',
-			'HLT_Ele24_WPLoose_Gsf_v',
-			'HLT_Ele25_eta2p1_WPLoose_Gsf_v',
-			'HLT_Ele25_eta2p1_WPTight_Gsf_v',	
-			'HLT_Ele27_WPLoose_Gsf_v',
-			'HLT_Ele27_WPTight_Gsf_v',
-			'HLT_Ele27_eta2p1_WPLoose_Gsf_v',
-			'HLT_Ele27_eta2p1_WPTight_Gsf_v',
-			'HLT_VLooseIsoPFTau140_Trk50_eta2p1_v',
-			'HLT_VLooseIsoPFTau120_Trk50_eta2p1_v',
-			'HLT_PFMET170_NoiseCleaned',
-			'HLT_PFMET90_PFMHT90_IDTight',
-			'HLT_CaloJet500_NoJetID',
-			'HLT_ECALHT800'
-			])
+        [
+            'HLT_IsoMu18_v', 
+            'HLT_IsoMu20_v', 
+            'HLT_IsoMu22_v', 
+            'HLT_IsoMu22_eta2p1_v', 
+            'HLT_IsoTkMu22_v',
+            'HLT_IsoTkMu22_eta2p1_v',
+            'HLT_IsoMu24_v', 
+            'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v',
+            'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_SingleL1_v',
+            'HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v',
+            'HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v',
+            'HLT_IsoMu21_eta2p1_LooseIsoPFTau20_SingleL1_v',
+            'HLT_Ele22_eta2p1_WPLoose_LooseIsoPFTau20_v',
+            'HLT_Ele22_eta2p1_WPLoose_LooseIsoPFTau20_SingleL1_v',
+            'HLT_Ele23_WPLoose_Gsf_v',
+            'HLT_Ele24_eta2p1_WPLoose_Gsf_v',
+            'HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v',
+            'HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v',
+            'HLT_Ele24_WPLoose_Gsf_v',
+            'HLT_Ele25_eta2p1_WPLoose_Gsf_v',
+            'HLT_Ele25_eta2p1_WPTight_Gsf_v',	
+            'HLT_Ele27_WPLoose_Gsf_v',
+            'HLT_Ele27_WPTight_Gsf_v',
+            'HLT_Ele27_eta2p1_WPLoose_Gsf_v',
+            'HLT_Ele27_eta2p1_WPTight_Gsf_v',
+            'HLT_VLooseIsoPFTau140_Trk50_eta2p1_v',
+            'HLT_VLooseIsoPFTau120_Trk50_eta2p1_v',
+            'HLT_PFMET170_NoiseCleaned',
+            'HLT_PFMET90_PFMHT90_IDTight',
+            'HLT_CaloJet500_NoJetID',
+            'HLT_ECALHT800'
+            ])
 
 
 
-#EventSelection
+        #EventSelection
 process.load("UWAnalysis.Configuration.hTauTau_cff")
 
 process.metCalibration.applyCalibration = cms.bool(False)

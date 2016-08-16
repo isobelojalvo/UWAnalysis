@@ -24,6 +24,14 @@ cd UWAnalysis
 cmsRun LT-MC.py
 ```
 
+to submit 
+```
+cd UWAnalysis/CRAB/SMHiggs/
+source submitDATA.sh
+source submitMC_log04.sh
+source submitMC_log05.sh
+```
+
 To plot please use https://github.com/lmdodd/StatTools 
 
 
