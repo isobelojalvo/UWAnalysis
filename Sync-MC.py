@@ -27,7 +27,6 @@ process.source = cms.Source("PoolSource",
 
 
 #added in etau and mutau triggers
-#from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
 from UWAnalysis.Configuration.tools.analysisToolsHTauTauSync import *
 defaultReconstructionMC(process,'HLT',
                       [

@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import TriggerPaths,TriggerRes,TriggerProcess
+from UWAnalysis.Configuration.tools.analysisToolsHTauTauSync import TriggerPaths,TriggerRes,TriggerProcess
 
 
 
@@ -229,8 +229,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               coreCollections = cms.InputTag(src),
                               trigger = cms.PSet(
                                   pluginType = cms.string("TriggerFiller"),
-				  #src        = cms.InputTag("TriggerResults","","HLT"),
-                                  src = cms.InputTag(HLT,"",triggerProcess),
+                                  src = cms.InputTag(TriggerRes,"",TriggerProcess),
 				  prescales = cms.InputTag("patTrigger"),
                                   paths      = cms.vstring(TriggerPaths)
                               ),
@@ -528,8 +527,7 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOS', s
                               coreCollections = cms.InputTag(src),
                               trigger = cms.PSet(
                                   pluginType = cms.string("TriggerFiller"),
-				  #src        = cms.InputTag("TriggerResults","","HLT"),
-                                  src = cms.InputTag(HLT,"",triggerProcess),
+                                  src = cms.InputTag(TriggerRes,"",TriggerProcess),
 				  prescales = cms.InputTag("patTrigger"),
                                   paths      = cms.vstring(TriggerPaths)
                               ),

@@ -648,7 +648,6 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
                               coreCollections = cms.InputTag(src),
                               trigger = cms.PSet(
                                   pluginType = cms.string("TriggerFiller"),
-                                  #src        = cms.InputTag("TriggerResults","","HLT"),
                                   src = cms.InputTag(TriggerRes,"",TriggerProcess),
 				  prescales = cms.InputTag("patTrigger"),
 				  paths      = cms.vstring(TriggerPaths)
