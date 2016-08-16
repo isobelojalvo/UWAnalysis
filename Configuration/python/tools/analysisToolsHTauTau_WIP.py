@@ -41,11 +41,11 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
 
   muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID") 
   electronTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODElectronVID") 
-  #tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"slimmedTaus") #ESTaus
+  tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"slimmedTaus") #ESTaus
   
   #Build good vertex collection
   #goodVertexFilter(process)  
-  tauOverloading(process,'slimmedTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
+  tauOverloading(process,'triggeredPatTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   
   triLeptons(process)
   #jetOverloading(process,"slimmedJets",True)
@@ -242,7 +242,8 @@ def mvaMet2(process, isData):
    process.MVAMET.requireOS = cms.bool(False)
    process.MVAMET.debug = cms.bool(False)
 
-   process.analysisSequence = cms.Sequence(process.analysisSequence*process.MVAMET)
+   #process.analysisSequence = cms.Sequence(process.analysisSequence*process.MVAMET)
+   process.analysisSequence = cms.Sequence(process.analysisSequence)
 
 
 

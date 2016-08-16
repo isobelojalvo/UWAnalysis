@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-#from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import TriggerPaths
+from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import TriggerPaths
 
 
 
@@ -374,6 +374,12 @@ def addDiTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
    eventTree = cms.EDAnalyzer('EventTreeMaker',
                               genEvent = cms.InputTag('generator'),
                               coreCollections = cms.InputTag(src),
+                              trigger = cms.PSet(
+                                  pluginType = cms.string("TriggerFiller"),
+				  src        = cms.InputTag("TriggerResults","","HLT"),
+				  prescales = cms.InputTag("patTrigger"),
+                                  paths      = cms.vstring(TriggerPaths)
+                              ),
                               pu = cms.PSet(
                                   pluginType = cms.string("PUFiller"),
                                   src        = cms.InputTag("slimmedAddPileupInfo"),
@@ -436,8 +442,8 @@ def addDiTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
                               diTauPhi1LL = makeLTauGeneric("PATMuPairFiller",srcLL,"LLphi_1","leg1.phi"),#FILLED
                               diTauPhi2LL = makeLTauGeneric("PATMuPairFiller",srcLL,"LLphi_2","leg2.phi"),#FILLED
 
-                              diTauEffCSV = makeDiTauEffCSV(src),
-                              diTauCSVShape = makeDiTauCSVShape(src),
+                              #diTauEffCSV = makeDiTauEffCSV(src),  ##need to put csv eff back in
+                              #diTauCSVShape = makeDiTauCSVShape(src), ## need to put csv shape back in
                               diTauSize = makeCollSize(src,"nCands"),
                               diTauOS = makeCollSizeOS(src,0,"os"),
                               genTaus = makeCollSize("genTauCands","genTaus"), 
@@ -720,6 +726,7 @@ def addMuTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
                               muTauMuDXY = makeMuTauPair(src,"d0_1","leg1.userFloat('dXY')"),
                               muTauTauDXY = makeMuTauPair(src,"d0_2","leg2.userFloat('taudXY')"),
 
+                              muTauMu = makeMuTauPair(src,"neutralHadronEt_1" "leg1.pfIsolationR03().sumNeutralHadronEt"),
 
 			      #tauIDs
                               muTauByCombIsoDBRaw3 = makeMuTauPair(src,"byCombinedIsolationDeltaBetaCorrRaw3Hits_2",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),

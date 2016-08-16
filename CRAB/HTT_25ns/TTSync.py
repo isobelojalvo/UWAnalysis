@@ -67,32 +67,13 @@ createGeneratedParticles(process,
 
 from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addDiTauEventTree
 
-addDiTauEventTree(process,'diTauEventTree','diTausSortedFinal')
+addDiTauEventTree(process,'diTauEventTree','diTausSync')
 
 addEventSummary(process,True,'TT','eventSelectionTT')
 
 #Systematic Shifts 1sigma
-#process.eventSelectionTTTauUp    = createSystematics(process,process.selectionSequenceTT,'TauUp',1.00,1.0,1.03,0,1.0)
-#process.eventSelectionTTauDown  = createSystematics(process,process.selectionSequenceTT,'TauDown',1.0,1.0,0.97,0,1.0)
-#process.eventSelectionTTJetUp    = createSystematics(process,process.selectionSequenceTT,'JetUp',1.0,1.0,1.0,1,1.0)
-#process.eventSelectionTTJetDown  = createSystematics(process,process.selectionSequenceTT,'JetDown',1.0,1.0,1.0,-1,1.0)
+process.eventSelectionTTTauUp    = createSystematics(process,process.selectionSequenceTT,'TauUp',1.00,1.0,1.03,0,1.0)
+process.eventSelectionTTauDown  = createSystematics(process,process.selectionSequenceTT,'TauDown',1.0,1.0,0.97,0,1.0)
+process.eventSelectionTTJetUp    = createSystematics(process,process.selectionSequenceTT,'JetUp',1.0,1.0,1.0,1,1.0)
+process.eventSelectionTTJetDown  = createSystematics(process,process.selectionSequenceTT,'JetDown',1.0,1.0,1.0,-1,1.0)
 
-
-process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring(
-       $inputFileNames
-		),
-		inputCommands=cms.untracked.vstring(
-						'keep *',
-		)
-)
-
-process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
-)
-
-#process.TFileService.fileName=cms.string("$outputFileName")
-process.TFileService = cms.Service(
-    "TFileService",
-    fileName = cms.string("$outputFileName")
-)

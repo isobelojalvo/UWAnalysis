@@ -19,8 +19,12 @@ TTanalysisConfigurator.addSelector('diTausDecayFound','PATDiTauPairSelector','ab
 TTanalysisConfigurator.addSelector('diTausStdDecaySel','PATDiTauPairSelector','abs(leg1.charge())==1&&abs(leg2.charge())==1','TTTauStandardDecayFound',1)
 TTanalysisConfigurator.addSelector('diTausDRSel','PATDiTauPairSelector','dR12>0.5','TTTauDRSel',1)
 TTanalysisConfigurator.addSorter('diTausSorted','PATDiTauPairSorter')
+TTanalysisConfigurator.addSelector('diTausSync','PATDiTauPairSelector','charge==0||abs(charge)==2','TTSync',1)
+TTanalysisConfigurator.addSelector('diTausAntiEle','PATDiTauPairSelector','leg1.tauID("againstElectronVLooseMVA6")>0.5&&leg2.tauID("againstElectronVLooseMVA6")>0.5','TTAntiEle',1)
+TTanalysisConfigurator.addSelector('diTausAntiMu','PATDiTauPairSelector','leg1.tauID("againstMuonLoose3")>0.5&&leg2.tauID("againstMuonLoose3")>0.5','TTAntiMu',1)
+TTanalysisConfigurator.addSelector('diTausIsolated','PATDiTauPairSelector','leg1.tauID("byVTightIsolationMVArun2v1DBoldDMwLT")>0.5&&leg2.tauID("byVTightIsolationMVArun2v1DBoldDMwLT")>0.5','TTIso',1)
 TTanalysisConfigurator.addSelector('diTausOS','PATDiTauPairSelector','charge==0','TTOS',1)
-
+TTanalysisConfigurator.addSorter('diTausSortedFinal','PATDiTauPairSorter')
 #create the sequence
 selectionSequenceTT =TTanalysisConfigurator.returnSequence()
 
