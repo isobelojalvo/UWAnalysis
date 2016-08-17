@@ -6,9 +6,7 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
 
 
-
-#process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
-process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
+process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(False))
 process.options.allowUnscheduled = cms.untracked.bool(True)
 
 
@@ -24,7 +22,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-'/store/mc/RunIISpring16MiniAODv2/DYJetsToLL_M-50_HT-400to600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0_ext1-v1/40000/00523438-F829-E611-A908-0025905A6138.root'
+'/store/mc/RunIISpring16MiniAODv2/VBFHToTauTau_M125_13TeV_powheg_pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/80000/0A6F49D3-2A39-E611-9788-0025905C96E8.root'
 		),
 		inputCommands=cms.untracked.vstring(
 						'keep *',
@@ -37,7 +35,7 @@ process.source = cms.Source("PoolSource",
 
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import *
-defaultReconstructionMC(process,'HLT',
+defaultReconstructionMC(process,'HLT2',
         [
             'HLT_IsoMu18_v', 
             'HLT_IsoMu20_v', 

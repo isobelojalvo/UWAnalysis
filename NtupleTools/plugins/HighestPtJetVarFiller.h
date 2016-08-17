@@ -80,7 +80,7 @@ typedef HighestPtJetVarFiller<PATMuJetPair> PATMuJetPairHighestPtJetVarFiller;
 typedef HighestPtJetVarFiller<PATMuPair> PATMuPairHighestPtJetVarFiller;
 typedef HighestPtJetVarFiller<PATElecTauPair> PATEleTauPairHighestPtJetVarFiller;
 typedef HighestPtJetVarFiller<PATElecMuPair> PATEleMuPairHighestPtJetVarFiller;
-typedef HighestPtJetVarFiller<PATElecMuPair> PATDiTauPairHighestPtJetVarFiller;
+typedef HighestPtJetVarFiller<PATDiTauPair> PATDiTauPairHighestPtJetVarFiller;
 
 
 

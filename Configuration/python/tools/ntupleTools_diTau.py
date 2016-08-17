@@ -118,13 +118,13 @@ def makeMuTauGenMatch(sourceDiTaus):
          src         = cms.InputTag(sourceDiTaus)
    )
    return PSet
-def makeMuTauNBTag(sourceDiTaus):
-   PSet = cms.PSet(
-         pluginType  = cms.string("PATMuTauPairNBTagFiller"),
-         src         = cms.InputTag(sourceDiTaus),
-         doEffMap      = cms.bool(True)
-   )
-   return PSet
+#def makeMuTauNBTag(sourceDiTaus):
+#   PSet = cms.PSet(
+#         pluginType  = cms.string("PATMuTauPairNBTagFiller"),
+#         src         = cms.InputTag(sourceDiTaus),
+#         doEffMap      = cms.bool(True)
+#   )
+#   return PSet
 def makeMuTauEffCSV(sourceDiTaus):
    PSet = cms.PSet(
          pluginType  = cms.string("PATMuTauPairEffCSVFiller"),
@@ -234,13 +234,13 @@ def makeEleTauGenMatch(sourceDiTaus):
          src         = cms.InputTag(sourceDiTaus)
    )
    return PSet
-def makeEleTauNBTag(sourceDiTaus):
-   PSet = cms.PSet(
-         pluginType  = cms.string("PATEleTauPairNBTagFiller"),
-         src         = cms.InputTag(sourceDiTaus),
-         doEffMap      = cms.bool(True)
-   )
-   return PSet
+#def makeEleTauNBTag(sourceDiTaus):
+#   PSet = cms.PSet(
+#         pluginType  = cms.string("PATEleTauPairNBTagFiller"),
+#         src         = cms.InputTag(sourceDiTaus),
+#         doEffMap      = cms.bool(True)
+#   )
+#   return PSet
 def makeEleTauEffCSV(sourceDiTaus):
    PSet = cms.PSet(
          pluginType  = cms.string("PATEleTauPairEffCSVFiller"),
@@ -274,6 +274,71 @@ def makeDiTauMET(sourceDiTaus, sourceMET, prefix):
          tag         = cms.string(prefix)
    )
    return PSet
+def makeDiTauCSVPair(sourceDiTaus,tagName,cutName,methodName,rank):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairCSVJetVarFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         cut         = cms.string(cutName),
+         method      = cms.string(methodName),
+         rank = cms.untracked.double(rank)
+   )
+   return PSet
+def makeDiTauPtNoPair(sourceDiTaus,tagName,cutName,methodName,rank):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairPtJetVarFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         cut         = cms.string(cutName),
+         method      = cms.string(methodName),
+         rank = cms.untracked.double(rank)
+   )
+   return PSet
+def makeDiTauPtPair(sourceDiTaus,tagName,cutName,methodName,rank):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairPtJetPairVarFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         cut         = cms.string(cutName),
+         method      = cms.string(methodName),
+         rank = cms.untracked.double(rank)
+   )
+   return PSet
+def makeDiTauJetCountPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairJetCountFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         tag         = cms.string(tagName),
+         method      = cms.string(methodName),
+         leadingOnly = cms.untracked.bool(leadingOnly)
+   )
+   return PSet
+def makeDiTauGenMatch(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairGenMCMatching"),
+         src         = cms.InputTag(sourceDiTaus)
+   )
+   return PSet
+#def makeDiTauNBTag(sourceDiTaus):
+#   PSet = cms.PSet(
+#         pluginType  = cms.string("PATDiTauPairNBTagFiller"),
+#         src         = cms.InputTag(sourceDiTaus),
+#         doEffMap      = cms.bool(True)
+#   )
+   return PSet
+def makeDiTauEffCSV(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairEffCSVFiller"),
+         src         = cms.InputTag(sourceDiTaus)
+   )
+   return PSet
+def makeDiTauCSVShape(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairCSVReweightFiller"),
+         src         = cms.InputTag(sourceDiTaus)
+   )
+   return PSet
+
 
 
 #removed srcLL from this, can be added back
@@ -309,6 +374,8 @@ def addDiTauEventTree(process,name,src = 'diTausSorted', srcU='TightMuons', srcE
                                   src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
                                   tag        = cms.string("vertices")
                               ),#FILLED
+                              diTauEffCSV = makeDiTauEffCSV(src),#FILLED
+                              diTauCSVShape = makeDiTauCSVShape(src),#FILLED
  
                               diTauSize = makeCollSize(src,"nCands"),#FILLED
                               diTauOS = makeCollSizeOS(src,0,"os"),#FILLED
@@ -320,13 +387,19 @@ def addDiTauEventTree(process,name,src = 'diTausSorted', srcU='TightMuons', srcE
                               electronsSizeMTVeto = makeCollSizeVeto(srcE,0,"extraelec_veto"),#FILLED
 
                               diTauDR = makeDiTauPair(src,"dR","dR12"), 
-                              tauSingleL1 =  makeDiTauPair(src,"tauSingleL1_2","leg2.userFloat('LooseIsoPFTau20_SingleL1')"), 
-                              tauL1 =  makeDiTauPair(src,"tauL1_2","leg2.userFloat('LooseIsoPFTau20')"), 
-                              tauMediumL1 =  makeDiTauPair(src,"tauMediumL1_2","leg2.userFloat('MediumIsoPFTau35_Trk_eta2p1')"),
+                              tauSingleL1 =  makeDiTauPair(src,"tauSingleL1_2","leg1.userFloat('LooseIsoPFTau20_SingleL1')"), 
+                              tauL1 =  makeDiTauPair(src,"tauL1_2","leg1.userFloat('LooseIsoPFTau20')"), 
+                              tau1MediumL1 =  makeDiTauPair(src,"tauMediumL1_1","leg1.userFloat('MediumIsoPFTau35_Trk_eta2p1')"),
+                              tau2MediumL1 =  makeDiTauPair(src,"tauMediumL1_2","leg2.userFloat('MediumIsoPFTau35_Trk_eta2p1')"),
 
-                              tauNIsoTracks =  makeDiTauPair(src,"tauNIsoTracks","leg2.userFloat('nIsoTracks')"), #FILLED
-                              diTaunIsoGamma = makeDiTauPair(src,"nIsoGamma",'leg2.userFloat("nIsoGamma")'),
-                              diTaunIsoNeutral = makeDiTauPair(src,"nIsoNeutral",'leg2.userFloat("nIsoNeutral")'),
+                              diTaunIsoTracks =  makeDiTauPair(src,"nIsoTracks_1","leg1.userFloat('nIsoTracks')"), #FILLED
+                              diTaunIsoGamma = makeDiTauPair(src,"nIsoGamma_1",'leg1.userFloat("nIsoGamma")'),
+                              diTaunIsoNeutral = makeDiTauPair(src,"nIsoNeutral_1",'leg1.userFloat("nIsoNeutral")'),
+
+                              diTaunIsoTracks2 =  makeDiTauPair(src,"nIsoTracks_2","leg2.userFloat('nIsoTracks')"), #FILLED
+                              diTaunIsoGamma2 = makeDiTauPair(src,"nIsoGamma_2",'leg2.userFloat("nIsoGamma")'),
+                              diTaunIsoNeutral2 = makeDiTauPair(src,"nIsoNeutral_2",'leg2.userFloat("nIsoNeutral")'),
+
 
 
                               tauLeadChargedHadrTrackPt = makeDiTauPair(src,"tauLeadChargedHadrTrackPt","leg2.userFloat('leadChargedHadrTrackPt')"),#FILLED
@@ -374,9 +447,15 @@ def addDiTauEventTree(process,name,src = 'diTausSorted', srcU='TightMuons', srcE
                               diTauVBFJets20 = makeDiTauPair(src,"njetigap20","vbfNJetsGap20"),
                               diTauVBFJets30 = makeDiTauPair(src,"njetingap","vbfNJetsGap30"),
 
-                              diTauDecayFound = makeDiTauPair(src,"decayModeFinding_2",'leg2.tauID("decayModeFinding")'),
-                              diTauDecayFoundNew = makeDiTauPair(src,"decayModeFindingNewDMs_2",'leg2.tauID("decayModeFindingNewDMs")'),
-                              diTauProngs = makeDiTauPair(src,"tauProngs",'leg2.signalChargedHadrCands.size()'),#see Decay Modes
+                              diTau1DecayFound = makeDiTauPair(src,"decayModeFinding_1",'leg1.tauID("decayModeFinding")'),
+                              diTau2DecayFound = makeDiTauPair(src,"decayModeFinding_2",'leg2.tauID("decayModeFinding")'),
+                              diTau1DecayFoundNew = makeDiTauPair(src,"decayModeFindingNewDMs_2",'leg1.tauID("decayModeFindingNewDMs")'),
+                              diTau2DecayFoundNew = makeDiTauPair(src,"decayModeFindingNewDMs_2",'leg2.tauID("decayModeFindingNewDMs")'),
+                              diTau1Prongs = makeDiTauPair(src,"tauProngs",'leg1.signalChargedHadrCands.size()'),#see Decay Modes
+                              diTau2Prongs = makeDiTauPair(src,"tauProngs",'leg2.signalChargedHadrCands.size()'),#see Decay Modes
+                              diTau1HadMass = makeDiTauPair(src,"m_2",'leg1.mass()'),
+                              diTau2HadMass = makeDiTauPair(src,"m_2",'leg2.mass()'),
+
                               diTauPzeta = makeDiTauPair(src,"pZeta",'pZeta-1.5*pZetaVis'),
                               diTauPZ = makeDiTauPair(src,"pZ",'pZeta'),
                               diTauPZV = makeDiTauPair(src,"pzetavis",'pZetaVis'),
