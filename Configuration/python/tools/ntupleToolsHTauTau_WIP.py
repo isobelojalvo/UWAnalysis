@@ -41,16 +41,6 @@ def makeLTauGeneric(plugin,sourceDiTaus,tagName,methodName):
    )
    return PSet
 
-def makeMuTauPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
-   PSet = cms.PSet(
-         pluginType  = cms.string("PATMuTauPairFiller"),
-         src         = cms.InputTag(sourceDiTaus),
-         tag         = cms.string(tagName),
-         method      = cms.string(methodName),
-         leadingOnly = cms.untracked.bool(leadingOnly)
-   )
-   return PSet
-
 
 ##start diTaus
 
@@ -725,8 +715,6 @@ def addMuTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
                               muTauTauDZ = makeMuTauPair(src,"dZ_2","leg2.userFloat('taudZ')"),
                               muTauMuDXY = makeMuTauPair(src,"d0_1","leg1.userFloat('dXY')"),
                               muTauTauDXY = makeMuTauPair(src,"d0_2","leg2.userFloat('taudXY')"),
-
-                              muTauMu = makeMuTauPair(src,"neutralHadronEt_1" "leg1.pfIsolationR03().sumNeutralHadronEt"),
 
 			      #tauIDs
                               muTauByCombIsoDBRaw3 = makeMuTauPair(src,"byCombinedIsolationDeltaBetaCorrRaw3Hits_2",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
