@@ -5,7 +5,7 @@
 #include "TTree.h"
 #include "TH1F.h"
 #include "TFileMerger.h"
-
+#include <iostream>
 
 std::vector<float> data;
 std::vector<float> mc;
@@ -30,20 +30,31 @@ int main (int argc, char* argv[])
  
    //TFile *w = new TFile("ZJets.root","UPDATE");
    TFile *w = new TFile("ZJets_ext1.root","UPDATE");
-
    TH1F* evC  = (TH1F*)w->Get(parser.stringValue("histoName").c_str());
+   if(evC==0){
+     std::cout<<"Error with ZJets_ext1.root: Exiting"<<std::endl;
+     exit(0);
+   }
    float evW = evC->GetBinContent(1);
    
    w->Close();
   
    TFile *w1 = new TFile("Z1Jets.root","UPDATE");
    TH1F* evC1  = (TH1F*)w1->Get(parser.stringValue("histoName").c_str());
+   if(evC1==0){
+     std::cout<<"Error with Z1Jets.root: Exiting"<<std::endl;
+     exit(0);
+   }
    float evW1 = evC1->GetBinContent(1);
    w1->Close();   
 
    TFile *w2 = new TFile("Z2Jets.root","UPDATE");
 
    TH1F* evC2  = (TH1F*)w2->Get(parser.stringValue("histoName").c_str());
+   if(evC2==0){
+     std::cout<<"Error with Z2Jets.root: Exiting"<<std::endl;
+     exit(0);
+   }
    float evW2 = evC2->GetBinContent(1);
    
    w2->Close();
@@ -51,6 +62,10 @@ int main (int argc, char* argv[])
    TFile *w3 = new TFile("Z3Jets.root","UPDATE");
 
    TH1F* evC3  = (TH1F*)w3->Get(parser.stringValue("histoName").c_str());
+   if(evC3==0){
+     std::cout<<"Error with Z3Jets.root: Exiting"<<std::endl;
+     exit(0);
+   }
    float evW3 = evC3->GetBinContent(1);
    
    w3->Close();
@@ -61,7 +76,10 @@ int main (int argc, char* argv[])
    //float evW4 = evC4->GetBinContent(1);
    float evW4 = 0.0; 
    //w4->Close();
- 
+    if(evC1==0){
+     std::cout<<"Error with ZJets_150.root: Exiting"<<std::endl;
+     exit(0);
+   }
    TFile *w5 = new TFile("ZJets_150.root","UPDATE");
 
    TH1F* evC5  = (TH1F*)w5->Get(parser.stringValue("histoName").c_str());
@@ -76,7 +94,7 @@ int main (int argc, char* argv[])
    printf("Found  %f Z+4Jet Events\n",evW4);
    printf("Found  %f Z >150GeV Jet Events\n",evW5);
   
-   double LOtoNNLO=6025.2/4954.0;
+   double LOtoNNLO=5765.4/4954.0;
 
    double DYLo=evW/(LOtoNNLO*4954.0);
    double DYLo1=evW1/(LOtoNNLO*1012.5);
