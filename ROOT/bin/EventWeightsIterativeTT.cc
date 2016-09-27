@@ -31,9 +31,17 @@ int main (int argc, char* argv[])
    TFile *g = new TFile(parser.stringValue("outputFile").c_str(),"UPDATE");
 
    TH1F* evC  = (TH1F*)g->Get(parser.stringValue("histoName").c_str());
+   if(evC==0){
+     std::cout<<"error getting "<<parser.stringValue("histoName")<<" exitting!"<<std::endl;
+     exit(0);
+   }
    float ev = evC->GetBinContent(1);
    
    TH1F* sumC  = (TH1F*)g->Get(parser.stringValue("sumHistoName").c_str());
+   if(sumC==0){
+     std::cout<<"error getting "<<parser.stringValue("histoName")<<" : "<< parser.stringValue("sumHistoName") <<" exitting!"<<std::endl;
+     exit(0);
+   }
    float sumPos = sumC->GetBinContent(2);
    float sumNeg = sumC->GetBinContent(1);
 

@@ -5,7 +5,7 @@
 #include "TTree.h"
 #include "TH1F.h"
 #include "TFileMerger.h"
-
+#include <iostream>
 
 std::vector<float> data;
 std::vector<float> mc;
@@ -28,16 +28,23 @@ int main (int argc, char* argv[])
    
 
  
-   TFile *w = new TFile("WJetsMLM.root","UPDATE");
-
+   TFile *w = new TFile("WJets.root","UPDATE");
    TH1F* evC  = (TH1F*)w->Get(parser.stringValue("histoName").c_str());
    float evW = evC->GetBinContent(1);
-   
+
+   if(evC==0){
+     std::cout<<"Error with WJets.root: Exiting"<<std::endl;
+     exit(0);
+   }   
    w->Close();
   
    TFile *w1 = new TFile("W1Jets.root","UPDATE");
 
    TH1F* evC1  = (TH1F*)w1->Get(parser.stringValue("histoName").c_str());
+   if(evC1==0){
+     std::cout<<"Error with W1Jets.root: Exiting"<<std::endl;
+     exit(0);
+   }
    float evW1 = evC1->GetBinContent(1);
    
    w1->Close();   
@@ -45,6 +52,10 @@ int main (int argc, char* argv[])
    TFile *w2 = new TFile("W2Jets.root","UPDATE");
 
    TH1F* evC2  = (TH1F*)w2->Get(parser.stringValue("histoName").c_str());
+   if(evC2==0){
+     std::cout<<"Error with W2Jets.root: Exiting"<<std::endl;
+     exit(0);
+   }
    float evW2 = evC2->GetBinContent(1);
    
    w2->Close();
@@ -52,13 +63,20 @@ int main (int argc, char* argv[])
    TFile *w3 = new TFile("W3Jets.root","UPDATE");
 
    TH1F* evC3  = (TH1F*)w3->Get(parser.stringValue("histoName").c_str());
+   if(evC3==0){
+     std::cout<<"Error with W3Jets.root: Exiting"<<std::endl;
+     exit(0);
+   }
    float evW3 = evC3->GetBinContent(1);
    
    w3->Close();
 
    TFile *w4 = new TFile("W4Jets.root","UPDATE");
-
    TH1F* evC4  = (TH1F*)w4->Get(parser.stringValue("histoName").c_str());
+   if(evC4==0){
+     std::cout<<"Error with W4Jets.root: Exiting"<<std::endl;
+     exit(0);
+   }
    float evW4 = evC4->GetBinContent(1);
    
    w4->Close();

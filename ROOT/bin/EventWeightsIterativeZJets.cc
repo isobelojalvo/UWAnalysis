@@ -76,13 +76,14 @@ int main (int argc, char* argv[])
    //float evW4 = evC4->GetBinContent(1);
    float evW4 = 0.0; 
    //w4->Close();
-    if(evC1==0){
-     std::cout<<"Error with ZJets_150.root: Exiting"<<std::endl;
-     exit(0);
-   }
+
    TFile *w5 = new TFile("ZJets_150.root","UPDATE");
 
    TH1F* evC5  = (TH1F*)w5->Get(parser.stringValue("histoName").c_str());
+   if(evC5==0){
+     std::cout<<"Error with ZJets_150.root: Exiting"<<std::endl;
+     exit(0);
+   }
    float evW5 = evC5->GetBinContent(1);
    
    w5->Close();
