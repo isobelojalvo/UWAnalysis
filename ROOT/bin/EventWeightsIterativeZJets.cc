@@ -75,7 +75,7 @@ int main (int argc, char* argv[])
    printf("Found  %f Z+4Jet Events\n",evW4);
    printf("Found  %f Z >150GeV Jet Events\n",evW5);
   
-   double LOtoNNLO=6025.2/4954.0;
+   double LOtoNNLO=5765.4/4954.0;
 
    double DYLo=evW/(LOtoNNLO*4954.0);
    double DYLo1=evW1/(LOtoNNLO*1012.5);

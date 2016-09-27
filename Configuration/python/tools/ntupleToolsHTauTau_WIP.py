@@ -392,20 +392,20 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauMET3 = makeMuTauMET(src,"MVAMET:MVAMET","mva"),#FILLED
  
                               #muTauGenMET = makeMuTauPair(src,"genMET","met.genMET().pt"),#FILLED
-                              muTauMET = makeMuTauPair(src,"met","met.pt()"),#FILLED
-                              muTauMETPhi = makeMuTauPair(src,"metphi","met.phi()"),#FILLED
+                              muTauMET = makeMuTauPair(src,"mvamet","met.pt()"),#FILLED
+                              muTauMETPhi = makeMuTauPair(src,"mvametphi","met.phi()"),#FILLED
                               #muTauMET = makeMuTauPair(src,"mvamet","met.pt()"),#FILLED
                               #muTauMETx = makeMuTauPair(src,"mvamet_ex","met.px()"),#FILLED
                               #muTauMETy = makeMuTauPair(src,"mvamet_ey","met.py()"),#FILLED
                               #muTauMETPhi = makeMuTauPair(src,"mvametphi","met.phi()"),#FILLED
-                              #muTauMvaCovMat00 = makeMuTauPair(src,"mvacov00","covMatrix00"),#FIXME
-                              #muTauMvaCovMat10 = makeMuTauPair(src,"mvacov10","covMatrix10"),#FIXME
-                              #muTauMvaCovMat01 = makeMuTauPair(src,"mvacov01","covMatrix01"),#FIXME
-                              #muTauMvaCovMat11 = makeMuTauPair(src,"mvacov11","covMatrix11"),#FIXME
+                              muTauMvaCovMat00 = makeMuTauPair(src,"mvacov00","covMatrix00"),#FIXME
+                              muTauMvaCovMat10 = makeMuTauPair(src,"mvacov10","covMatrix10"),#FIXME
+                              muTauMvaCovMat01 = makeMuTauPair(src,"mvacov01","covMatrix01"),#FIXME
+                              muTauMvaCovMat11 = makeMuTauPair(src,"mvacov11","covMatrix11"),#FIXME
 
-                              muTauMT = makeMuTauPair(src,"mt12","mt12MET"),#FILLED
-                              muTauMT1 = makeMuTauPair(src,"mt_1","mt1MET"),#FILLED
-                              muTauMT2 = makeMuTauPair(src,"mt_2","mt2MET"),#FILLED
+                              #muTauMT = makeMuTauPair(src,"mt12","mt12MET"),#FILLED
+                              #muTauMT1 = makeMuTauPair(src,"mt_1","mt1MET"),#FILLED
+                              #muTauMT2 = makeMuTauPair(src,"mt_2","mt2MET"),#FILLED
 
                               muTauTopGenPt = makeMuTauPair(src,"topGenPt","topGenPt"),#FIXME
                               muTauAntiTopGenPt = makeMuTauPair(src,"antiTopGenPt","antiTopGenPt"),#FIXME
@@ -572,8 +572,8 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauJet2EtaPtSort = makeMuTauPtPair(src,"jeta_2",'abs(eta())<4.7&&pt()>20&&userFloat("idLoose")','eta()',1),
                               muTauJet1PhiPtSort = makeMuTauPtPair(src,"jphi_1",'abs(eta())<4.7&&pt()>20&&userFloat("idLoose")','phi()',0),
                               muTauJet2PhiPtSort = makeMuTauPtPair(src,"jphi_2",'abs(eta())<4.7&&pt()>20&&userFloat("idLoose")','phi()',1),
-                              muTauJet1CSVPtSort = makeMuTauPtPair(src,"jcsv_1",'abs(eta())<2.4&&pt()>20&&userFloat("idLoose")','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',0),
-                              muTauJet2CSVPtSort = makeMuTauPtPair(src,"jcsv_2",'abs(eta())<2.4&&pt()>20&&userFloat("idLoose")','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',1),
+                              muTauJet1CSVPtSort = makeMuTauPtPair(src,"jcsv_1",'abs(eta())<4.7&&pt()>20&&userFloat("idLoose")','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',0),
+                              muTauJet2CSVPtSort = makeMuTauPtPair(src,"jcsv_2",'abs(eta())<4.7&&pt()>20&&userFloat("idLoose")','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',1),
                               muTauJet1MedIdPtSort = makeMuTauPtPair(src,"jtlvID_1",'','userFloat("idTightLepVeto")',0),
                               muTauJet2MedIdPtSort = makeMuTauPtPair(src,"jtlvID_2",'','userFloat("idTightLepVeto")',1),
                               muTauJet1TightIdPtSort = makeMuTauPtPair(src,"jtightID_1",'','userFloat("idTight")',0),
@@ -759,20 +759,20 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
                               eleTauMET2 = makeEleTauMET(src,"slimmedMETsPuppi","puppi"),#FILLED
                               eleTauMET3 = makeEleTauMET(src,"MVAMET:MVAMET","mva"),#FILLED
         
-                              eleTauMET = makeEleTauPair(src,"met","met.pt()"),
-                              eleTauMETPhi = makeEleTauPair(src,"metphi","met.phi()"),
+                              eleTauMET = makeEleTauPair(src,"mvamet","met.pt()"),
+                              eleTauMETPhi = makeEleTauPair(src,"mvametphi","met.phi()"),
                               #eleTauMET = makeEleTauPair(src,"mvamet","met.pt()"),
                               #eleTauMETx = makeEleTauPair(src,"mvamet_ex","met.px()"),
                               #eleTauMETy = makeEleTauPair(src,"mvamet_ey","met.py()"),
                               #eleTauMETPhi = makeEleTauPair(src,"mvametphi","met.phi()"),
-                              #eleTauCovMat00 = makeEleTauPair(src,"mvacov00","covMatrix00"),
-                              #eleTauCovMat10 = makeEleTauPair(src,"mvacov10","covMatrix10"),
-                              #eleTauCovMat01 = makeEleTauPair(src,"mvacov01","covMatrix01"),
-                              #eleTauCovMat11 = makeEleTauPair(src,"mvacov11","covMatrix11"),
+                              eleTauCovMat00 = makeEleTauPair(src,"mvacov00","covMatrix00"),
+                              eleTauCovMat10 = makeEleTauPair(src,"mvacov10","covMatrix10"),
+                              eleTauCovMat01 = makeEleTauPair(src,"mvacov01","covMatrix01"),
+                              eleTauCovMat11 = makeEleTauPair(src,"mvacov11","covMatrix11"),
 
-                              eleTauMT = makeEleTauPair(src,"mt12","mt12MET"),
-                              eleTauMT1 = makeEleTauPair(src,"mt_1","mt1MET"),
-                              eleTauMT2 = makeEleTauPair(src,"mt_2","mt2MET"),
+                              #eleTauMT = makeEleTauPair(src,"mt12","mt12MET"),
+                              #eleTauMT1 = makeEleTauPair(src,"mt_1","mt1MET"),
+                              #eleTauMT2 = makeEleTauPair(src,"mt_2","mt2MET"),
 
                               eleTauTopGenPt = makeEleTauPair(src,"topGenPt","topGenPt"),
                               eleTauAntiTopGenPt = makeEleTauPair(src,"antiTopGenPt","antiTopGenPt"),
@@ -961,8 +961,8 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
                               eleTauJet2EtaPtSort = makeEleTauPtPair(src,"jeta_2",'abs(eta())<4.7&&pt>20&&userFloat("idLoose")','eta()',1),
                               eleTauJet1PhiPtSort = makeEleTauPtPair(src,"jphi_1",'abs(eta())<4.7&&pt>20&&userFloat("idLoose")','phi()',0),
                               eleTauJet2PhiPtSort = makeEleTauPtPair(src,"jphi_2",'abs(eta())<4.7&&pt>20&&userFloat("idLoose")','phi()',1),
-                              eleTauJet1CSVPtSort = makeEleTauPtPair(src,"jcsv_1",'abs(eta())<4.7&&pt()>20','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',0),
-                              eleTauJet2CSVPtSort = makeEleTauPtPair(src,"jcsv_2",'abs(eta())<4.7&&pt()>20','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',1),
+                              eleTauJet1CSVPtSort = makeEleTauPtPair(src,"jcsv_1",'abs(eta())<4.7&&pt>20&&userFloat("idLoose")','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',0),
+                              eleTauJet2CSVPtSort = makeEleTauPtPair(src,"jcsv_2",'abs(eta())<4.7&&pt>20&&userFloat("idLoose")','bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")',1),
                               eleTauJet1MedIdPtSort = makeEleTauPtPair(src,"jtlvID_1",'abs(eta())<4.7&&pt>20&&userFloat("idLoose")','userFloat("idTightLepVeto")',0),
                               eleTauJet2MedIdPtSort = makeEleTauPtPair(src,"jtlvID_2",'abs(eta())<4.7&&pt>20&&userFloat("idLoose")','userFloat("idTightLepVeto")',1),
                               eleTauJet1TightIdPtSort = makeEleTauPtPair(src,"jtightID_1",'abs(eta())<4.7&&pt>20&&userFloat("idLoose")','userFloat("idTight")',0),

@@ -13,7 +13,7 @@ process.options.allowUnscheduled = cms.untracked.bool(True)
 
 
 from UWAnalysis.Configuration.tools.analysisToolsHTauTauSync import *
-defaultReconstructionMC(process,'HLT',
+defaultReconstructionMC(process,'HLT2',
                       [
 			'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v1',#etau
 			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v2'#muTau

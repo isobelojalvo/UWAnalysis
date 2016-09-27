@@ -35,7 +35,7 @@ class METFiller : public NtupleFillerBase {
 			tag_(iConfig.getParameter<std::string>("tag"))
 	{
 		value = new float[5];
-		t->Branch((tag_+"mt").c_str(),&value[0],(tag_+"mt/F").c_str());
+		t->Branch((tag_+"mt12").c_str(),&value[0],(tag_+"mt12/F").c_str());
 		t->Branch((tag_+"mt_2").c_str(),&value[1],(tag_+"mt_2/F").c_str());
 		t->Branch((tag_+"mt_1").c_str(),&value[2],(tag_+"mt_1/F").c_str());
 		t->Branch((tag_+"met").c_str(),&value[3],(tag_+"met/F").c_str());

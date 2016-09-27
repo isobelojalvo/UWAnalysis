@@ -10,14 +10,14 @@ process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 process.options.allowUnscheduled = cms.untracked.bool(True)
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(10000)
 )
 
 
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-'/store/mc/RunIISpring16MiniAODv1/SUSYGluGluToHToTauTau_M-160_TuneCUETP8M1_13TeV-pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/00000/004A6F0D-E624-E611-9637-02163E011CA0.root'
+'/store/mc/RunIISpring16MiniAODv2/SUSYGluGluToHToTauTau_M-160_TuneCUETP8M1_13TeV-pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/90000/66445A95-3151-E611-AA07-0090FAA579F0.root'
 		),
 		inputCommands=cms.untracked.vstring(
 						'keep *',
@@ -28,7 +28,7 @@ process.source = cms.Source("PoolSource",
 
 #added in etau and mutau triggers
 from UWAnalysis.Configuration.tools.analysisToolsHTauTauSync import *
-defaultReconstructionMC(process,'HLT',
+defaultReconstructionMC(process,'HLT2',
                       [
 			'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v1',#etau
 			'HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v2',#muTau
