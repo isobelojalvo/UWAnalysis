@@ -238,8 +238,8 @@ def mvaMet2(process, isData):
 
    from RecoMET.METPUSubtraction.MVAMETConfiguration_cff import runMVAMET
 
-
    runMVAMET( process, jetCollectionPF = "patJetsReapplyJEC"  )
+   process.tauMET.srcPFCands =  cms.InputTag("packedPFCandidates")
    process.MVAMET.srcLeptons  = cms.VInputTag("slimmedMuons", "slimmedElectrons", "slimmedTaus")
    process.MVAMET.requireOS = cms.bool(False)
    process.MVAMET.debug = cms.bool(False)
