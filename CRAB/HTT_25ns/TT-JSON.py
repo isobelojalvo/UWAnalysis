@@ -36,7 +36,10 @@ defaultReconstruction(process,'HLT',
 			'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v2',
                         'HLT_DoubleMediumIsoPFTau32_Trk1_eta2p1_Reg_v2',
                         'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v3',
-                        'HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v5'
+                        'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v4',
+                        'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v5',
+                        'HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v5',
+                        'HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v6'
                       ])
 
 #EventSelection
