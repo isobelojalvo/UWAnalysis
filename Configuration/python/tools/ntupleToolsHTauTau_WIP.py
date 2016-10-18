@@ -366,7 +366,6 @@ def addDiTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
    eventTree = cms.EDAnalyzer('EventTreeMaker',
                               genEvent = cms.InputTag('generator'),
                               coreCollections = cms.InputTag(src),
-                              ##PUT ME BACK!
                               trigger = cms.PSet(
                                   pluginType = cms.string("TriggerFiller"),
 				  src        = cms.InputTag("TriggerResults","",triggerCollection),
@@ -497,7 +496,7 @@ def addDiTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
                               diTauJJEnergy = makeDiTauPair(src,"energyJJ","energyJJ"),
                               diTauVBFDEta = makeDiTauPair(src,"jdeta","vbfDEta"),
                               diTauVBFMass = makeDiTauPair(src,"mjj","vbfMass"),#vbfMass
-                              diTauVBFJets20 = makeDiTauPair(src,"njetigap20","vbfNJetsGap20"),
+                              diTauVBFJets20 = makeDiTauPair(src,"njetingap20","vbfNJetsGap20"),
                               diTauVBFJets30 = makeDiTauPair(src,"njetingap","vbfNJetsGap30"),
                               ##FIX ME apply loose ID
                               #diTauJetsPt20nbtag = makeDiTauJetCountPair(src,"nbtag",'userFloat("isbtagged")&&pt()>20&&abs(eta)<2.4&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>.8'),
@@ -717,7 +716,7 @@ def addMuTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
                               muTauJJEnergy = makeMuTauPair(src,"energyJJ","energyJJ"),
                               muTauVBFDEta = makeMuTauPair(src,"jdeta","vbfDEta"),
                               muTauVBFMass = makeMuTauPair(src,"mjj","vbfMass"),#vbfMass
-                              muTauVBFJets20 = makeMuTauPair(src,"njetigap20","vbfNJetsGap20"),
+                              muTauVBFJets20 = makeMuTauPair(src,"njetingap20","vbfNJetsGap20"),
                               muTauVBFJets30 = makeMuTauPair(src,"njetingap","vbfNJetsGap30"),
 
                               #Muon IDs and Isolation

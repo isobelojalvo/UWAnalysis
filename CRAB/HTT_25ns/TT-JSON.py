@@ -1,3 +1,4 @@
+import os
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process("ANALYSIS")
@@ -25,9 +26,14 @@ process.source = cms.Source("PoolSource",
 		)
 )
 
-import FWCore.PythonUtilities.LumiList as LumiList
-#process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-277148_13TeV_PromptReco_Collisions16_JSON.txt').getVLuminosityBlockRange()
-process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-279116_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt').getVLuminosityBlockRange()
+#import FWCore.PythonUtilities.LumiList as LumiList
+from UWAnalysis.Configuration.JSONBtoF import myLumiList
+myLumiList(process);
+#process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-279116_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt').getVLuminosityBlockRange()
+#directory=os.environ['CMSSW_BASE']
+#process.source.lumisToProcess = LumiList.LumiList(filename = directory+'/src/UWAnalysis/CRAB/HTT_25ns/Cert_271036-279116_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt').getVLuminosityBlockRange()
+
+
 
 from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import *
 
@@ -50,7 +56,7 @@ process.eventSelectionTT = cms.Path(process.selectionSequenceTT)
 
 from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addDiTauEventTree
 
-addDiTauEventTree(process,'diTauEventTree','diTausSync')
+addDiTauEventTree(process,'diTauEventTree','diTausSyncData')
 addDiTauEventTree(process,'diTauEventTreeFinal','diTausSortedFinal')
 
 addEventSummary(process,True,'TT','eventSelectionTT')

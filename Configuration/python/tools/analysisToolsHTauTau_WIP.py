@@ -46,11 +46,11 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
 
   muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID") 
   electronTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODElectronVID") 
-  #tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"slimmedTaus") #ESTaus
+  tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"slimmedTaus") #ESTaus
   
   #Build good vertex collection
   #goodVertexFilter(process)  
-  tauEffi(process,'slimmedTaus',True)
+  tauEffi(process,'triggeredPatTaus',True)
   tauOverloading(process,'tauTriggerEfficiencies','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   #tauOverloading(process,'slimmedTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   
@@ -391,14 +391,14 @@ def tauTriggerMatchMiniAOD(process,triggerProcess,HLT,srcTau):
                                             src = cms.InputTag(srcTau),
                                             trigEvent = cms.InputTag(HLT),
                                             filtersAND = cms.vstring(
-                                                'hltOverlapFilterIsoMu17LooseIsoPFTau20',
-                                                'hltOverlapFilterIsoEle22WP75GsfLooseIsoPFTau20',
-                                                'hltOverlapFilterIsoEle22WPLooseGsfLooseIsoPFTau20'
+                                                'hltDoublePFTau32TrackPt1MediumIsolationDz02Reg',
+                                                'hltDoublePFTau35TrackPt1MediumIsolationDz02Reg',
+                                                'hltDoublePFTau40TrackPt1MediumIsolationDz02Reg'
                                             ),
                                             filters = cms.vstring(
-                                                'hltPFTau20TrackLooseIsoAgainstMuon',
-                                                'hltPFTau20TrackLooseIso',
-                                                'hltPFTau20TrackLooseIso'
+                                                'hltDoublePFTau32TrackPt1MediumIsolationDz02Reg',
+                                                'hltDoublePFTau35TrackPt1MediumIsolationDz02Reg',
+                                                'hltDoublePFTau40TrackPt1MediumIsolationDz02Reg'
                                             ),
                                             #bits = cms.InputTag("TriggerResults","","HLT"),
                                             bits = cms.InputTag(HLT,"",triggerProcess),
