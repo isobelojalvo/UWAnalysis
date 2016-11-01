@@ -26,9 +26,9 @@ int main (int argc, char* argv[])
    
    
  
-   TFile *fZpt    = new TFile("zpt_weights.root","UPDATE");
+   TFile *fZpt    = new TFile("zpt_weights_2016.root","UPDATE");
    TH2D* hZpt = 0;
-   /*if(fZpt!=0 && fZpt->IsOpen()) {
+   if(fZpt!=0 && fZpt->IsOpen()) {
      hZpt = (TH2D*)fZpt->Get("zptmass_histo");;
      printf("ENABLING Z WEIGHTING USING HISTOGRAM\n");
    }
@@ -36,7 +36,7 @@ int main (int argc, char* argv[])
      printf("ERROR!!! WEIGHT FILE NOT FOUND!!! EXITING!!!\n");
      return 0;
    }
- */
+ 
  
    TFile *f0 = new TFile("ZJETS.root","UPDATE");   
    readdir(f0,parser,hZpt);
@@ -94,7 +94,7 @@ void readdir(TDirectory *dir,optutl::CommandLineParser parser, TH2D* hist)
 				float genPt = TMath::Sqrt(genPx*genPx+genPy*genPy);
 				//printf("Found genPt -> %f,\n",genPt);
                 weight =  1.0;
-                //weight = hist->GetBinContent(hist->GetXaxis()->FindBin(mLL),hist->GetYaxis()->FindBin(genPt));
+                weight = hist->GetBinContent(hist->GetXaxis()->FindBin(mLL),hist->GetYaxis()->FindBin(genPt));
 				//printf("Found Zweight -> %f,\n",weight);
 				weight2 = 0.2 * genTauPt/1000.; 
                 if (std::abs(TauEta)<1.460)  weight3=1.8;

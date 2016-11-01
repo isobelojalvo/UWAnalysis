@@ -71,8 +71,8 @@ createGeneratedParticles(process,
 
 from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addDiTauEventTree
 
-addDiTauEventTree(process,'diTauEventTree','diTausAntiMu')
-addDiTauEventTree(process,'diTauEventTreeFinal','diTausSortedFinal')
+addDiTauEventTree(process,'diTauEventTree','diTausSync','diMuonsOSSorted','TightMuons','TightElectrons','HLT')
+addDiTauEventTree(process,'diTauEventTreeFinal','diTausSortedFinal','diMuonsOSSorted','TightMuons','TightElectrons','HLT')
 
 addEventSummary(process,True,'TT','eventSelectionTT')
 

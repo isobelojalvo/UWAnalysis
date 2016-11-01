@@ -10,7 +10,8 @@
 
 <!--<use   name="roottmva"/>0-->
 
-
+<bin   name="dummyJSONreadin" file="dummyJSONreadin.cc">
+</bin>
 <bin   name="SVFitStandAlone" file="SVFitStandAlone.cc">
 </bin>
 <bin   name="SVFitStandAloneRecoil" file="SVFitStandAloneRecoil.cc">

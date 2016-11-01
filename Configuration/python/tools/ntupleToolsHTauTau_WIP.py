@@ -399,6 +399,8 @@ def addDiTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
                               diTauEta2 = makeDiTauPair(src,"eta_2","leg2.eta"),
                               diTauPhi1 = makeDiTauPair(src,"phi_1","leg1.phi"),
                               diTauPhi2 = makeDiTauPair(src,"phi_2","leg2.phi"),
+                              diTauHadMass1 = makeDiTauPair(src,"m_1",'leg1.mass()'),
+                              diTauHadMass2 = makeDiTauPair(src,"m_2",'leg2.mass()'),
                               diTauCharge = makeDiTauPair(src,"charge","charge"),
                               q_1 = makeDiTauPair(src,"q_1","leg1.charge"),
                               q_2 = makeDiTauPair(src,"q_2","leg2.charge"),
@@ -582,8 +584,6 @@ def addDiTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
                                   method     = cms.string("eta"),
                                   leadingOnly=cms.untracked.bool(False)
                               )
-                              
-
                               )
    setattr(process, name, eventTree)
    p = cms.Path(getattr(process,name))

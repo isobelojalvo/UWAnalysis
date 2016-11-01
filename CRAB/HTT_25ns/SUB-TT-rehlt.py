@@ -6,6 +6,7 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(False))
 process.options.allowUnscheduled = cms.untracked.bool(True)
 
+
 process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_v14'
 
 
