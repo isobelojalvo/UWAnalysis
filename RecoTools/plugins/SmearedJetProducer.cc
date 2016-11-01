@@ -21,7 +21,7 @@ SmearedJetProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
     using namespace reco;
 
     edm::ESHandle<JetCorrectorParametersCollection> JetCorParColl;
-    iSetup.get<JetCorrectionsRecord>().get("AK5PF",JetCorParColl); 
+    iSetup.get<JetCorrectionsRecord>().get("AK4PF",JetCorParColl); 
     JetCorrectorParameters const & JetCorPar = (*JetCorParColl)["Uncertainty"];
     JetCorrectionUncertainty *jecUnc = new JetCorrectionUncertainty(JetCorPar);
 

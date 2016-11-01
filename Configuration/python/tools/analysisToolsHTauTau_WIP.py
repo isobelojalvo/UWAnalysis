@@ -243,6 +243,7 @@ def mvaMet2(process, isData):
    process.MVAMET.srcLeptons  = cms.VInputTag("slimmedMuons", "slimmedElectrons", "slimmedTaus")
    process.MVAMET.requireOS = cms.bool(False)
    process.MVAMET.debug = cms.bool(False)
+   process.tauMET.srcPFCands =  cms.InputTag("packedPFCandidates")
 
    process.analysisSequence = cms.Sequence(process.analysisSequence*process.MVAMET)
 

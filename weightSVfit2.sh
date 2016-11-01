@@ -1,15 +1,23 @@
 #!/bin/sh
-#mkdir /nfs_scratch/$USER/SMHiggs_weighted
-#cp /nfs_scratch/$USER/SMHiggs_unweighted/* /nfs_scratch/$USER/SMHiggs_weighted/.
-cd /nfs_scratch/$USER/SMHiggs_weighted/
+#mkdir /nfs_scratch/$USER/SMHiggs_SVfit_weighted
+#cp /nfs_scratch/$USER/SMHiggs_SVfit_unweighted/* /nfs_scratch/$USER/SMHiggs_SVfit_weighted/.
+cd /nfs_scratch/$USER/SMHiggs_SVfit_weighted/
 
 
-weight=0;
-weightTT=0;
-weightH=0;
-weightW=0
+weight=2;
+weightEWK=2;
+weightTriBoson=2;
+weightTT=2;
+weightH=2;
+weightW=2
 weightZ=1;
-
+    
+    
+#hadd -f VV.root WWTo*root WZTo*root ZZTo*.root VVTo*root
+#hadd -f singleT.root  St_*.root t*tW.root
+#hadd -f DiBoson.root WWTo*root WZTo*root ZZTo*.root St_*.root t*tW.root VVTo*root
+#hadd -f EWK.root EWK*root
+#hadd -f TriBoson.root WWW*root WWZ*root WZZ*root ZZZ*root 
 
 
 if [ $weightH -eq 1 ]
@@ -25,10 +33,9 @@ fi
 
 if [ $weightZ -eq 1 ]
     then
-    #Zpt histogram not cureently used in Zpt reweighting 
     EventWeightsIterativeZJets    weight=1    histoName='MT/results' 
-    hadd ZJETS.root ZJets_ext1.root Z1Jets.root Z2Jets.root Z3Jets.root Z4Jets.root ZJets_150.root
-    EventWeightsIterativeZPt    weight=1    histoName='MT/results' 
+    #hadd ZJETS.root ZJets_ext1.root Z1Jets.root Z2Jets.root Z3Jets.root Z4Jets.root ZJets_150.root
+    #EventWeightsIterativeZPt    weight=1    histoName='MT/results' 
 fi
 
 if [ $weightW -eq 1 ]
@@ -38,15 +45,31 @@ if [ $weightW -eq 1 ]
  
 fi
 
+if [ $weightEWK -eq 1 ]
+    then
+    echo 'Weight TT'
+    nohup EventWeightsIterativeGen outputFile='EWKZ2JetLL.root'  weight=3.987    histoName='MT/results' sumHistoName='sumweights/genWeights' &
+    nohup EventWeightsIterativeGen outputFile='EWKZ2JetNuNu.root'  weight=10.01    histoName='MT/results' sumHistoName='sumweights/genWeights' &
+    nohup EventWeightsIterativeGen outputFile='EWKminus2jet.root'  weight=20.25    histoName='MT/results' sumHistoName='sumweights/genWeights' &
+    nohup EventWeightsIterativeGen outputFile='EWKplus2jet.root'  weight=25.62    histoName='MT/results' sumHistoName='sumweights/genWeights' &
+fi
+
+if [ $weightTriBoson -eq 1 ]
+    then
+    echo 'Weight TT'
+    nohup EventWeightsIterativeGen outputFile='WWW.root'  weight=0.2086    histoName='MT/results' sumHistoName='sumweights/genWeights' &
+    nohup EventWeightsIterativeGen outputFile='WWZ.root'  weight=0.1651    histoName='MT/results' sumHistoName='sumweights/genWeights' &
+    nohup EventWeightsIterativeGen outputFile='WZZ.root'  weight=0.05565   histoName='MT/results' sumHistoName='sumweights/genWeights' &
+    nohup EventWeightsIterativeGen outputFile='ZZZ.root'  weight=0.01398   histoName='MT/results' sumHistoName='sumweights/genWeights' &
+fi
+
+
 
 if [ $weightTT -eq 1 ]
     then
     echo 'Weight TT'
-    #EventWeightsIterativeTT outputFile='TTJets.root'  weight=831.76     histoName='MT/results' sumHistoName='sumweights/genWeights'
     nohup EventWeightsIterativeTT outputFile='TT.root'  weight=831.76     histoName='MT/results' sumHistoName='sumweights/genWeights' &
     #EventWeightsIterativeTT has top pt reweighting
-    #EventWeightsIterativeTT outputFile='TT.root'  weight=831.76     histoName='MT/results' sumHistoName='sumweights/genWeights'
-
 fi
 
 if [ $weight -eq 1 ]
@@ -83,7 +106,7 @@ if [ $weight -eq 1 ]
     echo 'Weight St_top'
     nohup EventWeightsIterativeGen outputFile='St_top.root'       weight=44.07    histoName='MT/results' sumHistoName='sumweights/genWeights' & #136 * 3*.108
 
-    hadd -f DiBoson.root WWTo*root WZTo*root ZZTo*.root St_*.root t*tW.root VVTo*root
+    #hadd -f DiBoson.root WWTo*root WZTo*root ZZTo*.root St_*.root t*tW.root VVTo*root
 fi
 
 

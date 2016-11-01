@@ -1,14 +1,14 @@
 #!/bin/sh
-mkdir /nfs_scratch/$USER/SMHiggs_charged_weighted1
-cp /nfs_scratch/$USER/SMHiggs_charged_unweighted1/* /nfs_scratch/$USER/SMHiggs_charged_weighted1/.
-cd /nfs_scratch/$USER/SMHiggs_charged_weighted1/
+#mkdir /nfs_scratch/$USER/SMHiggs_weighted2
+#cp /nfs_scratch/$USER/SMHiggs_unweighted/* /nfs_scratch/$USER/SMHiggs_weighted2/.
+cd /nfs_scratch/$USER/SMHiggs_weighted2/
 
 
-weight=0;
-weightTT=0;
-weightH=0;
-weightW=0
-weightZ=1;
+weight=2;
+weightTT=1;
+weightH=2;
+weightW=2;
+weightZ=2;
 
 
 

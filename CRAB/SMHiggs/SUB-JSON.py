@@ -8,7 +8,7 @@ process.GlobalTag.globaltag = '80X_dataRun2_Prompt_ICHEP16JEC_v0'
 #process.GlobalTag.globaltag = '80X_dataRun2_Prompt_v9'
 
 
-process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
+process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(False))
 process.options.allowUnscheduled = cms.untracked.bool(True)
 
 
@@ -23,8 +23,9 @@ process.source = cms.Source("PoolSource",
 )
 
 import FWCore.PythonUtilities.LumiList as LumiList
-process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-279116_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt').getVLuminosityBlockRange()
-
+#process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_NoL1T_v2.txt').getVLuminosityBlockRange()
+from UWAnalysis.Configuration.JSONBtoF import myLumiList
+myLumiList(process);
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(-1)

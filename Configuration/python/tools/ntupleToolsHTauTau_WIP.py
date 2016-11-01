@@ -92,6 +92,15 @@ def makeMuTauMET(sourceDiTaus, sourceMET, prefix):
          tag         = cms.string(prefix)
    )
    return PSet
+def makeMuTauMETUncert(sourceDiTaus, sourceMET, prefix, shift):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATMuTauPairMETUncertaintyFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         met         = cms.InputTag(sourceMET),
+         tag         = cms.string(prefix),
+         uncert      = cms.string(shift) #EnUp or EnDown Available
+   )
+   return PSet
 
 def makeMuTauEventWeight(sourceDiTaus):
    PSet = cms.PSet(
@@ -224,6 +233,15 @@ def makeEleTauMET(sourceDiTaus, sourceMET, prefix):
    )
    return PSet
 
+def makeEleTauMETUncert(sourceDiTaus, sourceMET, prefix, shift):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATEleTauPairMETUncertaintyFiller"),
+         src         = cms.InputTag(sourceDiTaus),
+         met         = cms.InputTag(sourceMET),
+         tag         = cms.string(prefix),
+         uncert      = cms.string(shift)  #EnUp or EnDown Available
+   )
+   return PSet
 
 def makeEleTauPOGSF(sourceDiTaus):
    PSet = cms.PSet(
@@ -305,6 +323,11 @@ def addMuTauShortEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOS
                                   src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
                                   tag        = cms.string("npv")
                               ),#FILLED
+                               muTauLHEProduct2 = cms.PSet(
+                                  pluginType = cms.string("LHEProductFiller"),
+                                  src        = cms.InputTag("externalLHEProducer"),
+                                  tag        = cms.string("LHEProduct"),
+                              ),
  
                               muTauPOG = makeMuTauPOGSF(src),#FILLED
                               muTauEventWeight = makeMuTauEventWeight(src),#FILLED
@@ -332,6 +355,9 @@ def addMuTauShortEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOS
                               muTauMET1 = makeMuTauMET(src,"slimmedMETs","pf"),#FILLED
                               muTauMET2 = makeMuTauMET(src,"slimmedMETsPuppi","puppi"),#FILLED
                               muTauMET3 = makeMuTauMET(src,"MVAMET:MVAMET","mva"),#FILLED
+
+                              muTauMETUncertUp = makeMuTauMETUncert(src,"slimmedMETs","pf","EnUp"),#FILLED
+                              muTauMETUncertDown = makeMuTauMETUncert(src,"slimmedMETs","pf","EnDown"),#FILLED
  
                               muTauMET = makeMuTauPair(src,"mvamet","met.pt()"),#FILLED
                               muTauMETPhi = makeMuTauPair(src,"mvametphi","met.phi()"),#FILLED
@@ -371,7 +397,17 @@ def addMuTauShortEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOS
                               muTauGenBosonVisPx = makeMuTauPair(src,"vispX",'p4GenBosonVis().px()'),
                               muTauGenBosonVisPy = makeMuTauPair(src,"vispY",'p4GenBosonVis().py()'),
 
-
+                              muTauByOldDMMVAIsoTight = makeMuTauPair(src,"byTightIsolationMVArun2v1DBoldDMwLT_2",'leg2.tauID("byTightIsolationMVArun2v1DBoldDMwLT")'),
+                              muTauByOldDMMVAIsoMedium = makeMuTauPair(src,"byMediumIsolationMVArun2v1DBoldDMwLT_2",'leg2.tauID("byMediumIsolationMVArun2v1DBoldDMwLT")'),
+                              muTauAgainstMuonTight3 = makeMuTauPair(src,"againstMuonTight3_2",'leg2.tauID("againstMuonTight3")'),
+                              muTauAgainstEleVLooseMVA6 = makeMuTauPair(src,"againstElectronVLooseMVA6_2",'leg2.tauID("againstElectronVLooseMVA6")'),
+                              muTauagainstElectronMVA6Raw = makeMuTauPair(src,"againstElectronMVA6Raw_2",'leg2.tauID("againstElectronMVA6Raw")'),
+                              muTauagainstElectronMVA6category = makeMuTauPair(src,"againstElectronMVA6category_2",'leg2.tauID("againstElectronMVA6category")'),
+                              muTauagainstElectronMediumMVA6 = makeMuTauPair(src,"againstElectronMediumMVA6_2",'leg2.tauID("againstElectronMediumMVA6")'),
+                              muTauagainstElectronTightMVA6 = makeMuTauPair(src,"againstElectronTightMVA6_2",'leg2.tauID("againstElectronTightMVA6")'),
+                              muTauagainstElectronVLooseMVA6 = makeMuTauPair(src,"againstElectronVLooseMVA6_2",'leg2.tauID("againstElectronVLooseMVA6")'),
+                              muTauagainstElectronVTightMVA6 = makeMuTauPair(src,"againstElectronVTightMVA6_2",'leg2.tauID("againstElectronVTightMVA6")'),
+ 
                               muTauMass = makeMuTauPair(src,"m_vis","mass") #FILLED
 
 
@@ -490,6 +526,8 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauMET2 = makeMuTauMET(src,"slimmedMETsPuppi","puppi"),#FILLED
                               muTauMET3 = makeMuTauMET(src,"MVAMET:MVAMET","mva"),#FILLED
  
+                              muTauMETUncertUp = makeMuTauMETUncert(src,"slimmedMETs","pf","EnUp"),#FILLED
+                              muTauMETUncertDown = makeMuTauMETUncert(src,"slimmedMETs","pf","EnDown"),#FILLED
                               #muTauGenMET = makeMuTauPair(src,"genMET","met.genMET().pt"),#FILLED
                               muTauMET = makeMuTauPair(src,"mvamet","met.pt()"),#FILLED
                               muTauMETPhi = makeMuTauPair(src,"mvametphi","met.phi()"),#FILLED
@@ -709,11 +747,6 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                                   leadingOnly=cms.untracked.bool(True)
                               ),#FILLED in higgs sample
 
-                              #muTauLHEProduct = cms.PSet(
-                              #    pluginType = cms.string("LHEProductFiller"),
-                              #    src        = cms.InputTag("source"),
-                              #    tag        = cms.string("LHEProduct"),
-                              #),
                               muTauLHEProduct2 = cms.PSet(
                                   pluginType = cms.string("LHEProductFiller"),
                                   src        = cms.InputTag("externalLHEProducer"),
@@ -763,8 +796,14 @@ def addEleTauShortEventTree(process,name,src='eleTausSorted',srcLL='diElectronsO
                                   src        = cms.InputTag("METSignificance"),
                                   tag        = cms.string("metcov")
                               ),
-
+                              eleTauLHEProduct2 = cms.PSet(
+                                  pluginType = cms.string("LHEProductFiller"),
+                                  src        = cms.InputTag("externalLHEProducer"),
+                                  tag        = cms.string("LHEProduct"),
+                              ),#WHAT IS THIS
+ 
                               eTauPOG = makeEleTauPOGSF(src),#FILLED
+                              eleEleSizeVeto = makeCollSizeVeto(srcLL,0,"dilepton_veto"),
                               eTauEventWeight = makeEleTauEventWeight(src),#FILLED
                               eTauEventWeightTmp = makeEleTauEventWeightTmp(src),#FILLED
                               #eleTauNBTags = makeEleTauNBTag(src),#FILLED
@@ -787,6 +826,9 @@ def addEleTauShortEventTree(process,name,src='eleTausSorted',srcLL='diElectronsO
                               eleTauMET1 = makeEleTauMET(src,"slimmedMETs","pf"),#FILLED
                               eleTauMET2 = makeEleTauMET(src,"slimmedMETsPuppi","puppi"),#FILLED
                               eleTauMET3 = makeEleTauMET(src,"MVAMET:MVAMET","mva"),#FILLED
+
+                              eleTauMETUncertUp = makeEleTauMETUncert(src,"slimmedMETs","pf","EnUp"),#FILLED
+                              eleTauMETUncertDown = makeEleTauMETUncert(src,"slimmedMETs","pf","EnDown"),#FILLED
  
                               eleTauMET = makeEleTauPair(src,"mvamet","met.pt()"),#FILLED
                               eleTauMETPhi = makeEleTauPair(src,"mvametphi","met.phi()"),#FILLED
@@ -827,7 +869,20 @@ def addEleTauShortEventTree(process,name,src='eleTausSorted',srcLL='diElectronsO
                               eleTauGenBosonVisPx = makeEleTauPair(src,"vispX",'p4GenBosonVis().px()'),
                               eleTauGenBosonVisPy = makeEleTauPair(src,"vispY",'p4GenBosonVis().py()'),
 
-                              eleTauMass = makeEleTauPair(src,"m_vis","mass") #FILLED
+                              eleTauMass = makeEleTauPair(src,"m_vis","mass"), #FILLED
+
+                              eleTauByOldDMMVAIsoTight = makeEleTauPair(src,"byTightIsolationMVArun2v1DBoldDMwLT_2",'leg2.tauID("byTightIsolationMVArun2v1DBoldDMwLT")'),
+                              eleTauByOldDMMVAIsoMedium = makeEleTauPair(src,"byMediumIsolationMVArun2v1DBoldDMwLT_2",'leg2.tauID("byMediumIsolationMVArun2v1DBoldDMwLT")'),
+                              eleTauAgainstMuonLoose3 = makeEleTauPair(src,"againstMuonLoose3_2",'leg2.tauID("againstMuonLoose3")'),
+                              eleTauAgainstMuonTight3 = makeEleTauPair(src,"againstMuonTight3_2",'leg2.tauID("againstMuonTight3")'),
+
+                              eleTauagainstElectronMVA6Raw = makeEleTauPair(src,"againstElectronMVA6Raw_2",'leg2.tauID("againstElectronMVA6Raw")'),
+                              eleTauagainstElectronMVA6category = makeEleTauPair(src,"againstElectronMVA6category_2",'leg2.tauID("againstElectronMVA6category")'),
+                              eleTauAgainstEleVLooseMVA6 = makeEleTauPair(src,"againstElectronVLooseMVA6_2",'leg2.tauID("againstElectronVLooseMVA6")'),
+                              eleTauAgainstElectronLooseMVA6 = makeEleTauPair(src,"againstElectronLooseMVA6_2",'leg2.tauID("againstElectronLooseMVA6")'),
+                              eleTauagainstElectronMediumMVA6 = makeEleTauPair(src,"againstElectronMediumMVA6_2",'leg2.tauID("againstElectronMediumMVA6")'),
+                              eleTauagainstElectronTightMVA6 = makeEleTauPair(src,"againstElectronTightMVA6_2",'leg2.tauID("againstElectronTightMVA6")'),
+                              eleTauagainstElectronVTightMVA6 = makeEleTauPair(src,"againstElectronVTightMVA6_2",'leg2.tauID("againstElectronVTightMVA6")')
 
 
    )
@@ -950,7 +1005,10 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
                               eleTauMET1 = makeEleTauMET(src,"slimmedMETs","pf"),#FILLED
                               eleTauMET2 = makeEleTauMET(src,"slimmedMETsPuppi","puppi"),#FILLED
                               eleTauMET3 = makeEleTauMET(src,"MVAMET:MVAMET","mva"),#FILLED
-        
+
+                              eleTauMETUncertUp = makeEleTauMETUncert(src,"slimmedMETs","pf","EnUp"),#FILLED
+                              eleTauMETUncertDown = makeEleTauMETUncert(src,"slimmedMETs","pf","EnDown"),#FILLED 
+
                               eleTauMET = makeEleTauPair(src,"mvamet","met.pt()"),
                               eleTauMETPhi = makeEleTauPair(src,"mvametphi","met.phi()"),
                               #eleTauMET = makeEleTauPair(src,"mvamet","met.pt()"),
@@ -1194,10 +1252,6 @@ def addEleTauEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSort
 
 
 
-                              #eleTauLHEProduct = cms.PSet(
-                              #    pluginType = cms.string("LHEProductFiller"),
-                              #    src        = cms.InputTag("source"),
-                              #    tag        = cms.string("LHEProduct"),
                               #),
                               eleTauLHEProduct2 = cms.PSet(
                                   pluginType = cms.string("LHEProductFiller"),
