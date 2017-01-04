@@ -340,6 +340,9 @@ def addMuTauShortEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOS
                               muTauOS = makeCollSizeOS(src,0,"os"),#FILLED
                               muMuSize = makeCollSize(srcLL,"diLeptons"),#CHECKME
                               muMuSizeVeto = makeCollSizeVeto(srcLL,0,"dilepton_veto"),#CHECKME
+
+
+
                               muTauVBFDEta = makeMuTauPair(src,"vbfDEta","vbfDEta"),
                               muTauVBFDPhi = makeMuTauPair(src,"vbfDPhi","vbfDPhi"),
                               muTauVBFMass = makeMuTauPair(src,"vbfMass","vbfMass"),#vbfMass
@@ -603,7 +606,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
 
                               muTauHadflightLengthx = makeMuTauPair(src,"flightLengthx_2",'leg2.flightLength().x()'),
                               muTauHadflightLengthy = makeMuTauPair(src,"flightLengthy_2",'leg2.flightLength().y()'),
-                              muTauHadflightLengthz = makeMuTauPair(src,"flightLengthz_2",'leg2.flightLength().x()'),
+                              muTauHadflightLengthz = makeMuTauPair(src,"flightLengthz_2",'leg2.flightLength().z()'),
                               muTauHadflightLength = makeMuTauPair(src,"flightLength_2",'sqrt(leg2.flightLength().Mag2)'),
                               muTauHadflightLengthSig = makeMuTauPair(src,"flightLengthSig_2",'leg2.flightLengthSig()'),
                               muTauHadhasSecondaryVertex = makeMuTauPair(src,"hasSecondaryVertex_2",'leg2.hasSecondaryVertex()'),
@@ -644,6 +647,8 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauagainstElectronMVA6category = makeMuTauPair(src,"againstElectronMVA6category_2",'leg2.tauID("againstElectronMVA6category")'),
                               muTauagainstElectronMediumMVA6 = makeMuTauPair(src,"againstElectronMediumMVA6_2",'leg2.tauID("againstElectronMediumMVA6")'),
                               muTauagainstElectronTightMVA6 = makeMuTauPair(src,"againstElectronTightMVA6_2",'leg2.tauID("againstElectronTightMVA6")'),
+
+
                               muTauagainstElectronVLooseMVA6 = makeMuTauPair(src,"againstElectronVLooseMVA6_2",'leg2.tauID("againstElectronVLooseMVA6")'),
                               muTauagainstElectronVTightMVA6 = makeMuTauPair(src,"againstElectronVTightMVA6_2",'leg2.tauID("againstElectronVTightMVA6")'),
                               muTaubyIsolationMVArun2v1DBdR03oldDMwLTraw = makeMuTauPair(src,"byIsolationMVArun2v1DBdR03oldDMwLTraw_2",'leg2.tauID("byIsolationMVArun2v1DBdR03oldDMwLTraw")'),
@@ -735,8 +740,16 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauJetsPt20TagMatch = makeMuTauJetCountPair(src,"nTaggableJetsPt20Matched",'pt()>20&&abs(eta)<2.4&&abs(partonFlavour)==5'),
                               muTauJetsPt20TagNoMatch = makeMuTauJetCountPair(src,"nTaggableJetsPt20NotMatched",'pt()>30&&abs(eta)<2.4&&abs(partonFlavour)!=5'),
                               muTauFirstJetShape = makeLTauGeneric("PATMuTauPairHighestPtJetVarFiller",src,"highestJetShape",'userFloat("ptRMS")'),
-                              muTauFirstJetCSV = makeLTauGeneric("PATMuTauPairHighestPtJetVarFiller",src,"highestJetBTagCSV",'bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")'),
+                              muTauFirstJetCSV = makeLTauGeneric("PATMuTauPairHighestPtJetVarFiller",src,"highestJetBTagCSV",'bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")')
 
+
+   )
+
+   setattr(process, name, eventTree)
+   p = cms.Path(getattr(process,name))
+   setattr(process, name+'Path', p)
+
+'''
                               mumuDR = makeLTauGeneric("PATMuPairFiller",srcLL,"diLeptonDR","dR12"),#FIXME
 
                               higgsPt = cms.PSet(
@@ -773,12 +786,13 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                                   leadingOnly=cms.untracked.bool(False)
                               )#FIXME #CHECKME
 
+                              
    )
 
    setattr(process, name, eventTree)
    p = cms.Path(getattr(process,name))
    setattr(process, name+'Path', p)
-
+'''
 
 def addEleTauShortEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSorted', srcU='TightMuons', srcE='TightElectrons'):
    process.TFileService = cms.Service("TFileService", fileName = cms.string("analysis.root") )
