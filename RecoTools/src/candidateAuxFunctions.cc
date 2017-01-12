@@ -22,11 +22,14 @@ const reco::GenParticle* findGenParticle(const reco::Candidate::LorentzVector& d
 					 const reco::GenParticleCollection& genParticles, double dRmax, int status,
 					 const std::vector<int>* pdgIds, bool pdgIdStrict)
 {
+  //std::cout<<std::endl;
+  //std::cout<<"searching for "<< direction.pt() << " , " << direction.eta() << std::endl;
+
   bool bestMatchMatchesPdgId = false;
   const reco::GenParticle* bestMatch = 0;
   
   float lowDiff = 9999.0;
-  
+  //std::cout<<"iterating through particle PDGIds"<<std::endl;
   for ( reco::GenParticleCollection::const_iterator genParticle = genParticles.begin();
 	genParticle != genParticles.end(); ++genParticle ) {
     bool matchesPdgId = false;
@@ -34,12 +37,12 @@ const reco::GenParticle* findGenParticle(const reco::Candidate::LorentzVector& d
       for ( std::vector<int>::const_iterator pdgId = pdgIds->begin(); pdgId != pdgIds->end(); ++pdgId ) {
 	if ( genParticle->pdgId() == (*pdgId) ) {
 	  matchesPdgId = true;
+	  //std::cout<<"matches PDGID "<<(*pdgId)<<std::endl;
 	  break;
         }
       }
     }
-    
-   
+
     //if ( abs(genParticle->pdgId()) == 12 || abs(genParticle->pdgId()) == 14 || abs(genParticle->pdgId()) == 16 || abs(genParticle->pdgId()) == 22 || abs(genParticle->pdgId()) == 23 ) continue;
     if ( abs(genParticle->pdgId()) == 12 || abs(genParticle->pdgId()) == 14 || abs(genParticle->pdgId()) == 16 || abs(genParticle->pdgId()) == 22 || abs(genParticle->pdgId()) == 23 || abs(genParticle->pdgId()) == 211) continue;
     
@@ -51,13 +54,14 @@ const reco::GenParticle* findGenParticle(const reco::Candidate::LorentzVector& d
     if ( !statusMatch ) continue;
 
     double dR = reco::deltaR(direction, genParticle->p4());
+    //std::cout<<"checking dR: "<<dR<<" dRMax: "<<dRmax<<std::endl;
     if ( dR > dRmax ) continue;
 
-	float diff = fabs( direction.pt() - genParticle->pt() );
-
-// 	std::cout << "Attempted genMatch: PDGID = " << genParticle->pdgId() << " , status = " << genParticle->status() << " , pT = " << 
-// 	genParticle->pt() << " , eta = " << genParticle->eta() << std::endl;
- 	
+    float diff = fabs( direction.pt() - genParticle->pt() );
+    //std::cout<<"diff pt gen and direction "<<diff<<std::endl;
+    //std::cout << "Attempted genMatch: PDGID = " << genParticle->pdgId() << " , status = " << genParticle->status() << " , pT = " << 
+    //  genParticle->pt() << " , eta = " << genParticle->eta() << std::endl;
+    
     // Check if old bestMatch was not a prefered ID and the new one is.
     if ( bestMatchMatchesPdgId ) {
       // If the old one matches, only use the new one if it is a better
@@ -78,13 +82,15 @@ const reco::GenParticle* findGenParticle(const reco::Candidate::LorentzVector& d
       }
     }
   }
-//   if( bestMatch != 0 ){
-// 	std::cout << "Best Match: PDGID = " << bestMatch->pdgId() << " , status = " << bestMatch->status() << " , dR = " << 
-// 	reco::deltaR(direction, bestMatch->p4()) << " , pT Diff = " << fabs( direction.pt() - bestMatch->pt() ) << std::endl;
-//   }
-//   else{
-//   	std::cout << "No Fucking Match For " << direction.pt() << " , " << direction.eta() << std::endl;
-//   }
+
+  //if( bestMatch != 0 ){
+    //std::cout << "Best Match: PDGID = " << bestMatch->pdgId() << " , status = " << bestMatch->status() << " , dR = " << 
+    //reco::deltaR(direction, bestMatch->p4()) << " , pT Diff = " << fabs( direction.pt() - bestMatch->pt() ) << std::endl;
+  // }
+  //else{
+    //std::cout << "No Fucking Match For " << direction.pt() << " , " << direction.eta() << std::endl;
+  //}
+  //std::cout<<"bestMatch "<<bestMatch<<std::endl;
   return bestMatch;
   
 }

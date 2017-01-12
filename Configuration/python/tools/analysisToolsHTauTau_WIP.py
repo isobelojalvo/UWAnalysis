@@ -41,7 +41,7 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
 
   recorrectJets(process, True) #adds patJetsReapplyJEC
   
-  mvaMet2(process, True) #isData
+  #mvaMet2(process, True) #isData
   metSignificance(process)
 
   muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID") 
@@ -67,6 +67,66 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   process.runAnalysisSequence = cms.Path(process.analysisSequence)
 
 
+
+def defaultReconstructionMCrehlt(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu9','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v2','HLT_Mu15_v1','HLT_Mu15_v2'],HLT = 'TriggerResults'):
+  process.load("UWAnalysis.Configuration.startUpSequence_cff")
+  process.load("Configuration.StandardSequences.Services_cff")
+  process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
+  process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
+  process.load("DQMServices.Core.DQM_cfg")
+  process.load("DQMServices.Components.DQMEnvironment_cfi")
+  process.load('Configuration.StandardSequences.Services_cff')
+  process.load('Configuration.EventContent.EventContent_cff')
+  process.load('SimGeneral.MixingModule.mixNoPU_cfi')
+  process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
+  process.load('Configuration.StandardSequences.MagneticField_38T_cff')
+  process.load('Configuration.StandardSequences.EndOfProcess_cff')
+ 
+  #Make the TriggerPaths Global variable to be accesed by the ntuples
+  global TriggerPaths
+  TriggerPaths= triggerPaths
+  global TriggerProcess
+  TriggerProcess= triggerProcess
+  global TriggerRes
+  TriggerRes=HLT 
+ 
+  process.analysisSequence = cms.Sequence()
+
+  #Apply Tau Energy Scale Changes
+  #EScaledTaus(process,False)
+
+  MiniAODEleVIDEmbedder(process,"slimmedElectrons")  
+  MiniAODMuonIDEmbedder(process,"slimmedMuons")  
+
+  #reapplyPUJetID(process) 
+  recorrectJets(process, False) #adds patJetsReapplyJEC
+  # mvaMet2(process, False) #isData
+  metSignificance(process)
+
+
+  #no trigger here!!!  
+  muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID")#NEW
+  electronTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODElectronVID")#NEW
+  tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"slimmedTaus") #ESTaus
+  #tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"slimmedTaus")
+  
+  #Build good vertex collection
+  #goodVertexFilter(process)  
+  tauEffi(process,'triggeredPatTaus',False)
+  tauOverloading(process,'tauTriggerEfficiencies','triggeredPatMuons','offlineSlimmedPrimaryVertices')
+  
+  triLeptons(process)
+  #jetOverloading(process,"slimmedJets",False)
+  jetOverloading(process,"patJetsReapplyJEC",False)
+
+  jetFilter(process,"patOverloadedJets")
+
+  GenSumWeights(process)
+  GenHTCalculator(process)
+  #Default selections for systematics
+  applyDefaultSelectionsPT(process)
+
+  process.runAnalysisSequence = cms.Path(process.analysisSequence)
 
 def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu9','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v1','HLT_Mu11_PFTau15_v2','HLT_Mu15_v1','HLT_Mu15_v2'],HLT = 'TriggerResults'):
   process.load("UWAnalysis.Configuration.startUpSequence_cff")
@@ -100,7 +160,7 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
 
   #reapplyPUJetID(process) 
   recorrectJets(process, False) #adds patJetsReapplyJEC
-  mvaMet2(process, False) #isData
+  # mvaMet2(process, False) #isData
   metSignificance(process)
 
 

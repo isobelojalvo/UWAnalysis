@@ -2,7 +2,7 @@
 #voms-proxy-init --voms cms --valid 100:00
 
 #Submit the reprocessed Data
-jobID=2016_Oct28
+jobID=2016_Dec5
 
 farmoutAnalysisJobs  $1  --assume-input-files-exist --skip-existing-output --vsize-limit=8000   --input-files-per-job=1 --input-file-list=TauRun2016B.txt ${jobID}_TAU2016B_Jul21 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/HTT_25ns/SUB-TT-JSON.py
 farmoutAnalysisJobs  $1  --assume-input-files-exist --skip-existing-output --vsize-limit=8000   --input-files-per-job=1 --input-file-list=TauRun2016C.txt ${jobID}_TAU2016C_Jul21 $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/HTT_25ns/SUB-TT-JSON.py

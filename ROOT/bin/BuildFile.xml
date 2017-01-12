@@ -10,6 +10,8 @@
 
 <!--<use   name="roottmva"/>0-->
 
+<bin   name="EventWeightsIterativeZptSvFit" file="EventWeightsIterativeZptSvFit.cc">
+</bin>
 <bin   name="dummyJSONreadin" file="dummyJSONreadin.cc">
 </bin>
 <bin   name="SVFitStandAlone" file="SVFitStandAlone.cc">

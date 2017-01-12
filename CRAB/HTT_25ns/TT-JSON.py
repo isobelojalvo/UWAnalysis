@@ -17,7 +17,8 @@ process.maxEvents = cms.untracked.PSet(
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        "file:pickHighNJetEvents.root"
+        "file:event275913.root"
+        #"file:pickHighNJetEvents.root"
         #"/store/data/Run2016B/Tau/MINIAOD/PromptReco-v2/000/275/310/00000/0EC2725C-D737-E611-ACE9-02163E0141D7.root"
 		),
 		inputCommands=cms.untracked.vstring(

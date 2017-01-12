@@ -17,7 +17,7 @@ process.maxEvents = cms.untracked.PSet(
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        'file:pickOneEvent.root'
+        'file:vbf125-mvis-mismatch-missing.root'
         #'/store/mc/RunIISpring16MiniAODv1/GluGluHToTauTau_M125_13TeV_powheg_pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/10000/06A0B340-8025-E611-8262-B8CA3A708F98.root'
 		),
 		inputCommands=cms.untracked.vstring(
@@ -29,7 +29,7 @@ process.source = cms.Source("PoolSource",
 
 #from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
 from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import *
-defaultReconstructionMC(process,'HLT',
+defaultReconstructionMCrehlt(process,'HLT2',
                       [
 			'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v2'
                       ])
@@ -47,8 +47,8 @@ createGeneratedParticles(process,
                            "keep++ pdgId = {Z0}",
                            "keep pdgId = {tau+}",
                            "keep pdgId = {tau-}",
-#                           "keep pdgId = {mu+}",
-#                           "keep pdgId = {mu-}",
+                           "keep pdgId = 13",
+                           "keep pdgId = -13",
                            "keep pdgId = 6",
                            "keep pdgId = -6",
                            "keep pdgId = 11",
@@ -71,7 +71,9 @@ createGeneratedParticles(process,
 
 from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addDiTauEventTree
 
-addDiTauEventTree(process,'diTauEventTree','diTausSync','HLT2')
+addDiTauEventTree(process,'diTauEventTree','diTausSyncData','diMuonsOSSorted','TightMuons','TightElectrons','HLT2')
+addDiTauEventTree(process,'diTauEventTreeFinal','diTausSortedFinal','diMuonsOSSorted','TightMuons','TightElectrons','HLT2')
+#addDiTauEventTree(process,'diTauEventTree','diTausSync','HLT2')
 
 addEventSummary(process,True,'TT','eventSelectionTT')
 

@@ -332,35 +332,46 @@ class CompositePtrCandidateT1T2MEtAlgorithm
 	  pdgIdsEMU.push_back(-13);
 	  pdgIdsEMU.push_back(-11);
 	  pdgIdsEMU.push_back(11);
-
-
+	  //pdgIdsEMU.push_back(-15);
+	  //pdgIdsEMU.push_back(15);
 
 	  const reco::GenParticle* genLeg1 = findGenParticle(compositePtrCandidate.leg1()->p4(), *genParticles, 0.2, -1,&pdgIdsEMU,true);
+
 	  //const reco::GenParticle* genLeg1 = findGenParticle(compositePtrCandidate.leg1()->p4(), *genParticles, 0.2, -1);
+	  //std::cout<<"finding genleg 1"<<std::endl;
 	  const reco::GenParticle* genTau1 = findGenParticle(compositePtrCandidate.leg1()->p4(), *genParticles, 0.2, -1,&pdgIds,true);
+
+	  //std::cout<<"genTau1 "<<genTau1<<std::endl;
+
+	  //if(genTau1!=0)
+	  //std::cout<<"finished finding genleg 1, bestmatch pdgID "<< genTau1->pdgId() <<std::endl;
+	  //else
+	  //std::cout<<"finished finding genleg 1, bestmatch pdgID is NULL"<<std::endl;
+	  
+	  
 	  if ( genLeg1 ) {
-		  //std::cout << "genLeg1: Pt = " << genLeg1->pt() << ", eta = " << genLeg1->eta() << ", pdgId = " << genLeg1->pdgId() 
-		  // 	  << " phi = " << genLeg1->phi()*180./TMath::Pi() << std::endl;
-		  //std::cout << "genLeg1: isPrompt Status = " << genLeg1->statusFlags().isPrompt()<<std::endl; 
-		  //std::cout << "genLeg1: isPrompt Final State = " << genLeg1->isPromptFinalState()<<std::endl; 
-		  //std::cout << "genLeg1: isDirectPromptTauDecayProduct = " << genLeg1->statusFlags().isDirectPromptTauDecayProduct()<<std::endl; 
-		  //std::cout << "genLeg1: isDirectPromptTauDecayProductFinalState = " << genLeg1->isDirectPromptTauDecayProductFinalState()<<std::endl; 
-
-
-		  compositePtrCandidate.setP4Leg1gen(genLeg1->p4());
-		  compositePtrCandidate.setPdg1(genLeg1->pdgId());
-		  compositePtrCandidate.setIsPrompt1(genLeg1->statusFlags().isPrompt());
-		  compositePtrCandidate.setIsPromptFS1(genLeg1->isPromptFinalState());
-		  compositePtrCandidate.setIsDirectPromptTauDecayProduct1(genLeg1->statusFlags().isDirectPromptTauDecayProduct());
-		  compositePtrCandidate.setIsDirectPromptTauDecayProductFS1(genLeg1->isDirectPromptTauDecayProductFinalState());
+	    //std::cout << "genLeg1: Pt = " << genLeg1->pt() << ", eta = " << genLeg1->eta() << ", pdgId = " << genLeg1->pdgId() 
+	    // 	  << " phi = " << genLeg1->phi()*180./TMath::Pi() << std::endl;
+	    //std::cout << "genLeg1: isPrompt Status = " << genLeg1->statusFlags().isPrompt()<<std::endl; 
+	    //std::cout << "genLeg1: isPrompt Final State = " << genLeg1->isPromptFinalState()<<std::endl; 
+	    //std::cout << "genLeg1: isDirectPromptTauDecayProduct = " << genLeg1->statusFlags().isDirectPromptTauDecayProduct()<<std::endl; 
+	    //std::cout << "genLeg1: isDirectPromptTauDecayProductFinalState = " << genLeg1->isDirectPromptTauDecayProductFinalState()<<std::endl; 
+	    
+	    
+	    compositePtrCandidate.setP4Leg1gen(genLeg1->p4());
+	    compositePtrCandidate.setPdg1(genLeg1->pdgId());
+	    compositePtrCandidate.setIsPrompt1(genLeg1->statusFlags().isPrompt());
+	    compositePtrCandidate.setIsPromptFS1(genLeg1->isPromptFinalState());
+	    compositePtrCandidate.setIsDirectPromptTauDecayProduct1(genLeg1->statusFlags().isDirectPromptTauDecayProduct());
+	    compositePtrCandidate.setIsDirectPromptTauDecayProductFS1(genLeg1->isDirectPromptTauDecayProductFinalState());
 	  }
 	  else{
-		  //std::cout<<"genLeg1 Not found"<<std::endl;
-		  compositePtrCandidate.setPdg1( 0 );
+	    //std::cout<<"genLeg1 Not found"<<std::endl;
+	    compositePtrCandidate.setPdg1( 0 );
 	  }
 	  if( genTau1 ){
-		  compositePtrCandidate.setP4VisLeg1gen(getVisMomentum(genTau1, genParticles));
-
+	    compositePtrCandidate.setP4VisLeg1gen(getVisMomentum(genTau1, genParticles));
+	    //std::cout<<"compositePtrCandidate.p4VisLeg1gen().pt() "<<compositePtrCandidate.p4VisLeg1gen().pt()<<std::endl;
 	  }    
 	  const reco::GenParticle* genLeg2 = findGenParticle(compositePtrCandidate.leg2()->p4(), *genParticles, 0.2, -1,&pdgIdsEMU,true);
 	  //const reco::GenParticle* genLeg2 = findGenParticle(compositePtrCandidate.leg2()->p4(), *genParticles, 0.2, -1);

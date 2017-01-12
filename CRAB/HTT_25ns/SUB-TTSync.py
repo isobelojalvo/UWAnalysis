@@ -8,7 +8,6 @@ process.options.allowUnscheduled = cms.untracked.bool(True)
 
 process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_v14'
 
-
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(20000)
 )
@@ -28,9 +27,15 @@ process.source = cms.Source("PoolSource",
 
 #from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
 from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import *
-defaultReconstructionMC(process,'HLT2',
+defaultReconstructionMCrehlt(process,'HLT2',
                       [
-			'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v2'
+			'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v2',
+                        #'HLT_DoubleMediumIsoPFTau32_Trk1_eta2p1_Reg_v2',
+                        'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v3',
+                        'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v4',
+                        'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v5',
+                        'HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v5',
+                        'HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v6'
                       ])
 
                       
