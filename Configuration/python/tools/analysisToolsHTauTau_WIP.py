@@ -10,7 +10,10 @@ from PhysicsTools.PatAlgos.tools.coreTools import *
 from PhysicsTools.PatAlgos.tools.metTools import *
 from PhysicsTools.PatAlgos.tools.pfTools import *
 from PhysicsTools.PatAlgos.tools.trigTools import *
+from CondCore.DBCommon.CondDBSetup_cfi import *
+
 import sys
+import os 
 
 def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu9','HLT_Mu11_PFTau15_v1'],HLT = 'TriggerResults'):
   process.load("UWAnalysis.Configuration.startUpSequence_cff")
@@ -343,12 +346,34 @@ def reapplyPUJetID(process, srcJets = cms.InputTag("slimmedJets")):
         vertexes = cms.InputTag("offlineSlimmedPrimaryVertices") ) 
     process.analysisSequence *= process.pileupJetIdUpdated
    
-
+    
 def recorrectJets(process, isData = False):
+    JECTag = 'Spring16_23Sep2016V2_MC'
+    if(isData):
+      JECTag = 'Spring16_23Sep2016AllV2_DATA'
+    cmssw_base = os.environ['CMSSW_BASE']
+## getting the JEC from the DB
+    #process.load("CondCore.CondDB.CondDB_cfi")
+    process.load("CondCore.DBCommon.CondDBCommon_cfi")
+    process.jec = cms.ESSource("PoolDBESSource",
+                               DBParameters = cms.PSet( messageLevel = cms.untracked.int32(0)),
+                               timetype = cms.string('runnumber'),
+                               toGet = cms.VPSet(cms.PSet(record = cms.string('JetCorrectionsRecord'),
+                                                          tag    = cms.string('JetCorrectorParametersCollection_'+JECTag+'_AK4PFchs'),
+                                                          label  = cms.untracked.string('AK4PFchs')
+                                                          )
+                                                 ), 
+                               connect = cms.string('sqlite:////'+cmssw_base+'/src/UWAnalysis/Configuration/data/'+JECTag+'.db')
+                               # uncomment above tag lines and this comment to use MC JEC
+                               # connect = cms.string('sqlite:Fall15_25nsV2_DATA.db')
+                               )
+   
+     ## add an es_prefer statement to resolve a possible conflict from simultaneous connection to a global tag
+    process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')
     ## https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookJetEnergyCorrections#CorrPatJets
     from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import updatedPatJetCorrFactors
     process.patJetCorrFactorsReapplyJEC = updatedPatJetCorrFactors.clone(
-    src = cms.InputTag("slimmedJets"),
+      src = cms.InputTag("slimmedJets"),
       levels = ['L1FastJet', 'L2Relative', 'L3Absolute'],
       payload = 'AK4PFchs' ) # Make sure to choose the appropriate levels and payload here!
     from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import updatedPatJets
