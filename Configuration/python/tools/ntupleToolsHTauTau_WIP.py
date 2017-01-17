@@ -298,9 +298,6 @@ def makeEleTauCSVShape(sourceDiTaus):
    return PSet
 
 
-
-
-
 def addMuTauShortEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorted', srcU='TightMuons', srcE='TightElectrons'):
    process.TFileService = cms.Service("TFileService", fileName = cms.string("analysis.root") )
    eventTree = cms.EDAnalyzer('EventTreeMaker',
@@ -328,7 +325,11 @@ def addMuTauShortEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOS
                                   src        = cms.InputTag("externalLHEProducer"),
                                   tag        = cms.string("LHEProduct"),
                               ),
- 
+                               pu = cms.PSet(
+                                  pluginType = cms.string("PUFiller"),
+                                  src        = cms.InputTag("slimmedAddPileupInfo"),
+                                  tag        = cms.string("pu")
+                              ),
                               muTauPOG = makeMuTauPOGSF(src),#FILLED
                               muTauEventWeight = makeMuTauEventWeight(src),#FILLED
                               muTauEventWeightTmp = makeMuTauEventWeightTmp(src),#FILLED
@@ -341,7 +342,13 @@ def addMuTauShortEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOS
                               muMuSize = makeCollSize(srcLL,"diLeptons"),#CHECKME
                               muMuSizeVeto = makeCollSizeVeto(srcLL,0,"dilepton_veto"),#CHECKME
 
+                              muonsSizeMT = makeCollSize(srcU,"tightMuons"),#FILLED
+                              muonsSizeMTVeto = makeCollSizeVeto(srcU,1,"extramuon_veto"),#FILLED
+                              electronsSizeMT = makeCollSize(srcE,"tightElectrons"),#FILLED
+                              electronsSizeMTVeto = makeCollSizeVeto(srcE,0,"extraelec_veto"),#FILLED
 
+                              muTauUserMediumID = makeMuTauPair(src,"id_m_medium_1",'leg1.userInt("mediumID")'),
+                              muTauUserMediumIDGH = makeMuTauPair(src,"id_m_mediumGH_1",'leg1.userInt("mediumIDGH")'),
 
                               muTauVBFDEta = makeMuTauPair(src,"vbfDEta","vbfDEta"),
                               muTauVBFDPhi = makeMuTauPair(src,"vbfDPhi","vbfDPhi"),
@@ -410,6 +417,8 @@ def addMuTauShortEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOS
                               muTauagainstElectronTightMVA6 = makeMuTauPair(src,"againstElectronTightMVA6_2",'leg2.tauID("againstElectronTightMVA6")'),
                               muTauagainstElectronVLooseMVA6 = makeMuTauPair(src,"againstElectronVLooseMVA6_2",'leg2.tauID("againstElectronVLooseMVA6")'),
                               muTauagainstElectronVTightMVA6 = makeMuTauPair(src,"againstElectronVTightMVA6_2",'leg2.tauID("againstElectronVTightMVA6")'),
+
+
  
                               muTauMass = makeMuTauPair(src,"m_vis","mass") #FILLED
 
@@ -419,6 +428,233 @@ def addMuTauShortEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOS
    setattr(process, name, eventTree)
    p = cms.Path(getattr(process,name))
    setattr(process, name+'Path', p)
+
+
+def addMuTauMVAIDEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorted', srcU='TightMuons', srcE='TightElectrons'):
+   process.TFileService = cms.Service("TFileService", fileName = cms.string("analysis.root") )
+   eventTree = cms.EDAnalyzer('EventTreeMaker',
+                              genEvent = cms.InputTag('generator'),
+                              coreCollections = cms.InputTag(src),
+                              trigger = cms.PSet(
+                                  pluginType = cms.string("TriggerFiller"),
+                                  src = cms.InputTag(TriggerRes,"",TriggerProcess),
+                                  prescales = cms.InputTag("patTrigger"),
+                                  paths      = cms.vstring(TriggerPaths)
+                              ),
+
+                              cov = cms.PSet(
+                                  pluginType = cms.string("METSignificanceFiller"),
+                                  src        = cms.InputTag("METSignificance"),
+                                  tag        = cms.string("metcov")
+                              ),
+                              PVsSync = cms.PSet(
+                                  pluginType = cms.string("VertexSizeFiller"),
+                                  src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
+                                  tag        = cms.string("npv")
+                              ),#FILLED
+                               muTauLHEProduct2 = cms.PSet(
+                                  pluginType = cms.string("LHEProductFiller"),
+                                  src        = cms.InputTag("externalLHEProducer"),
+                                  tag        = cms.string("LHEProduct"),
+                              ),
+                                pu = cms.PSet(
+                                  pluginType = cms.string("PUFiller"),
+                                  src        = cms.InputTag("slimmedAddPileupInfo"),
+                                  tag        = cms.string("pu")
+                              ),
+                              muTauPOG = makeMuTauPOGSF(src),#FILLED
+                              muTauEventWeight = makeMuTauEventWeight(src),#FILLED
+                              muTauEventWeightTmp = makeMuTauEventWeightTmp(src),#FILLED
+                              muTauGenMCMatch = makeMuTauGenMatch(src),#FILLED
+                              #muTauNBTags = makeMuTauNBTag(src),#FILLED
+                              muTauEffCSV = makeMuTauEffCSV(src),#FILLED
+                              muTauCSVShape = makeMuTauCSVShape(src),#FILLED
+                              muTauSize = makeCollSize(src,"nCands"),#FILLED
+                              muTauOS = makeCollSizeOS(src,0,"os"),#FILLED
+                              muMuSize = makeCollSize(srcLL,"diLeptons"),#CHECKME
+                              muMuSizeVeto = makeCollSizeVeto(srcLL,0,"dilepton_veto"),#CHECKME
+
+                              muTauVBFDEta = makeMuTauPair(src,"vbfDEta","vbfDEta"),
+                              muTauVBFDPhi = makeMuTauPair(src,"vbfDPhi","vbfDPhi"),
+                              muTauVBFMass = makeMuTauPair(src,"vbfMass","vbfMass"),#vbfMass
+                              muTauVBFMass2 = makeMuTauPair(src,"mjj","vbfMass"),#vbfMass
+                              muTauVBFJets20 = makeMuTauPair(src,"njetigap20","vbfNJetsGap20"),
+                              muTauVBFJets30 = makeMuTauPair(src,"njetingap","vbfNJetsGap30"),
+
+                              #Muon IDs and Isolation
+                              muTauRelPFIsoDB03 = makeMuTauPair(src,"iso03_1",'leg1.userFloat("dBRelIso03")'),
+                              muTauRelPFIsoDB04 = makeMuTauPair(src,"iso04_1",'leg1.userFloat("dBRelIso")'),
+                              muTauRelPFIsoDB04_1 = makeMuTauPair(src,"iso_1",'leg1.userFloat("dBRelIso")'),
+
+                              muTauMET1 = makeMuTauMET(src,"slimmedMETs","pf"),#FILLED
+                              muTauMET2 = makeMuTauMET(src,"slimmedMETsPuppi","puppi"),#FILLED
+                              muTauMET3 = makeMuTauMET(src,"MVAMET:MVAMET","mva"),#FILLED
+
+                              muonsSizeMT = makeCollSize(srcU,"tightMuons"),#FILLED
+                              muonsSizeMTVeto = makeCollSizeVeto(srcU,1,"extramuon_veto"),#FILLED
+                              electronsSizeMT = makeCollSize(srcE,"tightElectrons"),#FILLED
+                              electronsSizeMTVeto = makeCollSizeVeto(srcE,0,"extraelec_veto"),#FILLED
+
+                              muTauMETUncertUp = makeMuTauMETUncert(src,"slimmedMETs","pf","EnUp"),#FILLED
+                              muTauMETUncertDown = makeMuTauMETUncert(src,"slimmedMETs","pf","EnDown"),#FILLED
+ 
+                              muTauMET = makeMuTauPair(src,"mvamet","met.pt()"),#FILLED
+                              muTauMETPhi = makeMuTauPair(src,"mvametphi","met.phi()"),#FILLED
+                              muTauMvaCovMat00 = makeMuTauPair(src,"mvacov00","covMatrix00"),#FIXME
+                              muTauMvaCovMat10 = makeMuTauPair(src,"mvacov10","covMatrix10"),#FIXME
+                              muTauMvaCovMat01 = makeMuTauPair(src,"mvacov01","covMatrix01"),#FIXME
+                              muTauMvaCovMat11 = makeMuTauPair(src,"mvacov11","covMatrix11"),#FIXME
+
+                              muTauPt1 =  makeMuTauPair(src,"pt_1","leg1.pt"), #FILLED
+                              muTauPt2 =  makeMuTauPair(src,"pt_2","leg2.pt"), #FILLED
+                              muTauEta1 = makeMuTauPair(src,"eta_1","leg1.eta"),#FILLED
+                              muTauEta2 = makeMuTauPair(src,"eta_2","leg2.eta"),#FILLED
+                              muTauPhi1 = makeMuTauPair(src,"phi_1","leg1.phi"),#FILLED
+                              muTauPhi2 = makeMuTauPair(src,"phi_2","leg2.phi"),#FILLED
+
+                              muTauCharge = makeMuTauPair(src,"charge","charge"),#FILLED
+                              muTauPt = makeMuTauPair(src,"pth","pt"),#FILLED
+
+                              muTauTopGenPt = makeMuTauPair(src,"topGenPt","topGenPt"),#FIXME
+                              muTauAntiTopGenPt = makeMuTauPair(src,"antiTopGenPt","antiTopGenPt"),#FIXME
+
+                              muTauMuTriggerMatch = makeMuTauPair(src,"lTrigger",'leg1.userFloat("hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09")'),
+
+                              muTauGenPt1 = makeMuTauPair(src,"genPt1",'p4Leg1gen().pt()'),
+                              muTauGenPt2 = makeMuTauPair(src,"genPt2",'p4Leg2gen().pt()'),
+                              muTauPdg1 = makeMuTauPair(src,"pdg1",'genPdg1()'),
+                              muTauPdg2 = makeMuTauPair(src,"pdg2",'genPdg2()'),
+                              muTauVisGenPt1 = makeMuTauPair(src,"genVisPt1",'p4VisLeg1gen().pt()'),
+                              muTauVisGenPt2 = makeMuTauPair(src,"genVisPt2",'p4VisLeg2gen().pt()'),
+                              muTauGenVisMass = makeMuTauPair(src,"genVisMass",'p4VisGen().M()'),
+                              muTauGenMassMatched = makeMuTauPair(src,"genFullMassMatched",'p4gen().M()'),
+                              muTauGenMass = makeMuTauPair(src,"fullGenMass",'genBosonMass()'),
+                              muTauGenBosonPt = makeMuTauPair(src,"genpT",'p4GenBoson().pt()'),
+                              muTauGenBosonMass = makeMuTauPair(src,"genMass",'p4GenBoson().M()'),
+                              muTauGenBosonPx = makeMuTauPair(src,"genpX",'p4GenBoson().px()'),
+                              muTauGenBosonPy = makeMuTauPair(src,"genpY",'p4GenBoson().py()'),
+                              muTauGenBosonVisPx = makeMuTauPair(src,"vispX",'p4GenBosonVis().px()'),
+                              muTauGenBosonVisPy = makeMuTauPair(src,"vispY",'p4GenBosonVis().py()'),
+                              muTauUserMediumID = makeMuTauPair(src,"id_m_medium_1",'leg1.userInt("mediumID")'),
+                              muTauUserMediumIDGH = makeMuTauPair(src,"id_m_mediumGH_1",'leg1.userInt("mediumIDGH")'),
+
+                              muTauByOldDMMVAIsoTight          = makeMuTauPair(src,"byTightIsolationMVArun2v1DBoldDMwLT_2",'leg2.tauID("byTightIsolationMVArun2v1DBoldDMwLT")'),
+                              muTauByOldDMMVAIsoMedium         = makeMuTauPair(src,"byMediumIsolationMVArun2v1DBoldDMwLT_2",'leg2.tauID("byMediumIsolationMVArun2v1DBoldDMwLT")'),
+                              muTauAgainstMuonTight3           = makeMuTauPair(src,"againstMuonTight3_2",'leg2.tauID("againstMuonTight3")'),
+                              muTauAgainstEleVLooseMVA6        = makeMuTauPair(src,"againstElectronVLooseMVA6_2",'leg2.tauID("againstElectronVLooseMVA6")'),
+                              muTauagainstElectronMVA6Raw      = makeMuTauPair(src,"againstElectronMVA6Raw_2",'leg2.tauID("againstElectronMVA6Raw")'),
+                              muTauagainstElectronMVA6category = makeMuTauPair(src,"againstElectronMVA6category_2",'leg2.tauID("againstElectronMVA6category")'),
+                              muTauagainstElectronMediumMVA6   = makeMuTauPair(src,"againstElectronMediumMVA6_2",'leg2.tauID("againstElectronMediumMVA6")'),
+                              muTauagainstElectronTightMVA6    = makeMuTauPair(src,"againstElectronTightMVA6_2",'leg2.tauID("againstElectronTightMVA6")'),
+                              muTauagainstElectronVLooseMVA6   = makeMuTauPair(src,"againstElectronVLooseMVA6_2",'leg2.tauID("againstElectronVLooseMVA6")'),
+                              muTauagainstElectronVTightMVA6   = makeMuTauPair(src,"againstElectronVTightMVA6_2",'leg2.tauID("againstElectronVTightMVA6")'),
+
+                              muTauMass = makeMuTauPair(src,"m_vis","mass"), #FILLED
+                              ###FINISH ME
+                              muTauChargedIso            = makeMuTauPair(src,"tauIsoDeltaR05PtThresholdsLoose3HitsChargedIsoPtSum","leg2.tauID('chargedIsoPtSum')"),
+                              muTauNeutralIso            = makeMuTauPair(src,"tauIsoDeltaR05PtThresholdsLoose3HitsNeutralIsoPtSum","leg2.tauID('neutralIsoPtSum')"),
+                              muTauPuCorrIso             = makeMuTauPair(src,"tauIsoDeltaR05PtThresholdsLoose3HitsPUcorrPtSum","leg2.tauID('puCorrPtSum')"),
+                              muTauFootPrint             = makeMuTauPair(src,"tauIsoDeltaR05PtThresholdsLoose3HitsFootPrintCorrection","leg2.tauID('footprintCorrection')"),
+                              muTauPhotonPTSumIso        = makeMuTauPair(src,"tauIsoDeltaR05PtThresholdsLoose3HitsPhotonPtSumOutsideSignalCone","leg2.tauID('photonPtSumOutsideSignalCone')"),
+                              muTauNPhoton               = makeMuTauPair(src,"recTauNphoton","leg2.userFloat('recTauNphoton')"),
+                              muTauPtWeightedDetaStrip   = makeMuTauPair(src,"recTauPtWeightedDetaStrip","leg2.userFloat('recTauPtWeightedDetaStrip')"),
+                              muTauPtWeightedDphiStrip   = makeMuTauPair(src,"recTauPtWeightedDphiStrip","leg2.userFloat('recTauPtWeightedDphiStrip')"),
+                              muTauPtWeightedDrSignal    = makeMuTauPair(src,"recTauPtWeightedDrSignal","leg2.userFloat('recTauPtWeightedDrSignal')"),
+                              muTauPtWeightedDrIsolation = makeMuTauPair(src,"recTauPtWeightedDrIsolation","leg2.userFloat('recTauPtWeightedDrIsolation')"),
+                              muTauLeadingTrackChi2      = makeMuTauPair(src,"recTauLeadingTrackChi2","leg2.userFloat('recTauLeadingTrackChi2')"),
+                              muTauEratio                = makeMuTauPair(src,"recTauEratio","leg2.userFloat('recTauEratio')"),
+                              muTauImpactParam           = makeMuTauPair(src,"recImpactParam","leg2.userFloat('recImpactParam')"),
+                              muTauImpactParamSign       = makeMuTauPair(src,"recImpactParamSign","leg2.userFloat('recImpactParamSign')"),
+                              muTauImpactParam3D         = makeMuTauPair(src,"recImpactParam3D","leg2.userFloat('recImpactParam3D')"),
+                              muTauHasRecDecayVertex     = makeMuTauPair(src,"hasRecDecayVertex","leg2.userFloat('hasRecDecayVertex')"),
+                              muTauDecayDistSign         = makeMuTauPair(src,"recDecayDistSign","leg2.userFloat('recDecayDistSign')"),
+                              muTauDecayVertexChi2       = makeMuTauPair(src,"recDecayVertexChi2","leg2.userFloat('recDecayVertexChi2')"),
+                              #recTauPt
+                              #recTauEta
+                              #tauIsoDeltaR05PtThresholdsLoose3HitsChargedIsoPtSum
+                              #tauIsoDeltaR05PtThresholdsLoose3HitsNeutralIsoPtSum
+                              #tauIsoDeltaR05PtThresholdsLoose3HitsPUcorrPtSum
+                              #tauIsoDeltaR05PtThresholdsLoose3HitsPhotonPtSumOutsideSignalCone
+                              #recTauDecayMode
+                              #recTauNphoton
+                              #recTauPtWeightedDetaStrip
+                              #recTauPtWeightedDphiStrip
+                              #recTauPtWeightedDrSignal
+                              #recTauPtWeightedDrIsolation
+                              #recTauLeadingTrackChi2
+                              #recTauEratio
+                              #recImpactParam
+                              #recImpactParamSign
+                              #recImpactParam3D
+                              #hasRecDecayVertex
+                              ###recDecayDistMag
+                              #recDecayDistSign
+                              #recDecayVertexChi2
+
+
+   )
+
+   setattr(process, name, eventTree)
+   p = cms.Path(getattr(process,name))
+   setattr(process, name+'Path', p)
+
+                              #recTau   ##en,px,py,pz,m,eta,phi,pt of cand
+                              #recTauAlternate   ##en,px,py,pz,m,eta,phi,pt of cand
+                              #recTauVtxZ  
+                              #recJet   ##en,px,py,pz,m,eta,phi,pt of cand
+                              #recJetLooseId  
+                              #leadPFCand   ##en,px,py,pz,m,eta,phi,pt of cand
+                              #leadPFChargedHadrCand   ##en,px,py,pz,m,eta,phi,pt of cand
+                              #recImpactParam  
+                              #recImpactParamSign  
+                              #recImpactParamPCA3D  #XYZRMAG
+                              #recImpactParam3D  
+                              #recImpactParamSign3D  
+                              #recImpactParamZ  
+                              #recImpactParamSignZ  
+                              #recImpactParamTk2  
+                              #recImpactParamSignTk2  
+                              #recImpactParam3DTk2  
+                              #recImpactParamSign3DTk2  
+                              #recImpactParamZTk2  
+                              #recImpactParamSignZTk2  
+                              #recImpactParamTk3  
+                              #recImpactParamSignTk3  
+                              #recImpactParam3DTk3  
+                              #recImpactParamSign3DTk3  
+                              #recImpactParamZTk3  
+                              #recImpactParamSignZTk3  
+                              #recDecayLengthTk1  
+                              #recDecayLengthSignTk1  
+                              #recDecayLengthTk2  
+                              #recDecayLengthSignTk2  
+                              #recDecayLengthTk3  
+                              #recDecayLengthSignTk3  
+                              #recDecayDist2D  
+                              #recDecayDistSign2D  
+                              #recChi2DiffEvtVertex  
+                              #hasRecDecayVertex  
+                              #recDecayVertex  #XYZRMAG
+                              #recDecayVertexCov  #xx xy xz yy yz zz
+                              #recDecayVertexChi2  
+                              #recDecayDist  #XYZRMAG
+                              #recDecayDistCov  #xx xy xz yy yz zz
+                              #recDecayDistSign  
+                              #recEvtVertex  #XYZRMAG
+                              #recEvtVertexCov  #xx xy xz yy yz zz
+                              #recTauPtWeightedDetaStrip  
+                              #recTauPtWeightedDphiStrip  
+                              #recTauPtWeightedDrSignal  
+                              #recTauPtWeightedDrIsolation  
+                              #recTauNphoton  
+                              #recTauEratio  
+                              #recTauLeadingTrackChi2  
+                              #recTauNphotonSignal  
+                              #recTauNphotonIso  
+                              #recTauNphotonTotal  
+                              #numPileUp  
+                              #"piZero"
+                              #tauIsolation->branchName_
 
 
 
@@ -582,6 +818,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               #muTauMediumID = makeMuTauPair(src,"id_m_medium_1",'leg1.isMediumMuon()'),
                               muTauMediumID = makeMuTauPair(src,"id_m_medium_1_INVALID",'leg1.isMediumMuon()'),
                               muTauUserMediumID = makeMuTauPair(src,"id_m_medium_1",'leg1.userInt("mediumID")'),
+                              muTauUserMediumIDGH = makeMuTauPair(src,"id_m_mediumGH_1",'leg1.userInt("mediumIDGH")'),
                               muTauDecayMode = makeMuTauPair(src,"tauDecayMode",'leg2.decayMode()'),
                               muTauDecayFound = makeMuTauPair(src,"decayModeFinding_2",'leg2.tauID("decayModeFinding")'),
                               muTauDecayFoundOld = makeMuTauPair(src,"decayModeFindingOldDMs_2",'leg2.tauID("decayModeFinding")'),
@@ -610,7 +847,6 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
                               muTauHadflightLength = makeMuTauPair(src,"flightLength_2",'sqrt(leg2.flightLength().Mag2)'),
                               muTauHadflightLengthSig = makeMuTauPair(src,"flightLengthSig_2",'leg2.flightLengthSig()'),
                               muTauHadhasSecondaryVertex = makeMuTauPair(src,"hasSecondaryVertex_2",'leg2.hasSecondaryVertex()'),
-
 
                               muTautau_pt_weighted_dr_signal = makeMuTauPair(src,"tau_pt_weighted_dr_signal",'leg2.userFloat("tau_pt_weighted_dr_signal")'),
                               muTautau_pt_weighted_deta_strip = makeMuTauPair(src,"tau_pt_weighted_deta_strip",'leg2.userFloat("tau_pt_weighted_deta_strip")'),
@@ -794,6 +1030,7 @@ def addMuTauEventTree(process,name,src = 'muTausSorted', srcLL = 'diMuonsOSSorte
    setattr(process, name+'Path', p)
 '''
 
+#when running eTau add all the anti electron variables for comparisons: https://github.com/cms-sw/cmssw/blob/53327033fb356b2a704464439ce79fa47a9d1678/RecoTauTag/Configuration/python/tauVariables_cff.py
 def addEleTauShortEventTree(process,name,src='eleTausSorted',srcLL='diElectronsOSSorted', srcU='TightMuons', srcE='TightElectrons'):
    process.TFileService = cms.Service("TFileService", fileName = cms.string("analysis.root") )
    eventTree = cms.EDAnalyzer('EventTreeMaker',

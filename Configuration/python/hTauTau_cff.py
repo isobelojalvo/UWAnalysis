@@ -74,7 +74,7 @@ MTanalysisConfigurator.addSelector('muTausMuonVertices','PATMuTauPairSelector','
 MTanalysisConfigurator.addSelector('muTausDecayFound','PATMuTauPairSelector','leg2.tauID("decayModeFinding")>0.5','MTTauDecayFound',1)
 MTanalysisConfigurator.addSelector('muTausDecayVertex','PATMuTauPairSelector','abs(leg2.userFloat("taudZ"))<0.2','MTTauVertex',1)
 #MTanalysisConfigurator.addSelector('muTausTauLooseID','PATMuTauPairSelector','(leg2.tauID("chargedIsoPtSumdR03"))/(leg2.pt()) < 0.3','MTTauLooseID',1)
-MTanalysisConfigurator.addSelector('muTausTauLooseID','PATMuTauPairSelector','leg2.tauID("byLooseIsolationMVArun2v1DBoldDMwLT")>0.5','MTTauLooseID',1)
+#MTanalysisConfigurator.addSelector('muTausTauLooseID','PATMuTauPairSelector','leg2.tauID("byLooseIsolationMVArun2v1DBoldDMwLT")>0.5','MTTauLooseID',1)
 MTanalysisConfigurator.addMuTauLVeto('muTausLVeto','TightElectrons','TightMuons')
 MTanalysisConfigurator.addSelector('muTausMuonVeto','PATMuTauPairSelector','lVeto==0','MTMuonVeto',1)
 MTanalysisConfigurator.addSelector('muTausChargeNot2','PATMuTauPairSelector','abs(leg2.charge())==1','MTChargeIsABS1',1)

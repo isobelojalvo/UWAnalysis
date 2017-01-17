@@ -4,7 +4,7 @@ process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
 
-process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v6'
+process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v7'
 
 process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(False))
 process.options.allowUnscheduled = cms.untracked.bool(True)
@@ -97,7 +97,9 @@ createGeneratedParticles(process,
 
 
 from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addMuTauShortEventTree
+from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addMuTauMVAIDEventTree
 addMuTauShortEventTree(process,'muTauEventTree')
+addMuTauMVAIDEventTree(process,'muTauEventTree')
 addMuTauShortEventTree(process,'muTauEventTreeFinal','muTausOS','diMuonsOSSorted')
 #addMuTauShortEventTree(process,'muTauEventTreeJetUp','muTausSortedJetUp','diMuonsOSJetUp')
 

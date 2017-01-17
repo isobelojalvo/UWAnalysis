@@ -59,7 +59,7 @@ void readdir(TDirectory *dir,optutl::CommandLineParser parser,float ev)
   edm::LumiReWeighting *LumiWeightsH;
 
   std::string base = std::getenv("CMSSW_BASE");
-  std::string fPUMCname      = base+"/src/UWAnalysis/Configuration/data/MC_Spring16.root";
+  std::string fPUMCname      = base+"/src/UWAnalysis/Configuration/data/puInfo/MC_Moriond17_PU25ns_V1.root";
   std::string fPUDATAnameAll = base+"/src/UWAnalysis/Configuration/data/puInfo/DataPUHistoAll.root";
   std::string fPUDATAnameBCD = base+"/src/UWAnalysis/Configuration/data/puInfo/DataPUHistoBCD.root";
   std::string fPUDATAnameEF  = base+"/src/UWAnalysis/Configuration/data/puInfo/DataPUHistoEF.root";
@@ -79,6 +79,7 @@ void readdir(TDirectory *dir,optutl::CommandLineParser parser,float ev)
     LumiWeightsEF  = new edm::LumiReWeighting(fPUMCname,fPUDATAnameEF, "pileup","pileup");
     LumiWeightsG   = new edm::LumiReWeighting(fPUMCname,fPUDATAnameG,  "pileup","pileup");
     LumiWeightsH   = new edm::LumiReWeighting(fPUMCname,fPUDATAnameH,  "pileup","pileup");
+
   }
   else{
     if(!fPUMCValid)

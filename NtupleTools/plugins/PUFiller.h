@@ -37,8 +37,10 @@ class PUFiller : public NtupleFillerBase {
 	  std::string base = std::getenv("CMSSW_BASE");
 	  //std::string fPUMCloc =   "/src/UWAnalysis/Configuration/data/MC_Spring16.root";
 	  //std::string fPUDATAloc = "/src/UWAnalysis/Configuration/data/90bin_2016BCDPileupHistogram.root";
-	  std::string fPUMCloc =   "/src/UWAnalysis/Configuration/data/MC_Spring16_PU25ns_V1.root";
-	  std::string fPUDATAloc = "/src/UWAnalysis/Configuration/data/Data_Pileup_2016_July22.root";
+	  //std::string fPUMCloc =   "/src/UWAnalysis/Configuration/data/MC_Spring16_PU25ns_V1.root";
+	  //std::string fPUDATAloc = "/src/UWAnalysis/Configuration/data/Data_Pileup_2016_July22.root";
+	  std::string fPUMCloc =   "/src/UWAnalysis/Configuration/data/MC_Moriond17_PU25ns_V1.root";
+	  std::string fPUDATAloc = "/src/UWAnalysis/Configuration/data/Data_Pileup_2016_271036-284044_80bins.root";
 	  std::string fPUMCname =   base+fPUMCloc;
 	  std::string fPUDATAname = base+fPUDATAloc;
 	  bool fPUMCis   = boost::filesystem::exists( fPUMCname   );

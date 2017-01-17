@@ -31,6 +31,9 @@
 </bin>
 <bin   name="PrintSelectionTableFromTree" file="PrintSelectionTableFromTree.cc">
 </bin>
+<bin   name="EventWeightsIterativeEra" file="EventWeightsIterativeEra.cc">
+</bin>
+
 <bin   name="EventWeightsIterativePU" file="EventWeightsIterativePUWeighting.cc">
 </bin>
 <bin   name="EventWeightsIterativeGen" file="EventWeightsIterativeGen.cc">

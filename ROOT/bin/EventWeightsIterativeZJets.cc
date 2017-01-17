@@ -61,19 +61,18 @@ int main (int argc, char* argv[])
    float evW4 = evC4->GetBinContent(1);
    w4->Close();
  
-   TFile *w5 = new TFile("ZJets_150.root","UPDATE");
+   //TFile *w5 = new TFile("ZJets_150.root","UPDATE");
 
-   TH1F* evC5  = (TH1F*)w5->Get(parser.stringValue("histoName").c_str());
-   float evW5 = evC5->GetBinContent(1);
-   
-   w5->Close();
+   //TH1F* evC5  = (TH1F*)w5->Get(parser.stringValue("histoName").c_str());
+   //float evW5 = evC5->GetBinContent(1);
+   //w5->Close();
      
    printf("Found  %f Z Events\n",evW);
    printf("Found  %f Z+1Jet Events\n",evW1);
    printf("Found  %f Z+2Jet Events\n",evW2);
    printf("Found  %f Z+3Jet Events\n",evW3);
    printf("Found  %f Z+4Jet Events\n",evW4);
-   printf("Found  %f Z >150GeV Jet Events\n",evW5);
+   //printf("Found  %f Z >150GeV Jet Events\n",evW5);
   
    double LOtoNNLO=5765.4/4954.0;
 
@@ -82,7 +81,7 @@ int main (int argc, char* argv[])
    double DYLo2=evW2/(LOtoNNLO*332.8);
    double DYLo3=evW3/(LOtoNNLO*101.8);
    double DYLo4=evW4/(LOtoNNLO*54.8);
-   double DYLo5=evW5/(LOtoNNLO*6.7);
+   //double DYLo5=evW5/(LOtoNNLO*6.7);
 
  
    std::vector<float> ev;
@@ -91,7 +90,7 @@ int main (int argc, char* argv[])
    ev.push_back(DYLo2);
    ev.push_back(DYLo3);
    ev.push_back(DYLo4);
-   ev.push_back(DYLo5);
+   //ev.push_back(DYLo5);
    
    TFile *f0 = new TFile("ZJets_ext1.root","UPDATE");   
    //TFile *f0 = new TFile("ZJets.root","UPDATE");   
@@ -114,9 +113,9 @@ int main (int argc, char* argv[])
    readdir(f4,parser,ev);
    f4->Close();
  
-   TFile *f5 = new TFile("ZJets_150.root","UPDATE");   
-   readdir(f5,parser,ev);
-   f5->Close();
+   //TFile *f5 = new TFile("ZJets_150.root","UPDATE");   
+   //readdir(f5,parser,ev);
+   //f5->Close();
 
   } 
 

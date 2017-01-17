@@ -3,7 +3,7 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v6'
+process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v7'
 
 
 
@@ -24,8 +24,8 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        #'file:segfault.root'
-        'file:dytest.root'
+        'file:segfault.root'
+        #'file:dytest.root'
         #'/store/mc/RunIISummer16MiniAODv2/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/120000/002F2CE1-38BB-E611-AF9F-0242AC130005.root'
 		),
 		inputCommands=cms.untracked.vstring(
@@ -122,7 +122,9 @@ addMuTauEventTree(process,'muTauEventTree')
 addMuTauEventTree(process,'muTauEventTreeFinal','muTausOS','diMuonsOSSorted') #propper config
 
 from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addMuTauShortEventTree
+from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addMuTauMVAIDEventTree
 addMuTauShortEventTree(process,'muTauEventTree')
+addMuTauMVAIDEventTree(process,'muTauEventTree')
 #addMuTauShortEventTree(process,'muTauEventTreeFinal','muTausOS','diMuonsOSSorted')
 addMuTauShortEventTree(process,'muTauEventTreeJetUp','muTausSortedJetUp','diMuonsOSJetUp')
 

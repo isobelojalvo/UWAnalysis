@@ -4,7 +4,7 @@ process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
 
-process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v3'
+process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v6'
 #process.GlobalTag.globaltag = '80X_dataRun2_Prompt_v9'
 
 
@@ -81,16 +81,18 @@ process.eventSelectionET = cms.Path(process.selectionSequenceET)
 
 
 from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addMuTauEventTree
+from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addMuTauMVAIDEventTree
 addMuTauEventTree(process,'muTauEventTree')
+addMuTauMVAIDEventTree(process,'muTauEventTree')
 addMuTauEventTree(process,'muTauEventTreeFinal','muTausOS','diMuonsOSSorted')
 
 
-from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addEleTauEventTree
-addEleTauEventTree(process,'eleTauEventTree')
-addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','diElectronsOSSorted')
+#from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addEleTauEventTree
+#addEleTauEventTree(process,'eleTauEventTree')
+#addEleTauEventTree(process,'eleTauEventTreeFinal','eleTausOS','diElectronsOSSorted')
 
 addEventSummary(process,False,'MT','eventSelectionMT')
-addEventSummary(process,False,'ET','eventSelectionET')
+#addEventSummary(process,False,'ET','eventSelectionET')
 
 
 process.TFileService.fileName=cms.string("$outputFileName")

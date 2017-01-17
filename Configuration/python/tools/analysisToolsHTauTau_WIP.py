@@ -51,8 +51,8 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   #Build good vertex collection
   #goodVertexFilter(process)  
   tauEffi(process,'slimmedTaus',True)
-  tauOverloading(process,'tauTriggerEfficiencies','triggeredPatMuons','offlineSlimmedPrimaryVertices')
-  #tauOverloading(process,'slimmedTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
+  tauMVAOverloading(process,'tauTriggerEfficiencies','offlineSlimmedPrimaryVertices')
+  tauOverloading(process,'patOverloadedTausMVA','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   
   triLeptons(process)
   #jetOverloading(process,"slimmedJets",True)
@@ -113,8 +113,9 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   #Build good vertex collection
   #goodVertexFilter(process)  
   tauEffi(process,'slimmedTaus',False)
-  tauOverloading(process,'tauTriggerEfficiencies','triggeredPatMuons','offlineSlimmedPrimaryVertices')
-  
+  tauMVAOverloading(process,'tauTriggerEfficiencies','offlineSlimmedPrimaryVertices')
+  tauOverloading(process,'patOverloadedTausMVA','triggeredPatMuons','offlineSlimmedPrimaryVertices')
+
   triLeptons(process)
   #jetOverloading(process,"slimmedJets",False)
   jetOverloading(process,"patJetsReapplyJEC",False)
@@ -470,6 +471,17 @@ def tauOverloading(process,src, muons, vtxSrc):
   )                                        
 
   process.analysisSequence=cms.Sequence(process.analysisSequence*process.patOverloadedTaus)
+
+def tauMVAOverloading(process,src, vtxSrc):
+
+
+  process.patOverloadedTausMVA = cms.EDProducer('PATTauMVAVarOverloader',
+                                        src = cms.InputTag(src),
+                                        vtxSrc = cms.InputTag(vtxSrc)
+  )                                        
+
+  process.analysisSequence=cms.Sequence(process.analysisSequence*process.patOverloadedTausMVA)
+
 
 def tauEffi(process,src,isData):
 
