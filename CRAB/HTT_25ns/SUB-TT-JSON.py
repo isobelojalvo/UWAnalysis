@@ -27,7 +27,7 @@ import FWCore.PythonUtilities.LumiList as LumiList
 #directory=os.environ['CMSSW_BASE']
 #process.source.lumisToProcess = LumiList.LumiList('/afs/hep.wisc.edu/home/ojalvo/Cert_271036-279116_13TeV_PromptReco_Collisions16_JSON.txt').getVLuminosityBlockRange()
 
-from UWAnalysis.Configuration.JSONBtoF import myLumiList
+from UWAnalysis.Configuration.JSONBtoH import myLumiList
 myLumiList(process);
 
 from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import *

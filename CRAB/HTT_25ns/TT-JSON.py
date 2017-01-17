@@ -17,7 +17,8 @@ process.maxEvents = cms.untracked.PSet(
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        "file:event275913.root"
+        '/store/data/Run2016B/Tau/MINIAOD/23Sep2016-v3/00000/0004DF01-8099-E611-8C1C-0242AC130003.root'
+        #"file:event275913.root"
         #"file:pickHighNJetEvents.root"
         #"/store/data/Run2016B/Tau/MINIAOD/PromptReco-v2/000/275/310/00000/0EC2725C-D737-E611-ACE9-02163E0141D7.root"
 		),
@@ -28,7 +29,7 @@ process.source = cms.Source("PoolSource",
 )
 
 #import FWCore.PythonUtilities.LumiList as LumiList
-from UWAnalysis.Configuration.JSONBtoF import myLumiList
+from UWAnalysis.Configuration.JSONBtoH import myLumiList
 myLumiList(process);
 #process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-279116_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt').getVLuminosityBlockRange()
 #directory=os.environ['CMSSW_BASE']
