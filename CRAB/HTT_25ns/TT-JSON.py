@@ -8,7 +8,7 @@ process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(False))
 process.options.allowUnscheduled = cms.untracked.bool(True)
 
 
-process.GlobalTag.globaltag = '80X_dataRun2_Prompt_ICHEP16JEC_v0'
+process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v6'
 
 
 process.maxEvents = cms.untracked.PSet(

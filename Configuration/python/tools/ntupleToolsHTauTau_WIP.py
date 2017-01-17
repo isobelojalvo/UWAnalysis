@@ -366,31 +366,31 @@ def addDiTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
    eventTree = cms.EDAnalyzer('EventTreeMaker',
                               genEvent = cms.InputTag('generator'),
                               coreCollections = cms.InputTag(src),
-                              trigger = cms.PSet(
-                                  pluginType = cms.string("TriggerFiller"),
-				  src        = cms.InputTag("TriggerResults","",triggerCollection),
-				  prescales = cms.InputTag("patTrigger"),
-                                  paths      = cms.vstring(TriggerPaths)
-                              ),
-                              pu = cms.PSet(
-                                  pluginType = cms.string("PUFiller"),
-                                  src        = cms.InputTag("slimmedAddPileupInfo"),
-                                  tag        = cms.string("pu")
-                              ),
-                              cov = cms.PSet(
-                                  pluginType = cms.string("METSignificanceFiller"),
-                                  src        = cms.InputTag("METSignificance"),
-                                  tag        = cms.string("metcov")
-                              ),
-                              PVsSync = cms.PSet(
-                                  pluginType = cms.string("VertexSizeFiller"),
-                                  src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
-                                  tag        = cms.string("npv")
-                              ),
-                              PVs = cms.PSet(
-                                  pluginType = cms.string("VertexSizeFiller"),
-                                  src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
-                                  tag        = cms.string("vertices")
+                               trigger = cms.PSet(
+                                   pluginType = cms.string("TriggerFiller"),
+			           src        = cms.InputTag("TriggerResults","",triggerCollection),
+			           prescales = cms.InputTag("patTrigger"),
+                                   paths      = cms.vstring(TriggerPaths)
+                               ),
+                               pu = cms.PSet(
+                                   pluginType = cms.string("PUFiller"),
+                                   src        = cms.InputTag("slimmedAddPileupInfo"),
+                                   tag        = cms.string("pu")
+                               ),
+                               cov = cms.PSet(
+                                   pluginType = cms.string("METSignificanceFiller"),
+                                   src        = cms.InputTag("METSignificance"),
+                                   tag        = cms.string("metcov")
+                               ),
+                               PVsSync = cms.PSet(
+                                   pluginType = cms.string("VertexSizeFiller"),
+                                   src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
+                                   tag        = cms.string("npv")
+                               ),
+                               PVs = cms.PSet(
+                                   pluginType = cms.string("VertexSizeFiller"),
+                                   src        = cms.InputTag("offlineSlimmedPrimaryVertices"),
+                                   tag        = cms.string("vertices")
                               ),
                               diTauGenMCMatch = makeDiTauGenMatch(src),
                               diTauPt1 =  makeDiTauPair(src,"pt_1","leg1.pt"),
@@ -567,33 +567,11 @@ def addDiTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
                                   pluginType = cms.string("LHEProductFiller"),
                                   src        = cms.InputTag("externalLHEProducer"),
                                   tag        = cms.string("LHEProduct"),
-                              ),
-                              diTauEmbedPtWeight = cms.PSet(
-                                  pluginType = cms.string("GenFilterInfoWeightFiller"),
-                                  src        = cms.InputTag("generator"),
-                                  #src        = cms.InputTag("generator","EmbWeight"),
-                                  tag        = cms.string("aMCNLO_weight"),
-                              ),#FIXME #CHECKME
-                              diTauEmbedPt = cms.PSet(
-                                  pluginType = cms.string("PATGenParticleFiller"),
-                                  src        = cms.InputTag("genDaughters"),
-                                  tag        = cms.string("embeddedPt"),#CHECKME
-                                  method     = cms.string("pt"),
-                                  leadingOnly=cms.untracked.bool(False)
-                              ),#FIXME #CHECKME
-                              diTauEmbedEta = cms.PSet(
-                                  pluginType = cms.string("PATGenParticleFiller"),
-                                  src        = cms.InputTag("genDaughters"),
-                                  tag        = cms.string("embeddedEta"),
-                                  method     = cms.string("eta"),
-                                  leadingOnly=cms.untracked.bool(False)
                               )
                               )
    setattr(process, name, eventTree)
    p = cms.Path(getattr(process,name))
    setattr(process, name+'Path', p)
-
-
 
 def addMuTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', srcU='TightMuons', srcE='TightElectrons'):
    process.TFileService = cms.Service("TFileService", fileName = cms.string("analysis.root") )
@@ -867,28 +845,7 @@ def addMuTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
                                   pluginType = cms.string("LHEProductFiller"),
                                   src        = cms.InputTag("externalLHEProducer"),
                                   tag        = cms.string("LHEProduct"),
-                              ),
-                              muTauEmbedPtWeight = cms.PSet(
-                                  pluginType = cms.string("GenFilterInfoWeightFiller"),
-                                  src        = cms.InputTag("generator"),
-                                  #src        = cms.InputTag("generator","EmbWeight"),
-                                  tag        = cms.string("aMCNLO_weight"),
-                              ),#FIXME #CHECKME
-                              muTauEmbedPt = cms.PSet(
-                                  pluginType = cms.string("PATGenParticleFiller"),
-                                  src        = cms.InputTag("genDaughters"),
-                                  tag        = cms.string("embeddedPt"),#CHECKME
-                                  method     = cms.string("pt"),
-                                  leadingOnly=cms.untracked.bool(False)
-                              ),#FIXME #CHECKME
-                              muTauEmbedEta = cms.PSet(
-                                  pluginType = cms.string("PATGenParticleFiller"),
-                                  src        = cms.InputTag("genDaughters"),
-                                  tag        = cms.string("embeddedEta"),
-                                  method     = cms.string("eta"),
-                                  leadingOnly=cms.untracked.bool(False)
-                              )#FIXME #CHECKME
-
+                              )
    )
 
    setattr(process, name, eventTree)
