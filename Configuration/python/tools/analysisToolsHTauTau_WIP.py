@@ -348,9 +348,9 @@ def reapplyPUJetID(process, srcJets = cms.InputTag("slimmedJets")):
    
     
 def recorrectJets(process, isData = False):
-    JECTag = 'Spring16_23Sep2016V2_MC'
+    JECTag = 'Spring16_23Sep2016V3_MC'
     if(isData):
-      JECTag = 'Spring16_23Sep2016AllV2_DATA'
+      JECTag = 'Spring16_23Sep2016AllV3_DATA'
     cmssw_base = os.environ['CMSSW_BASE']
 ## getting the JEC from the DB
     #process.load("CondCore.CondDB.CondDB_cfi")
