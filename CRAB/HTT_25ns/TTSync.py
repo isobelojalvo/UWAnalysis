@@ -29,7 +29,7 @@ process.source = cms.Source("PoolSource",
 
 #from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
 from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import *
-defaultReconstructionMCrehlt(process,'HLT2',
+defaultReconstructionMC(process,'HLT',
                       [
 			'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v2'
                       ])
@@ -71,9 +71,9 @@ createGeneratedParticles(process,
 
 from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addDiTauEventTree
 
-addDiTauEventTree(process,'diTauEventTree','diTausSyncData','diMuonsOSSorted','TightMuons','TightElectrons','HLT2')
-addDiTauEventTree(process,'diTauEventTreeFinal','diTausSortedFinal','diMuonsOSSorted','TightMuons','TightElectrons','HLT2')
-#addDiTauEventTree(process,'diTauEventTree','diTausSync','HLT2')
+addDiTauEventTree(process,'diTauEventTree','diTausSyncData','diMuonsOSSorted','TightMuons','TightElectrons','HLT')
+addDiTauEventTree(process,'diTauEventTreeFinal','diTausSortedFinal','diMuonsOSSorted','TightMuons','TightElectrons','HLT')
+#addDiTauEventTree(process,'diTauEventTree','diTausSync','HLT')
 
 addEventSummary(process,True,'TT','eventSelectionTT')
 
