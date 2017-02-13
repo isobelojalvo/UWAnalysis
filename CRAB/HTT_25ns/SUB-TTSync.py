@@ -26,24 +26,17 @@ process.source = cms.Source("PoolSource",
 )
 
 
-#from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
 from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import *
 defaultReconstructionMC(process,'HLT',
                       [
-			'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v2',
-                        #'HLT_DoubleMediumIsoPFTau32_Trk1_eta2p1_Reg_v2',
-                        'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v3',
-                        'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v4',
-                        'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v5',
-                        'HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v5',
-                        'HLT_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v6'
+			'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v',
+                        'HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v'
                       ])
 
                       
 
 #EventSelection
 process.load("UWAnalysis.Configuration.hTauTauHadronicEmu_cff")
-#process.metCalibration.applyCalibration = cms.bool(False)
 
 process.eventSelectionTT = cms.Path(process.selectionSequenceTT)
 createGeneratedParticles(process,
@@ -77,9 +70,19 @@ createGeneratedParticles(process,
 from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addDiTauEventTree
 
 addDiTauEventTree(process,'diTauEventTree','diTausSync','diMuonsOSSorted','TightMuons','TightElectrons','HLT')
-addDiTauEventTree(process,'diTauEventTreeFinal','diTausSortedFinal','diMuonsOSSorted','TightMuons','TightElectrons','HLT')
+addDiTauEventTree(process,'diTauEventTreeFinal','diTausSyncTrig','diMuonsOSSorted','TightMuons','TightElectrons','HLT')
 
 addEventSummary(process,True,'TT','eventSelectionTT')
+
+process.eventSelectionTTTauUp    = createSystematics(process,process.selectionSequenceTT,'TauUp',1.00,1.0,1.03,0,1.0)
+process.eventSelectionTTauDown  = createSystematics(process,process.selectionSequenceTT,'TauDown',1.0,1.0,0.97,0,1.0)
+process.eventSelectionTTJetUp    = createSystematics(process,process.selectionSequenceTT,'JetUp',1.0,1.0,1.0,1,1.0)
+process.eventSelectionTTJetDown  = createSystematics(process,process.selectionSequenceTT,'JetDown',1.0,1.0,1.0,-1,1.0)
+
+addDiTauEventTree(process,'diTauEventTreeTauUp','diTausSyncTauUp',triggerCollection='HLT')
+addDiTauEventTree(process,'diTauEventTreeTauDown','diTausSyncTauDown',triggerCollection='HLT')
+addDiTauEventTree(process,'diTauEventTreeJetUp','diTausSyncJetUp',triggerCollection='HLT')
+addDiTauEventTree(process,'diTauEventTreeJetDown','diTausSyncJetDown',triggerCollection='HLT')
 
 #Systematic Shifts 1sigma
 #process.eventSelectionTTTauUp    = createSystematics(process,process.selectionSequenceTT,'TauUp',1.00,1.0,1.03,0,1.0)

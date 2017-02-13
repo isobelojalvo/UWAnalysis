@@ -37,7 +37,7 @@ class NBTagFiller : public NtupleFillerBase {
 		t->Branch("nbtag",&value[0],"nbtag/F");
 		t->Branch("nbtagUp",&value[1],"nbtagUp/F");
 		t->Branch("nbtagDown",&value[2],"nbtagDown/F");
-	        calib=BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2_ichep.csv");
+	        calib=BTagCalibration("CSVv2", std::string(std::getenv("CMSSW_BASE"))+"/src/UWAnalysis/Configuration/data/CSVv2Moriond17_2017_1_26_GtoH.csv");
 		reader= BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central",{"up","down"});
                 reader.load(calib,BTagEntry::FLAV_UDSG,"incl");
                 reader.load(calib,BTagEntry::FLAV_B,"comb");

@@ -30,7 +30,8 @@ process.source = cms.Source("PoolSource",
 from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import *
 defaultReconstructionMC(process,'HLT',
                       [
-			'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v2'
+			'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v',
+                        'HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v'
                       ])
 
                       
@@ -71,7 +72,7 @@ createGeneratedParticles(process,
 from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addDiTauEventTree
 
 addDiTauEventTree(process,'diTauEventTree','diTausSync','diMuonsOSSorted','TightMuons','TightElectrons','HLT')
-addDiTauEventTree(process,'diTauEventTreeFinal','diTausSortedFinal','diMuonsOSSorted','TightMuons','TightElectrons','HLT')
+addDiTauEventTree(process,'diTauEventTreeFinal','diTausSyncTrig','diMuonsOSSorted','TightMuons','TightElectrons','HLT')
 
 addEventSummary(process,True,'TT','eventSelectionTT')
 
@@ -81,6 +82,10 @@ process.eventSelectionTTauDown  = createSystematics(process,process.selectionSeq
 process.eventSelectionTTJetUp    = createSystematics(process,process.selectionSequenceTT,'JetUp',1.0,1.0,1.0,1,1.0)
 process.eventSelectionTTJetDown  = createSystematics(process,process.selectionSequenceTT,'JetDown',1.0,1.0,1.0,-1,1.0)
 
+addDiTauEventTree(process,'diTauEventTreeTauUp','diTausSyncTauUp',triggerCollection='HLT')
+addDiTauEventTree(process,'diTauEventTreeTauDown','diTausSyncTauDown',triggerCollection='HLT')
+addDiTauEventTree(process,'diTauEventTreeJetUp','diTausSyncJetUp',triggerCollection='HLT')
+addDiTauEventTree(process,'diTauEventTreeJetDown','diTausSyncJetDown',triggerCollection='HLT')
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(

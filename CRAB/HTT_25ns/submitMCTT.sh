@@ -1,7 +1,7 @@
 #!/bin/sh
 #voms-proxy-init --voms cms --valid 100:00
 #UWAnalysis/CRAB/HTT_25ns/SUB-TT.py
-jobID=2016_Jan16
+jobID=2016_Feb11
 
 jobOptions="--vsize-limit=8000 --assume-input-files-exist --skip-existing-output --assume-input-files-exist --input-files-per-job=1"
 tailOptions="  $CMSSW_BASE $CMSSW_BASE/src/UWAnalysis/CRAB/HTT_25ns/SUB-TT.py"

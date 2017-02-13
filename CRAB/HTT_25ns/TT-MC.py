@@ -17,12 +17,6 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
         'root://cmsxrootd.hep.wisc.edu//store/mc/RunIISummer16MiniAODv2/VBFHToTauTau_M125_13TeV_powheg_pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/120000/D662E4EE-8DC8-E611-91C3-008CFA00317C.root'
-        #'file:vbf125-genmatch1.root'
-        #'/store/mc/RunIISummer16MiniAODv2/DY1JetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/120000/02810E61-F5C5-E611-A78A-002590FD5A78.root'
-        #'file:event1624.root'
-        #"/store/mc/RunIISpring16MiniAODv2/VBFHToTauTau_M125_13TeV_powheg_pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/80000/0863B733-1A39-E611-AF47-0025905C53D8.root"
-        #'file:pickOneEvent.root'
-        #'file:ggH1goodEvent.root'
         #'/store/mc/RunIISpring16MiniAODv1/GluGluHToTauTau_M125_13TeV_powheg_pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/10000/06A0B340-8025-E611-8262-B8CA3A708F98.root'
 		),
 		inputCommands=cms.untracked.vstring(
@@ -32,17 +26,16 @@ process.source = cms.Source("PoolSource",
 )
 
 
-#from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
 from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import *
 defaultReconstructionMC(process,'HLT',
                       [
-			'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v2'
+			'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v',
+                        'HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v'
                       ])
 
 
 #EventSelection
 process.load("UWAnalysis.Configuration.hTauTauHadronicEmu_cff")
-#process.metCalibration.applyCalibration = cms.bool(False)
 
 
 process.eventSelectionTT = cms.Path(process.selectionSequenceTT)
@@ -79,7 +72,7 @@ from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addDiTauEventT
 addDiTauEventTree(process,'diTauEventTree','diTausSync',triggerCollection='HLT')
 addDiTauEventTree(process,'diTauEventTreeFinal','diTausSortedFinal',triggerCollection='HLT')
 
-#addEventSummary(process,False,'TT','eventSelectionTT')
+
 
 #Systematic Shifts 1sigma
 process.eventSelectionTTTauUp    = createSystematics(process,process.selectionSequenceTT,'TauUp',1.00,1.0,1.03,0,1.0)
@@ -87,5 +80,9 @@ process.eventSelectionTTauDown  = createSystematics(process,process.selectionSeq
 process.eventSelectionTTJetUp    = createSystematics(process,process.selectionSequenceTT,'JetUp',1.0,1.0,1.0,1,1.0)
 process.eventSelectionTTJetDown  = createSystematics(process,process.selectionSequenceTT,'JetDown',1.0,1.0,1.0,-1,1.0)
 
+addDiTauEventTree(process,'diTauEventTreeTauUp','diTausSyncTauUp',triggerCollection='HLT')
+addDiTauEventTree(process,'diTauEventTreeTauDown','diTausSyncTauDown',triggerCollection='HLT')
+addDiTauEventTree(process,'diTauEventTreeJetUp','diTausSyncJetUp',triggerCollection='HLT')
+addDiTauEventTree(process,'diTauEventTreeJetDown','diTausSyncJetDown',triggerCollection='HLT')
 
-
+addEventSummary(process,False,'TT','eventSelectionTT')

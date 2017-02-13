@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import TriggerPaths
+from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import TriggerPaths,TriggerRes,TriggerProcess,TriggerFilter
 
 
 
@@ -44,6 +44,12 @@ def makeLTauGeneric(plugin,sourceDiTaus,tagName,methodName):
 
 ##start diTaus
 
+def makeDiTauVBFPair(sourceDiTaus):
+   PSet = cms.PSet(
+         pluginType  = cms.string("PATDiTauPairVBFVariableFiller"),
+         src         = cms.InputTag(sourceDiTaus)
+   )
+   return PSet
 
 def makeDiTauPair(sourceDiTaus,tagName,methodName,leadingOnly=True):
    PSet = cms.PSet(
@@ -393,6 +399,20 @@ def addDiTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
                                    tag        = cms.string("vertices")
                               ),
                               diTauGenMCMatch = makeDiTauGenMatch(src),
+                              metfilter = cms.PSet(
+                                  pluginType = cms.string("TriggerFilterFiller"),
+                                  src = cms.InputTag(TriggerRes,"",TriggerFilter),
+                                  BadChargedCandidateFilter = cms.InputTag("BadChargedCandidateFilter"),
+                                  BadPFMuonFilter           = cms.InputTag("BadPFMuonFilter"),
+                                  paths      = cms.vstring(
+                                      "Flag_HBHENoiseFilter",
+                                      "Flag_HBHENoiseIsoFilter",
+                                      "Flag_globalTightHalo2016Filter",
+                                      "Flag_goodVertices",
+                                      "Flag_eeBadScFilter",
+                                      "Flag_EcalDeadCellTriggerPrimitiveFilter"
+                                      )
+                              ),
                               diTauPt1 =  makeDiTauPair(src,"pt_1","leg1.pt"),
                               diTauPt2 =  makeDiTauPair(src,"pt_2","leg2.pt"), 
                               diTauEta1 = makeDiTauPair(src,"eta_1","leg1.eta"),
@@ -436,6 +456,8 @@ def addDiTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
                               diTauPhi2LL = makeLTauGeneric("PATMuPairFiller",srcLL,"LLphi_2","leg2.phi"),#FILLED
                               #diTauEffCSV = makeDiTauEffCSV(src),  ##need to put csv eff back in
                               #diTauCSVShape = makeDiTauCSVShape(src), ## need to put csv shape back in
+                              diTauJES = makeDiTauVBFPair(src),#FILLED
+
                               diTauSize = makeCollSize(src,"nCands"),
                               diTauOS = makeCollSizeOS(src,0,"os"),
                               genTaus = makeCollSize("genTauCands","genTaus"), 
@@ -460,6 +482,7 @@ def addDiTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
                               diTauAgainstEleVLooseMVA6Leg2 = makeDiTauPair(src,"againstElectronVLooseMVA6_2",'leg2.tauID("againstElectronVLooseMVA6")'),
                               diTauAgainstEleMVA6rawLeg1 = makeDiTauPair(src,"againstElectronMVA6Raw_1",'leg1.tauID("againstElectronMVA6Raw")'),
                               diTauAgainstEleMVA6rawLeg2 = makeDiTauPair(src,"againstElectronMVA6Raw_2",'leg2.tauID("againstElectronMVA6Raw")'),
+
                               diTauIsoLeg1 = makeDiTauPair(src,"iso_1",'leg1.tauID("byVTightIsolationMVArun2v1DBoldDMwLT")'),
                               diTauIsoLeg2 = makeDiTauPair(src,"iso_2",'leg2.tauID("byVTightIsolationMVArun2v1DBoldDMwLT")'),
 
@@ -478,6 +501,27 @@ def addDiTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
 			      diTauRawMVAIso2 = makeDiTauPair(src,"isoMVARaw_2",'leg2.tauID("byIsolationMVArun2v1DBoldDMwLTraw")'),
 			      diTauRawDBIso1 = makeDiTauPair(src,"isoDBRaw_1",'leg1.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
 			      diTauRawDBIso2 = makeDiTauPair(src,"isoDBRaw_2",'leg2.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits")'),
+
+####Rerun
+
+                              diTauIsoLeg1ReRun =  makeDiTauPair(src,"isoRerun_1",'leg1.userFloat("byVTightIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              diTauIsoLeg2ReRun =  makeDiTauPair(src,"isoRerun_2",'leg2.userFloat("byVTightIsolationMVArun2v1DBoldDMwLTRerun")'),
+
+                              diTauVTightIsoLeg1ReRun =  makeDiTauPair(src,"isoVTightRerun_1",'leg1.userFloat("byVTightIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              diTauVTightIsoLeg2ReRun =  makeDiTauPair(src,"isoVTightRerun_2",'leg2.userFloat("byVTightIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              diTauTightIsoLeg1ReRun =  makeDiTauPair(src,"isoTightRerun_1",'leg1.userFloat("byTightIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              diTauTightIsoLeg2ReRun =  makeDiTauPair(src,"isoTightRerun_2",'leg2.userFloat("byTightIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              diTauMediumIsoLeg1ReRun =  makeDiTauPair(src,"isoMedRerun_1",'leg1.userFloat("byMediumIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              diTauMediumIsoLeg2ReRun =  makeDiTauPair(src,"isoMedRerun_2",'leg2.userFloat("byMediumIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              diTauLooseIsoLeg1ReRun =  makeDiTauPair(src,"isoLooseRerun_1",'leg1.userFloat("byLooseIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              diTauLooseIsoLeg2ReRun =  makeDiTauPair(src,"isoLooseRerun_2",'leg2.userFloat("byLooseIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              diTauVLooseIsoLeg1ReRun =  makeDiTauPair(src,"isoVLooseRerun_1",'leg1.userFloat("byVLooseIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              diTauVLooseIsoLeg2ReRun =  makeDiTauPair(src,"isoVLooseRerun_2",'leg2.userFloat("byVLooseIsolationMVArun2v1DBoldDMwLTRerun")'),
+
+			      diTauRawMVAIso1ReRun =  makeDiTauPair(src,"isoMVARawRerun_1",'leg1.userFloat("byIsolationMVArun2v1DBoldDMwLTrawRerun")'),
+			      diTauRawMVAIso2ReRun =  makeDiTauPair(src,"isoMVARawRerun_2",'leg2.userFloat("byIsolationMVArun2v1DBoldDMwLTrawRerun")'),
+
+####Rerun
                               diTauGenPt1 = makeDiTauPair(src,"genPt1",'p4Leg1gen().pt()'),
                               diTauGenPt2 = makeDiTauPair(src,"genPt2",'p4Leg2gen().pt()'),
                               diTauPdg1 = makeDiTauPair(src,"pdg1",'genPdg1()'),

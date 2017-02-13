@@ -3,11 +3,10 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("ANALYSIS")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
-process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(False))
-process.options.allowUnscheduled = cms.untracked.bool(True)
-
 process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v7'
 
+process.options   = cms.untracked.PSet(wantSummary = cms.untracked.bool(False))
+process.options.allowUnscheduled = cms.untracked.bool(True)
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(20000)
@@ -27,18 +26,17 @@ process.source = cms.Source("PoolSource",
 )
 
 
-#from UWAnalysis.Configuration.tools.analysisToolsZTauTauXSec import *
 from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import *
 defaultReconstructionMC(process,'HLT',
                       [
-			'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v2'
+			'HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v'
                       ])
 
                       
 
 #EventSelection
 process.load("UWAnalysis.Configuration.hTauTauHadronicEmu_cff")
-#process.metCalibration.applyCalibration = cms.bool(False)
+
 
 process.eventSelectionTT = cms.Path(process.selectionSequenceTT)
 createGeneratedParticles(process,
@@ -71,8 +69,10 @@ createGeneratedParticles(process,
 
 from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addDiTauEventTree
 
-addDiTauEventTree(process,'diTauEventTree','diTausSyncData','diMuonsOSSorted','TightMuons','TightElectrons','HLT')
-addDiTauEventTree(process,'diTauEventTreeFinal','diTausSortedFinal','diMuonsOSSorted','TightMuons','TightElectrons','HLT')
+addDiTauEventTree(process,'diTauEventTree','diTausSync',triggerCollection='HLT')
+addDiTauEventTree(process,'diTauEventTreeFinal','diTausSortedFinal',triggerCollection='HLT')
+
+
 #addDiTauEventTree(process,'diTauEventTree','diTausSync','HLT')
 
 addEventSummary(process,True,'TT','eventSelectionTT')
