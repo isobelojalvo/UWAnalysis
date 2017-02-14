@@ -75,14 +75,17 @@ addDiTauEventTree(process,'diTauEventTreeFinal','diTausSortedFinal',triggerColle
 
 
 #Systematic Shifts 1sigma
-process.eventSelectionTTTauUp    = createSystematics(process,process.selectionSequenceTT,'TauUp',1.00,1.0,1.03,0,1.0)
-process.eventSelectionTTauDown  = createSystematics(process,process.selectionSequenceTT,'TauDown',1.0,1.0,0.97,0,1.0)
-process.eventSelectionTTJetUp    = createSystematics(process,process.selectionSequenceTT,'JetUp',1.0,1.0,1.0,1,1.0)
-process.eventSelectionTTJetDown  = createSystematics(process,process.selectionSequenceTT,'JetDown',1.0,1.0,1.0,-1,1.0)
+### mu, ele, tau, jet, unc, elecResb, elecRese, 1p, 1pPi0, 3p
+### process,sequence,postfix, muScale, eScale, tauScale, jetScale, unclusteredScale, electronresb = 0.0, electronrese = 0.0, oneProngScale = 1.0,oneProngPi0Scale = 1.0, threeProngScale = 1.0
+### mu, ele, tau, jet, unc, elecResb, elecRese, 1p, 1pPi0, 3p
+process.eventSelectionTTTauUp  = createSystematics(process,process.selectionSequenceTT,'TauUp'  ,1.00, 1.00, 1.00, 0, 1.00, 0.00, 0.00, 0.988, 1.016, 1.01)
+#process.eventSelectionTTauDown = createSystematics(process,process.selectionSequenceTT,'TauDown',1.00, 1.00, 0.97, 0, 1.00, 0.00, 0.00, 0.976, 1.004, 0.98)
+#process.eventSelectionTTJetUp  = createSystematics(process,process.selectionSequenceTT,'JetUp'  ,1.00, 1.00, 1.00, 1, 1.00, 0.00, 0.00, 1.00,  1.00, 1.00)
+#process.eventSelectionTTJetDown= createSystematics(process,process.selectionSequenceTT,'JetDown',1.00, 1.00, 1.00,-1, 1.00, 0.00, 0.00, 1.00, 1.00, 1.00)
 
 addDiTauEventTree(process,'diTauEventTreeTauUp','diTausSyncTauUp',triggerCollection='HLT')
-addDiTauEventTree(process,'diTauEventTreeTauDown','diTausSyncTauDown',triggerCollection='HLT')
-addDiTauEventTree(process,'diTauEventTreeJetUp','diTausSyncJetUp',triggerCollection='HLT')
-addDiTauEventTree(process,'diTauEventTreeJetDown','diTausSyncJetDown',triggerCollection='HLT')
+#addDiTauEventTree(process,'diTauEventTreeTauDown','diTausSyncTauDown',triggerCollection='HLT')
+#addDiTauEventTree(process,'diTauEventTreeJetUp','diTausSyncJetUp',triggerCollection='HLT')
+#addDiTauEventTree(process,'diTauEventTreeJetDown','diTausSyncJetDown',triggerCollection='HLT')
 
 addEventSummary(process,False,'TT','eventSelectionTT')

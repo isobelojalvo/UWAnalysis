@@ -16,7 +16,10 @@ class SmearedTauProducer : public edm::EDProducer  {
   bool smearConstituents_;
   double hadronEnergyScale_;
   double gammaEnergyScale_;
-  
+  double oneProngEnergyScale_;
+  double oneProngPi0EnergyScale_;
+  double threeProngEnergyScale_;
+
   SmearedParticleMaker<pat::Tau,GenJetRetriever<pat::Tau> > *smearingModule;
   
 };
