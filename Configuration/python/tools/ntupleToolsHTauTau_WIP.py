@@ -2,6 +2,7 @@ import FWCore.ParameterSet.Config as cms
 
 from UWAnalysis.Configuration.tools.analysisToolsHTauTau_WIP import TriggerPaths,TriggerRes,TriggerProcess,TriggerFilter
 
+from RecoMET.METFilters.BadChargedCandidateFilter_cfi import *
 
 
 def makeCollSize(srcName,tagName):
@@ -405,6 +406,7 @@ def addDiTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
                                   BadChargedCandidateFilter = cms.InputTag("BadChargedCandidateFilter"),
                                   BadPFMuonFilter           = cms.InputTag("BadPFMuonFilter"),
                                   paths      = cms.vstring(
+                                      "Flag_noBadMuons",
                                       "Flag_HBHENoiseFilter",
                                       "Flag_HBHENoiseIsoFilter",
                                       "Flag_globalTightHalo2016Filter",

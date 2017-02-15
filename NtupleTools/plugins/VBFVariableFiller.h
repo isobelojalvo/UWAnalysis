@@ -210,7 +210,7 @@ class VBFVariableFiller : public NtupleFillerBase {
             pat::Jet firstJet;
             pat::Jet secondJet;
 
-            if(iEvent.getByToken(src_,handle)) { //event exists
+            if(iEvent.getByToken(src_,handle)&&!iEvent.isRealData()) { //event exists
                 if(handle->size()>0){//JEts exits 
 
                     for ( unsigned int c=0;c<cuts.size();c++){
