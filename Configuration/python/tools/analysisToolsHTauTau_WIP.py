@@ -229,11 +229,14 @@ def MiniAODMETfilter(process):
     process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
     process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
     process.BadPFMuonFilter.taggingMode =  cms.bool(True)
+    #process.BadPFMuonFilter.debug =  cms.bool(True)
 
     process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
     process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
     process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
     process.BadChargedCandidateFilter.taggingMode =  cms.bool(True)
+    #process.BadChargedCandidateFilter.debug =  cms.bool(True)
+
 
     process.BadMuon = cms.Sequence(process.BadPFMuonFilter*process.BadChargedCandidateFilter)
     process.analysisSequence*=process.BadMuon

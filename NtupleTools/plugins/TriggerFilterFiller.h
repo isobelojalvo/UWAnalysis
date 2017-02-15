@@ -67,10 +67,19 @@ class TriggerFilterFiller : public NtupleFillerBase {
     edm::Handle<bool> ifilterbadChCand;
     edm::Handle<bool> ifilterbadPFMuon;
 
+    //std::cout<<"filling the MET filter---------"<<std::endl;
 
-    iEvent.getByToken(src_, triggerBits);
-    iEvent.getByToken(BadChCandFilterToken_, ifilterbadChCand);
-    iEvent.getByToken(BadPFMuonFilterToken_, ifilterbadPFMuon);
+    if(!iEvent.getByToken(src_, triggerBits))
+      std::cout<<"ERROR GETTING THE TRIGGERBITS!!"<<std::endl;
+
+    if(!iEvent.getByToken(BadChCandFilterToken_, ifilterbadChCand))
+      std::cout<<"ERROR GETTING THE CHARGED HADRON FILTER TOKEN!!"<<std::endl;
+
+    if(!iEvent.getByToken(BadPFMuonFilterToken_, ifilterbadPFMuon))
+      std::cout<<"ERROR GETTING THE PF MUON FILTER TOKEN!!"<<std::endl;
+
+    //std::cout<<"bad pf muon filter "<<ifilterbadPFMuon<<std::endl;
+    //std::cout<<"bad ch hadron filter "<<ifilterbadChCand<<std::endl;
 
     bool filterbadChCandidate = *ifilterbadChCand;
     bool filterbadPFMuon = *ifilterbadPFMuon;
@@ -79,7 +88,8 @@ class TriggerFilterFiller : public NtupleFillerBase {
     //std::cout<<"filter bad 2: " << filterbadPFMuon<<std::endl;
 
     const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);
-    any=1*filterbadChCandidate*filterbadPFMuon;
+    any=filterbadChCandidate + filterbadPFMuon;
+    //std::cout<<"filterBadAny "<<any<<std::endl;
 
     //get the names of the triggers
     for(unsigned int i=0;i<paths_.size();++i) {
