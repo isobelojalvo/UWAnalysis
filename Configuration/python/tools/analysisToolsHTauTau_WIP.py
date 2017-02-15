@@ -91,7 +91,8 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
   process.load('Configuration.StandardSequences.MagneticField_38T_cff')
   process.load('Configuration.StandardSequences.EndOfProcess_cff')
- 
+  process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
+
   #Make the TriggerPaths Global variable to be accesed by the ntuples
   global TriggerPaths
   TriggerPaths= triggerPaths
@@ -112,16 +113,16 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
 
   MiniAODMETfilter(process)
 
-  recorrectJets(process, False) #adds patJetsReapplyJEC
-
-  ##MET
   reRunMET(process,False)
   metSignificance(process)
+
+  recorrectJets(process, False) #adds patJetsReapplyJEC
 
 
   #no trigger here!!!  
   muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID")#NEW
   electronTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODElectronVID")#NEW
+
   tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"slimmedTaus") #ESTaus
 
   genmatchtaus(process)  
@@ -143,6 +144,9 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   GenSumWeights(process)
   GenHTCalculator(process)
   #Default selections for systematics
+  #MiniAODMETfilter(process)
+  ##MET
+
   applyDefaultSelectionsPT(process)
 
   process.runAnalysisSequence = cms.Path(process.analysisSequence)
@@ -224,14 +228,15 @@ def MiniAODMETfilter(process):
     process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
     process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
     process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+    process.BadPFMuonFilter.taggingMode =  cms.bool(True)
 
     process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
     process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
     process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+    process.BadChargedCandidateFilter.taggingMode =  cms.bool(True)
 
     process.BadMuon = cms.Sequence(process.BadPFMuonFilter*process.BadChargedCandidateFilter)
     process.analysisSequence*=process.BadMuon
-
 
 def reRunMET(process, runOnData):
     from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
