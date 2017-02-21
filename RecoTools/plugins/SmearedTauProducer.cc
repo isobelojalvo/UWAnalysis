@@ -44,20 +44,24 @@ SmearedTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 	switch(object.decayMode()){
 	case(0):
 	  decayModeES = oneProngEnergyScale_;
+	  object.setP4(vToSmear*decayModeES);	
+	  object.setMass(0.1395699);
 	  break;
 	case(1):
 	  decayModeES = oneProngPi0EnergyScale_;
+	  object.setP4(vToSmear*decayModeES);	
 	  break;
 	case(2):// this is a neglible contribution
 	  decayModeES = oneProngPi0EnergyScale_;
+	  object.setP4(vToSmear*decayModeES);	
 	  break;
 	case(10):
 	  decayModeES = threeProngEnergyScale_;
+	  object.setP4(vToSmear*decayModeES);	
 	  break;
 	}
 
 	//std::cout<<"decayMode "<< object.decayMode()<<" decayModeES "<<decayModeES<<std::endl;
-	object.setP4(vToSmear*decayModeES);	
 
 
         if(smearConstituents_) {
