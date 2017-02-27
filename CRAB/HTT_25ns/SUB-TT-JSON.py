@@ -46,8 +46,8 @@ process.eventSelectionTT = cms.Path(process.selectionSequenceTT)
 
 from UWAnalysis.Configuration.tools.ntupleToolsHTauTau_WIP import addDiTauEventTree
 
-addDiTauEventTree(process,'diTauEventTree','diTausSyncData')
-addDiTauEventTree(process,'diTauEventTreeFinal','diTausSortedFinal')
+addDiTauEventTree(process,'diTauEventTree','diTausSync',triggerCollection='HLT')
+addDiTauEventTree(process,'diTauEventTreeFinal','diTausSyncTrig',triggerCollection='HLT')
 
 addEventSummary(process,True,'TT','eventSelectionTT')
 

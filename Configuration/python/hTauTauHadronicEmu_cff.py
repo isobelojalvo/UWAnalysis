@@ -9,7 +9,7 @@ TTanalysisConfigurator = CutSequenceProducer(initialCounter  = 'initialEventsTT'
                                   pyModuleName = __name__,
                                   pyNameSpace  = locals())
 
-#TTanalysisConfigurator.addSmearing('patOverloadedTaus','miniAODMuonID','miniAODElectronVID','filteredJets','MVAMET:MVAMET','TT')
+
 TTanalysisConfigurator.addSmearing('patOverloadedTaus','miniAODMuonID','miniAODElectronVID','filteredJets','slimmedMETs','TT')
 
 #Make DiTaus
@@ -22,9 +22,11 @@ TTanalysisConfigurator.addSorter('diTausSorted'       ,'PATDiTauPairSorter')
 TTanalysisConfigurator.addSelector('diTausPreSync'    ,'PATDiTauPairSelector','charge==0||abs(charge)==2','TTSync',1)
 TTanalysisConfigurator.addSorter(  'diTausSync'       ,'PATDiTauPairSorterByIsoDiTau')
 
-TTanalysisConfigurator.addSelector('diTausTriggerSelLeg1','PATDiTauPairSelector','leg1.userFloat("hltDoublePFTau35TrackPt1MediumIsolationDz02Reg")>0','TTtriggerSelLeg1',1)
-#TTanalysisConfigurator.addSelector('diTausTriggerSelLeg1','PATDiTauPairSelector','leg1.userFloat("hltDoublePFTau35TrackPt1MediumIsolationDz02Reg")>0||leg1.userFloat("hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg")>0','TTtriggerSelLeg1',1)
-TTanalysisConfigurator.addSelector('diTausTriggerSelLeg2','PATDiTauPairSelector','leg2.userFloat("hltDoublePFTau35TrackPt1MediumIsolationDz02Reg")>0','TTtriggerSelLeg2',1)
+TTanalysisConfigurator.addSelector('diTausTriggerSelLeg1','PATDiTauPairSelector','leg1.userFloat("hltDoublePFTau35TrackPt1MediumIsolationDz02Reg")>0||leg1.userFloat("hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg")>0','TTtriggerSelLeg1',1)
+TTanalysisConfigurator.addSelector('diTausTriggerSelLeg2','PATDiTauPairSelector','leg2.userFloat("hltDoublePFTau35TrackPt1MediumIsolationDz02Reg")>0||leg2.userFloat("hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg")>0','TTtriggerSelLeg2',1)
+#TTanalysisConfigurator.addSelector('diTausTriggerSelLeg1','PATDiTauPairSelector','leg1.userFloat("hltDoublePFTau35TrackPt1MediumIsolationDz02Reg")>0','TTtriggerSelLeg1',1)
+#TTanalysisConfigurator.addSelector('diTausTriggerSelLeg2','PATDiTauPairSelector','leg2.userFloat("hltDoublePFTau35TrackPt1MediumIsolationDz02Reg")>0','TTtriggerSelLeg2',1)
+
 
 
 TTanalysisConfigurator.addSorter(  'diTausSyncTrig','PATDiTauPairSorterByIsoDiTau')

@@ -55,10 +55,11 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   electronTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODElectronVID") 
   tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"slimmedTaus") #ESTaus
 
-  #reRunTaus(process,"triggeredPatTaus")  
+  reRunTaus(process,"triggeredPatTaus")  
   #Build good vertex collection
 
   #tauEffi(process,'reRunSlimmedTaus',True)
+  #not bothering to put this in now... 
   #tauOverloading(process,'reRunSlimmedTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   tauOverloading(process,'triggeredPatTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   

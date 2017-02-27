@@ -506,22 +506,22 @@ def addDiTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
 
 ####Rerun
 
-                              diTauIsoLeg1ReRun =  makeDiTauPair(src,"isoRerun_1",'leg1.userFloat("byVTightIsolationMVArun2v1DBoldDMwLTRerun")'),
-                              diTauIsoLeg2ReRun =  makeDiTauPair(src,"isoRerun_2",'leg2.userFloat("byVTightIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              #diTauIsoLeg1ReRun =  makeDiTauPair(src,"isoRerun_1",'leg1.userFloat("byVTightIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              #diTauIsoLeg2ReRun =  makeDiTauPair(src,"isoRerun_2",'leg2.userFloat("byVTightIsolationMVArun2v1DBoldDMwLTRerun")'),
 
-                              diTauVTightIsoLeg1ReRun =  makeDiTauPair(src,"isoVTightRerun_1",'leg1.userFloat("byVTightIsolationMVArun2v1DBoldDMwLTRerun")'),
-                              diTauVTightIsoLeg2ReRun =  makeDiTauPair(src,"isoVTightRerun_2",'leg2.userFloat("byVTightIsolationMVArun2v1DBoldDMwLTRerun")'),
-                              diTauTightIsoLeg1ReRun =  makeDiTauPair(src,"isoTightRerun_1",'leg1.userFloat("byTightIsolationMVArun2v1DBoldDMwLTRerun")'),
-                              diTauTightIsoLeg2ReRun =  makeDiTauPair(src,"isoTightRerun_2",'leg2.userFloat("byTightIsolationMVArun2v1DBoldDMwLTRerun")'),
-                              diTauMediumIsoLeg1ReRun =  makeDiTauPair(src,"isoMedRerun_1",'leg1.userFloat("byMediumIsolationMVArun2v1DBoldDMwLTRerun")'),
-                              diTauMediumIsoLeg2ReRun =  makeDiTauPair(src,"isoMedRerun_2",'leg2.userFloat("byMediumIsolationMVArun2v1DBoldDMwLTRerun")'),
-                              diTauLooseIsoLeg1ReRun =  makeDiTauPair(src,"isoLooseRerun_1",'leg1.userFloat("byLooseIsolationMVArun2v1DBoldDMwLTRerun")'),
-                              diTauLooseIsoLeg2ReRun =  makeDiTauPair(src,"isoLooseRerun_2",'leg2.userFloat("byLooseIsolationMVArun2v1DBoldDMwLTRerun")'),
-                              diTauVLooseIsoLeg1ReRun =  makeDiTauPair(src,"isoVLooseRerun_1",'leg1.userFloat("byVLooseIsolationMVArun2v1DBoldDMwLTRerun")'),
-                              diTauVLooseIsoLeg2ReRun =  makeDiTauPair(src,"isoVLooseRerun_2",'leg2.userFloat("byVLooseIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              #diTauVTightIsoLeg1ReRun =  makeDiTauPair(src,"isoVTightRerun_1",'leg1.userFloat("byVTightIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              #diTauVTightIsoLeg2ReRun =  makeDiTauPair(src,"isoVTightRerun_2",'leg2.userFloat("byVTightIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              #diTauTightIsoLeg1ReRun =  makeDiTauPair(src,"isoTightRerun_1",'leg1.userFloat("byTightIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              #diTauTightIsoLeg2ReRun =  makeDiTauPair(src,"isoTightRerun_2",'leg2.userFloat("byTightIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              #diTauMediumIsoLeg1ReRun =  makeDiTauPair(src,"isoMedRerun_1",'leg1.userFloat("byMediumIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              #diTauMediumIsoLeg2ReRun =  makeDiTauPair(src,"isoMedRerun_2",'leg2.userFloat("byMediumIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              #diTauLooseIsoLeg1ReRun =  makeDiTauPair(src,"isoLooseRerun_1",'leg1.userFloat("byLooseIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              #diTauLooseIsoLeg2ReRun =  makeDiTauPair(src,"isoLooseRerun_2",'leg2.userFloat("byLooseIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              #diTauVLooseIsoLeg1ReRun =  makeDiTauPair(src,"isoVLooseRerun_1",'leg1.userFloat("byVLooseIsolationMVArun2v1DBoldDMwLTRerun")'),
+                              #diTauVLooseIsoLeg2ReRun =  makeDiTauPair(src,"isoVLooseRerun_2",'leg2.userFloat("byVLooseIsolationMVArun2v1DBoldDMwLTRerun")'),
 
-			      diTauRawMVAIso1ReRun =  makeDiTauPair(src,"isoMVARawRerun_1",'leg1.userFloat("byIsolationMVArun2v1DBoldDMwLTrawRerun")'),
-			      diTauRawMVAIso2ReRun =  makeDiTauPair(src,"isoMVARawRerun_2",'leg2.userFloat("byIsolationMVArun2v1DBoldDMwLTrawRerun")'),
+			      #diTauRawMVAIso1ReRun =  makeDiTauPair(src,"isoMVARawRerun_1",'leg1.userFloat("byIsolationMVArun2v1DBoldDMwLTrawRerun")'),
+			      #diTauRawMVAIso2ReRun =  makeDiTauPair(src,"isoMVARawRerun_2",'leg2.userFloat("byIsolationMVArun2v1DBoldDMwLTrawRerun")'),
 
 ####Rerun
                               diTauGenPt1 = makeDiTauPair(src,"genPt1",'p4Leg1gen().pt()'),
@@ -557,10 +557,10 @@ def addDiTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
                               #diTauJetsPt30nbtagNoSf = makeDiTauJetCountPair(src,"nbtag30",'userFloat("isbtagged")&&pt()>30&&abs(eta)<2.4&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>.8484'),
                               diTauJetsPt30nbtag = makeDiTauJetCountPair(src,"nbtag30",'pt()>30&&abs(eta)<2.4&&bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")>.8484'),
 
-                              diTauJetsPt30njets = makeDiTauJetCountPair(src,"njets",'pt()>30&&abs(eta)<4.7'),
-                              #diTauJetsPt30njetsnopu = makeDiTauJetCountPair(src,"njetspuID",'pt()>30&&abs(eta)<4.7&&!userFloat("puIDLoose")'),
-                              diTauJetsPt20njets = makeDiTauJetCountPair(src,"njetspt20",'pt()>20&&abs(eta)<4.7'),
-                              #diTauJetsPt20njetsnopu = makeDiTauJetCountPair(src,"njetspt20puID",'pt()>20&&abs(eta)<4.7&&!userFloat("puIDLoose")'),
+                              diTauJetsPt30njets = makeDiTauJetCountPair(src,"njets",'pt()>30&&abs(eta)<4.7&&userFloat("idLoose")'),
+                              diTauJetsPt30njetsnopu = makeDiTauJetCountPair(src,"njetspuID",'pt()>30&&abs(eta)<4.7&&!userFloat("puIDLoose")'),
+                              diTauJetsPt20njets = makeDiTauJetCountPair(src,"njetspt20",'pt()>20&&abs(eta)<4.7&&userFloat("idLoose")'),
+                              diTauJetsPt20njetsnopu = makeDiTauJetCountPair(src,"njetspt20puID",'pt()>20&&abs(eta)<4.7&&!userFloat("puIDLoose")'),
 
 
                               diTauJet1PtPtSort = makeDiTauPtPair(src,"jpt_1",'abs(eta())<4.7&&pt()>20','pt()',0),
