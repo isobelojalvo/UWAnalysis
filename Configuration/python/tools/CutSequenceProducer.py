@@ -509,6 +509,9 @@ class CutSequenceProducer(cms._ParameterTypeBase):
                                        smearMCParticle = cms.bool(False),
                                        module_label = cms.string("CRAP"),
                                        energyScale  = cms.double(1.00),
+                                       oneProngEnergyScale     = cms.double(1.00),
+                                       oneProngPi0EnergyScale  = cms.double(1.00),
+                                       threeProngEnergyScale   = cms.double(1.00),
                                        deltaEta     = cms.double(0.0),
                                        deltaPhi     = cms.double(0.0),
                                        deltaPtB     = cms.double(0.0),
@@ -531,6 +534,9 @@ class CutSequenceProducer(cms._ParameterTypeBase):
                                        smearMCParticle = cms.bool(False),
                                        module_label = cms.string("CRAP"),
                                        energyScale  = cms.double(1.0),
+                                       oneProngEnergyScale     = cms.double(1.00),
+                                       oneProngPi0EnergyScale  = cms.double(1.00),
+                                       threeProngEnergyScale   = cms.double(1.00),
                                        deltaEta     = cms.double(0.0),
                                        deltaPhi     = cms.double(0.0),
                                        deltaPtB     = cms.double(0.0),
@@ -642,7 +648,8 @@ class CutSequenceProducer(cms._ParameterTypeBase):
                                       originalObjects = cms.VInputTag(cms.InputTag('slimmedMuons'),
                                                                       cms.InputTag('slimmedElectrons'),
                                                                       cms.InputTag('slimmedTaus'),
-                                                                      cms.InputTag("smearedJets"+mpost)#FIXME
+                                                                      cms.InputTag('cleanPatJets')
+                                                                      #cms.InputTag("smearedJets"+mpost)#FIXME
                                                                       ),
                                       smearedObjects = cms.VInputTag(cms.InputTag("smearedMuonsID"+mpost),
                                                                      cms.InputTag("smearedElectronsID"+mpost),

@@ -73,10 +73,10 @@ class DiCandidateSorterByIsoDiTau : public edm::EDProducer {
     {}
     bool operator()(T t1,T t2)
     {
-      std::cout<<" Cand 1 Leg 1 isolation: "<<t1.leg1()->userFloat("iso")<<std::endl;
-      std::cout<<" Cand 2 Leg 1 isolation: "<<t2.leg1()->userFloat("iso")<<std::endl;
-      std::cout<<" Cand 1 Leg 2 isolation: "<<t1.leg2()->userFloat("iso")<<std::endl;
-      std::cout<<" Cand 2 Leg 2 isolation: "<<t2.leg2()->userFloat("iso")<<std::endl;
+      //std::cout<<" Cand 1 Leg 1 isolation: "<<t1.leg1()->userFloat("iso")<<std::endl;
+      //std::cout<<" Cand 2 Leg 1 isolation: "<<t2.leg1()->userFloat("iso")<<std::endl;
+      //std::cout<<" Cand 1 Leg 2 isolation: "<<t1.leg2()->userFloat("iso")<<std::endl;
+      //std::cout<<" Cand 2 Leg 2 isolation: "<<t2.leg2()->userFloat("iso")<<std::endl;
       if (  (((t1.leg1()->userFloat("iso") ) > (t2.leg1()->userFloat("iso"))) && ((t1.leg1()->userFloat("iso") ) > (t2.leg2()->userFloat("iso"))))){ 
 	//std::cout<<"cand 1 Isolation 1: "<<t1.leg1()->userFloat("iso")<<" < cand 2 Isolation 1: "<<t2.leg1()->userFloat("iso")<<std::endl;
 	//std::cout<<"cand 1 Isolation 2: "<<t1.leg2()->userFloat("iso")<<" < cand 2 Isolation 2: "<<t2.leg2()->userFloat("iso")<<std::endl;

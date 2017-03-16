@@ -47,26 +47,25 @@ def defaultReconstruction(process,triggerProcess = 'HLT',triggerPaths = ['HLT_Mu
   MiniAODMETfilter(process)
 
   recorrectJets(process, True) #adds patJetsReapplyJEC
-  reRunMET(process,True)
 
-  
-  #mvaMet2(process, True) #isData
+  reRunMET(process,True)
   metSignificance(process)
 
   muonTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODMuonID") 
   electronTriggerMatchMiniAOD(process,triggerProcess,HLT,"miniAODElectronVID") 
   tauTriggerMatchMiniAOD(process,triggerProcess,HLT,"slimmedTaus") #ESTaus
-  
+
+  reRunTaus(process,"triggeredPatTaus")  
   #Build good vertex collection
-  #goodVertexFilter(process)  
-  tauEffi(process,'triggeredPatTaus',True)
-  tauOverloading(process,'tauTriggerEfficiencies','triggeredPatMuons','offlineSlimmedPrimaryVertices')
-  #tauOverloading(process,'slimmedTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
+
+  #tauEffi(process,'reRunSlimmedTaus',True)
+  #not bothering to put this in now... 
+  #tauOverloading(process,'reRunSlimmedTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
+  tauOverloading(process,'triggeredPatTaus','triggeredPatMuons','offlineSlimmedPrimaryVertices')
   
   triLeptons(process)
-  #jetOverloading(process,"slimmedJets",True)
+
   jetOverloading(process,"patJetsReapplyJEC",True)
-  #jetOverloading(process,"patJetsReapplyJEC") #"slimmedJets")
   jetFilter(process,"patOverloadedJets")
 
 
@@ -91,7 +90,8 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
   process.load('Configuration.StandardSequences.MagneticField_38T_cff')
   process.load('Configuration.StandardSequences.EndOfProcess_cff')
- 
+  process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
+
   #Make the TriggerPaths Global variable to be accesed by the ntuples
   global TriggerPaths
   TriggerPaths= triggerPaths
@@ -112,11 +112,10 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
 
   MiniAODMETfilter(process)
 
-  recorrectJets(process, False) #adds patJetsReapplyJEC
-
-  ##MET
   reRunMET(process,False)
   metSignificance(process)
+
+  recorrectJets(process, False) #adds patJetsReapplyJEC
 
 
   #no trigger here!!!  
@@ -143,6 +142,9 @@ def defaultReconstructionMC(process,triggerProcess = 'HLT',triggerPaths = ['HLT_
   GenSumWeights(process)
   GenHTCalculator(process)
   #Default selections for systematics
+  #MiniAODMETfilter(process)
+  ##MET
+
   applyDefaultSelectionsPT(process)
 
   process.runAnalysisSequence = cms.Path(process.analysisSequence)
@@ -224,14 +226,18 @@ def MiniAODMETfilter(process):
     process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
     process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
     process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+    process.BadPFMuonFilter.taggingMode =  cms.bool(True)
+    #process.BadPFMuonFilter.debug =  cms.bool(True)
 
     process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
     process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
     process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+    process.BadChargedCandidateFilter.taggingMode =  cms.bool(True)
+    #process.BadChargedCandidateFilter.debug =  cms.bool(True)
+
 
     process.BadMuon = cms.Sequence(process.BadPFMuonFilter*process.BadChargedCandidateFilter)
     process.analysisSequence*=process.BadMuon
-
 
 def reRunMET(process, runOnData):
     from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
@@ -472,7 +478,7 @@ def reapplyPUJetID(process, srcJets = cms.InputTag("slimmedJets")):
     process.analysisSequence *= process.pileupJetIdUpdated
    
 
-def recorrectJets(process, isData = False):
+def recorrectJets(process, isData = False, src = "slimmedJets"):
     print 'recorrecting the jets'
     JECTag = 'Summer16_23Sep2016V4_MC'
     if(isData):
@@ -496,12 +502,12 @@ def recorrectJets(process, isData = False):
     ## https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookJetEnergyCorrections#CorrPatJets
     from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import updatedPatJetCorrFactors
     process.patJetCorrFactorsReapplyJEC = updatedPatJetCorrFactors.clone(
-      src = cms.InputTag("slimmedJets"),
+      src = cms.InputTag(src),
       levels = ['L1FastJet', 'L2Relative', 'L3Absolute'],
       payload = 'AK4PFchs' ) # Make sure to choose the appropriate levels and payload here!
     from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import updatedPatJets
     process.patJetsReapplyJEC = updatedPatJets.clone(
-      jetSource = cms.InputTag("slimmedJets"),
+      jetSource = cms.InputTag(src),
       jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJEC"))
       )
     if(isData):
@@ -599,11 +605,12 @@ def tauTriggerMatchMiniAOD(process,triggerProcess,HLT,srcTau):
                                             src = cms.InputTag(srcTau),
                                             trigEvent = cms.InputTag(HLT),
                                             filtersAND = cms.vstring(
+                                                'hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg',
                                                 'hltDoublePFTau35TrackPt1MediumIsolationDz02Reg'
                                                 #'hltDoublePFTau40TrackPt1MediumIsolationDz02Reg'
                                             ),
                                             filters = cms.vstring(
-                                                #'hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg',
+                                                'hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg',
                                                 'hltDoublePFTau35TrackPt1MediumIsolationDz02Reg'
                                                 #'hltDoublePFTau40TrackPt1MediumIsolationDz02Reg'
                                             ),
@@ -800,7 +807,7 @@ def cloneAndReplaceInputTag(process,sequence,oldValue,newValue,postfix):
 
 
 
-def createSystematics(process,sequence,postfix,muScale,eScale,tauScale,jetScale,unclusteredScale,electronresb = 0.0, electronrese = 0.0):
+def createSystematics(process,sequence,postfix,muScale,eScale,tauScale,jetScale,unclusteredScale,electronresb = 0.0, electronrese = 0.0, oneProngScale = 1.0,oneProngPi0Scale = 1.0, threeProngScale = 1.0):
 
   #First Clone the sequence
   p = cloneProcessingSnippet(process, sequence, postfix)
@@ -817,6 +824,9 @@ def createSystematics(process,sequence,postfix,muScale,eScale,tauScale,jetScale,
           mod.energyScale = cms.double(muScale)
       if mod.label().find('smearedTaus') !=-1 :
           mod.energyScale = cms.double(tauScale)
+          mod.oneProngEnergyScale = cms.double(oneProngScale)
+          mod.oneProngPi0EnergyScale = cms.double(oneProngPi0Scale)
+          mod.threeProngEnergyScale = cms.double(threeProngScale)
       if mod.label().find('smearedElectrons') !=-1 :
           mod.energyScale = cms.double(eScale)
           mod.deltaPtB = cms.double(electronresb)

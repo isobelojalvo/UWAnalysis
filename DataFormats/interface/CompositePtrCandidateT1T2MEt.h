@@ -302,6 +302,7 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
   void setJJVariables(reco::Candidate::LorentzVector JJ){
     JJ_ = JJ;
     mJJ_ = JJ.M();
+    if(mJJ_ < 0 ) mJJ_ = -9999;
     ptJJ_ = JJ.pt();
     etaJJ_ = JJ.eta();
     phiJJ_ = JJ.phi();
@@ -448,7 +449,11 @@ class CompositePtrCandidateT1T2MEt : public reco::LeafCandidate
     vbfMass_ = mass;
     vbfDEta_ = deta;
     vbfDPhi_ = dphi;
+    if(jets20<0)
+      jets20 = 0;
     vbfNJetsGap20_ = jets20;
+    if(jets30<0)
+      jets30 = 0;
     vbfNJetsGap30_ = jets30;
     vbfPt1_=pt1;
     vbfPt2_=pt2;

@@ -4,7 +4,10 @@ SmearedTauProducer::SmearedTauProducer(const edm::ParameterSet& iConfig):
     src_(consumes<std::vector<pat::Tau> >(iConfig.getParameter<edm::InputTag>("src"))),  
     smearConstituents_(iConfig.getParameter<bool>("smearConstituents")),  
     hadronEnergyScale_(iConfig.getParameter<double>("hadronEnergyScale")),
-    gammaEnergyScale_(iConfig.getParameter<double>("gammaEnergyScale"))
+    gammaEnergyScale_(iConfig.getParameter<double>("gammaEnergyScale")),
+    oneProngEnergyScale_(iConfig.getParameter<double>("oneProngEnergyScale")),
+    oneProngPi0EnergyScale_(iConfig.getParameter<double>("oneProngPi0EnergyScale")),
+    threeProngEnergyScale_(iConfig.getParameter<double>("threeProngEnergyScale"))
     {
       smearingModule = new SmearedParticleMaker<pat::Tau,GenJetRetriever<pat::Tau> >(iConfig);
       produces<std::vector<pat::Tau> >();
@@ -24,6 +27,8 @@ SmearedTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 
     std::auto_ptr<std::vector<pat::Tau> > out(new std::vector<pat::Tau> );
     Handle<std::vector<pat::Tau> > srcH;
+
+    //std::cout<<"1prong: "<<oneProngEnergyScale_<<" 1prongpi0 "<<oneProngPi0EnergyScale_<<" 3prong "<<threeProngEnergyScale_<<std::endl;
     if(iEvent.getByToken(src_,srcH) &&srcH->size()>0) 
       for(unsigned int i=0;i<srcH->size();++i) {
 	pat::Tau object = srcH->at(i);
@@ -31,6 +36,33 @@ SmearedTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 	//	    << " eta = " << object.eta() << ", phi = " << object.phi() << std::endl;
 
 	smearingModule->smear(object);
+
+	//smearing by decay mode
+	math::XYZTLorentzVector vToSmear;
+	vToSmear = object.p4();
+	float decayModeES = 1.0;
+	switch(object.decayMode()){
+	case(0):
+	  decayModeES = oneProngEnergyScale_;
+	  object.setP4(vToSmear*decayModeES);	
+	  object.setMass(0.1395699);
+	  break;
+	case(1):
+	  decayModeES = oneProngPi0EnergyScale_;
+	  object.setP4(vToSmear*decayModeES);	
+	  break;
+	case(2):// this is a neglible contribution
+	  decayModeES = oneProngPi0EnergyScale_;
+	  object.setP4(vToSmear*decayModeES);	
+	  break;
+	case(10):
+	  decayModeES = threeProngEnergyScale_;
+	  object.setP4(vToSmear*decayModeES);	
+	  break;
+	}
+
+	//std::cout<<"decayMode "<< object.decayMode()<<" decayModeES "<<decayModeES<<std::endl;
+
 
         if(smearConstituents_) {
 	  math::XYZTLorentzVector hadronLV;
