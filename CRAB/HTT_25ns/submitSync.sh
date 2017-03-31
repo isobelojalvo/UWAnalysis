@@ -1,5 +1,5 @@
 #!/bin/sh
-voms-proxy-init --voms cms --valid 100:00
+#voms-proxy-init --voms cms --valid 100:00
 
 
 ######HIGGS SAMPLES #############

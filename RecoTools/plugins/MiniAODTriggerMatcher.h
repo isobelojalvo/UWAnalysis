@@ -83,8 +83,8 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 			std::auto_ptr<std::vector<T> > out(new std::vector<T> );
 			edm::Handle<edm::View<T> > src;
 
-
 			if(iEvent.getByToken(src_,src)){
+			  
 				for(unsigned int k=0;k<src->size();++k) {
 					T pat = src->at(k);
 
@@ -96,6 +96,7 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 						bool match = false;
 						bool doAND = true;
 
+						
 						if ( filtersAND_[i]==filters_[i]){ //See if filtersAND is non zero for same i
 							doAND=false;
 							//std::cout << "\n === TRIGGER Filters: SingleFilter  === " << std::endl;
@@ -105,11 +106,13 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 						//std::cout << "\n === TRIGGER OBJECT FiltersAND: "<< filtersAND_[i]<< std::endl;
 
 						for(unsigned int j=0;j<trigObjects.size();++j){ 
-							if(deltaR(trigObjects.at(j),pat)<0.5&&doAND==false) {
+						  //std::cout<<"trigObject eta: "<<trigObjects.at(j).eta() <<" phi: "<<trigObjects.at(j).phi()<<std::endl;
+							if(deltaR(trigObjects.at(j),pat)<0.5) {
 								//std::cout << "\n === TRIGGER OBJECT DeltaR Calculation === " << std::endl;
 								match=true;
 								break;
 							}//end match if no AND requirements. 
+							/*
 							else if(deltaR(trigObjects.at(j),pat)<0.5&&doAND==true ) {
 								for(unsigned int r=0;r<trigObjectsAND.size();++r){
 									if(deltaR(trigObjectsAND.at(r),pat)<0.5){
@@ -118,8 +121,9 @@ class MiniAODTriggerMatcher : public edm::EDProducer {
 									}//end if the AND passes
 								}//end for loop over the AND Trigger objects
 							}//end match if AND reuirements
+							*/
 						}//end for loop over trigger objects
-						endTriggerObjects:;
+						//endTriggerObjects:;
 						if(match){
 							pat.addUserFloat(filters_[i],1.0);
 							if (doAND) pat.addUserFloat(filtersAND_[i],1.0);

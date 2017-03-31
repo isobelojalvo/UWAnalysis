@@ -12,13 +12,20 @@ process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v7'
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(100)
 )
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
+        '/store/data/Run2016B/Tau/MINIAOD/03Feb2017_ver2-v2/50000/3C8A5A44-51ED-E611-A52F-0025905A497A.root',
+        '/store/data/Run2016B/Tau/MINIAOD/03Feb2017_ver2-v2/50000/42A56B3F-51ED-E611-B8F8-0CC47A78A42E.root',
+        '/store/data/Run2016B/Tau/MINIAOD/03Feb2017_ver2-v2/50000/42A773D7-54ED-E611-8943-0CC47A4C8EBA.root',
+        '/store/data/Run2016B/Tau/MINIAOD/03Feb2017_ver2-v2/50000/42DEB8DC-55ED-E611-8C03-0025905B85DA.root',
+        '/store/data/Run2016B/Tau/MINIAOD/03Feb2017_ver2-v2/50000/F603D842-51ED-E611-B936-0CC47A78A45A.root'
+
+        #'file:output-100.root'
         #'file:pickevents/pickevents1.root',
-        'file:pickevents/pickevents2.root'
+        #'file:pickevents/pickevents2.root'
         #'file:pickevents/pickevents3.root',
         #'file:pickevents/pickevents4.root',
         #'file:pickevents/pickevents5.root',

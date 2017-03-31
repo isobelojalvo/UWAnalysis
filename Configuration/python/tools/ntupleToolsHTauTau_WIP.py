@@ -476,6 +476,12 @@ def addDiTauEventTree(process,name,src = 'diTausOS', srcLL = 'diMuonsOSSorted', 
                               diTauDecayModeLeg1 = makeDiTauPair(src,"decayMode_1",'leg1.decayMode()'),
                               diTauDecayModeLeg2 = makeDiTauPair(src,"decayMode_2",'leg2.decayMode()'),
 
+                              diTauHLTMatchHLTLeg1 = makeDiTauPair(src,"hltMed_1",'leg1.userFloat("hltDoublePFTau35TrackPt1MediumIsolationDz02Reg")'),
+                              diTauHLTMatchHLTCombLeg1 = makeDiTauPair(src,"hltMedComb_1",'leg1.userFloat("hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg")'),
+                              diTauHLTMatchHLTLeg2 = makeDiTauPair(src,"hltMed_2",'leg2.userFloat("hltDoublePFTau35TrackPt1MediumIsolationDz02Reg")'),
+                              diTauHLTMatchHLTCombLeg2 = makeDiTauPair(src,"hltMedComb_2",'leg2.userFloat("hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg")'),
+
+
                               diTauAgainstMuonTight3Leg1 = makeDiTauPair(src,"againstMuonTight3_1",'leg1.tauID("againstMuonTight3")'),
                               diTauAgainstMuonTight3Leg2 = makeDiTauPair(src,"againstMuonTight3_2",'leg2.tauID("againstMuonTight3")'),
                               diTauAgainstMuonLoose3Leg1 = makeDiTauPair(src,"againstMuonLoose3_1",'leg1.tauID("againstMuonLoose3")'),

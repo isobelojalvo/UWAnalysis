@@ -81,21 +81,21 @@ addEventSummary(process,True,'TT','eventSelectionTT')
 ### mu, ele, tau, jet, unc, elecResb, elecRese, 1p, 1pPi0, 3p
 ### process,sequence,postfix, muScale, eScale, tauScale, jetScale, unclusteredScale, electronresb = 0.0, electronrese = 0.0, oneProngScale = 1.0,oneProngPi0Scale = 1.0, threeProngScale = 1.0
 ### mu, ele, tau, jet, unc, elecResb, elecRese, 1p, 1pPi0, 3p
-process.eventSelectionTTTauCentral  = createSystematics(process,process.selectionSequenceTT,'TauCentral'  ,1.00, 1.00, 1.00, 0, 1.00, 0.00, 0.00, 0.982, 1.01, 1.004)
-process.eventSelectionTTTauUp  = createSystematics(process,process.selectionSequenceTT,'TauUp'  ,1.00, 1.00, 1.00, 0, 1.00, 0.00, 0.00, 0.982*1.006, 1.01*1.006, 1.004*1.006)
-process.eventSelectionTTTauDown = createSystematics(process,process.selectionSequenceTT,'TauDown',1.00, 1.00, 1.00, 0, 1.00, 0.00, 0.00, 0.982*0.994, 1.01*0.994, 1.010*0.994)
+#process.eventSelectionTTTauCentral  = createSystematics(process,process.selectionSequenceTT,'TauCentral'  ,1.00, 1.00, 1.00, 0, 1.00, 0.00, 0.00, 0.982, 1.01, 1.004)
+#process.eventSelectionTTTauUp  = createSystematics(process,process.selectionSequenceTT,'TauUp'  ,1.00, 1.00, 1.00, 0, 1.00, 0.00, 0.00, 0.982*1.006, 1.01*1.006, 1.004*1.006)
+#process.eventSelectionTTTauDown = createSystematics(process,process.selectionSequenceTT,'TauDown',1.00, 1.00, 1.00, 0, 1.00, 0.00, 0.00, 0.982*0.994, 1.01*0.994, 1.010*0.994)
 
-process.eventSelectionTTFakeUp  = createSystematics(process,process.selectionSequenceTT,'FakeUp'  ,1.00, 1.00, 1.01, 0, 1.00, 0.00, 0.00)
-process.eventSelectionTTFakeDown = createSystematics(process,process.selectionSequenceTT,'FakeDown',1.00, 1.00, 0.99, 0, 1.00, 0.00, 0.00)
+#process.eventSelectionTTFakeUp  = createSystematics(process,process.selectionSequenceTT,'FakeUp'  ,1.00, 1.00, 1.01, 0, 1.00, 0.00, 0.00)
+#process.eventSelectionTTFakeDown = createSystematics(process,process.selectionSequenceTT,'FakeDown',1.00, 1.00, 0.99, 0, 1.00, 0.00, 0.00)
 
 #process.eventSelectionTTJetUp  = createSystematics(process,process.selectionSequenceTT,'JetUp'  ,1.00, 1.00, 1.00, 1, 1.00, 0.00, 0.00, 1.00, 1.00, 1.00)
 #process.eventSelectionTTJetDown= createSystematics(process,process.selectionSequenceTT,'JetDown',1.00, 1.00, 1.00,-1, 1.00, 0.00, 0.00, 1.00, 1.00, 1.00)
 
-addDiTauEventTree(process,'diTauEventTreeTauCentral','diTausSyncTauCentral',triggerCollection='HLT')
-addDiTauEventTree(process,'diTauEventTreeTauUp','diTausSyncTauUp',triggerCollection='HLT')
-addDiTauEventTree(process,'diTauEventTreeTauDown','diTausSyncTauDown',triggerCollection='HLT')
-addDiTauEventTree(process,'diTauEventTreeFakeUp','diTausSyncFakeUp',triggerCollection='HLT')
-addDiTauEventTree(process,'diTauEventTreeFakeDown','diTausSyncFakeDown',triggerCollection='HLT')
+#addDiTauEventTree(process,'diTauEventTreeTauCentral','diTausSyncTauCentral',triggerCollection='HLT')
+#addDiTauEventTree(process,'diTauEventTreeTauUp','diTausSyncTauUp',triggerCollection='HLT')
+#addDiTauEventTree(process,'diTauEventTreeTauDown','diTausSyncTauDown',triggerCollection='HLT')
+#addDiTauEventTree(process,'diTauEventTreeFakeUp','diTausSyncFakeUp',triggerCollection='HLT')
+#addDiTauEventTree(process,'diTauEventTreeFakeDown','diTausSyncFakeDown',triggerCollection='HLT')
 
 
 process.source = cms.Source("PoolSource",

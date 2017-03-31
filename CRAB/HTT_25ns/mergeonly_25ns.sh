@@ -5,97 +5,130 @@
 #tail -f merge.log
 
 #MAKE SURE /scratch/$USER/ is empty!!!
-mkdir /nfs_scratch/$USER/ztt_unweighted11
-cd /nfs_scratch/$USER/ztt_unweighted11
+mkdir /scratch/$USER/ztt_unweighted_Feb27_svFit_data
+cd /scratch/$USER/ztt_unweighted_Feb27_svFit_data
+
+jobID='svFitFeb22/2017_Feb22'
 
 
 mergedata=1;
 mergemc=0;
-mergeqcd=0;
 mergeW=0;
+mergeZ=0;
 mergehiggs=0;
-
-#TAU2016B_Jul21-SUB-TT-JSON/
-#TAU2016C_Jul21-SUB-TT-JSON/
-#TAU2016E_Jul21-SUB-TT-JSON/
-#TAU2016F_Jul21-SUB-TT-JSON/
 
 if [ $mergedata -eq 1 ]
     then
-    /cms/sw/farmout/mergeFiles 	--reuse-cache-files tauDATA-B.root 	/hdfs/store/user/$USER/TAU2016B_Jul21-SUB-TT-JSON
-    /cms/sw/farmout/mergeFiles 	--reuse-cache-files tauDATA-C.root 	/hdfs/store/user/$USER/TAU2016C_Jul21-SUB-TT-JSON
-    /cms/sw/farmout/mergeFiles 	--reuse-cache-files tauDATA-D.root 	/hdfs/store/user/$USER/TAU2016D_Jul21-SUB-TT-JSON
-    /cms/sw/farmout/mergeFiles 	--reuse-cache-files tauDATA-E.root 	/hdfs/store/user/$USER/TAU2016E_Jul21-SUB-TT-JSON
-    hadd -f tauDATA.root tauDATA-*root
+    hadd -f tauDATA-B.root 	/hdfs/store/user/$USER/${jobID}_TAU2016B-SUB-TT-JSON/* &
+    hadd -f tauDATA-C.root 	/hdfs/store/user/$USER/${jobID}_TAU2016C-SUB-TT-JSON/* &
+    hadd -f tauDATA-D.root 	/hdfs/store/user/$USER/${jobID}_TAU2016D-SUB-TT-JSON/* &
+    hadd -f tauDATA-E.root 	/hdfs/store/user/$USER/${jobID}_TAU2016E-SUB-TT-JSON/* &
+    hadd -f tauDATA-F.root 	/hdfs/store/user/$USER/${jobID}_TAU2016F-SUB-TT-JSON/* &
+    hadd -f tauDATA-G.root 	/hdfs/store/user/$USER/${jobID}_TAU2016G-SUB-TT-JSON/* &
+    hadd -f tauDATA-H.root 	/hdfs/store/user/$USER/${jobID}_TAU2016H-*/* &
+
+    wait;
+    hadd -f tauDATA.root tauDATA-B.root tauDATA-C.root tauDATA-D.root tauDATA-E.root tauDATA-F.root tauDATA-G.root tauDATA-H.root
 fi
 
-if [ $mergeqcd -eq 1 ]
-    then
-    #/cms/sw/farmout/mergeFiles 		--reuse-cache-files muQCD.root /hdfs/store/user/$USER/25ns_muQCD-SUB-MC 
-    #/cms/sw/farmout/mergeFiles 		--reuse-cache-files emQCD.root /hdfs/store/user/$USER/25ns_emQCD-SUB-MC 
-    /cms/sw/farmout/mergeFiles --reuse-cache-files QCDBCtoE_30.root /hdfs/store/user/$USER/25ns_QCDBCtoE_30-SUB-MC  
-    /cms/sw/farmout/mergeFiles --reuse-cache-files QCDBCtoE_80.root /hdfs/store/user/$USER/25ns_QCDBCtoE_80-SUB-MC  
-    /cms/sw/farmout/mergeFiles --reuse-cache-files QCDBCtoE_170.root /hdfs/store/user/$USER/25ns_QCDBCtoE_170-SUB-MC  
-    /cms/sw/farmout/mergeFiles --reuse-cache-files QCDBCtoE_250.root /hdfs/store/user/$USER/25ns_QCDBCtoE_250-SUB-MC  
-fi 
-
 if [ $mergehiggs -eq 1 ]
-    then
-    /cms/sw/farmout/mergeFiles --reuse-cache-files ggH.root /hdfs/store/user/$USER/25ns_ggHtautau-SUB-MC 
-    /cms/sw/farmout/mergeFiles --reuse-cache-files vbfH.root /hdfs/store/user/$USER/25ns_vbfHtautau-SUB-MC 
+    then #ggHtautau_125
+    hadd -f  ggH110.root /hdfs/store/user/$USER/${jobID}_ggHtautau_110-SUB-TT/* &
+    hadd -f  ggH120.root /hdfs/store/user/$USER/${jobID}_ggHtautau_120-SUB-TT/* &
+    hadd -f  ggH125.root /hdfs/store/user/$USER/${jobID}_ggHtautau_125-SUB-TT/* &
+    hadd -f  ggH130.root /hdfs/store/user/$USER/${jobID}_ggHtautau_130-SUB-TT/* &
+    hadd -f  ggH140.root /hdfs/store/user/$USER/${jobID}_ggHtautau_140-SUB-TT/* &
+
+    hadd -f  vbfH120.root /hdfs/store/user/$USER/${jobID}_vbfHtautau_110-SUB-TT/* &
+    hadd -f  vbfH120.root /hdfs/store/user/$USER/${jobID}_vbfHtautau_120-SUB-TT/* &
+    hadd -f  vbfH125.root /hdfs/store/user/$USER/${jobID}_vbfHtautau_125-SUB-TT/* &
+    hadd -f  vbfH130.root /hdfs/store/user/$USER/${jobID}_vbfHtautau_130-SUB-TT/* &
+    hadd -f  vbfH130.root /hdfs/store/user/$USER/${jobID}_vbfHtautau_140-SUB-TT/* &
+
+    hadd -f  WpH120.root /hdfs/store/user/$USER/${jobID}_WpHtautau_120-SUB-TT/* &
+    hadd -f  WpH125.root /hdfs/store/user/$USER/${jobID}_WpHtautau_125-SUB-TT/* &
+    hadd -f  WpH130.root /hdfs/store/user/$USER/${jobID}_WpHtautau_130-SUB-TT/* &
+
+    hadd -f  WmH120.root /hdfs/store/user/$USER/${jobID}_WmHtautau_120-SUB-TT/* &
+    hadd -f  WmH125.root /hdfs/store/user/$USER/${jobID}_WmHtautau_125-SUB-TT/* &
+    hadd -f  WmH130.root /hdfs/store/user/$USER/${jobID}_WmHtautau_130-SUB-TT/* &
+
+    hadd -f  ZH120.root /hdfs/store/user/$USER/${jobID}_ZHtautau_120-SUB-TT/* &
+    hadd -f  ZH125.root /hdfs/store/user/$USER/${jobID}_ZHtautau_125-SUB-TT/* &
+    hadd -f  ZH130.root /hdfs/store/user/$USER/${jobID}_ZHtautau_130-SUB-TT/* &
+
+    hadd -f  ttH120.root /hdfs/store/user/$USER/${jobID}_ttHtautau_120-SUB-TT/* &
+    hadd -f  ttH125.root /hdfs/store/user/$USER/${jobID}_ttHtautau_125-SUB-TT/* &
+    hadd -f  ttH130.root /hdfs/store/user/$USER/${jobID}_ttHtautau_130-SUB-TT/* &
+    wait;
+#/hdfs/store/user/ojalvo/2016_Sep23_vbfHtautau_125-SUB-TT
 fi 
 
 if [ $mergeW -eq 1 ]
     then
-    /cms/sw/farmout/mergeFiles --reuse-cache-files WJetsHT100.root /hdfs/store/user/$USER/25ns_WJetsHT100-SUB-MC 
-    /cms/sw/farmout/mergeFiles --reuse-cache-files WJetsHT200.root /hdfs/store/user/$USER/25ns_WJetsHT200-SUB-MC 
-    /cms/sw/farmout/mergeFiles --reuse-cache-files WJetsHT400.root /hdfs/store/user/$USER/25ns_WJetsHT400-SUB-MC 
-    /cms/sw/farmout/mergeFiles --reuse-cache-files WJetsHT600.root /hdfs/store/user/$USER/25ns_WJetsHT600-SUB-MC 
+    hadd -f  WJetsMLM.root /hdfs/store/user/$USER/${jobID}_WJets-SUB-TT/* & 
+    hadd -f  W1Jets.root /hdfs/store/user/$USER/${jobID}_W1Jets-SUB-TT/* & 
+    hadd -f  W2Jets.root /hdfs/store/user/$USER/${jobID}_W2Jets-SUB-TT/* & 
+    hadd -f  W3Jets.root /hdfs/store/user/$USER/${jobID}_W3Jets-SUB-TT/* & 
+    hadd -f  W4Jets.root /hdfs/store/user/$USER/${jobID}_W4Jets-*/* & 
+    hadd -f   WJets.root /hdfs/store/user/$USER/${jobID}_WJets_amc-SUB-TT/* & 
+    wait;
 fi 
 
+if [ $mergeZ -eq 1 ]
+    then
+    ##merge nominal and extension at the same time
+    hadd -f  ZJets_ext1.root /hdfs/store/user/$USER/${jobID}_ZJets-*/* & 
+    hadd -f  Z1Jets.root /hdfs/store/user/$USER/${jobID}_Z1Jets-SUB-TT/* & 
+    hadd -f  Z2Jets.root /hdfs/store/user/$USER/${jobID}_Z2Jets-SUB-TT/* & 
+    hadd -f  Z3Jets.root /hdfs/store/user/$USER/${jobID}_Z3Jets-SUB-TT/* & 
+    hadd -f  Z4Jets.root /hdfs/store/user/$USER/${jobID}_Z4Jets-SUB-TT/* & 
+    #hadd -f  ZJets_150.root /hdfs/store/user/$USER/${jobID}_ZJets_150-SUB-TT/*  
+    wait;
+fi 
 
-#2016_80X_St_t_antitop-SUB-TT/
-#2016_80X_tBar_tW-SUB-TT/
-#2016_80X_TT-SUB-TT/
-#2016_80X_t_tW-SUB-TT/
-#2016_80X_WJets_amc-SUB-TT/
-#2016_80X_WW-SUB-TT/
-#2016_80X_WWTo2L2Q-SUB-TT/
-#2016_80X_WZ-SUB-TT/
-#2016_80X_WZTo1L1Nu2Q-SUB-TT/
-#2016_80X_WZTo1L3Nu-SUB-TT/
-#2016_80X_Z1Jets-SUB-TT/
-#2016_80X_Z2Jets-SUB-TT/
-#2016_80X_Z3Jets-SUB-TT/
-#2016_80X_Z4Jets-SUB-TT/
-#2016_80X_ZJets_150-SUB-TT/
-#2016_80X_ZJets-SUB-TT/
-#2016_80X_ZZ-SUB-TT/
-#2016_80X_ZZTo2L2Q-SUB-TT/
-#2016_80X_ZZTo4L-SUB-TT/
-
-jobID='2016_80X'
 if [ $mergemc -eq 1 ]
     then
-    #uncomment below for SM Backgorund sample
-    /cms/sw/farmout/mergeFiles  	--reuse-cache-files tBar.root 	        /hdfs/store/user/$USER/${jobID}_tBar_tW-SUB-MC
-    /cms/sw/farmout/mergeFiles  	--reuse-cache-files TTJets.root         /hdfs/store/user/$USER/${jobID}_TTJets-SUB-MC 
-    /cms/sw/farmout/mergeFiles  	--reuse-cache-files t.root 	        /hdfs/store/user/$USER/${jobID}_t_tW-SUB-MC 
-    /cms/sw/farmout/mergeFiles  	--reuse-cache-files WJets.root 	        /hdfs/store/user/$USER/${jobID}_WJets-SUB-MC 
-    /cms/sw/farmout/mergeFiles 		--reuse-cache-files WW.root     	/hdfs/store/user/$USER/${jobID}_WW-SUB-MC 
-    /cms/sw/farmout/mergeFiles  	--reuse-cache-files WZ.root 	        /hdfs/store/user/$USER/${jobID}_WZJets-SUB-MC
-    /cms/sw/farmout/mergeFiles 		--reuse-cache-files ZJets.root	        /hdfs/store/user/$USER/${jobID}_ZJets-SUB-MC 
-    #/cms/sw/farmout/mergeFiles        	--reuse-cache-files ZJets1050.root	/hdfs/store/user/$USER/${jobID}_ZJets1050-SUB-MC 
-    /cms/sw/farmout/mergeFiles 		--reuse-cache-files ZZ.root             /hdfs/store/user/$USER/${jobID}_ZZ-SUB-MC 
+    #uncomment below for SM Backgorund sample 2016_Sep23_TT-SUB-TT
+    hadd -f   TT.root           /hdfs/store/user/$USER/${jobID}_TT-SUB-TT/* & 
+    #hadd -f   TT_SLTbar.root 	/hdfs/store/user/$USER/${jobID}_TT_SLTbar-SUB-TT/*  
+    #hadd -f   TT_SLT.root 	/hdfs/store/user/$USER/${jobID}_TT_SLT-SUB-TT/*  
+    #hadd -f   TT_DL.root 	/hdfs/store/user/$USER/${jobID}_TT_DL-SUB-TT/*  
 
-    #/cms/sw/farmout/mergeFiles 	--reuse-cache-files WWTo2L2Nu.root 	/hdfs/store/user/$USER/${jobID}_WWTo2L2Nu-SUB-MC 
-    #/cms/sw/farmout/mergeFiles 	--reuse-cache-files WWTo4Q.root 	/hdfs/store/user/$USER/${jobID}_WWTo4Q-SUB-MC 
-    #/cms/sw/farmout/mergeFiles 	--reuse-cache-files WWToLNuQQ.root 	/hdfs/store/user/$USER/${jobID}_WWToLNuQQ-SUB-MC 
-    #/cms/sw/farmout/mergeFiles 	--reuse-cache-files ZZTo2L2Q.root 	/hdfs/store/user/$USER/${jobID}_ZZTo2L2Q-SUB-MC 
-    #/cms/sw/farmout/mergeFiles 	--reuse-cache-files ZZTo4Q.root 	/hdfs/store/user/$USER/${jobID}_ZZTo4Q-SUB-MC 
-    #nohup /cms/sw/farmout/mergeFiles 	--reuse-cache-files TT.root 	        /hdfs/store/user/$USER/${jobID}_TT-SUB-MC & 
-    #nohup /cms/sw/farmout/mergeFiles 	--reuse-cache-files WJetsMLM.root 	/hdfs/store/user/$USER/${jobID}_WJetsMLM-SUB-MC &
-    #nohup /cms/sw/farmout/mergeFiles 	--reuse-cache-files t_s.root 	        /hdfs/store/user/$USER/${jobID}_t_s-SUB-MC &
-    #nohup /cms/sw/farmout/mergeFiles 	--reuse-cache-files t_s_Ext.root 	/hdfs/store/user/$USER/${jobID}_t_Ext-SUB-MC &
+    #hadd -f   WZ.root 	        /hdfs/store/user/$USER/${jobID}_WZ-SUB-TT/* 
+    hadd -f   WZTo1L3Nu.root    /hdfs/store/user/$USER/${jobID}_WZTo1L3Nu-SUB-TT/* & 
+    hadd -f   WZTo1L1Nu2Q.root  /hdfs/store/user/$USER/${jobID}_WZTo1L1Nu2Q-SUB-TT/* & 
+    #hadd -f   WZTo2L2Q.root     /hdfs/store/user/$USER/${jobID}_WZTo2L2Q-SUB-TT/* & 
+    hadd -f   WZTo3L1Nu.root    /hdfs/store/user/$USER/${jobID}_WZTo3L1Nu-SUB-TT/* & 
+    hadd -f   WZJTo3L1Nu.root    /hdfs/store/user/$USER/${jobID}_WZJTo3L1Nu-SUB-TT/* & 
+
+    hadd -f   tBar_tW.root 	/hdfs/store/user/$USER/${jobID}_tBar_tW-SUB-TT/* &
+    hadd -f   t_tW.root 	/hdfs/store/user/$USER/${jobID}_t_tW-SUB-TT/* & 
+    hadd -f   St_tBar.root 	/hdfs/store/user/$USER/${jobID}_ST_t_antitop-SUB-TT/* &
+    hadd -f   St_t.root 	/hdfs/store/user/$USER/${jobID}_ST_t_top-SUB-TT/* & 
+
+    #hadd -f   WW.root           /hdfs/store/user/$USER/${jobID}_WW-SUB-TT/* & 
+    hadd -f   WWTo1L1Nu2Q.root  /hdfs/store/user/$USER/${jobID}_WWTo1L1Nu2Q-SUB-TT/* & 
+
+    #hadd -f   ZZ.root           /hdfs/store/user/$USER/${jobID}_ZZ-SUB-TT/* & 
+    hadd -f   ZZTo2L2Q.root     /hdfs/store/user/$USER/${jobID}_ZZTo2L2Q-SUB-TT/* & 
+    hadd -f   ZZTo4L.root       /hdfs/store/user/$USER/${jobID}_ZZTo4L-SUB-TT/* & 
+
+    hadd -f   VVTo2L2Nu.root       /hdfs/store/user/$USER/${jobID}_VVTo2L2Nu*/* & 
+    
+    hadd -f   WWW.root          /hdfs/store/user/$USER/${jobID}_WWW-SUB-TT/* &
+    hadd -f   ZZZ.root          /hdfs/store/user/$USER/${jobID}_ZZZ-SUB-TT/* &
+
+    wait;
+    #hadd     	--reuse-cache-files ZJets1050.root	/hdfs/store/user/$USER/${jobID}_ZJets1050-SUB-MC 
+    #hadd 	--reuse-cache-files WWTo2L2Nu.root 	/hdfs/store/user/$USER/${jobID}_WWTo2L2Nu-SUB-MC 
+    #hadd 	--reuse-cache-files WWTo4Q.root 	/hdfs/store/user/$USER/${jobID}_WWTo4Q-SUB-MC 
+    #hadd 	--reuse-cache-files WWToLNuQQ.root 	/hdfs/store/user/$USER/${jobID}_WWToLNuQQ-SUB-MC 
+    #hadd 	--reuse-cache-files ZZTo2L2Q.root 	/hdfs/store/user/$USER/${jobID}_ZZTo2L2Q-SUB-MC 
+    #hadd 	--reuse-cache-files ZZTo4Q.root 	/hdfs/store/user/$USER/${jobID}_ZZTo4Q-SUB-MC 
+    #nohup hadd 	--reuse-cache-files TT.root 	        /hdfs/store/user/$USER/${jobID}_TT-SUB-MC  
+    #nohup hadd 	--reuse-cache-files WJetsMLM.root 	/hdfs/store/user/$USER/${jobID}_WJetsMLM-SUB-MC 
+    #nohup hadd 	--reuse-cache-files t_s.root 	        /hdfs/store/user/$USER/${jobID}_t_s-SUB-MC 
+    #nohup hadd 	--reuse-cache-files t_s_Ext.root 	/hdfs/store/user/$USER/${jobID}_t_Ext-SUB-MC 
 fi
 
